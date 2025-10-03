@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 카카오 SDK 로드 -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+    integrity="sha384-dPuE23cCioeMSxgkGUo+KHCct4dsL92hF44G7SzhX5J/M2v85eEgBU0O8NK2ENIT" crossorigin="anonymous"></script>
   
   <style>
     .watermarked-card {
@@ -17,7 +20,7 @@
       left: 50%;
       width: 65%;
       height: 100%;
-      background-image: url('https://raw.githubusercontent.com/easysajusaju-dev/easysaju/main/image-removebg-preview%20(1).png');
+      background-image: url('image-removebg-preview (1).png'); /* 이미지 파일 이름 확인 */
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -38,7 +41,20 @@
     </div>
 
     <div class="p-6 sm:p-8 md:p-10">
-      <form id="fortuneForm" class="space-y-10">
+
+      <!-- ▼▼▼▼▼ 카카오 로그인 섹션 추가 ▼▼▼▼▼ -->
+      <div id="login-section" class="text-center py-10">
+        <h2 class="text-4xl font-bold text-gray-800 mb-6">먼저 카카오로 시작해주세요!</h2>
+        <p class="text-3xl text-gray-600 mb-8">결과를 카카오톡으로 안전하게 보내드리기 위해<br>카카오 로그인이 필요합니다.</p>
+        <button id="kakao-login-btn" class="w-full max-w-lg mx-auto py-5 text-3xl text-center font-bold text-gray-800 rounded-full bg-yellow-400 hover:bg-yellow-500 transition transform hover:scale-105 shadow-lg">
+          <svg class="inline-block w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.58 2 10.01c0 2.21 1.05 4.22 2.8 5.65l-1.46 4.38c-.14.42.36.79.75.54l4.9-3.06c.71.18 1.45.28 2.21.28 5.52 0 10-3.58 10-8.01S17.52 2 12 2z"/></svg>
+          카카오로 1초 만에 시작하기
+        </button>
+      </div>
+      <!-- ▲▲▲▲▲ 카카오 로그인 섹션 추가 완료 ▲▲▲▲▲ -->
+
+
+      <form id="fortuneForm" class="space-y-10 hidden"> <!-- 기본적으로 숨겨둠 -->
         
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200"><h2 class="text-4xl font-bold text-gray-800 mb-8 flex items-center"><span class="bg-blue-100 text-blue-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>기본 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label for="name" class="block text-3xl font-medium text-gray-700 mb-3">성명</label><input type="text" id="name" name="name" placeholder="이름을 입력하세요" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="phone" class="block text-3xl font-medium text-gray-700 mb-3">전화번호</label><input type="tel" id="phone" name="phone" placeholder="010-1234-5678" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200">
@@ -61,11 +77,10 @@
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200"><h2 class="text-4xl font-bold text-gray-800 mb-6 flex items-center"><span class="bg-green-100 text-green-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 14h2v2h-2v-2zm-1-8h4v8h-4V8z"/></svg></span>추가 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label class="block text-3xl font-medium text-gray-700 mb-3">성별</label><div class="flex space-x-6 items-center"><label class="inline-flex items-center"><input type="radio" name="gender" value="남성" checked class="form-radio h-6 w-6 text-blue-600"><span class="ml-3 text-3xl text-gray-700">남성</span></label><label class="inline-flex items-center"><input type="radio" name="gender" value="여성" class="form-radio h-6 w-6 text-pink-600"><span class="ml-3 text-3xl text-gray-700">여성</span></label></div></div><div><label for="question" class="block text-3xl font-medium text-gray-700 mb-3">궁금한 점</label><input type="text" id="question" name="question" placeholder="예) 올해 재물운" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="bg-gray-100 p-6 rounded-2xl border border-gray-200 space-y-4"><div class="flex items-center"><input id="agree_all" type="checkbox" class="h-7 w-7 text-blue-600 border-gray-400 rounded focus:ring-blue-500"><label for="agree_all" class="ml-3 text-3xl font-bold text-gray-800">전체 동의 (선택 정보 포함)</label></div><hr class="border-gray-300 my-4"><div class="pl-4 space-y-3"><div class="flex items-start"><input id="agree_required" name="consent" type="checkbox" class="h-6 w-6 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"><label for="agree_required" class="ml-3 text-2xl text-gray-700">[필수] 개인정보 수집·이용 동의 <span class="text-blue-600 font-bold underline cursor-pointer" onclick="showPolicyModal('privacy')">(내용보기)</span></label></div><div class="flex items-start"><input id="agree_optional" name="consent" type="checkbox" class="h-6 w-6 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"><label for="agree_optional" class="ml-3 text-2xl text-gray-700">[선택] 광고성 정보 수신 동의 <span class="text-blue-600 font-bold underline cursor-pointer" onclick="showPolicyModal('marketing')">(내용보기)</span></label></div></div></div>
         <div class="w-full mt-10 flex flex-col space-y-6">
-          <button type="submit" id="submitBtn" class="w-full py-6 text-4xl text-center font-bold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105 shadow-lg">무료 사주 분석 결과보기</button>
+          <button type="submit" id="submitBtn" class="w-full py-6 text-4xl text-center font-bold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105 shadow-lg">무료 사주 분석 요청하기</button>
         </div>
       </form>
 
-      <!-- ▼▼▼▼▼ 여기가 핵심! 결과 화면 대신 카톡 유도 화면으로 변경 ▼▼▼▼▼ -->
       <div id="resultContainer" class="hidden mt-12 text-center">
         <div class="watermarked-card rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
           <div class="bg-yellow-50 p-8">
@@ -80,7 +95,6 @@
           </div>
         </div>
       </div>
-      <!-- ▲▲▲▲▲ 카톡 유도 화면으로 수정 완료 ▲▲▲▲▲ -->
     </div>
   </div>
   <footer class="text-center text-gray-500 text-lg mt-12 pb-8">&copy; 2024 이지사주. All rights reserved.</footer>
@@ -90,19 +104,61 @@
 <div id="policyModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"><div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 text-left relative"><button onclick="closePolicyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button><div id="modalContent" class="modal-content overflow-y-auto pr-4"></div><div class="mt-6 text-right"><button type="button" onclick="closePolicyModal()" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700">확인</button></div></div></div>
 
 <script>
-  // ▼▼▼▼▼ 여기가 핵심! 자바스크립트 전체를 업그레이드 버전으로 교체 ▼▼▼▼▼
+  // ▼▼▼▼▼ 카카오 로그인과 Firebase 연동을 위한 최종 스크립트 ▼▼▼▼▼
+  const KAKAO_JAVASCRIPT_KEY = "459e81015311f677a5b24f3a1f2ece36"; // 중요!
   const KAKAO_CHANNEL_ID = "_xkAevn"; // 이지사주 채널 ID
+
+  const loginSection = document.getElementById('login-section');
   const fortuneForm = document.getElementById('fortuneForm');
   const submitBtn = document.getElementById('submitBtn');
   const resultContainer = document.getElementById('resultContainer');
   const loadingOverlay = document.getElementById('loadingOverlay');
   
+  let kakaoUserId = null; // 카카오 로그인 후 사용자 ID를 저장할 변수
+
+  // 1. 카카오 SDK 초기화
+  Kakao.init(KAKAO_JAVASCRIPT_KEY);
+
+  // 2. 카카오 로그인 버튼에 이벤트 연결
+  document.getElementById('kakao-login-btn').addEventListener('click', function() {
+    Kakao.Auth.login({
+      success: function(authObj) {
+        console.log(authObj);
+        // 로그인 성공 시 사용자 정보 가져오기
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: function(res) {
+            console.log(res);
+            kakaoUserId = res.id; // 전역 변수에 카카오 사용자 ID 저장
+            
+            // 로그인 화면 숨기고, 사주 입력 폼 보여주기
+            loginSection.style.display = 'none';
+            fortuneForm.classList.remove('hidden');
+          },
+          fail: function(error) {
+            alert('사용자 정보 가져오기에 실패했습니다: ' + JSON.stringify(error));
+          },
+        });
+      },
+      fail: function(err) {
+        alert('카카오 로그인에 실패했습니다: ' + JSON.stringify(err));
+      },
+    });
+  });
+
+
+  // 3. 사주 분석 요청 폼 제출 이벤트
   fortuneForm.addEventListener('submit', function(event) {
     event.preventDefault();
     if (!document.getElementById('agree_required').checked) {
       alert('[필수] 개인정보 수집·이용에 동의하셔야 서비스 이용이 가능합니다.');
       return;
     }
+    if (!kakaoUserId) {
+      alert('카카오 사용자 정보가 없습니다. 페이지를 새로고침하고 다시 로그인해주세요.');
+      return;
+    }
+
     loadingOverlay.style.display = 'flex';
     submitBtn.disabled = true;
     submitBtn.textContent = '분석 중...';
@@ -112,10 +168,11 @@
       yearJoo: document.getElementById('yearJoo').value, monthJoo: document.getElementById('monthJoo').value,
       dayJoo: document.getElementById('dayJoo').value, timeJoo: document.getElementById('timeJoo').value,
       gender: document.querySelector('input[name="gender"]:checked').value, question: document.getElementById('question').value,
-      consent_required_timestamp: new Date().toISOString(), consent_marketing: document.getElementById('agree_optional').checked
+      consent_required_timestamp: new Date().toISOString(), consent_marketing: document.getElementById('agree_optional').checked,
+      kakaoUserId: kakaoUserId // Firebase로 카카오 사용자 ID 함께 전송
     };
     
-    // 이제 getFortune 함수를 호출합니다.
+    // getFortune 함수 호출
     const functionUrl = 'https://asia-northeast3-easysaju-c0993.cloudfunctions.net/getFortune';
 
     fetch(functionUrl, {
@@ -133,16 +190,13 @@
     });
   });
 
-  // 이제 showFortuneResult 함수는 결과를 보여주는 대신, 카톡 유도 화면을 보여줍니다.
   function showFortuneResult(response) {
     if (response.success) {
-      // 성공하면 입력 폼을 숨기고 카톡 유도 화면을 보여줌
       fortuneForm.style.display = 'none';
       resultContainer.style.display = 'block';
       window.scrollTo(0, 0);
     } else {
-      // 실패하면 (1회 제한 등) 안내 메시지를 모달로 보여줌
-      const formattedMessage = response.message.replace(/\n/g, '<br>');
+      const formattedMessage = (response.message || '알 수 없는 오류가 발생했습니다.').replace(/\n/g, '<br>');
       modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">🙏 안내 드립니다</h3><p class="text-3xl text-gray-700 leading-relaxed">${formattedMessage}</p>`;
       policyModal.classList.remove('hidden');
     }
@@ -158,7 +212,7 @@
   function resetUI() {
     loadingOverlay.style.display = 'none';
     submitBtn.disabled = false;
-    submitBtn.textContent = '무료 사주 분석 결과보기';
+    submitBtn.textContent = '무료 사주 분석 요청하기';
   }
 
   function openKakaoChat() {
@@ -172,7 +226,6 @@
   const agreeAll = document.getElementById('agree_all'); const consents = document.querySelectorAll('input[name="consent"]');
   agreeAll.addEventListener('click', function(e) { consents.forEach(function(consent) { consent.checked = e.target.checked; }); });
   consents.forEach(function(consent) { consent.addEventListener('click', function() { const allChecked = Array.from(consents).every(c => c.checked); agreeAll.checked = allChecked; }); });
-  // ▲▲▲▲▲ 자바스크립트 전체 교체 완료 ▲▲▲▲▲
 </script>
 </body>
 </html>
