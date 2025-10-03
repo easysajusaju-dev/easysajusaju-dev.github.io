@@ -5,24 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+  
   <style>
     .watermarked-card { position: relative; background-color: white; }
     .watermarked-card::before { content: ''; position: absolute; top: 50%; left: 50%; width: 65%; height: 100%; background-image: url('image-removebg-preview (1).png'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.05; transform: translate(-50%, -50%); pointer-events: none; }
   </style>
 </head>
 <body class="bg-gray-100">
+
 <div class="space-y-12 min-h-screen font-sans">
   <div class="relative bg-white shadow-xl overflow-hidden mx-auto">
     <div class="bg-gradient-to-r from-blue-500 to-purple-600 py-12 px-6"><div class="text-center text-white"><h1 class="text-6xl font-bold">이지사주</h1><p class="text-3xl opacity-80 mt-3">✨ 사주팔자를 입력하면 상세하게 분석해 드려요 ✨</p></div></div>
+
     <div class="p-6 sm:p-8 md:p-10">
       <div id="login-section" class="text-center py-10">
         <h2 class="text-4xl font-bold text-gray-800 mb-6">먼저 카카오로 시작해주세요!</h2>
         <p class="text-3xl text-gray-600 mb-8">분석 결과를 '나에게 보내는 카톡'으로<br>안전하게 전송해 드립니다.</p>
         <button id="kakao-login-btn" class="w-full max-w-lg mx-auto py-5 text-3xl font-bold text-gray-800 rounded-full bg-yellow-400"><svg class="inline-block w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.58 2 10.01c0 2.21 1.05 4.22 2.8 5.65l-1.46 4.38c-.14.42.36.79.75.54l4.9-3.06c.71.18 1.45.28 2.21.28 5.52 0 10-3.58 10-8.01S17.52 2 12 2z"/></svg> 카카오로 1초 만에 시작하기</button>
       </div>
+
       <form id="fortuneForm" class="space-y-10 hidden">
-        <!-- 폼 내용은 생략 (이전과 동일) -->
+        <!-- 폼 내용은 JavaScript로 동적 생성됩니다 -->
       </form>
+      
       <div id="resultContainer" class="hidden mt-12 text-center">
         <div class="watermarked-card rounded-2xl shadow-sm border"><div class="bg-yellow-50 p-8"><h2 class="text-5xl font-bold text-gray-800 pt-8">✅ 접수 완료! ✅</h2><p class="text-3xl text-gray-700 mt-6">사장님의 카카오톡 <b class="text-red-600">'나에게 보내는 메시지'</b>로<br>분석 결과를 안전하게 보내드렸습니다!</p><p class="text-2xl text-gray-600 mt-4">카카오톡을 확인해주세요.</p></div></div>
       </div>
@@ -32,11 +37,11 @@
 <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center"><p class="text-3xl text-white">사주를 분석 중입니다...</p></div>
 
 <script>
-// 폼 내용을 동적으로 생성
-document.getElementById('fortuneForm').innerHTML = `
-    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-8">기본 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label for="name" class="block text-3xl font-medium text-gray-700 mb-3">성명</label><input type="text" id="name" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="phone" class="block text-3xl font-medium text-gray-700 mb-3">전화번호</label><input type="tel" id="phone" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
-    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-4">사주팔자 정보</h2><div class="bg-gray-50 border-l-4 p-4 rounded-r-lg mb-6"><p class="text-3xl text-gray-700"><span class="text-red-600">만세력 정보</span>를 입력해주세요.</p></div><div class="grid grid-cols-2 gap-4"><div><label for="yearJoo" class="block text-3xl font-medium text-gray-700 mb-3">년주</label><input type="text" id="yearJoo" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="monthJoo" class="block text-3xl font-medium text-gray-700 mb-3">월주</label><input type="text" id="monthJoo" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="dayJoo" class="block text-3xl font-medium text-gray-700 mb-3">일주</label><input type="text" id="dayJoo" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="timeJoo" class="block text-3xl font-medium text-gray-700 mb-3">시주</label><input type="text" id="timeJoo" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
-    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-6">추가 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label class="block text-3xl font-medium text-gray-700 mb-3">성별</label><div class="flex space-x-6 items-center"><label><input type="radio" name="gender" value="남성" checked class="h-6 w-6"><span class="ml-3 text-3xl">남성</span></label><label><input type="radio" name="gender" value="여성" class="h-6 w-6"><span class="ml-3 text-3xl">여성</span></label></div></div><div><label for="question" class="block text-3xl font-medium text-gray-700 mb-3">궁금한 점</label><input type="text" id="question" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
+// 폼 내용을 변수로 저장 (HTML을 깔끔하게 유지하기 위함)
+const formHTML = `
+    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-8">기본 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label for="name" class="block text-3xl font-medium text-gray-700 mb-3">성명</label><input type="text" id="name" placeholder="이름을 입력하세요" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="phone" class="block text-3xl font-medium text-gray-700 mb-3">전화번호</label><input type="tel" id="phone" placeholder="010-1234-5678" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
+    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-4">사주팔자 정보</h2><div class="bg-gray-50 border-l-4 p-4 rounded-r-lg mb-6"><p class="text-3xl text-gray-700"><span class="text-red-600">만세력 정보</span>를 입력해주세요.</p></div><div class="grid grid-cols-2 gap-4"><div><label for="yearJoo" class="block text-3xl font-medium text-gray-700 mb-3">년주</label><input type="text" id="yearJoo" placeholder="예) 갑자" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="monthJoo" class="block text-3xl font-medium text-gray-700 mb-3">월주</label><input type="text" id="monthJoo" placeholder="예) 병인" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="dayJoo" class="block text-3xl font-medium text-gray-700 mb-3">일주</label><input type="text" id="dayJoo" placeholder="예) 무진" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div><div><label for="timeJoo" class="block text-3xl font-medium text-gray-700 mb-3">시주</label><input type="text" id="timeJoo" placeholder="예) 경오" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
+    <div class="watermarked-card p-6 rounded-2xl shadow-sm border"><h2 class="text-4xl font-bold text-gray-800 mb-6">추가 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label class="block text-3xl font-medium text-gray-700 mb-3">성별</label><div class="flex space-x-6 items-center"><label class="inline-flex items-center"><input type="radio" name="gender" value="남성" checked class="h-6 w-6"><span class="ml-3 text-3xl">남성</span></label><label class="inline-flex items-center"><input type="radio" name="gender" value="여성" class="h-6 w-6"><span class="ml-3 text-3xl">여성</span></label></div></div><div><label for="question" class="block text-3xl font-medium text-gray-700 mb-3">궁금한 점</label><input type="text" id="question" placeholder="예) 올해 재물운" required class="w-full px-5 py-4 text-3xl border rounded-xl"></div></div></div>
     <div class="bg-gray-100 p-6 rounded-2xl border"><button type="submit" id="submitBtn" class="w-full py-6 text-4xl font-bold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600">무료 사주 분석 요청하기</button></div>
 `;
 
@@ -56,15 +61,18 @@ window.onload = function() {
       success: function(authObj) {
         kakaoAccessToken = authObj.access_token;
         loginSection.style.display = 'none';
+        fortuneForm.innerHTML = formHTML; // 폼 내용을 채워넣음
         fortuneForm.classList.remove('hidden');
+        // 폼이 생성된 후에 이벤트 리스너를 추가해야 합니다.
+        fortuneForm.addEventListener('submit', handleFortuneSubmit);
       },
       fail: function(err) {
-        alert('카카오 로그인 실패: ' + JSON.stringify(err));
+        alert('카카오 로그인에 실패했습니다: ' + JSON.stringify(err));
       }
     });
   });
 
-  fortuneForm.addEventListener('submit', async function(event) {
+  async function handleFortuneSubmit(event) {
     event.preventDefault();
     document.getElementById('loadingOverlay').style.display = 'flex';
     
@@ -88,14 +96,16 @@ window.onload = function() {
         fortuneForm.style.display = 'none';
         document.getElementById('resultContainer').classList.remove('hidden');
       } else {
-        alert('분석 요청 실패: ' + data.message);
+        alert('분석 요청 실패: ' + (data.message || '알 수 없는 오류'));
+        window.location.reload(); // 실패 시 새로고침
       }
     } catch (error) {
       alert('서버와 통신 중 오류가 발생했습니다.');
+      window.location.reload(); // 실패 시 새로고침
     } finally {
       document.getElementById('loadingOverlay').style.display = 'none';
     }
-  });
+  }
 }
 </script>
 </body>
