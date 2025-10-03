@@ -17,7 +17,7 @@
       left: 50%;
       width: 65%;
       height: 100%;
-      background-image: url('https://raw.githubusercontent.com/easysajusaju-dev/easysaju/refs/heads/main/image-removebg-preview%20(1).png');
+      background-image: url('https://raw.githubusercontent.com/easysajusaju-dev/easysaju/main/image-removebg-preview%20(1).png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -44,7 +44,6 @@
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200">
           <h2 class="text-4xl font-bold text-gray-800 mb-4 flex items-center"><span class="bg-red-100 text-red-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5z"/></svg></span>사주팔자 정보</h2>
           
-          <!-- ▼▼▼▼▼ 대표님 요청대로 안내 문구를 수정했습니다 ▼▼▼▼▼ -->
           <div class="bg-gray-50 border-l-4 border-gray-400 p-4 rounded-r-lg mb-6">
             <div class="flex">
               <div class="flex-shrink-0">
@@ -57,7 +56,6 @@
               </p></div>
             </div>
           </div>
-          <!-- ▲▲▲▲▲ 문구 수정 완료 ▲▲▲▲▲ -->
           
           <div class="grid grid-cols-2 gap-4"><div><label for="yearJoo" class="block text-3xl font-medium text-gray-700 mb-3">년주</label><input type="text" id="yearJoo" name="yearJoo" placeholder="예) 갑자" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="monthJoo" class="block text-3xl font-medium text-gray-700 mb-3">월주</label><input type="text" id="monthJoo" name="monthJoo" placeholder="예) 병인" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="dayJoo" class="block text-3xl font-medium text-gray-700 mb-3">일주</label><input type="text" id="dayJoo" name="dayJoo" placeholder="예) 무진" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="timeJoo" class="block text-3xl font-medium text-gray-700 mb-3">시주</label><input type="text" id="timeJoo" name="timeJoo" placeholder="예) 경오" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200"><h2 class="text-4xl font-bold text-gray-800 mb-6 flex items-center"><span class="bg-green-100 text-green-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 14h2v2h-2v-2zm-1-8h4v8h-4V8z"/></svg></span>추가 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label class="block text-3xl font-medium text-gray-700 mb-3">성별</label><div class="flex space-x-6 items-center"><label class="inline-flex items-center"><input type="radio" name="gender" value="남성" checked class="form-radio h-6 w-6 text-blue-600"><span class="ml-3 text-3xl text-gray-700">남성</span></label><label class="inline-flex items-center"><input type="radio" name="gender" value="여성" class="form-radio h-6 w-6 text-pink-600"><span class="ml-3 text-3xl text-gray-700">여성</span></label></div></div><div><label for="question" class="block text-3xl font-medium text-gray-700 mb-3">궁금한 점</label><input type="text" id="question" name="question" placeholder="예) 올해 재물운" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
@@ -67,21 +65,22 @@
         </div>
       </form>
 
-      <!-- ▼▼▼▼▼ 결과 영역에도 워터마크가 적용되도록 수정했습니다 ▼▼▼▼▼ -->
+      <!-- ▼▼▼▼▼ 여기가 핵심! 결과 화면 대신 카톡 유도 화면으로 변경 ▼▼▼▼▼ -->
       <div id="resultContainer" class="hidden mt-12 text-center">
         <div class="watermarked-card rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          <h2 class="text-5xl font-bold text-gray-800 pt-8">🔮 분석 결과 🔮</h2>
-          <div id="fortuneResult" class="bg-transparent p-8 text-3xl leading-relaxed text-gray-800 whitespace-pre-wrap text-left mb-10">
-          </div>
-          <div class="bg-yellow-50 p-8 border-t border-gray-200">
-            <h3 class="text-4xl font-bold text-gray-800">더 자세한 재물운, 연애운, 건강운이 궁금하신가요?</h3>
-            <p class="text-3xl text-gray-700 mt-4 leading-relaxed">방금 보신 내용에 대한 <b class="text-red-600">상세 풀이와 추가 질문은 무료</b>입니다. <br>전문가가 직접 확인하고, 나만을 위한 조언을 1:1로 알려드립니다.</p>
-            <button onclick="openKakaoChat()" class="mt-8 w-full max-w-lg mx-auto py-5 text-3xl text-center font-bold text-gray-800 rounded-full bg-yellow-400 hover:bg-yellow-500 transition transform hover:scale-105 shadow-lg"><svg class="inline-block w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.58 2 10.01c0 2.21 1.05 4.22 2.8 5.65l-1.46 4.38c-.14.42.36.79.75.54l4.9-3.06c.71.18 1.45.28 2.21.28 5.52 0 10-3.58 10-8.01S17.52 2 12 2z"/></svg>내 사주 무료로 상세 풀이 요청하기</button>
+          <div class="bg-yellow-50 p-8">
+             <h2 class="text-5xl font-bold text-gray-800 pt-8">✅ 접수 완료! ✅</h2>
+             <p class="text-3xl text-gray-700 mt-6 leading-relaxed">
+                AI가 님의 사주를 정성껏 분석하고 있습니다. <br>
+                아래 버튼을 눌러 카카오톡 채널로 이동하신 후, <br>
+                <b class="text-red-600">"결과 보여줘"</b> 라고 메시지를 보내주시면 <br>
+                바로 분석 결과를 전송해 드립니다!
+             </p>
+             <button onclick="openKakaoChat()" class="mt-8 w-full max-w-lg mx-auto py-5 text-3xl text-center font-bold text-gray-800 rounded-full bg-yellow-400 hover:bg-yellow-500 transition transform hover:scale-105 shadow-lg"><svg class="inline-block w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.58 2 10.01c0 2.21 1.05 4.22 2.8 5.65l-1.46 4.38c-.14.42.36.79.75.54l4.9-3.06c.71.18 1.45.28 2.21.28 5.52 0 10-3.58 10-8.01S17.52 2 12 2z"/></svg>카카오톡으로 결과 받으러 가기</button>
           </div>
         </div>
       </div>
-      <!-- ▲▲▲▲▲ 결과 영역 수정 완료 ▲▲▲▲▲ -->
-
+      <!-- ▲▲▲▲▲ 카톡 유도 화면으로 수정 완료 ▲▲▲▲▲ -->
     </div>
   </div>
   <footer class="text-center text-gray-500 text-lg mt-12 pb-8">&copy; 2024 이지사주. All rights reserved.</footer>
@@ -91,12 +90,11 @@
 <div id="policyModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"><div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 text-left relative"><button onclick="closePolicyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button><div id="modalContent" class="modal-content overflow-y-auto pr-4"></div><div class="mt-6 text-right"><button type="button" onclick="closePolicyModal()" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700">확인</button></div></div></div>
 
 <script>
-  // 자바스크립트 부분은 이전과 완전히 동일합니다.
-  const KAKAO_CHANNEL_ID = "_xkAevn";
+  // ▼▼▼▼▼ 여기가 핵심! 자바스크립트 전체를 업그레이드 버전으로 교체 ▼▼▼▼▼
+  const KAKAO_CHANNEL_ID = "_xkAevn"; // 이지사주 채널 ID
   const fortuneForm = document.getElementById('fortuneForm');
   const submitBtn = document.getElementById('submitBtn');
   const resultContainer = document.getElementById('resultContainer');
-  const fortuneResult = document.getElementById('fortuneResult');
   const loadingOverlay = document.getElementById('loadingOverlay');
   
   fortuneForm.addEventListener('submit', function(event) {
@@ -116,38 +114,37 @@
       gender: document.querySelector('input[name="gender"]:checked').value, question: document.getElementById('question').value,
       consent_required_timestamp: new Date().toISOString(), consent_marketing: document.getElementById('agree_optional').checked
     };
-        const functionUrl = 'https://asia-northeast3-easysaju-c0993.cloudfunctions.net/getFortune';
+    
+    // 이제 getFortune 함수를 호출합니다.
+    const functionUrl = 'https://asia-northeast3-easysaju-c0993.cloudfunctions.net/getFortune';
 
     fetch(functionUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     })
     .then(response => response.json())
     .then(data => {
-      // 성공이든 실패든 응답이 오면 여기로 들어옵니다.
       showFortuneResult(data); 
     })
     .catch(error => {
-      // 네트워크 오류 등 심각한 에러가 발생하면 여기로 들어옵니다.
       console.error('Fetch Error:', error);
       showFortuneError({ message: '서버와 통신하는 데 실패했습니다. 네트워크 연결을 확인해주세요.' });
     });
   });
 
+  // 이제 showFortuneResult 함수는 결과를 보여주는 대신, 카톡 유도 화면을 보여줍니다.
   function showFortuneResult(response) {
     if (response.success) {
-      fortuneResult.textContent = response.fortune;
+      // 성공하면 입력 폼을 숨기고 카톡 유도 화면을 보여줌
       fortuneForm.style.display = 'none';
       resultContainer.style.display = 'block';
       window.scrollTo(0, 0);
     } else {
+      // 실패하면 (1회 제한 등) 안내 메시지를 모달로 보여줌
       const formattedMessage = response.message.replace(/\n/g, '<br>');
       modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">🙏 안내 드립니다</h3><p class="text-3xl text-gray-700 leading-relaxed">${formattedMessage}</p>`;
       policyModal.classList.remove('hidden');
-      resultContainer.style.display = 'none';
     }
     resetUI();
   }
@@ -175,7 +172,7 @@
   const agreeAll = document.getElementById('agree_all'); const consents = document.querySelectorAll('input[name="consent"]');
   agreeAll.addEventListener('click', function(e) { consents.forEach(function(consent) { consent.checked = e.target.checked; }); });
   consents.forEach(function(consent) { consent.addEventListener('click', function() { const allChecked = Array.from(consents).every(c => c.checked); agreeAll.checked = allChecked; }); });
+  // ▲▲▲▲▲ 자바스크립트 전체 교체 완료 ▲▲▲▲▲
 </script>
 </body>
 </html>
-
