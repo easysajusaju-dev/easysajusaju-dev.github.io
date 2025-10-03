@@ -116,9 +116,11 @@
   
   let kakaoUserId = null; // 카카오 로그인 후 사용자 ID를 저장할 변수
 
-  // 1. 카카오 SDK 초기화
-  Kakao.init(KAKAO_JAVASCRIPT_KEY);
-
+  // 1. 카카오 SDK 초기화 (로드 완료 후 실행되도록 변경)
+Kakao.on('init', function() {
+  console.log('Kakao SDK가 성공적으로 초기화되었습니다.');
+});
+Kakao.init(KAKAO_JAVASCRIPT_KEY);
   // 2. 카카오 로그인 버튼에 이벤트 연결
   document.getElementById('kakao-login-btn').addEventListener('click', function() {
     Kakao.Auth.login({
