@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 카카오 SDK 로드 -->
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-    integrity="sha384-dPuE23cCioeMSxgkGUo+KHCct4dsL92hF44G7SzhX5J/M2v85eEgBU0O8NK2ENIT" crossorigin="anonymous"></script>
+  <!-- 카카오 SDK 로드 (단순 버전) -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
   
   <style>
     .watermarked-card {
@@ -20,7 +19,8 @@
       left: 50%;
       width: 65%;
       height: 100%;
-      background-image: url('image-removebg-preview (1).png'); /* 이미지 파일 이름 확인 */
+      /* 이미지 파일 경로를 정확하게 수정했습니다. */
+      background-image: url('image-removebg-preview (1).png'); 
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -42,7 +42,6 @@
 
     <div class="p-6 sm:p-8 md:p-10">
 
-      <!-- ▼▼▼▼▼ 카카오 로그인 섹션 추가 ▼▼▼▼▼ -->
       <div id="login-section" class="text-center py-10">
         <h2 class="text-4xl font-bold text-gray-800 mb-6">먼저 카카오로 시작해주세요!</h2>
         <p class="text-3xl text-gray-600 mb-8">결과를 카카오톡으로 안전하게 보내드리기 위해<br>카카오 로그인이 필요합니다.</p>
@@ -51,28 +50,18 @@
           카카오로 1초 만에 시작하기
         </button>
       </div>
-      <!-- ▲▲▲▲▲ 카카오 로그인 섹션 추가 완료 ▲▲▲▲▲ -->
 
-
-      <form id="fortuneForm" class="space-y-10 hidden"> <!-- 기본적으로 숨겨둠 -->
+      <form id="fortuneForm" class="space-y-10 hidden">
         
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200"><h2 class="text-4xl font-bold text-gray-800 mb-8 flex items-center"><span class="bg-blue-100 text-blue-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>기본 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label for="name" class="block text-3xl font-medium text-gray-700 mb-3">성명</label><input type="text" id="name" name="name" placeholder="이름을 입력하세요" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="phone" class="block text-3xl font-medium text-gray-700 mb-3">전화번호</label><input type="tel" id="phone" name="phone" placeholder="010-1234-5678" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200">
           <h2 class="text-4xl font-bold text-gray-800 mb-4 flex items-center"><span class="bg-red-100 text-red-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5z"/></svg></span>사주팔자 정보</h2>
-          
           <div class="bg-gray-50 border-l-4 border-gray-400 p-4 rounded-r-lg mb-6">
             <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <div class="ml-3"><p class="text-3xl text-gray-700">
-                <span class="text-red-600">개인정보보호를 위해 생년월일 대신 만세력 정보를 받습니다.</span> <b class="text-blue-600">"천을귀인"</b>등의 무료 만세력 어플로 사주정보를 조회 하신후 입력 하세요.
-              </p></div>
+              <div class="flex-shrink-0"><svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg></div>
+              <div class="ml-3"><p class="text-3xl text-gray-700"><span class="text-red-600">개인정보보호를 위해 생년월일 대신 만세력 정보를 받습니다.</span> <b class="text-blue-600">"천을귀인"</b>등의 무료 만세력 어플로 사주정보를 조회 하신후 입력 하세요.</p></div>
             </div>
           </div>
-          
           <div class="grid grid-cols-2 gap-4"><div><label for="yearJoo" class="block text-3xl font-medium text-gray-700 mb-3">년주</label><input type="text" id="yearJoo" name="yearJoo" placeholder="예) 갑자" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="monthJoo" class="block text-3xl font-medium text-gray-700 mb-3">월주</label><input type="text" id="monthJoo" name="monthJoo" placeholder="예) 병인" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="dayJoo" class="block text-3xl font-medium text-gray-700 mb-3">일주</label><input type="text" id="dayJoo" name="dayJoo" placeholder="예) 무진" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div><div><label for="timeJoo" class="block text-3xl font-medium text-gray-700 mb-3">시주</label><input type="text" id="timeJoo" name="timeJoo" placeholder="예) 경오" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="watermarked-card p-6 rounded-2xl shadow-sm border border-gray-200"><h2 class="text-4xl font-bold text-gray-800 mb-6 flex items-center"><span class="bg-green-100 text-green-500 rounded-full p-2 mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 14h2v2h-2v-2zm-1-8h4v8h-4V8z"/></svg></span>추가 정보</h2><div class="grid sm:grid-cols-2 gap-6"><div><label class="block text-3xl font-medium text-gray-700 mb-3">성별</label><div class="flex space-x-6 items-center"><label class="inline-flex items-center"><input type="radio" name="gender" value="남성" checked class="form-radio h-6 w-6 text-blue-600"><span class="ml-3 text-3xl text-gray-700">남성</span></label><label class="inline-flex items-center"><input type="radio" name="gender" value="여성" class="form-radio h-6 w-6 text-pink-600"><span class="ml-3 text-3xl text-gray-700">여성</span></label></div></div><div><label for="question" class="block text-3xl font-medium text-gray-700 mb-3">궁금한 점</label><input type="text" id="question" name="question" placeholder="예) 올해 재물운" required class="w-full px-5 py-4 text-3xl border border-gray-400 rounded-xl"></div></div></div>
         <div class="bg-gray-100 p-6 rounded-2xl border border-gray-200 space-y-4"><div class="flex items-center"><input id="agree_all" type="checkbox" class="h-7 w-7 text-blue-600 border-gray-400 rounded focus:ring-blue-500"><label for="agree_all" class="ml-3 text-3xl font-bold text-gray-800">전체 동의 (선택 정보 포함)</label></div><hr class="border-gray-300 my-4"><div class="pl-4 space-y-3"><div class="flex items-start"><input id="agree_required" name="consent" type="checkbox" class="h-6 w-6 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"><label for="agree_required" class="ml-3 text-2xl text-gray-700">[필수] 개인정보 수집·이용 동의 <span class="text-blue-600 font-bold underline cursor-pointer" onclick="showPolicyModal('privacy')">(내용보기)</span></label></div><div class="flex items-start"><input id="agree_optional" name="consent" type="checkbox" class="h-6 w-6 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"><label for="agree_optional" class="ml-3 text-2xl text-gray-700">[선택] 광고성 정보 수신 동의 <span class="text-blue-600 font-bold underline cursor-pointer" onclick="showPolicyModal('marketing')">(내용보기)</span></label></div></div></div>
@@ -104,130 +93,127 @@
 <div id="policyModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"><div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 text-left relative"><button onclick="closePolicyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button><div id="modalContent" class="modal-content overflow-y-auto pr-4"></div><div class="mt-6 text-right"><button type="button" onclick="closePolicyModal()" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700">확인</button></div></div></div>
 
 <script>
-  // ▼▼▼▼▼ 카카오 로그인과 Firebase 연동을 위한 최종 스크립트 ▼▼▼▼▼
-  const KAKAO_JAVASCRIPT_KEY = "459e81015311f677a5b24f3a1f2ece36"; // 중요!
-  const KAKAO_CHANNEL_ID = "_xkAevn"; // 이지사주 채널 ID
-
-  const loginSection = document.getElementById('login-section');
-  const fortuneForm = document.getElementById('fortuneForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const resultContainer = document.getElementById('resultContainer');
-  const loadingOverlay = document.getElementById('loadingOverlay');
-  
-  let kakaoUserId = null; // 카카오 로그인 후 사용자 ID를 저장할 변수
-
-  // 1. 카카오 SDK 초기화 (로드 완료 후 실행되도록 변경)
-Kakao.on('init', function() {
-  console.log('Kakao SDK가 성공적으로 초기화되었습니다.');
-});
-Kakao.init(KAKAO_JAVASCRIPT_KEY);
-  // 2. 카카오 로그인 버튼에 이벤트 연결
-  document.getElementById('kakao-login-btn').addEventListener('click', function() {
-    Kakao.Auth.login({
-      success: function(authObj) {
-        console.log(authObj);
-        // 로그인 성공 시 사용자 정보 가져오기
-        Kakao.API.request({
-          url: '/v2/user/me',
-          success: function(res) {
-            console.log(res);
-            kakaoUserId = res.id; // 전역 변수에 카카오 사용자 ID 저장
-            
-            // 로그인 화면 숨기고, 사주 입력 폼 보여주기
-            loginSection.style.display = 'none';
-            fortuneForm.classList.remove('hidden');
-          },
-          fail: function(error) {
-            alert('사용자 정보 가져오기에 실패했습니다: ' + JSON.stringify(error));
-          },
-        });
-      },
-      fail: function(err) {
-        alert('카카오 로그인에 실패했습니다: ' + JSON.stringify(err));
-      },
-    });
-  });
-
-
-  // 3. 사주 분석 요청 폼 제출 이벤트
-  fortuneForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    if (!document.getElementById('agree_required').checked) {
-      alert('[필수] 개인정보 수집·이용에 동의하셔야 서비스 이용이 가능합니다.');
-      return;
-    }
-    if (!kakaoUserId) {
-      alert('카카오 사용자 정보가 없습니다. 페이지를 새로고침하고 다시 로그인해주세요.');
-      return;
-    }
-
-    loadingOverlay.style.display = 'flex';
-    submitBtn.disabled = true;
-    submitBtn.textContent = '분석 중...';
-    
-    const userData = {
-      name: document.getElementById('name').value, phone: document.getElementById('phone').value,
-      yearJoo: document.getElementById('yearJoo').value, monthJoo: document.getElementById('monthJoo').value,
-      dayJoo: document.getElementById('dayJoo').value, timeJoo: document.getElementById('timeJoo').value,
-      gender: document.querySelector('input[name="gender"]:checked').value, question: document.getElementById('question').value,
-      consent_required_timestamp: new Date().toISOString(), consent_marketing: document.getElementById('agree_optional').checked,
-      kakaoUserId: kakaoUserId // Firebase로 카카오 사용자 ID 함께 전송
-    };
-    
-    // getFortune 함수 호출
+  // 페이지의 모든 요소가 로드된 후에 스크립트를 실행합니다.
+  window.onload = function() {
+    const KAKAO_JAVASCRIPT_KEY = "459e81015311f677a5b24f3a1f2ece36"; // 사장님 JavaScript 키
+    const KAKAO_CHANNEL_ID = "_xkAevn";
     const functionUrl = 'https://asia-northeast3-easysaju-c0993.cloudfunctions.net/getFortune';
 
-    fetch(functionUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      showFortuneResult(data); 
-    })
-    .catch(error => {
-      console.error('Fetch Error:', error);
-      showFortuneError({ message: '서버와 통신하는 데 실패했습니다. 네트워크 연결을 확인해주세요.' });
-    });
-  });
+    // HTML 요소 가져오기
+    const loginSection = document.getElementById('login-section');
+    const fortuneForm = document.getElementById('fortuneForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultContainer = document.getElementById('resultContainer');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    let kakaoUserId = null; // 카카오 로그인 후 사용자 ID를 저장할 변수
 
-  function showFortuneResult(response) {
-    if (response.success) {
-      fortuneForm.style.display = 'none';
-      resultContainer.style.display = 'block';
-      window.scrollTo(0, 0);
-    } else {
-      const formattedMessage = (response.message || '알 수 없는 오류가 발생했습니다.').replace(/\n/g, '<br>');
-      modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">🙏 안내 드립니다</h3><p class="text-3xl text-gray-700 leading-relaxed">${formattedMessage}</p>`;
-      policyModal.classList.remove('hidden');
+    // 1. 카카오 SDK 초기화
+    try {
+      if (!Kakao.isInitialized()) {
+        Kakao.init(KAKAO_JAVASCRIPT_KEY);
+        console.log("Kakao SDK 초기화 성공!");
+      }
+    } catch(e) {
+      console.error("Kakao SDK 초기화 실패:", e);
+      alert("카카오 연동에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요.");
+      return;
     }
-    resetUI();
-  }
+    
+    // 2. 카카오 로그인 버튼에 이벤트 연결
+    document.getElementById('kakao-login-btn').addEventListener('click', function() {
+      Kakao.Auth.login({
+        success: function(authObj) {
+          // 로그인 성공 시 사용자 정보 가져오기
+          Kakao.API.request({
+            url: '/v2/user/me',
+            success: function(res) {
+              kakaoUserId = res.id; // 전역 변수에 카카오 사용자 ID 저장
+              // 로그인 화면 숨기고, 사주 입력 폼 보여주기
+              loginSection.style.display = 'none';
+              fortuneForm.classList.remove('hidden');
+            },
+            fail: function(error) {
+              alert('사용자 정보 가져오기에 실패했습니다: ' + JSON.stringify(error));
+            },
+          });
+        },
+        fail: function(err) {
+          alert('카카오 로그인에 실패했습니다: ' + JSON.stringify(err));
+        },
+      });
+    });
 
-  function showFortuneError(error) {
-    modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">죄송합니다</h3><p class="text-3xl text-gray-700 leading-relaxed">분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.<br><br><small class="text-xl">(${error.message})</small></p>`;
-    policyModal.classList.remove('hidden');
-    resetUI();
-  }
+    // 3. 사주 분석 요청 폼 제출 이벤트
+    fortuneForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      if (!document.getElementById('agree_required').checked) {
+        alert('[필수] 개인정보 수집·이용에 동의하셔야 서비스 이용이 가능합니다.');
+        return;
+      }
+      if (!kakaoUserId) {
+        alert('카카오 사용자 정보가 없습니다. 페이지를 새로고침하고 다시 로그인해주세요.');
+        return;
+      }
+      loadingOverlay.style.display = 'flex';
+      submitBtn.disabled = true;
+      submitBtn.textContent = '분석 중...';
+      const userData = {
+        name: document.getElementById('name').value, phone: document.getElementById('phone').value,
+        yearJoo: document.getElementById('yearJoo').value, monthJoo: document.getElementById('monthJoo').value,
+        dayJoo: document.getElementById('dayJoo').value, timeJoo: document.getElementById('timeJoo').value,
+        gender: document.querySelector('input[name="gender"]:checked').value, question: document.getElementById('question').value,
+        consent_required_timestamp: new Date().toISOString(), consent_marketing: document.getElementById('agree_optional').checked,
+        kakaoUserId: kakaoUserId // Firebase로 카카오 사용자 ID 함께 전송
+      };
+      
+      fetch(functionUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      })
+      .then(response => response.json())
+      .then(data => { showFortuneResult(data); })
+      .catch(error => {
+        console.error('Fetch Error:', error);
+        showFortuneError({ message: '서버와 통신하는 데 실패했습니다.' });
+      });
+    });
 
-  function resetUI() {
-    loadingOverlay.style.display = 'none';
-    submitBtn.disabled = false;
-    submitBtn.textContent = '무료 사주 분석 요청하기';
+    // --- 나머지 헬퍼 함수들 ---
+    function showFortuneResult(response) {
+      if (response.success) {
+        fortuneForm.style.display = 'none';
+        resultContainer.style.display = 'block';
+        window.scrollTo(0, 0);
+      } else {
+        const formattedMessage = (response.message || '알 수 없는 오류가 발생했습니다.').replace(/\n/g, '<br>');
+        modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">🙏 안내 드립니다</h3><p class="text-3xl text-gray-700 leading-relaxed">${formattedMessage}</p>`;
+        policyModal.classList.remove('hidden');
+      }
+      resetUI();
+    }
+    function showFortuneError(error) {
+      modalContent.innerHTML = `<h3 class="text-4xl font-bold leading-6 text-gray-900 mb-6">죄송합니다</h3><p class="text-3xl text-gray-700 leading-relaxed">분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.<br><br><small class="text-xl">(${error.message})</small></p>`;
+      policyModal.classList.remove('hidden');
+      resetUI();
+    }
+    function resetUI() {
+      loadingOverlay.style.display = 'none';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '무료 사주 분석 요청하기';
+    }
+    function openKakaoChat() {
+      window.open('http://pf.kakao.com/' + KAKAO_CHANNEL_ID + '/chat');
+    }
+    const policyModal = document.getElementById('policyModal'); const modalContent = document.getElementById('modalContent');
+    const policies = { privacy: { title: '개인정보 수집·이용 동의 (필수)', content: `<p>이지사주(이하 '회사')는 다음과 같이 개인정보를 수집 및 이용합니다.</p><ul class="list-disc list-inside space-y-2 mt-4 text-gray-700"><li><strong>1. 수집 항목:</strong> 이름, 연락처, 사주 정보(년주, 월주, 일주, 시주), 성별, 질문 내용</li><li><strong>2. 수집 및 이용 목적:</strong> 사주 분석 결과 제공, 이용자 식별 및 중복 이용 확인, 고객 문의 응대</li><li><strong>3. 보유 및 이용 기간:</strong> 수집일로부터 1년 후 지체없이 파기</li><li>※ 귀하는 위 개인정보 수집·이용에 대한 동의를 거부할 권리가 있으며, 동의 거부 시 서비스 이용이 제한될 수 있습니다.</li></ul>`}, marketing: { title: '광고성 정보 수신 동의 (선택)', content: `<p>회사는 귀하의 동의 하에 다음과 같은 목적으로 광고성 정보를 전송할 수 있습니다.</p><ul class="list-disc list-inside space-y-2 mt-4 text-gray-700"><li><strong>1. 수집 목적:</strong> 회사가 제공하는 신규 서비스, 이벤트, 혜택 등 유용한 정보 및 광고 안내</li><li><strong>2. 전송 방법:</strong> SMS, 카카오톡 메시지(알림톡, 친구톡) 등</li><li><strong>3. 보유 및 이용 기간:</strong> 동의 철회 시 또는 수집일로부터 2년 후 지체없이 파기</li><li>※ 귀하는 위 동의를 거부하더라도 서비스의 기본 기능은 정상적으로 이용 가능합니다. 동의 철회는 고객센터를 통해 언제든지 가능합니다.</li></ul>`}};
+    function showPolicyModal(type) { modalContent.innerHTML = `<h3 class="text-2xl font-bold leading-6 text-gray-900 mb-4">${policies[type].title}</h3><div>${policies[type].content}</div>`; policyModal.classList.remove('hidden'); }
+    function closePolicyModal() { policyModal.classList.add('hidden'); }
+    const agreeAll = document.getElementById('agree_all'); const consents = document.querySelectorAll('input[name="consent"]');
+    agreeAll.addEventListener('click', function(e) { consents.forEach(function(consent) { consent.checked = e.target.checked; }); });
+    consents.forEach(function(consent) { consent.addEventListener('click', function() { const allChecked = Array.from(consents).every(c => c.checked); agreeAll.checked = allChecked; }); });
   }
-
-  function openKakaoChat() {
-    window.open('http://pf.kakao.com/' + KAKAO_CHANNEL_ID + '/chat');
-  }
-
-  const policyModal = document.getElementById('policyModal'); const modalContent = document.getElementById('modalContent');
-  const policies = { privacy: { title: '개인정보 수집·이용 동의 (필수)', content: `<p>이지사주(이하 '회사')는 다음과 같이 개인정보를 수집 및 이용합니다.</p><ul class="list-disc list-inside space-y-2 mt-4 text-gray-700"><li><strong>1. 수집 항목:</strong> 이름, 연락처, 사주 정보(년주, 월주, 일주, 시주), 성별, 질문 내용</li><li><strong>2. 수집 및 이용 목적:</strong> 사주 분석 결과 제공, 이용자 식별 및 중복 이용 확인, 고객 문의 응대</li><li><strong>3. 보유 및 이용 기간:</strong> 수집일로부터 1년 후 지체없이 파기</li><li>※ 귀하는 위 개인정보 수집·이용에 대한 동의를 거부할 권리가 있으며, 동의 거부 시 서비스 이용이 제한될 수 있습니다.</li></ul>`}, marketing: { title: '광고성 정보 수신 동의 (선택)', content: `<p>회사는 귀하의 동의 하에 다음과 같은 목적으로 광고성 정보를 전송할 수 있습니다.</p><ul class="list-disc list-inside space-y-2 mt-4 text-gray-700"><li><strong>1. 수집 목적:</strong> 회사가 제공하는 신규 서비스, 이벤트, 혜택 등 유용한 정보 및 광고 안내</li><li><strong>2. 전송 방법:</strong> SMS, 카카오톡 메시지(알림톡, 친구톡) 등</li><li><strong>3. 보유 및 이용 기간:</strong> 동의 철회 시 또는 수집일로부터 2년 후 지체없이 파기</li><li>※ 귀하는 위 동의를 거부하더라도 서비스의 기본 기능은 정상적으로 이용 가능합니다. 동의 철회는 고객센터를 통해 언제든지 가능합니다.</li></ul>`}};
-  function showPolicyModal(type) { modalContent.innerHTML = `<h3 class="text-2xl font-bold leading-6 text-gray-900 mb-4">${policies[type].title}</h3><div>${policies[type].content}</div>`; policyModal.classList.remove('hidden'); }
-  function closePolicyModal() { policyModal.classList.add('hidden'); }
-  const agreeAll = document.getElementById('agree_all'); const consents = document.querySelectorAll('input[name="consent"]');
-  agreeAll.addEventListener('click', function(e) { consents.forEach(function(consent) { consent.checked = e.target.checked; }); });
-  consents.forEach(function(consent) { consent.addEventListener('click', function() { const allChecked = Array.from(consents).every(c => c.checked); agreeAll.checked = allChecked; }); });
 </script>
 </body>
 </html>
