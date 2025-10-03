@@ -117,10 +117,12 @@
     
     // 2. 카카오 로그인 버튼에 이벤트 연결
     document.getElementById('kakao-login-btn').addEventListener('click', function() {
+      // login -> loginWithKakaoAccount 로 수정하고, scope를 팝업 창으로 띄우도록 변경
       Kakao.Auth.login({
-        scope: 'talk_message', // '나에게 보내기' 권한 요청
+        throughTalk: false, // 카카오톡으로 로그인 시도하지 않음 (팝업 방식 유도)
+        scope: 'talk_message',
         success: function(authObj) {
-          kakaoAccessToken = authObj.access_token; // 액세스 토큰 저장
+          kakaoAccessToken = authObj.access_token;
           loginSection.style.display = 'none';
           fortuneForm.classList.remove('hidden');
         },
@@ -129,7 +131,6 @@
         },
       });
     });
-
     // 3. 사주 분석 요청 폼 제출 이벤트
     fortuneForm.addEventListener('submit', function(event) {
       event.preventDefault();
