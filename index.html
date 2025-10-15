@@ -3,127 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이지사주 - 상담 신청</title>
+    <title>운명 보고서 신청하기</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔮 이지사주 상담 신청</h1>
-            <p>당신의 운명을 풀어보세요. 전문가가 직접 분석해드립니다.</p>
-        </header>
-        
-        <form id="saju-form">
-            <!-- 1. 연락처 -->
-            <div class="form-group">
-                <label for="contact">연락처 (필수)</label>
-                <input type="tel" id="contact" name="contact" placeholder="010-1234-5678" required>
-            </div>
 
-            <!-- 2. 신청자 정보 (1인 또는 2인용) -->
-            <fieldset>
-                <legend>신청자 정보</legend>
-                <div class="person-info">
-                    <div class="form-group">
-                        <label for="p1_name">이름</label>
-                        <input type="text" id="p1_name" name="p1_name" placeholder="본인 이름">
-                    </div>
-                    <div class="form-group">
-                        <label for="p1_birth">생년월일</label>
-                        <input type="date" id="p1_birth" name="p1_birth">
-                    </div>
-                    <div class="form-group">
-                        <label for="p1_solarlunar">양/음력</label>
-                        <select id="p1_solarlunar" name="p1_solarlunar">
+    <div class="main-container">
+
+        <!-- ===== 1. 상단 이미지 영역 ===== -->
+        <div class="image-section">
+            <!-- 여기에 상단 이미지 파일 경로를 넣으세요 (예: top-image.png) -->
+            <img src="https://via.placeholder.com/600x400.png?text=Top+Image+Here" alt="사주 패키지 구성">
+        </div>
+
+        <!-- ===== 2. 신청 폼 영역 ===== -->
+        <div class="form-container">
+            <header>
+                <h2>운명 보고서 신청하기</h2>
+            </header>
+            
+            <form id="saju-form">
+                <!-- 연락처 -->
+                <div class="form-group">
+                    <label for="contact">수령하실 분 연락처</label>
+                    <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
+                </div>
+
+                <!-- 본인 정보 -->
+                <fieldset>
+                    <legend>본인 정보</legend>
+                    <div class="person-info">
+                        <input type="text" name="p1_name" placeholder="이름" class="full-width">
+                        <input type="date" name="p1_birth">
+                        <select name="p1_solarlunar">
                             <option value="양력">양력</option>
                             <option value="음력">음력</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="p1_time">태어난 시간</label>
-                        <select id="p1_time" name="p1_time">
-                            <option value="모름">모름</option>
-                            <option value="자시 (23:30 ~ 01:29)">자시 (23:30 ~ 01:29)</option>
-                            <option value="축시 (01:30 ~ 03:29)">축시 (01:30 ~ 03:29)</option>
-                            <option value="인시 (03:30 ~ 05:29)">인시 (03:30 ~ 05:29)</option>
-                            <option value="묘시 (05:30 ~ 07:29)">묘시 (05:30 ~ 07:29)</option>
-                            <option value="진시 (07:30 ~ 09:29)">진시 (07:30 ~ 09:29)</option>
-                            <option value="사시 (09:30 ~ 11:29)">사시 (09:30 ~ 11:29)</option>
-                            <option value="오시 (11:30 ~ 13:29)">오시 (11:30 ~ 13:29)</option>
-                            <option value="미시 (13:30 ~ 15:29)">미시 (13:30 ~ 15:29)</option>
-                            <option value="신시 (15:30 ~ 17:29)">신시 (15:30 ~ 17:29)</option>
-                            <option value="유시 (17:30 ~ 19:29)">유시 (17:30 ~ 19:29)</option>
-                            <option value="술시 (19:30 ~ 21:29)">술시 (19:30 ~ 21:29)</option>
-                            <option value="해시 (21:30 ~ 23:29)">해시 (21:30 ~ 23:29)</option>
+                        <select name="p1_hour">
+                            <option value="">태어난 시</option>
+                            <!-- 시간 옵션은 0부터 23까지 -->
+                            <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
+                        </select>
+                        <select name="p1_minute">
+                            <option value="">태어난 분</option>
+                            <!-- 분 옵션은 0부터 59까지 -->
+                            <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
-                </div>
-            </fieldset>
-            
-            <fieldset>
-                <legend>상대방 정보 (궁합/재회운 신청 시)</legend>
-                 <div class="person-info">
-                    <div class="form-group">
-                        <label for="p2_name">이름</label>
-                        <input type="text" id="p2_name" name="p2_name" placeholder="상대방 이름">
-                    </div>
-                    <div class="form-group">
-                        <label for="p2_birth">생년월일</label>
-                        <input type="date" id="p2_birth" name="p2_birth">
-                    </div>
-                    <div class="form-group">
-                        <label for="p2_solarlunar">양/음력</label>
-                        <select id="p2_solarlunar" name="p2_solarlunar">
+                </fieldset>
+                
+                <!-- 상대방 정보 -->
+                <fieldset>
+                    <legend>상대방 정보 (궁합/재회운 신청 시)</legend>
+                    <div class="person-info">
+                        <input type="text" name="p2_name" placeholder="이름" class="full-width">
+                        <input type="date" name="p2_birth">
+                        <select name="p2_solarlunar">
                             <option value="양력">양력</option>
                             <option value="음력">음력</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="p2_time">태어난 시간</label>
-                        <select id="p2_time" name="p2_time">
-                            <option value="모름">모름</option>
-                            <option value="자시 (23:30 ~ 01:29)">자시 (23:30 ~ 01:29)</option>
-                            <option value="축시 (01:30 ~ 03:29)">축시 (01:30 ~ 03:29)</option>
-                            <option value="인시 (03:30 ~ 05:29)">인시 (03:30 ~ 05:29)</option>
-                            <option value="묘시 (05:30 ~ 07:29)">묘시 (05:30 ~ 07:29)</option>
-                            <option value="진시 (07:30 ~ 09:29)">진시 (07:30 ~ 09:29)</option>
-                            <option value="사시 (09:30 ~ 11:29)">사시 (09:30 ~ 11:29)</option>
-                            <option value="오시 (11:30 ~ 13:29)">오시 (11:30 ~ 13:29)</option>
-                            <option value="미시 (13:30 ~ 15:29)">미시 (13:30 ~ 15:29)</option>
-                            <option value="신시 (15:30 ~ 17:29)">신시 (15:30 ~ 17:29)</option>
-                            <option value="유시 (17:30 ~ 19:29)">유시 (17:30 ~ 19:29)</option>
-                            <option value="술시 (19:30 ~ 21:29)">술시 (19:30 ~ 21:29)</option>
-                            <option value="해시 (21:30 ~ 23:29)">해시 (21:30 ~ 23:29)</option>
+                        <select name="p2_hour">
+                            <option value="">태어난 시</option>
+                            <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
+                        </select>
+                        <select name="p2_minute">
+                            <option value="">태어난 분</option>
+                            <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
+                </fieldset>
+
+                <!-- 상품 선택 -->
+                <div class="form-group">
+                    <label for="product">상품 선택</label>
+                    <select id="product" name="product">
+                        <option>연애사주</option>
+                        <option>결혼사주</option>
+                        <option>재물사주</option>
+                        <option>궁합.재회운</option>
+                        <option>종합사주</option>
+                    </select>
                 </div>
-            </fieldset>
 
-            <!-- 4. 상품 선택 -->
-            <div class="form-group">
-                <label for="product">상품 선택</label>
-                <select id="product" name="product">
-                    <option>[만원의행복] 사주</option>
-                    <option>종합사주</option>
-                    <option>궁합사주</option>
-                    <option>재회운</option>
-                    <option>결혼사주</option>
-                    <option>재물사주</option>
-                    <option>연애사주</option>
-                </select>
-            </div>
+                <!-- 동의 체크박스 -->
+                <div class="agree-box">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">전자상거래(결제,환불) 동의 (필수)</label>
+                </div>
 
-            <!-- 5. 개인정보동의 -->
-            <div class="form-group agree-box">
-                <input type="checkbox" id="agree" name="agree" required>
-                <label for="agree">개인정보 수집 및 이용에 동의합니다. (필수)</label>
-            </div>
+                <button type="submit">사주분석 신청하기</button>
+                <div id="result"></div>
+            </form>
+        </div>
 
-            <!-- 6. 제출 버튼 -->
-            <button type="submit">신청하기</button>
-            
-            <div id="result"></div>
-        </form>
+        <!-- ===== 3. 하단 이미지 영역 ===== -->
+        <div class="image-section">
+            <!-- 여기에 하단 이미지 파일 경로를 넣으세요 (예: bottom-image.png) -->
+            <img src="https://via.placeholder.com/600x600.png?text=Bottom+Image+Here" alt="고객 후기">
+        </div>
+
     </div>
 
     <script src="form.js"></script>
