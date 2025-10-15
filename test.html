@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CORS Test</title>
+    <title>JSONP Test</title>
 </head>
 <body>
-    <h1>CORS 테스트 페이지</h1>
+    <h1>JSONP 테스트 페이지</h1>
     <button onclick="fetchData()">데이터 가져오기</button>
     <p id="result">결과: </p>
 
     <script>
+        // Apps Script가 호출할 함수를 미리 전역에 정의해둡니다.
+        function handleResponse(data) {
+            const resultP = document.getElementById('result');
+            if (data.success) {
+                resultP.innerText = "성공! 받아온 메시지: " + data.message;
+            } else {
+                resultP.innerText = "실패! 오류: " + data.error;
+            }
+        }
+
         function fetchData() {
             const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZVUC4Eh87u4PRCNQHU3_XE09oACINmlO7jKpFV0CEGcadQbIBUSZaIwFESYRiqsg2/exec";
             const resultP = document.getElementById('result');
             resultP.innerText = "로딩 중...";
 
-            fetch(APPS_SCRIPT_URL)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        resultP.innerText = "성공! 받아온 메시지: " + data.message;
-                    } else {
-                        resultP.innerText = "실패! 오류: " + data.error;
-                    }
-                })
-                .catch(error => {
-                    resultP.innerText = "네트워크 오류 발생: " + error;
-                });
+            // 이전 스크립트 태그가 있다면 제거
+            const oldScript = document.getElementById('jsonp-script');
+            if (oldScript) {
+                oldScript.remove();
+            }
+
+            // 새로운 스크립트 태그를 동적으로 생성
+            const script = document.createElement('script');
+            script.id = 'jsonp-script';
+            // URL에 callback 파라미터를 추가하여, 호출할 함수 이름을 알려줍니다.
+            script.src = `${APPS_SCRIPT_URL}?callback=handleResponse`; 
+            
+            // 스크립트 로드 실패 시 에러 처리
+            script.onerror = function() {
+                resultP.innerText = "네트워크 오류 또는 스크립트 로드 실패.";
+            };
+            
+            // 생성된 스크립트 태그를 문서에 추가하면, 브라우저가 자동으로 src 주소를 호출합니다.
+            document.head.appendChild(script);
         }
     </script>
 </body>
