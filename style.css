@@ -121,3 +121,52 @@ button:hover {
     text-align: center;
     font-weight: 500;
 }
+/* style.css 파일 맨 아래에 추가 */
+
+.price-section {
+    padding: 20px 30px;
+    background-color: #ffffff;
+    color: #333;
+    border-bottom: 10px solid #f0f2f5;
+}
+.price-section h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+.price-item:last-child {
+    border-bottom: none;
+}
+.price-details {
+    text-align: left;
+}
+.price-details .name {
+    font-weight: 700;
+    font-size: 16px;
+}
+.price-details .desc {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+.price-tag {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    white-space: nowrap;
+    padding-left: 15px;
+}
+.price-category {
+    margin-bottom: 25px;
+}
+.price-category:last-child {
+    margin-bottom: 0;
+}
