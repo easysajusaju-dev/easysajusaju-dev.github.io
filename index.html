@@ -12,7 +12,6 @@
 
         <!-- ===== 1. 상단 이미지 영역 ===== -->
         <div class="image-section">
-            <!-- 여기에 상단 이미지 파일 경로를 넣으세요 (예: top-image.png) -->
             <img src="https://via.placeholder.com/600x400.png?text=Top+Image+Here" alt="사주 패키지 구성">
         </div>
 
@@ -40,13 +39,11 @@
                             <option value="음력">음력</option>
                         </select>
                         <select name="p1_hour">
-                            <option value="">태어난 시</option>
-                            <!-- 시간 옵션은 0부터 23까지 -->
+                            <option value="">모름</option> <!-- "모름" 추가 -->
                             <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
                         </select>
                         <select name="p1_minute">
-                            <option value="">태어난 분</option>
-                            <!-- 분 옵션은 0부터 59까지 -->
+                            <option value="">모름</option> <!-- "모름" 추가 -->
                             <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
@@ -63,11 +60,11 @@
                             <option value="음력">음력</option>
                         </select>
                         <select name="p2_hour">
-                            <option value="">태어난 시</option>
+                            <option value="">모름</option> <!-- "모름" 추가 -->
                             <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
                         </select>
                         <select name="p2_minute">
-                            <option value="">태어난 분</option>
+                            <option value="">모름</option> <!-- "모름" 추가 -->
                             <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
@@ -98,7 +95,6 @@
 
         <!-- ===== 3. 하단 이미지 영역 ===== -->
         <div class="image-section">
-            <!-- 여기에 하단 이미지 파일 경로를 넣으세요 (예: bottom-image.png) -->
             <img src="https://via.placeholder.com/600x600.png?text=Bottom+Image+Here" alt="고객 후기">
         </div>
 
