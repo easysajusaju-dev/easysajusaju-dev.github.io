@@ -1,1 +1,39 @@
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f9ffff;
+  color: #222;
+  margin: 40px auto;
+  max-width: 600px;
+}
 
+.container {
+  padding: 20px;
+  border: 1px solid #cce;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+fieldset {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #add;
+}
+
+label, input, select, legend {
+  display: block;
+  margin: 8px 0;
+  width: 100%;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  width: 100%;
+  background: #73d7cd;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
