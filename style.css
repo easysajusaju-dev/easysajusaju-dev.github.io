@@ -48,6 +48,7 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="date"],
+input[type="email"], /* <--- 이 부분을 추가합니다. */
 select {
     width: 100%;
     padding: 10px;
@@ -55,6 +56,8 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #ffffff; /* 배경색 강제 지정 */
+    color: #000000; /* 글자색 강제 지정 */
 }
 
 fieldset {
