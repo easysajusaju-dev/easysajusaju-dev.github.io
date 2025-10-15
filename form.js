@@ -1,6 +1,6 @@
-// form.js (최종 안정화 버전)
+// form.js (최종 안정화 + 픽셀 리디렉션 버전)
 
-// --- 시간/분 드롭다운 연동 로직 (안정 기능) ---
+// --- 시간/분 드롭다운 연동 로직 ---
 function setupHourMinuteSync(personPrefix) {
     const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`);
     const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`);
@@ -16,20 +16,17 @@ function setupHourMinuteSync(personPrefix) {
     if (hourSelect.value === "") minuteSelect.disabled = true;
 }
 
-// 페이지가 로드되면 시간/분 연동 기능만 실행합니다.
 document.addEventListener('DOMContentLoaded', function() {
     setupHourMinuteSync('p1');
     setupHourMinuteSync('p2');
 });
 
-
-// --- 폼 제출 로직 (안정 기능) ---
+// --- 폼 제출 로직 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const form = event.target;
     const button = form.querySelector('button');
     const resultDiv = document.getElementById('result');
-    // Apps Script URL은 폼 제출 시에만 사용됩니다.
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
     
     button.disabled = true;
@@ -39,7 +36,6 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     const formData = new FormData(form);
     const data = {};
 
-    // 연락처 포맷팅
     const rawContact = formData.get('contact') || '';
     const cleanedContact = rawContact.replace(/\D/g, '');
     let formattedContact = cleanedContact;
@@ -50,7 +46,6 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     }
     data['연락처'] = "'" + formattedContact;
 
-    // 나머지 데이터 준비
     data['상품명'] = formData.get('product');
     data['이름1'] = formData.get('p1_name');
     data['양음력1'] = formData.get('p1_solarlunar');
@@ -79,19 +74,15 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
 
     const urlEncodedData = new URLSearchParams(data);
 
-    // 데이터 전송 (POST 방식)
     fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         body: urlEncodedData,
     })
     .then(response => response.json())
     .then(result => {
-      // ===== 👇 여기에 아래 코드를 붙여넣으세요 =====
-if (result.success) {
-    // 성공 시 'thankyou.html' 페이지로 이동합니다.
-    window.location.href = 'thankyou.html';
-}
-// ===== 👆 여기까지 =====
+        if (result.success) {
+            // 성공 시 'thankyou.html' 페이지로 이동합니다.
+            window.location.href = 'thankyou.html';
         } else {
             console.error('Apps Script Error:', result.error);
             resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`;
