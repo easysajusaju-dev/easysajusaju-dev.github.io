@@ -1,25 +1,77 @@
 <!DOCTYPE html>
 <html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>이지사주 랜딩</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-  <h3>Google Apps Script API 테스트</h3>
-  <button onclick="send()">시트로 보내기</button>
-  <script>
-    async function send() {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbwxcX5KAD21bxCs1CPcbZ_JFJVWI7JtkyPK-hRBFcBeHPfL4O9ci3inB83TMOa-P0q3/exec", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          name: "깃섭테스트",
-          gender: "남성",
-          phoneNumber: "010-0000-0000",
-          sajuType: "overall",
-          customRequest: "",
-          resultText: "깃섭에서 직접 보낸 테스트"
-        })
-      });
-      console.log(await res.text());
-      alert("전송되었습니다!");
-    }
-  </script>
+  <div class="container">
+    <h1>🔮 이지사주 신청 폼</h1>
+
+    <!-- 1. 연락처 -->
+    <label>연락처 (필수):</label>
+    <input type="tel" name="contact" required/>
+
+    <!-- 2. 남자 정보 -->
+    <fieldset>
+      <legend>👤 남자 정보</legend>
+      <input type="text" name="man_name" placeholder="이름">
+      <input type="date" name="man_birth" placeholder="생일">
+      <select name="man_solarlunar">
+        <option>양력</option>
+        <option>음력</option>
+      </select>
+      <select name="man_time">
+        <option value="">태어난 시간 선택</option>
+        <option>알 수 없음</option>
+        <option>자정 (23~1시)</option>
+        <option>새벽 (1~3시)</option>
+        <option>...</option>
+      </select>
+    </fieldset>
+
+    <!-- 3. 여자 정보 -->
+    <fieldset>
+      <legend>👩 여자 정보</legend>
+      <input type="text" name="woman_name" placeholder="이름">
+      <input type="date" name="woman_birth" placeholder="생일">
+      <select name="woman_solarlunar">
+        <option>양력</option>
+        <option>음력</option>
+      </select>
+      <select name="woman_time">
+        <option value="">태어난 시간 선택</option>
+        <option>알 수 없음</option>
+        <option>자정 (23~1시)</option>
+        <option>새벽 (1~3시)</option>
+        <option>...</option>
+      </select>
+    </fieldset>
+
+    <!-- 4. 상품 선택 -->
+    <label>상품 선택:</label>
+    <select name="product">
+      <option>[만원의행복] 사주</option>
+      <option>연애사주</option>
+      <option>궁합사주</option>
+      <option>재회운</option>
+      <option>결혼사주</option>
+    </select>
+
+    <!-- 5. 개인정보동의 -->
+    <label>
+      <input type="checkbox" name="agree" required />
+      개인정보 동의 (필수)
+    </label>
+
+    <!-- 6. 제출 버튼 -->
+    <button onclick="submitForm()">신청하기</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script src="form.js"></script>
 </body>
 </html>
