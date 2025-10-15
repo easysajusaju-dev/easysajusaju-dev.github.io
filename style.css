@@ -1,39 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: #f9ffff;
-  color: #222;
-  margin: 40px auto;
-  max-width: 600px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f7f9fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
-  padding: 20px;
-  border: 1px solid #cce;
-  border-radius: 8px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #00838f; /* 포인트 컬러 */
+    margin: 0;
+}
+
+header p {
+    font-size: 15px;
+    color: #666;
+    margin-top: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #73d7cd; /* 하늘민트 */
+    box-shadow: 0 0 0 2px rgba(115, 215, 205, 0.2);
 }
 
 fieldset {
-  margin-top: 15px;
-  padding: 10px;
-  border: 1px solid #add;
+    border: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f7f9fa;
 }
 
-label, input, select, legend {
-  display: block;
-  margin: 8px 0;
-  width: 100%;
+legend {
+    font-weight: 700;
+    font-size: 16px;
+    padding: 0 10px;
+    color: #00838f;
+}
+
+.person-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+
+.agree-box {
+    display: flex;
+    align-items: center;
+}
+
+.agree-box input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.agree-box label {
+    margin-bottom: 0;
+    font-weight: 400;
 }
 
 button {
-  margin-top: 20px;
-  padding: 12px;
-  width: 100%;
-  background: #73d7cd;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #73d7cd; /* 하늘민트 */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #5abcb3;
+}
+
+#result {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    color: #00838f;
 }
