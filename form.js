@@ -86,10 +86,12 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     })
     .then(response => response.json())
     .then(result => {
-        if (result.success) {
-            resultDiv.innerText = "✅ 신청이 성공적으로 접수되었습니다!";
-            form.reset();
-            document.querySelectorAll('select[name$="_minute"]').forEach(sel => sel.disabled = false);
+      // ===== 👇 여기에 아래 코드를 붙여넣으세요 =====
+if (result.success) {
+    // 성공 시 'thankyou.html' 페이지로 이동합니다.
+    window.location.href = 'thankyou.html';
+}
+// ===== 👆 여기까지 =====
         } else {
             console.error('Apps Script Error:', result.error);
             resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`;
