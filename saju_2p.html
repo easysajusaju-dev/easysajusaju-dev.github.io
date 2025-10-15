@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>운명 보고서 신청하기</title>
+    <title>운명 보고서 신청하기 (2인용)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="main-container">
-
-        <!-- ===== 1. 상단 이미지 영역 ===== -->
+        <!-- 상단 이미지 영역 -->
         <div class="image-section">
-            <img src="https://via.placeholder.com/600x400.png?text=Top+Image+Here" alt="사주 패키지 구성">
+            <img src="https://via.placeholder.com/600x400.png?text=2인용+상단+이미지" alt="사주 패키지 구성">
         </div>
 
-        <!-- ===== 2. 신청 폼 영역 ===== -->
+        <!-- 신청 폼 영역 -->
         <div class="form-container">
             <header>
                 <h2>운명 보고서 신청하기</h2>
@@ -28,9 +27,9 @@
                     <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
                 </div>
 
-                <!-- 본인 정보 -->
+                <!-- ===== 여기를 수정했습니다! ===== -->
                 <fieldset>
-                    <legend>본인 정보</legend>
+                    <legend>👨 남자 정보</legend>
                     <div class="person-info">
                         <input type="text" name="p1_name" placeholder="이름" class="full-width">
                         <input type="date" name="p1_birth">
@@ -39,19 +38,18 @@
                             <option value="음력">음력</option>
                         </select>
                         <select name="p1_hour">
-                            <option value="">모름</option> <!-- "모름" 추가 -->
+                            <option value="">모름</option>
                             <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
                         </select>
                         <select name="p1_minute">
-                            <option value="">모름</option> <!-- "모름" 추가 -->
+                            <option value="">모름</option>
                             <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
                 </fieldset>
                 
-                <!-- 상대방 정보 -->
                 <fieldset>
-                    <legend>상대방 정보 (궁합/재회운 신청 시)</legend>
+                    <legend>👩 여자 정보</legend>
                     <div class="person-info">
                         <input type="text" name="p2_name" placeholder="이름" class="full-width">
                         <input type="date" name="p2_birth">
@@ -60,11 +58,11 @@
                             <option value="음력">음력</option>
                         </select>
                         <select name="p2_hour">
-                            <option value="">모름</option> <!-- "모름" 추가 -->
+                            <option value="">모름</option>
                             <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
                         </select>
                         <select name="p2_minute">
-                            <option value="">모름</option> <!-- "모름" 추가 -->
+                            <option value="">모름</option>
                             <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
                         </select>
                     </div>
@@ -74,11 +72,8 @@
                 <div class="form-group">
                     <label for="product">상품 선택</label>
                     <select id="product" name="product">
-                        <option>연애사주</option>
-                        <option>결혼사주</option>
-                        <option>재물사주</option>
-                        <option>궁합.재회운</option>
-                        <option>종합사주</option>
+                        <option>궁합사주</option>
+                        <option>재회운</option>
                     </select>
                 </div>
 
@@ -93,11 +88,10 @@
             </form>
         </div>
 
-        <!-- ===== 3. 하단 이미지 영역 ===== -->
+        <!-- 하단 이미지 영역 -->
         <div class="image-section">
-            <img src="https://via.placeholder.com/600x600.png?text=Bottom+Image+Here" alt="고객 후기">
+            <img src="https://via.placeholder.com/600x600.png?text=2인용+하단+이미지" alt="고객 후기">
         </div>
-
     </div>
 
     <script src="form.js"></script>
