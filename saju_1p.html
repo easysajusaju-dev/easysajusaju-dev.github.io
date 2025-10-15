@@ -5,37 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>운명 보고서 신청하기 (1인용)</title>
     <link rel="stylesheet" href="style.css">
-
     <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1159392269346574');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
-    /></noscript>
+    ... (기존 픽셀 코드는 그대로 두세요) ...
     <!-- End Meta Pixel Code -->
 </head>
 <body>
 
     <div class="main-container">
-        <!-- ===== 1. 상단 이미지 영역 ===== -->
-        <!-- 아래 src="" 부분에 images/saju1/ 폴더의 이미지 파일명을 순서대로 넣어주세요 -->
+        <!-- 상단 이미지 영역 -->
         <div class="image-section">
-            <img src="images/saju1/002.png" alt="안내 이미지 1">
-            <img src="images/saju1/003.png" alt="안내 이미지 2">
-            <!-- 필요한 만큼 <img src="..."> 태그를 추가하세요 -->
+            <img src="images/saju1/some-image.png" alt="안내 이미지">
         </div>
 
-        <!-- ===== 2. 신청 폼 영역 ===== -->
+        <!-- 신청 폼 영역 -->
         <div class="form-container">
             <header>
                 <h2>운명 보고서 신청하기</h2>
@@ -43,61 +25,76 @@
             
             <form id="saju-form">
                 <div class="form-group">
-                    <label for="p1_name">이름</label>
-                    <input type="text" id="p1_name" name="p1_name" placeholder="이름을 입력하세요">
+                    <label>이름</label>
+                    <input type="text" name="p1_name" placeholder="이름">
                 </div>
                 <div class="form-group">
-                    <label for="contact">연락처</label>
-                    <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">이메일 (선택)</label>
-                    <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
+                    <label>연락처</label>
+                    <div class="contact-group">
+                        <select name="contact1"><option value="010">010</option><option value="011">011</option><!--...--></select>
+                        <input type="text" name="contact2" placeholder="가운데 4자리" maxlength="4">
+                        <input type="text" name="contact3" placeholder="마지막 4자리" maxlength="4">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>생년월일</label>
-                    <input type="date" name="p1_birth">
+                    <div class="birth-select">
+                        <select name="p1_birth_year"><option value="">-년-</option></select>
+                        <select name="p1_birth_month"><option value="">-월-</option></select>
+                        <select name="p1_birth_day"><option value="">-일-</option></select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>양/음력</label>
-                    <select name="p1_solarlunar"><option value="양력">양력</option><option value="음력">음력</option></select>
+                    <div class="button-group">
+                        <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
+                        <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
+                        <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>성별</label>
-                    <select name="p1_gender"><option value="남자">남자</option><option value="여자">여자</option></select>
+                    <div class="button-group">
+                        <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
+                        <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>태어난 시간</label>
-                    <div class="person-info">
+                    <div class="birth-select">
                         <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
                         <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>이메일 (선택)</label>
+                    <input type="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
+                </div>
+                <div class="form-group">
                     <label for="product">상품 선택</label>
                     <select id="product" name="product">
-                        <!-- 여기에 상품 목록이 수동으로 들어갑니다. -->
                         <option>종합사주</option>
                         <option>재물사주</option>
                         <option>연애사주</option>
                     </select>
                 </div>
-                <div class="agree-box">
-                    <input type="checkbox" id="agree" name="agree" required>
-                    <label for="agree">전자상거래(결제,환불) 동의 (필수)</label>
+
+                <div class="agree-section">
+                    <div class="agree-box"><input type="checkbox" id="agree_all"><label for="agree_all">전체동의(수집/이용, 개인정보, 광고성 정보 수신)</label></div>
+                    <div class="agree-box"><input type="checkbox" id="agree1" name="agree1" required><label for="agree1">개인정보 수집/이용 동의 [보기]</label></div>
+                    <div class="agree-box"><input type="checkbox" id="agree2" name="agree2"><label for="agree2">광고성 정보 수신 동의 [보기]</label></div>
                 </div>
+
                 <button type="submit">사주분석 신청하기</button>
                 <div id="result"></div>
             </form>
         </div>
 
-        <!-- ===== 3. 하단 이미지 영역 ===== -->
+        <!-- 하단 이미지 영역 -->
         <div class="image-section">
-            <img src="images/saju1/후기상세페이지.gif" alt="후기 이미지">
-            <!-- 필요한 만큼 <img src="..."> 태그를 추가하세요 -->
+            <img src="images/saju1/another-image.png" alt="후기 이미지">
         </div>
     </div>
-
     <script src="form.js"></script>
 </body>
 </html>
