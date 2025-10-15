@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+</head>
+<body>
+    <h1>CORS 테스트 페이지</h1>
+    <button onclick="fetchData()">데이터 가져오기</button>
+    <p id="result">결과: </p>
+
+    <script>
+        function fetchData() {
+            const APPS_SCRIPT_URL = "여기에_새로운_URL을_붙여넣으세요";
+            const resultP = document.getElementById('result');
+            resultP.innerText = "로딩 중...";
+
+            fetch(APPS_SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultP.innerText = "성공! 받아온 메시지: " + data.message;
+                    } else {
+                        resultP.innerText = "실패! 오류: " + data.error;
+                    }
+                })
+                .catch(error => {
+                    resultP.innerText = "네트워크 오류 발생: " + error;
+                });
+        }
+    </script>
+</body>
+</html>
