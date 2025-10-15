@@ -5,74 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>운명 보고서 신청하기 (2인용)</title>
     <link rel="stylesheet" href="style.css">
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1159392269346574');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1159392269346574');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
 
     <div class="main-container">
-<!-- ===== 1. 상단 이미지 영역 ===== -->
-<!-- ===== 1. 상단 이미지 영역 ===== -->
-<div class="image-section">
-    <img src="images/saju2/재회GIF.gif" alt="안내 1">
-    <img src="images/saju2/005.png" alt="안내 2">
-        <img src="images/saju2/006.png" alt="안내 3">
-        <img src="images/saju2/007.png" alt="안내 4">
-        <img src="images/saju2/내용GIF.gif" alt="안내 5">
-        <img src="images/saju2/분석지GIF.gif" alt="안내 6">
-        <img src="images/saju2/제목을-입력해주세요__복사본-019.png" alt="안내 7">
-        <img src="images/saju2/제목을 입력해주세요__복사본-020.png" alt="안내 8">
-</div>
+        <!-- ===== 1. 상단 이미지 영역 ===== -->
+        <!-- 아래 src="" 부분에 images/saju2/ 폴더의 이미지 파일명을 순서대로 넣어주세요 -->
+        <div class="image-section">
+            <img src="images/saju2/005.png" alt="안내 이미지 1">
+            <img src="images/saju2/006.png" alt="안내 이미지 2">
+        </div>
 
-        <!-- 신청 폼 영역 -->
+        <!-- ===== 2. 신청 폼 영역 ===== -->
         <div class="form-container">
             <header>
                 <h2>운명 보고서 신청하기</h2>
             </header>
             
             <form id="saju-form">
-                <!-- 연락처 -->
                 <div class="form-group">
                     <label for="contact">수령하실 분 연락처</label>
                     <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
                 </div>
-<div class="form-group">
-        <label for="email">이메일 (선택)</label>
-        <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
-    </div>
-                <!-- ===== 여기를 수정했습니다! ===== -->
+                <div class="form-group">
+                    <label for="email">이메일 (선택)</label>
+                    <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
+                </div>
+
                 <fieldset>
                     <legend>👨 남자 정보</legend>
                     <div class="person-info">
                         <input type="text" name="p1_name" placeholder="이름" class="full-width">
                         <input type="date" name="p1_birth">
-                        <select name="p1_solarlunar">
-                            <option value="양력">양력</option>
-                            <option value="음력">음력</option>
-                        </select>
-                        <select name="p1_hour">
-                            <option value="">모름</option>
-                            <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
-                        </select>
-                        <select name="p1_minute">
-                            <option value="">모름</option>
-                            <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
-                        </select>
+                        <select name="p1_solarlunar"><option value="양력">양력</option><option value="음력">음력</option></select>
+                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
                     </div>
                 </fieldset>
                 
@@ -81,46 +66,33 @@ src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
                     <div class="person-info">
                         <input type="text" name="p2_name" placeholder="이름" class="full-width">
                         <input type="date" name="p2_birth">
-                        <select name="p2_solarlunar">
-                            <option value="양력">양력</option>
-                            <option value="음력">음력</option>
-                        </select>
-                        <select name="p2_hour">
-                            <option value="">모름</option>
-                            <script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script>
-                        </select>
-                        <select name="p2_minute">
-                            <option value="">모름</option>
-                            <script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script>
-                        </select>
+                        <select name="p2_solarlunar"><option value="양력">양력</option><option value="음력">음력</option></select>
+                        <select name="p2_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p2_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
                     </div>
                 </fieldset>
 
-<!-- 상품 선택 -->
-<div class="form-group">
-    <label for="product">상품 선택</label>
-    <select id="product" name="product">
-    <option>종합사주</option>
-    <option>재물사주</option>
-    <option>연애사주</option>
-</select>
-</div>
-                <!-- 동의 체크박스 -->
+                <div class="form-group">
+                    <label for="product">상품 선택</label>
+                    <select id="product" name="product">
+                        <!-- 여기에 상품 목록이 수동으로 들어갑니다. -->
+                        <option>궁합사주</option>
+                        <option>재회운</option>
+                    </select>
+                </div>
+
                 <div class="agree-box">
                     <input type="checkbox" id="agree" name="agree" required>
                     <label for="agree">전자상거래(결제,환불) 동의 (필수)</label>
                 </div>
-
                 <button type="submit">사주분석 신청하기</button>
                 <div id="result"></div>
             </form>
         </div>
 
-        <!-- 하단 이미지 영역 -->
+        <!-- ===== 3. 하단 이미지 영역 ===== -->
         <div class="image-section">
-          <img src="images/saju2/021.png" alt="후기">
-        <img src="images/saju2/022.png" alt="상품안내">
-    
+            <img src="images/saju2/재회GIF.gif" alt="후기 이미지">
         </div>
     </div>
 
