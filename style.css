@@ -226,3 +226,22 @@ button:hover {
 .agree-box:first-child label {
     font-weight: 700;
 }
+/* style.css 파일 맨 아래에 추가 */
+
+/* 연락처 입력 그룹 */
+.contact-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.contact-group select {
+    flex: 1;
+}
+.contact-group input {
+    flex: 1.5;
+    text-align: center;
+}
+.contact-group::before, .contact-group::after {
+    content: '-';
+    color: #ffffff;
+}
