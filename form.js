@@ -7,7 +7,7 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     const resultDiv = document.getElementById('result');
 
     // 1. Apps Script 배포 URL (나중에 채워넣을 부분)
-    const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE"; 
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec"; 
     
     // 버튼 비활성화 및 로딩 표시
     button.disabled = true;
