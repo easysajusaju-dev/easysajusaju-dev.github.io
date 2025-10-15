@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>신청 완료</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .container { max-width: 500px; margin: auto; }
+        h1 { color: #2c3e50; }
+        p { color: #333; }
+    </style>
+
+    <!-- Meta Pixel Code (기본 코드) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1159392269346574'); // <-- 여기에 당신의 픽셀 ID
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- ===== ⭐ 여기가 핵심! 전환 이벤트 코드 ===== -->
+    <script>
+        fbq('track', 'CompleteRegistration');
+    </script>
+    <!-- ===== ⭐ 끝 ===== -->
+</head>
+<body>
+    <div class="container">
+        <h1>✅ 신청이 완료되었습니다.</h1>
+        <p>신청해주셔서 감사합니다. 입금 확인 후 순차적으로 분석이 진행됩니다.</p>
+        <p><a href="index.html">홈으로 돌아가기</a></p>
+    </div>
+</body>
+</html>
