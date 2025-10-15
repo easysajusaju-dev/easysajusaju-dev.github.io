@@ -6,7 +6,7 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     const button = form.querySelector('button');
     const resultDiv = document.getElementById('result');
 
-    // 1. Apps Script 배포 URL (나중에 채워넣을 부분)
+    // 1. Apps Script 배포 URL
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec"; 
     
     // 버튼 비활성화 및 로딩 표시
@@ -17,13 +17,12 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     const formData = new FormData(form);
     const data = {};
 
-    // HTML 폼 데이터를 Apps Script가 기대하는 이름으로 변경
+    // HTML 폼 데이터를 Apps Script가 기대하는 '전송될 필드명'으로 변경
     data['연락처'] = formData.get('contact');
     data['상품명'] = formData.get('product');
 
     data['이름1'] = formData.get('p1_name');
     data['양음력1'] = formData.get('p1_solarlunar');
-    // 생년월일 분리
     const birth1 = formData.get('p1_birth');
     if (birth1) {
         const [year, month, day] = birth1.split('-');
@@ -46,21 +45,27 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     data['생시2'] = formData.get('p2_hour');
     data['생분2'] = formData.get('p2_minute');
 
-    // Apps Script로 데이터 전송
+    // 데이터를 'application/x-www-form-urlencoded' 형식으로 변환
+    const urlEncodedData = new URLSearchParams(data);
+
+    // fetch를 사용하여 POST 요청 전송
     fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'no-cors' // CORS 오류 방지를 위해 추가
+        body: urlEncodedData,
     })
-    .then(response => {
-        // no-cors 모드에서는 상세 응답을 받을 수 없지만, 요청은 성공적으로 전송됩니다.
-        resultDiv.innerText = "✅ 신청이 성공적으로 접수되었습니다!";
-        form.reset(); // 폼 초기화
+    .then(response => response.json()) // Apps Script로부터의 응답을 JSON으로 파싱
+    .then(result => {
+        if (result.success) {
+            resultDiv.innerText = "✅ 신청이 성공적으로 접수되었습니다!";
+            form.reset(); // 폼 초기화
+        } else {
+            console.error('Apps Script Error:', result.error);
+            resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`;
+        }
     })
     .catch(error => {
-        console.error('Error:', error);
-        resultDiv.innerText = "⚠️ 신청 중 오류가 발생했습니다. 다시 시도해주세요.";
+        console.error('Fetch Error:', error);
+        resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요.";
     })
     .finally(() => {
         button.disabled = false;
