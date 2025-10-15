@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이지사주 - 서비스 선택</title>
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; text-align: center; padding-top: 100px; background-color: #f0f2f5; }
+        .container { max-width: 600px; margin: auto; }
+        h1 { color: #2c3e50; }
+        .button-wrapper { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
+        a.button {
+            display: block;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        a.button:hover { transform: scale(1.05); }
+        .btn-1p { background-color: #3498db; } /* 1인용 버튼 색상 */
+        .btn-2p { background-color: #8e44ad; } /* 2인용 버튼 색상 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>어떤 사주 분석을 원하시나요?</h1>
+        <div class="button-wrapper">
+            <a href="saju_1p.html" class="button btn-1p">개인 사주 분석</a>
+            <a href="saju_2p.html" class="button btn-2p">궁합 / 재회운 분석</a>
+        </div>
+    </div>
+</body>
+</html>
