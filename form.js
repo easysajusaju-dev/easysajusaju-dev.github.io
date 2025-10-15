@@ -47,6 +47,7 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     data['연락처'] = "'" + formattedContact;
 
     data['상품명'] = formData.get('product');
+    data['이메일'] = formData.get('email'); // 이메일 필드 추가
     data['이름1'] = formData.get('p1_name');
     data['양음력1'] = formData.get('p1_solarlunar');
     const birth1 = formData.get('p1_birth');
