@@ -12,13 +12,18 @@
 <body>
 
     <div class="main-container">
-        <!-- 상단 이미지 영역 -->
-        <div class="image-section">
-            <img src="images/saju1/some-image.png" alt="안내 이미지">
-        </div>
-<!-- ===== 1. 가격표 자동 생성 영역 ===== -->
-<div class="price-section" id="price-list">
-    <!-- 이 공간은 비어 있어야 합니다. JS가 여기에 가격표를 그릴 것입니다. -->
+ <!-- ===== 1. 상단 이미지 영역 (수동 관리) ===== -->
+<div class="image-section">
+    <img src="images/saju1/image1.png" alt="안내 이미지 1">
+    <img src="images/saju1/image2.png" alt="안내 이미지 2">
+    <!-- 스위치가 OFF일 때 보여줄 가격표 이미지를 여기에 마지막으로 넣습니다. -->
+    <img src="images/saju1/price_manual.png" alt="가격표" class="manual-price-image">
+</div>
+
+<!-- ===== 2. 자동 생성 가격표 영역 (임시) ===== -->
+<!-- 이 영역은 평소에는 비어있다가, 스위치가 ON일 때만 채워집니다. -->
+<div class="price-section" id="auto-price-section">
+    <!-- JS가 여기에 가격표를 그립니다 -->
 </div>
         <!-- 신청 폼 영역 -->
         <div class="form-container">
