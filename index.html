@@ -3,51 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이지사주 - 서비스 선택</title>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1159392269346574');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-    <style>
-        body { font-family: 'Noto Sans KR', sans-serif; text-align: center; padding-top: 100px; background-color: #f0f2f5; }
-        .container { max-width: 600px; margin: auto; }
-        h1 { color: #2c3e50; }
-        .button-wrapper { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
-        a.button {
-            display: block;
-            padding: 20px 40px;
-            font-size: 18px;
-            font-weight: 700;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-        a.button:hover { transform: scale(1.05); }
-        .btn-1p { background-color: #3498db; } /* 1인용 버튼 색상 */
-        .btn-2p { background-color: #8e44ad; } /* 2인용 버튼 색상 */
-    </style>
+    <title>이지사주 - 당신의 운명을 풀어내는 곳</title>
+    <link rel="stylesheet" href="style_index.css"> <!-- index.html 전용 스타일시트 -->
+    <!-- Meta Pixel Code -->
+    ... (기존 픽셀 코드는 그대로 두세요) ...
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
-    <div class="container">
-        <h1>어떤 사주 분석을 원하시나요?</h1>
-        <div class="button-wrapper">
-            <a href="saju_1p.html" class="button btn-1p">개인 사주 분석</a>
-            <a href="saju_2p.html" class="button btn-2p">궁합 / 재회운 분석</a>
+
+    <!-- 1. 히어로 섹션: 배경 이미지와 핵심 메시지 -->
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>당신의 운명, 궁금하지 않으신가요?</h1>
+            <p>13년 경력의 명리 전문가가 당신의 길을 밝혀드립니다.</p>
+            <a href="#services" class="hero-button">서비스 둘러보기</a>
         </div>
-    </div>
+    </header>
+
+    <!-- 2. 서비스 소개 섹션 -->
+    <main id="services" class="services-section">
+        <h2>어떤 분석을 원하시나요?</h2>
+        <div class="service-cards">
+            <!-- 개인 사주 카드 -->
+            <div class="card">
+                <img src="images/icon-individual.png" alt="개인 사주 아이콘" class="card-icon">
+                <h3>개인 사주 분석</h3>
+                <p>재물운, 연애운, 직장운 등<br>당신만의 운명 보고서를 받아보세요.</p>
+                <a href="saju_1p.html" class="card-button">신청하기</a>
+            </div>
+
+            <!-- 궁합/재회 카드 -->
+            <div class="card">
+                <img src="images/icon-couple.png" alt="궁합 아이콘" class="card-icon">
+                <h3>궁합 / 재회운 분석</h3>
+                <p>그 사람과의 인연, 관계의 흐름을<br>정통 명리학으로 분석해 드립니다.</p>
+                <a href="saju_2p.html" class="card-button">신청하기</a>
+            </div>
+
+            <!-- 다른 서비스 카드 (예시) -->
+            <div class="card coming-soon">
+                <img src="images/icon-daily.png" alt="오늘의 운세 아이콘" class="card-icon">
+                <h3>오늘의 운세</h3>
+                <p>매일 아침 찾아오는<br>나만의 운세 가이드.</p>
+                <span class="card-button">준비중</span>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 3. 신뢰도 구축 섹션 (고객 후기 등) -->
+    <section class="testimonial-section">
+        <h2>"철학관보다 만족스러웠어요!"</h2>
+        <div class="testimonials">
+            <div class="testimonial-item">"헤어진 지 3개월... 재회운을 신청하고 조언대로 행동했더니 다시 만나게 됐어요. 신기해요."</div>
+            <div class="testimonial-item">"이직 문제로 고민이 많았는데, 제게 맞는 시기와 방향을 정확히 짚어주셔서 큰 도움이 됐습니다."</div>
+            <div class="testimonial-item">"막연했던 미래에 대한 불안감이 사라졌어요. 제 인생의 내비게이션을 얻은 기분입니다."</div>
+        </div>
+    </section>
+
+    <!-- 4. 푸터 -->
+    <footer class="footer">
+        <p>&copy; 2025 이지사주. All rights reserved.</p>
+        <p>상호명: 상생 | 대표: 안미정 | 사업자등록번호: 304-06-00683</p>
+    </footer>
+    
+    <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
+
 </body>
 </html>
