@@ -1,19 +1,66 @@
-// form.js (진짜, 진짜 최종 완전체)
+// form.js (이미지 점프 기능 포함 - 최종 완전체 전체 코드)
 
+// --- 페이지가 로드되면 모든 UI 기능을 설정합니다 ---
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. 생년월일 드롭다운 채우기
     populateDateSelects('p1');
     populateDateSelects('p2');
+
+    // 2. 시간/분 드롭다운 연동
     setupHourMinuteSync('p1');
     setupHourMinuteSync('p2');
+
+    // 3. 동의 체크박스 기능 (전체 동의, 약관 펼치기)
+    setupAgreement();
+
+    // 4. 이미지 클릭 시 폼으로 점프하는 기능
+    setupImageJump();
+});
+
+// --- 생년월일 드롭다운을 채우는 함수 ---
+function populateDateSelects(prefix) {
+    const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`);
+    const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`);
+    const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`);
+    if (!yearSelect) return;
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i));
+    for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i));
+    for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
+}
+
+// --- 시간/분 드롭다운 연동 함수 ---
+function setupHourMinuteSync(personPrefix) {
+    const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`);
+    const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`);
+    if (!hourSelect || !minuteSelect) return;
+    hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } });
+    if (hourSelect.value === "") minuteSelect.disabled = true;
+}
+
+// --- 동의 관련 기능을 하나로 묶은 함수 ---
+function setupAgreement() {
+    // 전체 동의 기능
     const agreeAll = document.getElementById('agree_all');
-    if (agreeAll) {
+    const agree1 = document.getElementById('agree1');
+    const agree2 = document.getElementById('agree2');
+    if (agreeAll && agree1) {
         agreeAll.addEventListener('change', function() {
-            const agree1 = document.getElementById('agree1');
-            const agree2 = document.getElementById('agree2');
-            if (agree1) agree1.checked = this.checked;
-            if (agree2) agree2.checked = this.checked;
+            agree1.checked = this.checked;
+            if(agree2) agree2.checked = this.checked;
         });
+        const updateAgreeAll = () => {
+            if (agree2) {
+                agreeAll.checked = agree1.checked && agree2.checked;
+            } else {
+                agreeAll.checked = agree1.checked;
+            }
+        };
+        agree1.addEventListener('change', updateAgreeAll);
+        if(agree2) agree2.addEventListener('change', updateAgreeAll);
     }
+
+    // 약관 펼쳐보기 기능
     document.querySelectorAll('.toggle-text').forEach(toggle => {
         toggle.addEventListener('click', function() {
             const termsBox = this.closest('.agree-box').querySelector('.terms-box');
@@ -26,29 +73,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-
-function populateDateSelects(prefix) {
-    const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`);
-    const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`);
-    const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`);
-    if (!yearSelect) return;
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i));
-    for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i));
-    for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
 }
 
-function setupHourMinuteSync(personPrefix) {
-    const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`);
-    const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`);
-    if (!hourSelect || !minuteSelect) return;
-    hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } });
-    if (hourSelect.value === "") minuteSelect.disabled = true;
+// --- 이미지 클릭 점프 기능 함수 ---
+function setupImageJump() {
+    const allImages = document.querySelectorAll('.image-section img');
+    const formElement = document.getElementById('saju-form');
+    if (formElement && allImages.length > 0) {
+        allImages.forEach(image => {
+            image.style.cursor = 'pointer'; // 마우스를 올리면 클릭 가능하다는 표시
+            image.addEventListener('click', function(event) {
+                event.preventDefault();
+                // 폼의 시작 지점으로 부드럽게 스크롤
+                formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    }
 }
 
+// --- 폼 제출 기능 (가장 안정적인 버전) ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
+
+    const agree1 = document.getElementById('agree1');
+    if (agree1 && !agree1.checked) {
+        alert("개인정보 수집/이용에 동의하셔야 신청이 가능합니다.");
+        return;
+    }
+
     const form = event.target;
     const button = form.querySelector('button');
     const resultDiv = document.getElementById('result');
@@ -69,25 +121,4 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     })
     .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
     .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
-});
-// form.js 파일 맨 아래에 추가
-
-// --- 이미지 클릭 시 폼으로 부드럽게 스크롤하는 기능 ---
-document.addEventListener('DOMContentLoaded', function() {
-    // 페이지 안의 모든 이미지를 찾습니다.
-    const allImages = document.querySelectorAll('.image-section img');
-    
-    // 점프할 목표 지점을 찾습니다.
-    const formElement = document.getElementById('saju-form');
-
-    if (formElement) {
-        allImages.forEach(image => {
-            image.addEventListener('click', function(event) {
-                event.preventDefault(); // 이미지 링크의 기본 동작 방지
-                
-                // 목표 지점으로 부드럽게 스크롤
-                formElement.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    }
 });
