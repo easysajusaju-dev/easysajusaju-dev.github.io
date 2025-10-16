@@ -1,16 +1,10 @@
-// form.js (모든 자동 로딩 기능 제거 - 최종 안정 버전)
+// form.js (진짜, 진짜 최종 완전체)
 
-// --- 페이지가 로드되면 UI 기능만 설정합니다 ---
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. 생년월일 드롭다운 채우기
     populateDateSelects('p1');
     populateDateSelects('p2');
-
-    // 2. 시간/분 드롭다운 연동
     setupHourMinuteSync('p1');
     setupHourMinuteSync('p2');
-
-    // 3. 전체 동의 체크박스 기능
     const agreeAll = document.getElementById('agree_all');
     if (agreeAll) {
         agreeAll.addEventListener('change', function() {
@@ -20,9 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (agree2) agree2.checked = this.checked;
         });
     }
+    document.querySelectorAll('.toggle-text').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const termsBox = this.closest('.agree-box').querySelector('.terms-box');
+            if (termsBox) {
+                if (termsBox.style.display === 'block') {
+                    termsBox.style.display = 'none';
+                } else {
+                    termsBox.style.display = 'block';
+                }
+            }
+        });
+    });
 });
 
-// --- 생년월일 드롭다운을 채우는 함수 ---
 function populateDateSelects(prefix) {
     const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`);
     const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`);
@@ -34,7 +39,6 @@ function populateDateSelects(prefix) {
     for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
 }
 
-// --- 시간/분 드롭다운 연동 함수 ---
 function setupHourMinuteSync(personPrefix) {
     const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`);
     const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`);
@@ -43,7 +47,6 @@ function setupHourMinuteSync(personPrefix) {
     if (hourSelect.value === "") minuteSelect.disabled = true;
 }
 
-// --- 폼 제출 기능 (가장 안정적인 버전) ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const form = event.target;
