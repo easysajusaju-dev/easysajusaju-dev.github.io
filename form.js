@@ -1,4 +1,4 @@
-// form.js (JSONP 적용 최종 완성 버전)
+// form.js (JSONP 적용 진짜 최종 완성 버전 - 생략 없음)
 
 // --- 페이지 로드 시 JSONP로 가격표/상품목록 자동 생성 ---
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,70 +8,69 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // JSONP 응답을 처리할 함수를 전역 window 객체에 정의합니다.
     window.handlePriceData = function(result) {
-        if (result.success) {
+        if (result && result.success) {
             const allProducts = result.data;
             const is2P = !!document.querySelector('[name="p2_name"]');
             const pageType = is2P ? '2인용' : '1인용';
 
-            priceListContainer.innerHTML = ''; // 로딩 메시지 제거
+            if (priceListContainer) {
+                priceListContainer.innerHTML = ''; // 로딩 메시지 제거
             
-            const createPriceSection = (title, products) => {
-                if (!products || products.length === 0) return null;
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'price-category';
-                const categoryTitle = document.createElement('h3');
-                categoryTitle.textContent = title;
-                categoryDiv.appendChild(categoryTitle);
-                products.forEach(product => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'price-item';
-                    itemDiv.innerHTML = `
-                        <div class="price-details"><div class="name">${product.name}</div><div class="desc">${product.description}</div></div>
-                        <div class="price-tag">${Number(product.price).toLocaleString()}원</div>`;
-                    categoryDiv.appendChild(itemDiv);
-                });
-                return categoryDiv;
-            };
-            
-            const section1P = createPriceSection('단품 풀이', allProducts['1인용']);
-            const section2P = createPriceSection('패키지 풀이', allProducts['2인용']);
-            if(section1P) priceListContainer.appendChild(section1P);
-            if(section2P) priceListContainer.appendChild(section2P);
+                const createPriceSection = (title, products) => {
+                    if (!products || products.length === 0) return null;
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'price-category';
+                    const categoryTitle = document.createElement('h3');
+                    categoryTitle.textContent = title;
+                    categoryDiv.appendChild(categoryTitle);
+                    products.forEach(product => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'price-item';
+                        itemDiv.innerHTML = `
+                            <div class="price-details"><div class="name">${product.name}</div><div class="desc">${product.description}</div></div>
+                            <div class="price-tag">${Number(product.price).toLocaleString()}원</div>`;
+                        categoryDiv.appendChild(itemDiv);
+                    });
+                    return categoryDiv;
+                };
+                
+                const section1P = createPriceSection('단품 풀이', allProducts['1인용']);
+                const section2P = createPriceSection('패키지 풀이', allProducts['2인용']);
+                if(section1P) priceListContainer.appendChild(section1P);
+                if(section2P) priceListContainer.appendChild(section2P);
+            }
 
-            const productsForPage = allProducts[pageType] || [];
-            productSelect.innerHTML = '';
-            productsForPage.forEach(product => {
-                const option = document.createElement('option');
-                option.value = product.name;
-                option.textContent = product.name;
-                productSelect.appendChild(option);
-            });
+            if (productSelect) {
+                const productsForPage = allProducts[pageType] || [];
+                productSelect.innerHTML = '';
+                productsForPage.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.name;
+                    option.textContent = product.name;
+                    productSelect.appendChild(option);
+                });
+            }
         } else {
-            console.error('Data loading error:', result.error);
-            priceListContainer.innerHTML = '<p style="text-align: center; color: red;">상품 정보를 불러오는데 실패했습니다.</p>';
+            if (priceListContainer) {
+                priceListContainer.innerHTML = '<p style="text-align: center; color: red;">상품 정보를 불러오는데 실패했습니다.</p>';
+            }
+            console.error('Data loading error:', result ? result.error : 'No response');
         }
     };
 
     if (priceListContainer) {
         priceListContainer.innerHTML = '<p style="text-align: center;">상품 정보를 불러오는 중입니다...</p>';
-        
-        // 이전 스크립트 태그가 남아있을 경우를 대비해 제거
         const oldScript = document.getElementById('jsonp-script');
         if (oldScript) oldScript.remove();
-        
-        // JSONP 요청을 위한 스크립트 태그 생성
         const script = document.createElement('script');
         script.id = 'jsonp-script';
-        script.src = `${APPS_SCRIPT_URL}?callback=handlePriceData`; // 호출할 함수 이름을 URL에 포함
-        
+        script.src = `${APPS_SCRIPT_URL}?callback=handlePriceData`;
         script.onerror = () => {
             priceListContainer.innerHTML = '<p style="text-align: center; color: red;">데이터 로딩 중 네트워크 오류가 발생했습니다.</p>';
         };
-        
         document.head.appendChild(script);
     }
     
-    // 다른 기능 초기화
     setupHourMinuteSync('p1');
     setupHourMinuteSync('p2');
 });
@@ -94,7 +93,7 @@ function setupHourMinuteSync(personPrefix) {
 }
 
 
-// --- 폼 제출 로직 (안정적인 POST 방식 그대로 유지) ---
+// --- 폼 제출 로직 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const form = event.target;
@@ -108,6 +107,18 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     
     const formData = new FormData(form);
     const data = {};
+
+    function getBirthDate(prefix) {
+        const year = formData.get(`${prefix}_birth_year`);
+        const month = formData.get(`${prefix}_birth_month`);
+        const day = formData.get(`${prefix}_birth_day`);
+        if (year && month && day) {
+            const paddedMonth = String(month).padStart(2, '0');
+            const paddedDay = String(day).padStart(2, '0');
+            return `${year}-${paddedMonth}-${paddedDay}`;
+        }
+        return '';
+    }
 
     let fullContact;
     if (formData.get('contact')) {
@@ -123,11 +134,29 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     data['상품명'] = formData.get('product');
     data['이메일'] = formData.get('email');
     
-    function getBirthDate(prefix) { /* ... 생략 ... */ } // 생년월일 조합 함수는 이전과 동일
-    
     data['이름1'] = formData.get('p1_name');
-    // ... 이하 폼 데이터 준비 로직은 이전과 동일 ...
+    data['양음력1'] = formData.get('p1_solarlunar');
+    const birth1 = getBirthDate('p1');
+    if (birth1) {
+        [data['생년1'], data['생월1'], data['생일1']] = birth1.split('-');
+    }
+    data['생시1'] = formData.get('p1_hour');
+    data['생분1'] = formData.get('p1_minute');
+    data['성별1'] = formData.get('p1_gender');
 
+    if (form.querySelector('[name="p2_name"]')) {
+        data['이름2'] = formData.get('p2_name');
+        data['양음력2'] = formData.get('p2_solarlunar');
+        const birth2 = getBirthDate('p2');
+        if (birth2) {
+            [data['생년2'], data['생월2'], data['생일2']] = birth2.split('-');
+        }
+        data['생시2'] = formData.get('p2_hour');
+        data['생분2'] = formData.get('p2_minute');
+        data['성별1'] = '남자';
+        data['성별2'] = '여자';
+    }
+    
     const urlEncodedData = new URLSearchParams(data);
 
     fetch(APPS_SCRIPT_URL, {
