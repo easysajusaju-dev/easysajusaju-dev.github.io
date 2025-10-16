@@ -1,6 +1,6 @@
-// form.js (모든 기능 포함 - 진짜 최종 완전체 코드)
+// form.js (모든 자동 로딩 기능 제거 - 최종 안정 버전)
 
-// --- 페이지가 로드되면 UI 기능을 먼저 설정합니다 ---
+// --- 페이지가 로드되면 UI 기능만 설정합니다 ---
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 생년월일 드롭다운 채우기
     populateDateSelects('p1');
@@ -36,8 +36,8 @@ function populateDateSelects(prefix) {
 
 // --- 시간/분 드롭다운 연동 함수 ---
 function setupHourMinuteSync(personPrefix) {
-    const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`);
-    const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`);
+    const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`);
+    const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`);
     if (!hourSelect || !minuteSelect) return;
     hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } });
     if (hourSelect.value === "") minuteSelect.disabled = true;
@@ -66,21 +66,4 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     })
     .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
     .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
-});
-// form.js 파일 맨 아래에 이 코드를 추가하세요.
-
-// --- 약관 펼쳐보기 기능 ---
-document.querySelectorAll('.toggle-text').forEach(toggle => {
-    toggle.addEventListener('click', function() {
-        // 클릭된 [보기] 바로 다음에 있는 약관 박스를 찾습니다.
-        const termsBox = this.parentElement.nextElementSibling;
-        if (termsBox && termsBox.classList.contains('terms-box')) {
-            // 약관 박스의 현재 표시 상태를 확인하고, 반대로 바꿉니다.
-            if (termsBox.style.display === 'block') {
-                termsBox.style.display = 'none';
-            } else {
-                termsBox.style.display = 'block';
-            }
-        }
-    });
 });
