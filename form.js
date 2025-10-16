@@ -1,4 +1,4 @@
-// form.js (ON/OFF 스위치 + 단순화된 HTML 구조 - 최종 전체 코드)
+// form.js (최후의 최종 안정화 버전)
 
 // --- 페이지 로드 시 JSONP로 데이터 로딩 및 스위치 처리 ---
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,81 +9,80 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // JSONP 응답 처리 함수
     window.handlePriceData = function(result) {
-        if (result && result.success) {
-            
-            // ===== 👇 스위치 로직 시작 =====
-            if (result.switch === 'ON') {
-                // 스위치 ON: 수동 이미지는 숨기고, 자동 가격표를 보여주고 그립니다.
-                if (manualPriceImage) manualPriceImage.style.display = 'none';
-                if (autoPriceSection) autoPriceSection.style.display = 'block';
-                
-                const allProducts = result.data;
-                const is2P = !!document.querySelector('[name="p2_name"]');
-                const pageType = is2P ? '2인 사주용' : '1인 사주용';
+        try { // 어떤 오류가 발생하든 전체 스크립트가 멈추지 않도록 try...catch로 감쌉니다.
+            if (result && result.success) {
+                // --- 스위치 로직 시작 ---
+                if (result.switch === 'ON') {
+                    if (manualPriceImage) manualPriceImage.style.display = 'none';
+                    if (autoPriceSection) autoPriceSection.style.display = 'block';
+                    
+                    const allProducts = result.data || { '1인 사주용': [], '2인 사주용': [] }; // 데이터가 비어있을 경우를 대비
+                    const is2P = !!document.querySelector('[name="p2_name"]');
+                    const pageType = is2P ? '2인 사주용' : '1인 사주용';
 
-                if (autoPriceSection) {
-                    // 가격표 그리기 로직 (이전과 동일)
-                    autoPriceSection.innerHTML = '';
-                    const createPriceSection = (title, products) => {
-                        if (!products || products.length === 0) return null;
-                        const categoryDiv = document.createElement('div');
-                        categoryDiv.className = 'price-category';
-                        const categoryTitle = document.createElement('h3');
-                        categoryTitle.textContent = title;
-                        categoryDiv.appendChild(categoryTitle);
-                        products.forEach(product => {
-                            const itemDiv = document.createElement('div');
-                            itemDiv.className = 'price-item';
-                            const isFor1P = (allProducts['1인 사주용'] || []).some(p1 => p1.name === product.name);
-                            const isFor2P = (allProducts['2인 사주용'] || []).some(p2 => p2.name === product.name);
-                            let linkButton = '';
-                            if (!is2P && isFor2P) linkButton = `<a href="saju_2p.html" class="link-button">2인 신청</a>`;
-                            if (is2P && isFor1P) linkButton = `<a href="saju_1p.html" class="link-button">1인 신청</a>`;
-                            itemDiv.innerHTML = `<div class="price-details"><div class="name">${product.name}</div><div class="desc">${product.description}</div></div><div class="price-tag">${linkButton}<span>${Number(product.price).toLocaleString()}원</span></div>`;
-                            categoryDiv.appendChild(itemDiv);
+                    if (autoPriceSection) {
+                        autoPriceSection.innerHTML = '';
+                        
+                        const createPriceSection = (title, products) => {
+                            if (!products || !Array.isArray(products) || products.length === 0) return null;
+                            const categoryDiv = document.createElement('div');
+                            categoryDiv.className = 'price-category';
+                            const categoryTitle = document.createElement('h3');
+                            categoryTitle.textContent = title;
+                            categoryDiv.appendChild(categoryTitle);
+                            products.forEach(product => {
+                                const itemDiv = document.createElement('div');
+                                itemDiv.className = 'price-item';
+                                const isFor1P = (allProducts['1인 사주용'] || []).some(p1 => p1.name === product.name);
+                                const isFor2P = (allProducts['2인 사주용'] || []).some(p2 => p2.name === product.name);
+                                let linkButton = '';
+                                if (!is2P && isFor2P) linkButton = `<a href="saju_2p.html" class="link-button">2인 신청</a>`;
+                                if (is2P && isFor1P) linkButton = `<a href="saju_1p.html" class="link-button">1인 신청</a>`;
+                                itemDiv.innerHTML = `<div class="price-details"><div class="name">${product.name}</div><div class="desc">${product.description}</div></div><div class="price-tag">${linkButton}<span>${Number(product.price).toLocaleString()}원</span></div>`;
+                                categoryDiv.appendChild(itemDiv);
+                            });
+                            return categoryDiv;
+                        };
+
+                        const allProductList = [...(allProducts['1인 사주용'] || []), ...(allProducts['2인 사주용'] || [])];
+                        const singles = allProductList.filter(p => p && p.name && !p.name.includes('패키지'));
+                        const packages = allProductList.filter(p => p && p.name && p.name.includes('패키지'));
+                        const section1 = createPriceSection('단품 풀이', singles);
+                        const section2 = createPriceSection('패키지 풀이', packages);
+                        if(section1) autoPriceSection.appendChild(section1);
+                        if(section2) autoPriceSection.appendChild(section2);
+                    }
+
+                    if (productSelect) {
+                        const productsForPage = allProducts[pageType] || [];
+                        productSelect.innerHTML = '';
+                        productsForPage.forEach(product => {
+                            const option = document.createElement('option');
+                            option.value = product.name;
+                            option.textContent = product.name;
+                            productSelect.appendChild(option);
                         });
-                        return categoryDiv;
-                    };
-                    const allProductList = [...(allProducts['1인 사주용'] || []), ...(allProducts['2인 사주용'] || [])];
-                    const singles = allProductList.filter(p => p.name && !p.name.includes('패키지'));
-                    const packages = allProductList.filter(p => p.name && p.name.includes('패키지'));
-                    const section1 = createPriceSection('단품 풀이', singles);
-                    const section2 = createPriceSection('패키지 풀이', packages);
-                    if(section1) autoPriceSection.appendChild(section1);
-                    if(section2) autoPriceSection.appendChild(section2);
-                }
-
-                if (productSelect) {
-                    // 드롭다운 채우기 로직 (이전과 동일)
-                    const productsForPage = allProducts[pageType] || [];
-                    productSelect.innerHTML = '';
-                    productsForPage.forEach(product => {
-                        const option = document.createElement('option');
-                        option.value = product.name;
-                        option.textContent = product.name;
-                        productSelect.appendChild(option);
-                    });
+                    }
+                } else { // 스위치 OFF
+                    if (autoPriceSection) autoPriceSection.style.display = 'none';
+                    if (manualPriceImage) manualPriceImage.style.display = 'block';
                 }
             } else {
-                // 스위치 OFF: 자동 가격표 영역은 숨기고, 수동 이미지를 보여줍니다.
-                if (autoPriceSection) autoPriceSection.style.display = 'none';
-                if (manualPriceImage) manualPriceImage.style.display = 'block';
+                console.error('Data loading error:', result ? result.error : 'No response from server');
+                if (autoPriceSection) autoPriceSection.innerHTML = '<p style="text-align: center; color: red;">상품 정보를 불러오는 데 실패했습니다 (서버 응답 오류).</p>';
             }
-            // ===== 👆 스위치 로직 끝 =====
-
-        } else {
-            console.error('Data loading error:', result ? result.error : 'No response');
-            if (autoPriceSection) autoPriceSection.innerHTML = '<p style="text-align: center; color: red;">상품 정보를 불러오는데 실패했습니다.</p>';
+        } catch (e) {
+            console.error("handlePriceData 함수 실행 중 오류 발생:", e);
+            if (autoPriceSection) autoPriceSection.innerHTML = '<p style="text-align: center; color: red;">페이지를 구성하는 중 오류가 발생했습니다.</p>';
         }
     };
 
-    // JSONP 요청 보내기
-    if (autoPriceSection) {
-        autoPriceSection.innerHTML = '<p style="text-align: center;">설정 확인 중...</p>';
+    if (document.getElementById('auto-price-section')) {
+        document.getElementById('auto-price-section').innerHTML = '<p style="text-align: center;">설정 확인 중...</p>';
         const script = document.createElement('script');
         script.src = `${APPS_SCRIPT_URL}?callback=handlePriceData&cache_buster=${new Date().getTime()}`;
         script.onerror = () => {
-            autoPriceSection.innerHTML = '<p style="text-align: center; color: red;">데이터 로딩 중 네트워크 오류가 발생했습니다.</p>';
+            if (document.getElementById('auto-price-section')) document.getElementById('auto-price-section').innerHTML = '<p style="text-align: center; color: red;">데이터 서버에 연결할 수 없습니다.</p>';
         };
         document.head.appendChild(script);
     }
