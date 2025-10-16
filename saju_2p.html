@@ -117,10 +117,29 @@
                 </div>
 
                 <div class="agree-section">
-                    <div class="agree-box"><input type="checkbox" id="agree_all"><label for="agree_all">전체동의(수집/이용, 개인정보, 광고성 정보 수신)</label></div>
-                    <div class="agree-box"><input type="checkbox" id="agree1" name="agree1" required><label for="agree1">개인정보 수집/이용 동의 [보기]</label></div>
-                    <div class="agree-box"><input type="checkbox" id="agree2" name="agree2"><label for="agree2">광고성 정보 수신 동의 [보기]</label></div>
-                </div>
+    <div class="agree-box">
+        <input type="checkbox" id="agree_all">
+        <label for="agree_all">전체동의(수집/이용, 개인정보, 광고성 정보 수신)</label>
+    </div>
+
+    <div class="agree-box">
+        <input type="checkbox" id="agree1" name="agree1" required>
+        <label for="agree1">개인정보 수집/이용 동의 <span class="toggle-text">[보기]</span></label>
+        <textarea class="terms-box" readonly>개인정보취급방침은 다음과 같은 내용을 담고 있습니다.
+1. 수집하는 개인정보 항목 및 수집방법
+2. 개인정보의 수집 및 이용목적
+(여기에 실제 약관 내용을 길게 붙여넣으세요)
+        </textarea>
+    </div>
+
+    <div class="agree-box">
+        <input type="checkbox" id="agree2" name="agree2">
+        <label for="agree2">광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
+         <textarea class="terms-box" readonly>수집된 개인정보를 이용하여 각종 서비스, 이벤트 안내 목적으로 본인에게 정보, 광고를 전화, SMS, MMS 등의 방법으로 전달합니다.
+(여기에 실제 약관 내용을 길게 붙여넣으세요)
+        </textarea>
+    </div>
+</div>
 
                 <button type="submit">사주분석 신청하기</button>
                 <div id="result"></div>
