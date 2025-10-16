@@ -133,6 +133,10 @@ button:hover {
     color: #333;
     border-bottom: 10px solid #f0f2f5;
 }
+.price-section:empty {
+    padding: 0;
+    border: none;
+}
 .price-section h3 {
     font-size: 20px;
     color: #2c3e50;
