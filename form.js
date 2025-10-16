@@ -70,3 +70,24 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
     .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
 });
+// form.js 파일 맨 아래에 추가
+
+// --- 이미지 클릭 시 폼으로 부드럽게 스크롤하는 기능 ---
+document.addEventListener('DOMContentLoaded', function() {
+    // 페이지 안의 모든 이미지를 찾습니다.
+    const allImages = document.querySelectorAll('.image-section img');
+    
+    // 점프할 목표 지점을 찾습니다.
+    const formElement = document.getElementById('saju-form');
+
+    if (formElement) {
+        allImages.forEach(image => {
+            image.addEventListener('click', function(event) {
+                event.preventDefault(); // 이미지 링크의 기본 동작 방지
+                
+                // 목표 지점으로 부드럽게 스크롤
+                formElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    }
+});
