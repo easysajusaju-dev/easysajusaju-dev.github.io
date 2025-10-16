@@ -274,3 +274,46 @@ button:hover {
     border-radius: 4px;
     resize: vertical; /* 사용자가 높이를 조절할 수 있게 함 */
 }
+/* style.css 파일 맨 아래에 추가 */
+
+/* ===== 고정 헤더 스타일 ===== */
+.sticky-header {
+    position: fixed; /* 화면에 고정 */
+    top: 0;          /* 화면 맨 위에 붙임 */
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 그림자 효과 */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+    align-items: center;
+    z-index: 1000; /* 다른 모든 요소들보다 위에 있도록 */
+    box-sizing: border-box;
+}
+
+.header-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.header-button {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #00a0b0; /* 파란색 계열 버튼 */
+    border-radius: 20px; /* 둥근 버튼 */
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.header-button:hover {
+    background-color: #007a85;
+}
+
+/* 헤더가 내용을 가리지 않도록 main-container에 위쪽 여백 추가 */
+.main-container {
+    margin-top: 60px; /* 헤더의 높이만큼 여백을 줌 */
+}
