@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     return categoryDiv;
                 };
-                const section1P = createPriceSection('단품 풀이', allProducts['1인용']);
-const section2P = createPriceSection('패키지 풀이', allProducts['2인용']);
+                const section1P = createPriceSection('단품 풀이', allProducts['1인 사주용']);
+const section2P = createPriceSection('패키지 풀이', allProducts['2인 사주용']);
                 if(section1P) priceListContainer.appendChild(section1P);
                 if(section2P) priceListContainer.appendChild(section2P);
             }
