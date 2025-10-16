@@ -276,39 +276,56 @@ button:hover {
 }
 /* style.css 파일 맨 아래에 추가 */
 
-/* ===== 고정 헤더 스타일 ===== */
+/* style.css 파일의 고정 헤더 관련 코드 전체를 이 코드로 교체 */
+
+/* ===== 고정 헤더 스타일 (업그레이드 버전) ===== */
 .sticky-header {
-    position: fixed; /* 화면에 고정 */
-    top: 0;          /* 화면 맨 위에 붙임 */
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
+    height: 60px; /* 헤더의 높이를 60px로 고정 */
     background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 그림자 효과 */
-    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 20px; /* 위아래 패딩은 0, 좌우 패딩은 20px */
     display: flex;
-    justify-content: space-between; /* 양쪽 끝으로 정렬 */
-    align-items: center;
-    z-index: 1000; /* 다른 모든 요소들보다 위에 있도록 */
+    justify-content: space-between;
+    align-items: center; /* 핵심: 모든 자식 요소를 세로 중앙 정렬 */
+    z-index: 1000;
     box-sizing: border-box;
 }
 
+.header-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-logo {
+    height: 40px; /* 로고 높이를 40px로 지정 (헤더 높이 60px보다 작게) */
+    width: auto;
+    margin-right: 12px;
+}
+
 .header-title {
-    font-size: 18px; /* 글자 크기를 약간 키웁니다 (원하는 크기로 조절) */
+    font-size: 20px; /* 글자 크기를 20px로 더 키움 */
     font-weight: 700;
     color: #333;
-    line-height: 40px; /* 로고 높이(40px)와 똑같이 맞춰서 세로 중앙 정렬 효과 */
+    /* line-height 속성은 align-items 때문에 더 이상 필요 없으므로 삭제 */
 }
 
 .header-button {
     display: inline-block;
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 10px 20px; /* 버튼 크기 키움 */
+    font-size: 15px; /* 버튼 글자 크기 키움 */
     font-weight: 700;
     color: #fff;
-    background-color: #00a0b0; /* 파란색 계열 버튼 */
-    border-radius: 20px; /* 둥근 버튼 */
+    background-color: #00a0b0;
+    border-radius: 25px;
     text-decoration: none;
     transition: background-color 0.2s;
+    white-space: nowrap; /* 버튼 글자가 줄바꿈되지 않도록 */
 }
 .header-button:hover {
     background-color: #007a85;
@@ -316,5 +333,5 @@ button:hover {
 
 /* 헤더가 내용을 가리지 않도록 main-container에 위쪽 여백 추가 */
 .main-container {
-    margin-top: 60px; /* 헤더의 높이만큼 여백을 줌 */
+    margin-top: 60px; /* 헤더의 높이와 똑같이 맞춰줌 */
 }
