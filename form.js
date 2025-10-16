@@ -1,5 +1,40 @@
-// form.js (최종 안정화 + 픽셀 리디렉션 버전)
+// form.js (모든 기능 포함 - 진짜 최종 완전체 코드)
 
+// --- 페이지가 로드되면 UI 기능을 먼저 설정합니다 ---
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 생년월일 드롭다운 채우기
+    populateDateSelects('p1');
+    populateDateSelects('p2');
+
+    // 2. 시간/분 드롭다운 연동
+    setupHourMinuteSync('p1');
+    setupHourMinuteSync('p2');
+
+    // 3. 전체 동의 체크박스 기능
+    const agreeAll = document.getElementById('agree_all');
+    if (agreeAll) {
+        agreeAll.addEventListener('change', function() {
+            const agree1 = document.getElementById('agree1');
+            const agree2 = document.getElementById('agree2');
+            if (agree1) agree1.checked = this.checked;
+            if (agree2) agree2.checked = this.checked;
+        });
+    }
+});
+
+// --- 생년월일 드롭다운을 채우는 함수 ---
+function populateDateSelects(prefix) {
+    const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`);
+    const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`);
+    const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`);
+    if (!yearSelect) return;
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i));
+    for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i));
+    for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
+}
+
+// --- 시간/분 드롭다운 연동 함수 ---
 function setupHourMinuteSync(personPrefix) {
     const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`);
     const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`);
@@ -7,8 +42,8 @@ function setupHourMinuteSync(personPrefix) {
     hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } });
     if (hourSelect.value === "") minuteSelect.disabled = true;
 }
-document.addEventListener('DOMContentLoaded', function() { setupHourMinuteSync('p1'); setupHourMinuteSync('p2'); });
 
+// --- 폼 제출 기능 (가장 안정적인 버전) ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const form = event.target;
