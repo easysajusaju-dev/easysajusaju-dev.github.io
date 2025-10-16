@@ -20,9 +20,9 @@ body {
 }
 
 .form-container {
-    background-color: #2c3e50; /* 네이비 배경 */
+    background-color: #2c3e50;
     color: #ffffff;
-    padding: 30px;
+    padding: 15px 30px 30px 30px; /* 위쪽 여백(padding-top)만 15px로 줄임 */
 }
 
 header {
