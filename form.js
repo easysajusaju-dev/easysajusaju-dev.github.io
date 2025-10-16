@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (result && result.success) {
             const allProducts = result.data;
             const is2P = !!document.querySelector('[name="p2_name"]');
-            const pageType = is2P ? '2인용' : '1인용';
+            const pageType = is2P ? '2인 사주용' : '1인 사주용';
             if (priceListContainer) {
                 priceListContainer.innerHTML = '';
                 const createPriceSection = (title, products) => {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return categoryDiv;
                 };
                 const section1P = createPriceSection('단품 풀이', allProducts['1인용']);
-                const section2P = createPriceSection('패키지 풀이', allProducts['2인용']);
+const section2P = createPriceSection('패키지 풀이', allProducts['2인용']);
                 if(section1P) priceListContainer.appendChild(section1P);
                 if(section2P) priceListContainer.appendChild(section2P);
             }
