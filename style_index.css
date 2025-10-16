@@ -1,4 +1,217 @@
-/* style_index.css */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-body, html { margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f4f4f9; color: #333; }
-/* ... (여기에 아래 링크의 전체 CSS 코드를 붙여넣으세요) ... */
+/* style_index.css - Professional Homepage Theme */
+
+/* --- 기본 설정 --- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Playfair+Display:wght@700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa; /* 밝은 회색 배경 */
+    color: #343a40;
+    scroll-behavior: smooth;
+}
+
+/* --- 1. 히어로 섹션 (메인 화면) --- */
+.hero-section {
+    position: relative;
+    height: 80vh; /* 화면 높이의 80% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    /* 
+       👇 여기에 배경 이미지 경로를 넣으세요! 
+       신비로운 느낌의 고화질 이미지를 추천합니다. (예: 밤하늘, 우주, 고서 등)
+       이미지 출처: https://unsplash.com/ 
+    */
+    background-image: url('images/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* 스크롤 시 배경 고정 효과 */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* 배경을 어둡게 만들어 글씨가 잘 보이게 함 */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif; /* 고급스러운 세리프 폰트 */
+    font-size: 4rem; /* 폰트 크기 */
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin: 10px 0 30px 0;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hero-button:hover {
+    background-color: white;
+    color: #333;
+}
+
+/* --- 2. 서비스 소개 섹션 --- */
+.services-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.services-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.service-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* 화면이 좁아지면 다음 줄로 */
+}
+
+.card {
+    background-color: #f8f9fa;
+    width: 300px;
+    padding: 40px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #6c757d;
+    height: 60px; /* p 태그 높이 고정 */
+}
+
+.card-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #2c3e50; /* 폼과 동일한 네이비 색상 */
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.card-button:hover {
+    background-color: #495057;
+}
+
+/* '준비중' 카드 스타일 */
+.card.coming-soon .card-button {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* --- 3. 신뢰도 구축 섹션 (후기) --- */
+.testimonial-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #e9ecef; /* 약간 더 어두운 배경 */
+}
+
+.testimonial-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.testimonials {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.testimonial-item {
+    background-color: #fff;
+    width: 300px;
+    padding: 30px;
+    border-radius: 10px;
+    font-style: italic;
+    color: #495057;
+    position: relative;
+    border-left: 5px solid #2c3e50;
+}
+.testimonial-item::before {
+    content: '“';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: rgba(0,0,0,0.05);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+}
+
+/* --- 4. 푸터 --- */
+.footer {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #2c3e50;
+    color: #adb5bd;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+/* --- 모바일 반응형 --- */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+    .services-section h2, .testimonial-section h2 {
+        font-size: 2rem;
+    }
+}
