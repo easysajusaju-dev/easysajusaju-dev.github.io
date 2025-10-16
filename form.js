@@ -67,3 +67,20 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
     .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
 });
+// form.js 파일 맨 아래에 이 코드를 추가하세요.
+
+// --- 약관 펼쳐보기 기능 ---
+document.querySelectorAll('.toggle-text').forEach(toggle => {
+    toggle.addEventListener('click', function() {
+        // 클릭된 [보기] 바로 다음에 있는 약관 박스를 찾습니다.
+        const termsBox = this.parentElement.nextElementSibling;
+        if (termsBox && termsBox.classList.contains('terms-box')) {
+            // 약관 박스의 현재 표시 상태를 확인하고, 반대로 바꿉니다.
+            if (termsBox.style.display === 'block') {
+                termsBox.style.display = 'none';
+            } else {
+                termsBox.style.display = 'block';
+            }
+        }
+    });
+});
