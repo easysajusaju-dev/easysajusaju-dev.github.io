@@ -92,16 +92,33 @@ function setupImageJump() {
     }
 }
 
-// 결제 요청 함수
+// 결제 요청 함수 수정
 async function requestPayment() {
     const tossPayments = TossPayments("test_ck_DnyRpQWGrNq1zx4q7x4yVKwv1M9E");
+    const productName = document.querySelector('select[name="product"]').value;
     
     try {
+        // Apps Script에서 가격 조회
+        const priceResponse = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: new URLSearchParams({
+                action: 'getPrice',
+                상품명: productName
+            })
+        });
+        const priceResult = await priceResponse.json();
+        
+        if (!priceResult.success) {
+            throw new Error('가격 조회 실패');
+        }
+
+        const amount = priceResult.price;
+        
         await tossPayments.requestPayment({
             method: "CARD",
-            amount: 100,
+            amount: amount, // 조회된 가격 사용
             orderId: "TEST_" + new Date().getTime(),
-            orderName: "사주분석 상담",
+            orderName: productName,
             successUrl: window.location.origin + "/thankyou.html",
             failUrl: window.location.origin + "/saju_2p.html"
         });
