@@ -64,7 +64,13 @@
                         <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
                     </div>
                 </div>
-                    <div class="form-group"><label>태어난 시간</label><div class="birth-select">...</div></div>
+                   <div class="form-group">
+                    <label>태어난 시간</label>
+                    <div class="birth-select">
+                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
+                    </div>
+                </div>
                 </fieldset>
                 
                 <fieldset>
@@ -81,8 +87,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group"><label>양/음력</label><div class="button-group">...</div></div>
-                    <div class="form-group"><label>태어난 시간</label><div class="birth-select">...</div></div>
+                    <div class="form-group">
+                    <label>양/음력</label>
+                    <div class="button-group">
+                        <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
+                        <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
+                        <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label>태어난 시간</label>
+                    <div class="birth-select">
+                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
+                    </div>
+                </div>
                 </fieldset>
 
                 <div class="form-group">
