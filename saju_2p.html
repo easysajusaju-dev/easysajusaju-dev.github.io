@@ -42,40 +42,7 @@
                      <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
                </div>
 
-                <!-- 남자 정보 -->
                 <fieldset>
-                    <legend>👨 남자 정보</legend>
-                    <div class="form-group">
-                        <label>남자 이름</label>
-                        <input type="text" name="p1_name" placeholder="남자 이름">
-                    </div>
-                    <div class="form-group">
-                        <label>남자 생일</label>
-                        <div class="birth-select">
-                            <select name="p1_birth_year"><option value="">-년-</option></select>
-                            <select name="p1_birth_month"><option value="">-월-</option></select>
-                            <select name="p1_birth_day"><option value="">-일-</option></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>남자 양/음력</label>
-                        <div class="button-group">
-                            <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
-                            <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
-                            <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>남자 태어난 시간</label>
-                        <div class="birth-select">
-                            <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
-                            <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
-                        </div>
-                    </div>
-                </fieldset>
-                
-                <!-- 여자 정보 -->
-                                <fieldset>
                     <legend>👤 신청자 정보</legend>
                     <div class="form-group"><label>이름</label><input type="text" name="p1_name" placeholder="신청자 이름"></div>
                     <div class="form-group"><label>생일</label><div class="birth-select"><select name="p1_birth_year">...</select><select name="p1_birth_month">...</select><select name="p1_birth_day">...</select></div></div>
