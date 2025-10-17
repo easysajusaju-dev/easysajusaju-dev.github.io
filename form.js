@@ -24,8 +24,8 @@ function populateDateSelects(prefix) {
 
 // --- 시간/분 드롭다운 연동 함수 ---
 function setupHourMinuteSync(personPrefix) { 
-    const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`); 
-    const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`); 
+    const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`); 
+    const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`); 
     if (!hourSelect || !minuteSelect) return; 
     hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; 
     minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); 
