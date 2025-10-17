@@ -122,6 +122,7 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
         alert("개인정보 수집/이용에 동의하셔야 신청이 가능합니다.");
         return;
     }
+    /*
     const form = event.target;
     const button = form.querySelector('button');
     const resultDiv = document.getElementById('result');
@@ -153,3 +154,4 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
     .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
 });
+*/
