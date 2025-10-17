@@ -33,33 +33,47 @@ function setupHourMinuteSync(personPrefix) {
 }
 
 // --- 동의 관련 기능을 하나로 묶은 함수 ---
-function setupAgreement() { 
-    const agreeAll = document.getElementById('agree_all'); 
-    const agree1 = document.getElementById('agree1'); 
-    const agree2 = document.getElementById('agree2'); 
-    if (agreeAll && agree1) { agreeAll.addEventListener('change', function() { agree1.checked = this.checked; if(agree2) agree2.checked = this.checked;
-                                                                             });
-                             const updateAgreeAll = () => {
-                                 if (agree2) {
-                                     agreeAll.checked = agree1.checked && agree2.checked; 
-                                 } else { agreeAll.checked = agree1.checked;
-                                        } 
-                             };
-                             agree1.addEventListener('change', updateAgreeAll);
-                             if(agree2) agree2.addEventListener('change', updateAgreeAll);
-                            }
-       // 약관 펼쳐보기 기능
-    document.querySelectorAll('.toggle-text').forEach(toggle => {
-        toggle.addEventListener('click', function() { 
-            const termsBox = this.closest('.agree-box').querySelector('.terms-box'); 
-            if (termsBox) { 
-                if (termsBox.style.display === 'block') { termsBox.style.display = 'none';
-                                                        } else {
-                    termsBox.style.display = 'block';
-                }
-            }
-        });
+function setupAgreement() {
+  const agreeAll = document.getElementById('agree_all');
+  const agree1 = document.getElementById('agree1');
+  const agree2 = document.getElementById('agree2');
+  if (!agreeAll) return;
+
+  const items = [agree1, agree2].filter(Boolean);
+
+  // 전체 동의 체크 -> 개별 동의 동기화
+  agreeAll.addEventListener('change', () => {
+    items.forEach(cb => cb.checked = agreeAll.checked);
+    updateAllState();
+  });
+
+  // 개별 동의 변경 -> 전체 동의 상태 업데이트
+  items.forEach(cb => cb.addEventListener('change', updateAllState));
+
+  // 초기 상태 반영
+  updateAllState();
+
+  function updateAllState() {
+    if (items.length === 0) return;
+    const checkedCount = items.filter(cb => cb.checked).length;
+    agreeAll.checked = checkedCount === items.length;
+    agreeAll.indeterminate = checkedCount > 0 && checkedCount < items.length; // 부분 선택 표시
+  }
+
+  // 약관 펼쳐보기(기존 동작 유지)
+  document.querySelectorAll('.toggle-text').forEach(toggle => {
+    // 버튼이면 의도치 않은 submit 방지
+    if (toggle.tagName === 'BUTTON' && !toggle.getAttribute('type')) {
+      toggle.setAttribute('type', 'button');
+    }
+    toggle.addEventListener('click', function() {
+      const box = this.closest('.agree-box');
+      if (!box) return;
+      const termsBox = box.querySelector('.terms-box');
+      if (!termsBox) return;
+      termsBox.style.display = termsBox.style.display === 'block' ? 'none' : 'block';
     });
+  });
 }
 // --- 이미지 클릭 점프 기능 함수 ---
 function setupImageJump() {
