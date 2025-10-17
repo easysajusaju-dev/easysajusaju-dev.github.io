@@ -10,12 +10,80 @@ document.addEventListener('DOMContentLoaded', function() {
     setupAgreement();
     setupImageJump();
 });
+// --- 생년월일 드롭다운을 채우는 함수 ---
+function populateDateSelects(prefix) { 
+    const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`); 
+    const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`); 
+    const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`); 
+    if (!yearSelect) return; 
+    const currentYear = new Date().getFullYear(); 
+    for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i)); 
+    for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i)); 
+    for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
+}
 
-function populateDateSelects(prefix) { const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`); const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`); const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`); if (!yearSelect) return; const currentYear = new Date().getFullYear(); for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i)); for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i)); for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i)); }
-function setupHourMinuteSync(personPrefix) { const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`); const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`); if (!hourSelect || !minuteSelect) return; hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); if (hourSelect.value === "") minuteSelect.disabled = true; }
-function setupAgreement() { const agreeAll = document.getElementById('agree_all'); const agree1 = document.getElementById('agree1'); const agree2 = document.getElementById('agree2'); if (agreeAll && agree1) { agreeAll.addEventListener('change', function() { agree1.checked = this.checked; if(agree2) agree2.checked = this.checked; }); const updateAgreeAll = () => { if (agree2) { agreeAll.checked = agree1.checked && agree2.checked; } else { agreeAll.checked = agree1.checked; } }; agree1.addEventListener('change', updateAgreeAll); if(agree2) agree2.addEventListener('change', updateAgreeAll); } document.querySelectorAll('.toggle-text').forEach(toggle => { toggle.addEventListener('click', function() { const termsBox = this.closest('.agree-box').querySelector('.terms-box'); if (termsBox) { if (termsBox.style.display === 'block') { termsBox.style.display = 'none'; } else { termsBox.style.display = 'block'; } } }); }); }
-function setupImageJump() { const allImages = document.querySelectorAll('.image-section img'); const formElement = document.getElementById('saju-form'); if (formElement && allImages.length > 0) { allImages.forEach(image => { image.style.cursor = 'pointer'; image.addEventListener('click', function(event) { event.preventDefault(); formElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); }); } }
+// --- 시간/분 드롭다운 연동 함수 ---
+function setupHourMinuteSync(personPrefix) { 
+    const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`); 
+    const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`); 
+    if (!hourSelect || !minuteSelect) return; 
+    hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; 
+    minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); 
+    if (hourSelect.value === "") minuteSelect.disabled = true;
+}
 
+// --- 동의 관련 기능을 하나로 묶은 함수 ---
+function setupAgreement() { 
+    const agreeAll = document.getElementById('agree_all'); 
+    const agree1 = document.getElementById('agree1'); 
+    const agree2 = document.getElementById('agree2'); 
+    if (agreeAll && agree1) { agreeAll.addEventListener('change', function() { agree1.checked = this.checked; if(agree2) agree2.checked = this.checked;
+                                                                             });
+                             const updateAgreeAll = () => {
+                                 if (agree2) {
+                                     agreeAll.checked = agree1.checked && agree2.checked; 
+                                 } else { agreeAll.checked = agree1.checked;
+                                        } 
+                             };
+                             agree1.addEventListener('change', updateAgreeAll);
+                             if(agree2) agree2.addEventListener('change', updateAgreeAll);
+                            }
+       // 약관 펼쳐보기 기능
+    document.querySelectorAll('.toggle-text').forEach(toggle => {
+        toggle.addEventListener('click', function() { 
+            const termsBox = this.closest('.agree-box').querySelector('.terms-box'); 
+            if (termsBox) { 
+                if (termsBox.style.display === 'block') { termsBox.style.display = 'none';
+                                                        } else {
+                    termsBox.style.display = 'block';
+                }
+            }
+        });
+    });
+}
+// --- 이미지 클릭 점프 기능 함수 ---
+function setupImageJump() {
+    const allImages = document.querySelectorAll('.image-section img'); 
+    const formElement = document.getElementById('saju-form'); 
+    if (formElement && allImages.length > 0) { 
+        allImages.forEach(image => { 
+            image.style.cursor = 'pointer'; 
+            image.addEventListener('click', function(event) { 
+                event.preventDefault(); 
+                formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    } 
+     const headerButton = document.querySelector('.header-button');
+     if (formElement && headerButton) {
+        headerButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+}
+
+// --- 폼 제출 기능 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const agree1 = document.getElementById('agree1');
