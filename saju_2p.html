@@ -75,35 +75,40 @@
                 </fieldset>
                 
                 <!-- 여자 정보 -->
-                <fieldset>
-                    <legend>👩 여자 정보</legend>
+                                <fieldset>
+                    <legend>👤 신청자 정보</legend>
+                    <div class="form-group"><label>이름</label><input type="text" name="p1_name" placeholder="신청자 이름"></div>
+                    <div class="form-group"><label>생일</label><div class="birth-select"><select name="p1_birth_year">...</select><select name="p1_birth_month">...</select><select name="p1_birth_day">...</select></div></div>
+                    
+                    <!-- 신청자 성별 선택 추가 -->
                     <div class="form-group">
-                        <label>여자 이름</label>
-                        <input type="text" name="p2_name" placeholder="여자 이름">
-                    </div>
-                    <div class="form-group">
-                        <label>여자 생일</label>
-                         <div class="birth-select">
-                            <select name="p2_birth_year"><option value="">-년-</option></select>
-                            <select name="p2_birth_month"><option value="">-월-</option></select>
-                            <select name="p2_birth_day"><option value="">-일-</option></select>
-                        </div>
-                    </div>
-                     <div class="form-group">
-                        <label>여자 양/음력</label>
+                        <label>성별</label>
                         <div class="button-group">
-                            <input type="radio" id="p2_solar" name="p2_solarlunar" value="양력" checked><label for="p2_solar">양력</label>
-                            <input type="radio" id="p2_lunar" name="p2_solarlunar" value="음력"><label for="p2_lunar">음력</label>
-                            <input type="radio" id="p2_lunar_leap" name="p2_solarlunar" value="음력(윤달)"><label for="p2_lunar_leap">음력(윤달)</label>
+                            <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
+                            <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
                         </div>
                     </div>
+                    
+                    <div class="form-group"><label>양/음력</label><div class="button-group">...</div></div>
+                    <div class="form-group"><label>태어난 시간</label><div class="birth-select">...</div></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>👥 상대방 정보</legend>
+                    <div class="form-group"><label>이름</label><input type="text" name="p2_name" placeholder="상대방 이름"></div>
+                    <div class="form-group"><label>생일</label><div class="birth-select">...</div></div>
+                    
+                    <!-- 상대방 성별 선택 추가 -->
                     <div class="form-group">
-                        <label>여자 태어난 시간</label>
-                        <div class="birth-select">
-                            <select name="p2_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
-                            <select name="p2_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
+                        <label>성별</label>
+                        <div class="button-group">
+                            <input type="radio" id="p2_male" name="p2_gender" value="남자" checked><label for="p2_male">남자</label>
+                            <input type="radio" id="p2_female" name="p2_gender" value="여자"><label for="p2_female">여자</label>
                         </div>
                     </div>
+
+                    <div class="form-group"><label>양/음력</label><div class="button-group">...</div></div>
+                    <div class="form-group"><label>태어난 시간</label><div class="birth-select">...</div></div>
                 </fieldset>
 
                 <div class="form-group">
