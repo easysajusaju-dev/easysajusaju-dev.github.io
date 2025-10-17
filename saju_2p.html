@@ -76,7 +76,7 @@
                 <fieldset>
                     <legend>👥 상대방 정보</legend>
                     <div class="form-group"><label>이름</label><input type="text" name="p2_name" placeholder="상대방 이름"></div>
-                    <div class="form-group"><label>생일</label><div class="birth-select"><select name="p1_birth_year">...</select><select name="p1_birth_month">...</select><select name="p1_birth_day">...</select></div></div>
+                    <div class="form-group"><label>생일</label><div class="birth-select"><select name="p2_birth_year">...</select><select name="p2_birth_month">...</select><select name="p2_birth_day">...</select></div></div>
                                         
                     <!-- 상대방 성별 선택 추가 -->
                     <div class="form-group">
@@ -90,16 +90,16 @@
                     <div class="form-group">
                     <label>양/음력</label>
                     <div class="button-group">
-                        <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
-                        <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
-                        <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
+                        <input type="radio" id="p2_solar" name="p2_solarlunar" value="양력" checked><label for="p2_solar">양력</label>
+                        <input type="radio" id="p2_lunar" name="p2_solarlunar" value="음력"><label for="p2_lunar">음력</label>
+                        <input type="radio" id="p2_lunar_leap" name="p2_solarlunar" value="음력(윤달)"><label for="p2_lunar_leap">음력(윤달)</label>
                     </div>
                 </div>
                     <div class="form-group">
                     <label>태어난 시간</label>
                     <div class="birth-select">
-                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
-                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
+                        <select name="p2_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p2_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
                     </div>
                 </div>
                 </fieldset>
