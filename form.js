@@ -1,4 +1,4 @@
-// form.js (데이터 추적 기능 포함 - 최종 풀코드)
+// form.js (동의 기록 포함 - 진짜 최종 풀코드)
 
 const pageLoadTime = new Date();
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function populateDateSelects(prefix) { const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`); const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`); const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`); if (!yearSelect) return; const currentYear = new Date().getFullYear(); for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i)); for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i)); for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i)); }
-function setupHourMinuteSync(personPrefix) { const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`); const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`); if (!hourSelect || !minuteSelect) return; hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); if (hourSelect.value === "") minuteSelect.disabled = true; }
+function setupHourMinuteSync(personPrefix) { const hourSelect = document.querySelector(`select[name="${prefix}_hour"]`); const minuteSelect = document.querySelector(`select[name="${prefix}_minute"]`); if (!hourSelect || !minuteSelect) return; hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); if (hourSelect.value === "") minuteSelect.disabled = true; }
 function setupAgreement() { const agreeAll = document.getElementById('agree_all'); const agree1 = document.getElementById('agree1'); const agree2 = document.getElementById('agree2'); if (agreeAll && agree1) { agreeAll.addEventListener('change', function() { agree1.checked = this.checked; if(agree2) agree2.checked = this.checked; }); const updateAgreeAll = () => { if (agree2) { agreeAll.checked = agree1.checked && agree2.checked; } else { agreeAll.checked = agree1.checked; } }; agree1.addEventListener('change', updateAgreeAll); if(agree2) agree2.addEventListener('change', updateAgreeAll); } document.querySelectorAll('.toggle-text').forEach(toggle => { toggle.addEventListener('click', function() { const termsBox = this.closest('.agree-box').querySelector('.terms-box'); if (termsBox) { if (termsBox.style.display === 'block') { termsBox.style.display = 'none'; } else { termsBox.style.display = 'block'; } } }); }); }
 function setupImageJump() { const allImages = document.querySelectorAll('.image-section img'); const formElement = document.getElementById('saju-form'); if (formElement && allImages.length > 0) { allImages.forEach(image => { image.style.cursor = 'pointer'; image.addEventListener('click', function(event) { event.preventDefault(); formElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); }); } }
 
@@ -40,6 +40,10 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
     data['체류시간'] = `${Math.floor(timeOnPage / 60)}분 ${timeOnPage % 60}초`;
     data['기기정보'] = navigator.userAgent;
     
+    const agree2 = document.getElementById('agree2');
+    data['개인정보수집동의'] = agree1 && agree1.checked ? '동의' : '미동의';
+    data['광고정보수신동의'] = agree2 && agree2.checked ? '동의' : '미동의';
+
     const urlEncodedData = new URLSearchParams(data);
     fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData, })
     .then(response => response.json())
