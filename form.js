@@ -128,7 +128,15 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
         data['생분2'] = formData.get('p2_minute');
         data['성별2'] = formData.get('p2_gender'); // 사용자가 선택한 상대방 성별
     }
+     data['유입경로'] = document.referrer || '직접 입력/알 수 없음';
+    const timeOnPage = Math.round((new Date() - pageLoadTime) / 1000);
+    data['체류시간'] = `${Math.floor(timeOnPage / 60)}분 ${timeOnPage % 60}초`;
+    data['기기정보'] = navigator.userAgent;
     
+    const agree2 = document.getElementById('agree2');
+    data['개인정보수집동의'] = agree1 && agree1.checked ? '동의' : '미동의';
+    data['광고정보수신동의'] = agree2 && agree2.checked ? '동의' : '미동의';
+
     const urlEncodedData = new URLSearchParams(data);
     fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData, })
     .then(response => response.json())
