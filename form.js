@@ -96,7 +96,24 @@ function setupImageJump() {
         });
     }
 }
-
+// ★★★ 결제함수 추! ★★★
+async function requestPayment() {
+    const tossPayments = TossPayments("test_ck_DnyRpQWGrNq1zx4q7x4yVKwv1M9E");
+    
+    try {
+        await tossPayments.requestPayment({
+            method: "CARD",
+            amount: 100, // 테스트용 100원
+            orderId: "TEST_" + new Date().getTime(),
+            orderName: "사주분석 상담",
+            successUrl: window.location.origin + "/thankyou.html",
+            failUrl: window.location.origin + "/saju_2p.html"
+        });
+    } catch (error) {
+        console.error("결제 에러:", error);
+        alert("결제에 실패했습니다. 다시 시도해주세요.");
+    }
+}
 // --- 폼 제출 기능 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
