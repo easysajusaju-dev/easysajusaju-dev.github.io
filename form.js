@@ -86,8 +86,9 @@ function setupImageJump() {
       image.addEventListener('click', function (event) {
         event.preventDefault();
 
-        // 폼으로 부드럽게 스크롤
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // === 폼으로 부드럽게 스크롤 (화면 여백 보정 추가) ===
+const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 100; // 여백 100px 정도
+window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 
         // 스크롤 완료 후 첫 입력칸 포커스
         setTimeout(() => {
