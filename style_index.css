@@ -375,3 +375,17 @@ body, html {
 .review-section:hover .arrow {
   opacity: 0.9;
 }
+/* ===== 후기 슬라이더 추가 코드 끝 ===== */
+
+/* 후기 제목과 안내문 스타일 */
+.review-title {
+  font-size: 2.4rem;          /* "어떤 분석을 원하시나요?" 수준 */
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.5em;
+}
+.review-guide {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2em;
+}
