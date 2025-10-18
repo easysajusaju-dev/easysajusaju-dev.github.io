@@ -296,3 +296,41 @@ body, html {
     }
     /* ▲▲▲ 여기까지 추가 ▲▲▲ */
 }
+/* ▲▲▲ 여기까지 추가 ▲▲▲ */
+
+/* ===== 후기 슬라이더 추가 코드 시작 ===== */
+.review-section {
+  text-align: center;
+  padding: 40px 0;
+}
+.review-slider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.review-slider::-webkit-scrollbar { display: none; }
+
+.review {
+  flex: 0 0 90%;
+  max-width: 360px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 20px;
+  scroll-snap-align: center;
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .review-slider {
+    overflow-x: visible;
+    justify-content: center;
+  }
+  .review {
+    flex: 0 0 280px;
+  }
+}
+/* ===== 후기 슬라이더 추가 코드 끝 ===== */
