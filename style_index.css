@@ -351,7 +351,11 @@ body, html {
 .review-container {
   position: relative;
 }
-.arrow {
+.review-container {
+  position: relative;
+}
+
+.review-section .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -359,10 +363,11 @@ body, html {
   color: #aaa;
   opacity: 0.6;
   z-index: 10;
-  pointer-events: none; /* 클릭은 뒤로 통과 */
+  pointer-events: none; /* 화살표만 클릭 비활성화 (다른 요소엔 영향 없음) */
 }
-.arrow.left { left: 8px; }
-.arrow.right { right: 8px; }
+
+.review-section .arrow.left { left: 8px; }
+.review-section .arrow.right { right: 8px; }
 
 .review-section:hover .arrow {
   opacity: 0.9;
