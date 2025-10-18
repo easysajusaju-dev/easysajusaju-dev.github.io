@@ -329,16 +329,19 @@ body, html {
 }
 @media (min-width: 768px) {
   .review-slider {
-    overflow-x: auto;           /* 가로 스크롤 유지 */
+    display: flex;
+    overflow-x: auto !important;          /* ★ 스크롤 반드시 유지 */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
+    scrollbar-width: thin;                /* Firefox용 가는 스크롤 */
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;         /* ★ 줄바꿈 방지 */
     gap: 24px;
-    cursor: grab;               /* PC에서도 손모양 나오게 */
+    cursor: grab;
   }
 
   .review {
-    flex: 0 0 420px !important; /* 화면에 2~3개 정도 걸쳐 보이게 */
+    flex: 0 0 420px !important;           /* 카드 폭 */
   }
 }
 /* ===== 후기 슬라이더 추가 코드 끝 ===== */
