@@ -314,13 +314,15 @@ body, html {
 .review-slider::-webkit-scrollbar { display: none; }
 
 .review {
-  flex: 0 0 85% !important;
-  max-width: 420px !important;
+  flex: 0 0 90% !important;
+  max-width: 500px !important;
   margin: 0 auto;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  padding: 20px 24px !important;
+  padding: 36px 28px !important;
+  font-size: 1.25rem;   /* ★ 추가 */
+  line-height: 1.7;     /* ★ 추가 */
   scroll-snap-align: center;
   font-weight: 400;
 }
