@@ -33,3 +33,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+<script>
+  const slider = document.getElementById('reviewSlider');
+  let isDown = false;
+  let startX, scrollLeft;
+
+  slider.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => isDown = false);
+  slider.addEventListener('mouseup', () => isDown = false);
+  slider.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.2;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+  // 터치 스와이프는 모바일 브라우저 기본 기능으로 작동함
+</script>
