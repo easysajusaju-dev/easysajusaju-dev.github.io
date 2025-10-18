@@ -92,29 +92,64 @@
                      </select>
                 </div>
 
-                <div class="agree-section">
+    <div class="agree-section">
+
     <div class="agree-box">
         <input type="checkbox" id="agree_all">
         <label for="agree_all">전체동의(수집/이용, 개인정보, 광고성 정보 수신)</label>
     </div>
 
+    <!-- 개인정보 수집·이용 동의 (필수) -->
     <div class="agree-box">
         <input type="checkbox" id="agree1" name="agree1" required>
-        <label for="agree1">개인정보 수집/이용 동의 <span class="toggle-text">[보기]</span></label>
-        <textarea class="terms-box" readonly>개인정보취급방침은 다음과 같은 내용을 담고 있습니다.
-1. 수집하는 개인정보 항목 및 수집방법
-2. 개인정보의 수집 및 이용목적
-(여기에 실제 약관 내용을 길게 붙여넣으세요)
+        <label for="agree1">[필수] 개인정보 수집·이용 동의 <span class="toggle-text">[보기]</span></label>
+        <textarea class="terms-box" readonly>
+[필수] 개인정보 수집·이용 동의
+
+1. 수집 항목
+- 이름, 생년월일시, 성별, 전화번호, (선택) 이메일
+
+2. 이용 목적
+- 사주 분석 및 결과서(PDF) 제작·전송
+- 이용자 문의 응대 및 분석결과 재전송
+- 서비스 품질 개선을 위한 통계 활용(개인 식별 불가 형태)
+
+3. 보유 및 이용 기간
+- 서비스 제공 완료일로부터 1년간 보관 후 즉시 파기
+(단, 관련 법령에 특별한 규정이 있는 경우 해당 기간까지 보관)
+
+4. 동의 거부권 및 불이익
+- 개인정보 수집·이용에 대한 동의는 필수이며, 거부 시 서비스 제공이 불가합니다.
+
+이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 동의합니다.
         </textarea>
     </div>
 
+    <!-- 광고성 정보 수신 동의 (선택) -->
     <div class="agree-box">
         <input type="checkbox" id="agree2" name="agree2">
-        <label for="agree2">광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
-         <textarea class="terms-box" readonly>수집된 개인정보를 이용하여 각종 서비스, 이벤트 안내 목적으로 본인에게 정보, 광고를 전화, SMS, MMS 등의 방법으로 전달합니다.
-(여기에 실제 약관 내용을 길게 붙여넣으세요)
+        <label for="agree2">[선택] 광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
+        <textarea class="terms-box" readonly>
+[선택] 광고성 정보 수신 동의
+
+1. 수신 항목 및 수단
+- 카카오 알림톡, 문자(SMS), 이메일 등
+
+2. 이용 목적
+- 신규 서비스, 이벤트, 할인·프로모션 등 마케팅 정보 제공
+- 시즌별 사주분석 리마인드, 맞춤 안내 등 고객 알림 발송
+
+3. 보유 및 이용 기간
+- 동의일로부터 1년간 또는 수신 거부 요청 시 즉시 파기
+
+4. 동의 철회 방법
+- 발송 메시지 내 ‘수신거부’ 또는 이메일(easysaju.saju@gmail.com)로 연락 시 언제든 철회 가능
+- 광고성 정보 수신에 동의하지 않아도 서비스 이용에는 제한이 없습니다.
+
+이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 선택적으로 동의할 수 있습니다.
         </textarea>
     </div>
+
 </div>
 
                 <button type="submit">사주분석 신청하기</button>
