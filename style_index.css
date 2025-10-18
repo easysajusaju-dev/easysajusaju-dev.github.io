@@ -313,7 +313,7 @@ body, html {
   scrollbar-width: none;
   user-select: none;      /* ★ 드래그 중 텍스트 선택 방지 */
   cursor: grab;
-  max-width: 1360px;      /* ★ 가로폭 살짝 확대 (위 카드 폭과 통일감) */
+  max-width: 1440px;      /* ★ 가로폭 살짝 확대 (위 카드 폭과 통일감) */
   width: 100%;
   margin: 0 auto;
   scroll-behavior: smooth; /* 추가하면 일반 스크롤도 부드럽게 */
