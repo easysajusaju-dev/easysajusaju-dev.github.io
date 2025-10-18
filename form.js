@@ -77,26 +77,43 @@ function setupAgreement() {
 }
 // --- 이미지 클릭 점프 기능 함수 ---
 function setupImageJump() {
-    const allImages = document.querySelectorAll('.image-section img'); 
-    const formElement = document.getElementById('saju-form'); 
-    if (formElement && allImages.length > 0) { 
-        allImages.forEach(image => { 
-            image.style.cursor = 'pointer'; 
-            image.addEventListener('click', function(event) { 
-                event.preventDefault(); 
-                formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    } 
-     const headerButton = document.querySelector('.header-button');
-     if (formElement && headerButton) {
-        headerButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    }
-}
+  const allImages = document.querySelectorAll('.image-section img');
+  const formElement = document.getElementById('saju-form');
 
+  if (formElement && allImages.length > 0) {
+    allImages.forEach(image => {
+      image.style.cursor = 'pointer';
+      image.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        // 폼으로 부드럽게 스크롤
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // 스크롤 완료 후 첫 입력칸 포커스
+        setTimeout(() => {
+          const firstInput = formElement.querySelector('input, select, textarea');
+          if (firstInput) firstInput.focus();
+        }, 800); // 스크롤 애니메이션 길이에 맞춰 0.8초 정도 지연
+      });
+    });
+  }
+
+  const headerButton = document.querySelector('.header-button');
+  if (formElement && headerButton) {
+    headerButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      // 폼으로 부드럽게 스크롤
+      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // 스크롤 완료 후 첫 입력칸 포커스
+      setTimeout(() => {
+        const firstInput = formElement.querySelector('input, select, textarea');
+        if (firstInput) firstInput.focus();
+      }, 800);
+    });
+  }
+}
 // --- 폼 제출 기능 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
     event.preventDefault();
