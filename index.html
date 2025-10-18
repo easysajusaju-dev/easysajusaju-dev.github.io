@@ -86,12 +86,24 @@
             <a href="https://www.tiktok.com/@easysaju" target="_blank" title="틱톡"><img src="images/tiktok.png" alt="틱톡 아이콘"></a>
         </div>
 
-        <!-- 기존 사업자 정보 (div로 한 번 감싸줍니다) -->
-        <div class="footer-info">
-            <p>&copy; 2025 이지사주. All rights reserved.</p>
-            <p>상호명: 이지사주 | 대표: 안미정 | 사업자등록번호: 550-64-00884</p>
+       <!-- 사업자 정보 (펼치기/접기 기능 추가) -->
+    <div class="footer-info">
+        <!-- (1) 클릭할 제목 부분 -->
+        <div class="info-toggle" id="info-toggle-button">
+            이지사주 사업자정보 <span id="info-arrow">▼</span>
         </div>
-    </footer>
+
+        <!-- (2) 펼쳐질 상세 정보 부분 -->
+        <div class="info-details" id="business-info-details">
+            <p>상호명: 이지사주 | 대표: 안미정</p>
+            <p>사업자등록번호: 550-64-00884</p>
+            <!-- 여기에 추가적인 사업자 정보를 넣을 수 있습니다. -->
+        </div>
+
+        <!-- (3) 항상 보이는 저작권 정보 -->
+        <p class="copyright">&copy; 2025 이지사주. All rights reserved.</p>
+    </div>
+</footer>
     
     <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
 
