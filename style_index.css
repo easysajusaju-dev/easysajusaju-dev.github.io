@@ -215,7 +215,21 @@ body, html {
 .social-icons a:hover img {
     transform: scale(1.1);
 }
-
+.footer-links {
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+.footer-links a {
+    color: #495057;
+    text-decoration: none;
+}
+.footer-links a:hover {
+    text-decoration: underline;
+}
+.footer-links .link-divider {
+    margin: 0 8px;
+    color: #adb5bd;
+}
 /* 사업자 정보 전체 영역 */
 .footer-info {
     font-size: 0.9rem;
