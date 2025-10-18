@@ -100,20 +100,21 @@ window.scrollTo({ top: offsetTop, behavior: 'smooth' });
   }
 
   const headerButton = document.querySelector('.header-button');
-  if (formElement && headerButton) {
-    headerButton.addEventListener('click', function (event) {
-      event.preventDefault();
+if (formElement && headerButton) {
+  headerButton.addEventListener('click', function (event) {
+    event.preventDefault();
 
-      // 폼으로 부드럽게 스크롤
-      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 폼으로 부드럽게 스크롤 (화면 여백 동일하게 적용)
+    const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
+    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 
-      // 스크롤 완료 후 첫 입력칸 포커스
-      setTimeout(() => {
-        const firstInput = formElement.querySelector('input, select, textarea');
-        if (firstInput) firstInput.focus();
-      }, 800);
-    });
-  }
+    // 스크롤 완료 후 첫 입력칸 포커스
+    setTimeout(() => {
+      const firstInput = formElement.querySelector('input, select, textarea');
+      if (firstInput) firstInput.focus();
+    }, 800);
+  });
+}
 }
 // --- 폼 제출 기능 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
