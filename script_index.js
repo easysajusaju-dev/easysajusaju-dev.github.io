@@ -54,3 +54,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // 터치 스와이프는 모바일 브라우저 기본 기능으로 작동함
 </script>
+// === 후기 슬라이더 드래그 스크롤 ===
+const slider = document.getElementById('reviewSlider');
+if (slider) {
+  let isDown = false;
+  let startX, scrollLeft;
+  slider.addEventListener('mousedown', e => {
+    isDown = true;
+    slider.classList.add('dragging');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('dragging');
+  });
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('dragging');
+  });
+  slider.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.2;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+}
