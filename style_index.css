@@ -194,39 +194,66 @@ body, html {
 .footer {
     padding: 50px 20px;
     text-align: center;
-    background-color: #f8f9fa; /* 요청하신 이미지처럼 밝은 회색 배경으로 변경 */
-    border-top: 1px solid #e9ecef; /* 상단 구분선 추가 */
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
 }
 
-/* 소셜 아이콘들을 감싸는 영역 (새로 추가) */
+/* 소셜 아이콘 영역 */
 .social-icons {
-    margin-bottom: 30px; /* 아이콘과 아래 텍스트 사이의 간격 */
+    margin-bottom: 30px;
 }
-
-/* 개별 소셜 아이콘 링크 (새로 추가) */
 .social-icons a {
     display: inline-block;
-    margin: 0 10px; /* 아이콘 사이의 좌우 간격 */
+    margin: 0 10px;
 }
-
-/* 소셜 아이콘 이미지 (새로 추가) */
 .social-icons img {
     width: 48px;
     height: 48px;
-    border-radius: 50%; /* 이미지를 동그랗게 만듦 */
+    border-radius: 50%;
     transition: transform 0.2s ease-in-out;
 }
-
-/* 아이콘에 마우스를 올리면 살짝 커지는 효과 (새로 추가) */
 .social-icons a:hover img {
     transform: scale(1.1);
 }
 
-/* 사업자 정보 텍스트 영역 */
+/* 사업자 정보 전체 영역 */
 .footer-info {
-    font-size: 0.9rem; /* 14px 정도 */
-    color: #6c757d; /* 배경색에 맞춰 텍스트 색상 변경 */
+    font-size: 0.9rem;
+    color: #6c757d;
     line-height: 1.6;
+    max-width: 400px; /* 푸터 정보의 최대 너비 지정 */
+    margin: 0 auto;    /* 가운데 정렬 */
+}
+
+/* ▼▼▼ 펼치기/접기 기능 CSS (새로 추가) ▼▼▼ */
+
+/* (1) 클릭할 제목 스타일 */
+.info-toggle {
+    font-weight: 700; /* 굵은 글씨 */
+    color: #343a40; /* 더 진한 글씨색 */
+    cursor: pointer;  /* 마우스 올리면 손가락 모양으로 */
+    padding: 10px 0;
+    user-select: none; /* 텍스트 선택 방지 */
+}
+
+/* (2) 펼쳐질 상세 정보 스타일 */
+.info-details {
+    max-height: 0; /* 기본적으로 높이를 0으로 만들어 숨김 */
+    overflow: hidden; /* 내용이 넘치면 잘라냄 */
+    transition: max-height 0.4s ease-out; /* 부드럽게 펼쳐지는 효과 */
+    font-size: 0.85rem;
+}
+
+/* (2-1) 'active' 클래스가 추가되면 펼쳐짐 */
+.info-details.active {
+    max-height: 200px; /* 펼쳐졌을 때의 최대 높이 (내용이 많으면 더 늘리세요) */
+}
+
+/* (3) 항상 보이는 저작권 텍스트 */
+.copyright {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #adb5bd;
 }
 
 .footer-info p {
