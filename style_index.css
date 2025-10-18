@@ -244,4 +244,14 @@ body, html {
     .services-section h2, .testimonial-section h2 {
         font-size: 2rem;
     }
+     /* ▼▼▼ 푸터 아이콘 조절 코드 (여기에 추가) ▼▼▼ */
+    .social-icons img {
+        width: 40px;  /* 모바일에서 아이콘 크기 줄이기 */
+        height: 40px;
+    }
+
+    .social-icons a {
+        margin: 0 6px; /* 모바일에서 아이콘 사이 간격 줄이기 */
+    }
+    /* ▲▲▲ 여기까지 추가 ▲▲▲ */
 }
