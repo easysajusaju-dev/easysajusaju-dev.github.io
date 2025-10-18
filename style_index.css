@@ -302,7 +302,7 @@ body, html {
 .review-section {
   text-align: center;
   padding: 40px 0;
-  background-color: #f7f8fa; /* 💡 후기 영역만 살짝 회색 배경 */
+  background-color: #f2f3f5; /* 💡 후기 영역만 살짝 회색 배경 */
 }
 .review-slider {
   display: flex;
