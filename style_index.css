@@ -311,10 +311,11 @@ body, html {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  max-width: 1280px;   /* 💡 위의 4카드 폭과 비슷하게 */
-  width: 100%;         /* 💡 전체 폭에 맞춰 확대 */
-  margin: 0 auto;
+  user-select: none;      /* ★ 드래그 중 텍스트 선택 방지 */
   cursor: grab;
+  max-width: 1360px;      /* ★ 가로폭 살짝 확대 (위 카드 폭과 통일감) */
+  width: 100%;
+  margin: 0 auto;
 }
 .review-slider::-webkit-scrollbar { display: none; }
 
