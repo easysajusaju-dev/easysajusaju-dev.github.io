@@ -30,33 +30,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 3. 후기 슬라이더 드래그 스크롤 기능 ---
-  const slider = document.getElementById('reviewSlider');
-  if (slider) {
-    let isDown = false;
-    let startX, scrollLeft;
+// --- 3. 후기 슬라이더 드래그 스크롤 기능 ---
+const slider = document.getElementById('reviewSlider');
+if (slider) {
+  let isDown = false;
+  let startX, scrollLeft;
 
-    slider.addEventListener('mousedown', e => {
-      isDown = true;
-      slider.classList.add('dragging');
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => {
-      isDown = false;
-      slider.classList.remove('dragging');
-    });
-    slider.addEventListener('mouseup', () => {
-      isDown = false;
-      slider.classList.remove('dragging');
-    });
-    slider.addEventListener('mousemove', e => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.2; // 이동 속도 조절
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  }
+  slider.addEventListener('mousedown', e => {
+    isDown = true;
+    slider.classList.add('dragging');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+    slider.style.cursor = 'grabbing';   // ★ 눌렀을 때 손 모양 추가
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('dragging');
+    slider.style.cursor = 'grab';       // ★ 손 모양 복원
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('dragging');
+    slider.style.cursor = 'grab';
+  });
+
+  slider.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5;    // ★ 부드럽게 이동
+    slider.scrollLeft = scrollLeft - walk;
+  });
+}
 
 });
