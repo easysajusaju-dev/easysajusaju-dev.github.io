@@ -339,3 +339,22 @@ body, html {
   }
 }
 /* ===== 후기 슬라이더 추가 코드 끝 ===== */
+.review-container {
+  position: relative;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: #aaa;
+  opacity: 0.6;
+  z-index: 10;
+  pointer-events: none; /* 클릭은 뒤로 통과 */
+}
+.arrow.left { left: 8px; }
+.arrow.right { right: 8px; }
+
+.review-section:hover .arrow {
+  opacity: 0.9;
+}
