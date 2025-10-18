@@ -328,11 +328,13 @@ body, html {
 }
 @media (min-width: 768px) {
   .review-slider {
-    overflow-x: visible;
-    justify-content: center;
+    overflow-x: visible;       /* 스크롤 없앰 */
+    justify-content: center;   /* 가운데 정렬 */
+    flex-wrap: wrap;           /* ★★★ 세 줄 추가 — 넘치는 카드 다음 줄로 자동 줄바꿈 */
+    gap: 24px;                 /* 카드 사이 간격 살짝 넓혀주기 */
   }
   .review {
-    flex: 0 0 320px;
+    flex: 0 0 320px !important; /* 한 줄 3개 기준 폭 */
   }
 }
 /* ===== 후기 슬라이더 추가 코드 끝 ===== */
