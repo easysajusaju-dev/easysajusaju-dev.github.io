@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     try{
       const fd=new FormData(formEl);
       const data={};
+      const orderId = 'EZ' + Date.now(); // ← 추가
+      data['주문ID'] = orderId; // ← 추가
       function getBirth(prefix){
         const y=fd.get(`${prefix}_birth_year`), m=fd.get(`${prefix}_birth_month`), d=fd.get(`${prefix}_birth_day`);
         return (y&&m&&d)? `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` : '';
@@ -100,7 +102,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
       if(!j || !j.success){ throw new Error('신청 저장 실패'); }
 
       // 2) 결제DB /create (실패해도 thankyou 이동)
-      const orderId='EZ'+Date.now();
       const product=(document.getElementById('product')||{}).value||'';
       const name=fd.get('p1_name')||'';
       const phone=(fd.get('contact')||'').replace(/\D/g,'');
