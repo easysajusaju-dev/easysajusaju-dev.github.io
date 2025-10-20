@@ -206,32 +206,32 @@ document.getElementById('saju-form').addEventListener('submit', function(event) 
   fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData })
     .then(response => response.json())
     .then(result => {
-      if (result.success) {
-        // 2) 저장 성공 후: 결제DB /create 호출로 연결(공통 키: orderId)
-        const formEl = document.getElementById('saju-form');
-        const fd = new FormData(formEl);
+if (result.success) {
+const formEl = document.getElementById('saju-form');
+const fd = new FormData(formEl);
 
-        const orderId = 'EZ' + Date.now();
-        const sel = document.getElementById('product');
-        const product = sel ? sel.value : '';
-        const name = fd.get('p1_name') || '';
-        const phone = (fd.get('contact') || '').replace(/\D/g, '');
+text
 
-        return fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`)
-          .then(r => r.json())
-          .then(pay => {
-            if (pay && pay.success) {
-              alert(`주문 접수\n주문번호: ${orderId}\n상품: ${pay.product}\n금액: ${pay.amount}원`);
-              window.location.href = 'thankyou.html?oid=' + encodeURIComponent(orderId) + '&paid=0';
-            } else {
-              window.location.href = 'thankyou.html?err=pay';
-            }
-          });
-      } else {
-        console.error('Apps Script Error:', result.error);
-        resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`;
-      }
-    })
+const orderId = 'EZ' + Date.now();
+const sel = document.getElementById('product');
+const product = sel ? sel.value : '';
+const name = fd.get('p1_name') || '';
+const phone = (fd.get('contact') || '').replace(/\D/g, '');
+
+return fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`)
+  .then(r => r.json())
+  .then(pay => {
+    if (pay && pay.success) {
+      window.location.href = 'thankyou.html?oid=' + encodeURIComponent(orderId) + '&paid=0';
+    } else {
+      window.location.href = 'thankyou.html?err=pay';
+    }
+  })
+  .catch(() => window.location.href = 'thankyou.html?err=net');
+} else {
+document.getElementById('result').innerText = ⚠️ 신청 실패: ${result.error || '알 수 없는 오류'};
+}
+})
     .catch(error => { 
       console.error('Fetch Error:', error); 
       resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; 
