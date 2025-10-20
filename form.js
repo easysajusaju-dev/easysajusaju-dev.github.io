@@ -1,243 +1,120 @@
-// form.js (동의 기록 포함 - 진짜 최종 풀코드)
-
+// === SAFE form.js (복구 + 결제DB 연동) ===
 const pageLoadTime = new Date();
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
+const PAY_API = "https://script.google.com/macros/s/AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec";
 
-// 결제 전용 웹앱(결제DB) 스테이징 주소
-const PAY_API = 'https://script.google.com/macros/s/AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec';
-
-document.addEventListener('DOMContentLoaded', function() {
-    populateDateSelects('p1');
-    populateDateSelects('p2');
-    setupHourMinuteSync('p1');
-    setupHourMinuteSync('p2');
-    setupAgreement();
-    setupImageJump();
-});
-
-// --- 생년월일 드롭다운을 채우는 함수 ---
-function populateDateSelects(prefix) { 
-    const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`); 
-    const monthSelect = document.querySelector(`select[name="${prefix}_birth_month"]`); 
-    const daySelect = document.querySelector(`select[name="${prefix}_birth_day"]`); 
-    if (!yearSelect) return; 
-    const currentYear = new Date().getFullYear(); 
-    for (let i = currentYear; i >= 1930; i--) yearSelect.add(new Option(i + '년', i)); 
-    for (let i = 1; i <= 12; i++) monthSelect.add(new Option(i + '월', i)); 
-    for (let i = 1; i <= 31; i++) daySelect.add(new Option(i + '일', i));
+// 공통 유틸
+function populateDateSelects(prefix){
+  const y = document.querySelector(`select[name="${prefix}_birth_year"]`);
+  const m = document.querySelector(`select[name="${prefix}_birth_month"]`);
+  const d = document.querySelector(`select[name="${prefix}_birth_day"]`);
+  if(!y||!m||!d) return;
+  const cy = new Date().getFullYear();
+  for(let i=cy;i>=1930;i--) y.add(new Option(i+'년', i));
+  for(let i=1;i<=12;i++) m.add(new Option(i+'월', i));
+  for(let i=1;i<=31;i++) d.add(new Option(i+'일', i));
 }
-
-// --- 시간/분 드롭다운 연동 함수 ---
-function setupHourMinuteSync(personPrefix) { 
-    const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`); 
-    const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`); 
-    if (!hourSelect || !minuteSelect) return; 
-    hourSelect.addEventListener('change', function() { 
-        if (this.value === "") { 
-            minuteSelect.value = ""; 
-            minuteSelect.disabled = true; 
-        } else { 
-            minuteSelect.disabled = false; 
-        } 
-    }); 
-    if (hourSelect.value === "") minuteSelect.disabled = true;
+function setupHourMinuteSync(person){
+  const h = document.querySelector(`select[name="${person}_hour"]`);
+  const mm= document.querySelector(`select[name="${person}_minute"]`);
+  if(!h||!mm) return;
+  h.addEventListener('change', ()=>{ if(h.value===""){ mm.value=""; mm.disabled=true; } else mm.disabled=false;});
+  if(h.value==="") mm.disabled=true;
 }
-
-// --- 동의 관련 기능을 하나로 묶은 함수 ---
-function setupAgreement() {
-  const agreeAll = document.getElementById('agree_all');
-  const agree1 = document.getElementById('agree1');
-  const agree2 = document.getElementById('agree2');
-  if (!agreeAll) return;
-
-  const items = [agree1, agree2].filter(Boolean);
-
-  // 전체 동의 체크 -> 개별 동의 동기화
-  agreeAll.addEventListener('change', () => {
-    items.forEach(cb => cb.checked = agreeAll.checked);
-    updateAllState();
-  });
-
-  // 개별 동의 변경 -> 전체 동의 상태 업데이트
-  items.forEach(cb => cb.addEventListener('change', updateAllState));
-
-  // 초기 상태 반영
-  updateAllState();
-
-  function updateAllState() {
-    if (items.length === 0) return;
-    const checkedCount = items.filter(cb => cb.checked).length;
-    agreeAll.checked = checkedCount === items.length;
-    agreeAll.indeterminate = checkedCount > 0 && checkedCount < items.length; // 부분 선택 표시
-  }
-
-  // 약관 펼쳐보기(기존 동작 유지)
-  document.querySelectorAll('.toggle-text').forEach(toggle => {
-    if (toggle.tagName === 'BUTTON' && !toggle.getAttribute('type')) {
-      toggle.setAttribute('type', 'button');
-    }
-    toggle.addEventListener('click', function() {
-      const box = this.closest('.agree-box');
-      if (!box) return;
-      const termsBox = box.querySelector('.terms-box');
-      if (!termsBox) return;
-      termsBox.style.display = termsBox.style.display === 'block' ? 'none' : 'block';
-    });
+function setupAgreement(){
+  const agreeAll=document.getElementById('agree_all');
+  const agree1=document.getElementById('agree1');
+  const agree2=document.getElementById('agree2');
+  if(!agreeAll) return;
+  const items=[agree1,agree2].filter(Boolean);
+  function upd(){ if(!items.length) return; const c=items.filter(cb=>cb.checked).length; agreeAll.checked=c===items.length; agreeAll.indeterminate=c>0&&c<items.length;}
+  agreeAll.addEventListener('change',()=>{items.forEach(cb=>cb.checked=agreeAll.checked); upd();});
+  items.forEach(cb=>cb.addEventListener('change',upd)); upd();
+  document.querySelectorAll('.toggle-text').forEach(t=>{
+    if(t.tagName==='BUTTON'&&!t.getAttribute('type')) t.setAttribute('type','button');
+    t.addEventListener('click',()=>{ const box=t.closest('.agree-box'); if(!box) return; const tb=box.querySelector('.terms-box'); if(tb) tb.style.display=tb.style.display==='block'?'none':'block';});
   });
 }
-
-// --- 이미지 클릭 점프 기능 함수 ---
-function setupImageJump() {
-  const allImages = document.querySelectorAll('.image-section img');
-  const formElement = document.getElementById('saju-form');
-
-  if (formElement && allImages.length > 0) {
-    allImages.forEach(image => {
-      image.style.cursor = 'pointer';
-      image.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
-        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-
-        setTimeout(() => {
-          const firstInput = formElement.querySelector('input, select, textarea');
-          if (firstInput) firstInput.focus();
-        }, 800);
-      });
-    });
+function setupImageJump(){
+  const imgs=document.querySelectorAll('.image-section img');
+  const formEl=document.getElementById('saju-form');
+  function scrollToForm(){
+    if(!formEl) return;
+    const top=formEl.getBoundingClientRect().top+window.scrollY-180;
+    window.scrollTo({top,behavior:'smooth'});
+    setTimeout(()=>{ const fi=formEl.querySelector('input,select,textarea'); if(fi) fi.focus();},800);
   }
-
-  const headerButton = document.querySelector('.header-button');
-  if (formElement && headerButton) {
-    headerButton.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
-      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-
-      setTimeout(() => {
-        const firstInput = formElement.querySelector('input, select, textarea');
-        if (firstInput) firstInput.focus();
-      }, 800);
-    });
-  }
+  imgs.forEach(img=>{ img.style.cursor='pointer'; img.addEventListener('click',(e)=>{e.preventDefault(); scrollToForm();});});
+  const headerBtn=document.querySelector('.header-button');
+  if(headerBtn) headerBtn.addEventListener('click',(e)=>{e.preventDefault(); scrollToForm();});
 }
 
-// --- 폼 제출 기능 ---
-document.getElementById('saju-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+document.addEventListener('DOMContentLoaded', ()=> {
+  try{
+    populateDateSelects('p1'); populateDateSelects('p2');
+    setupHourMinuteSync('p1'); setupHourMinuteSync('p2');
+    setupAgreement(); setupImageJump();
+  }catch(e){ console.error('init error', e); }
 
-  const agree1 = document.getElementById('agree1');
-  if (agree1 && !agree1.checked) {
-    alert("개인정보 수집/이용에 동의하셔야 신청이 가능합니다.");
-    return;
-  }
+  const formEl=document.getElementById('saju-form');
+  if(!formEl) return;
 
-  const form = event.target;
-  const button = form.querySelector('button');
-  const resultDiv = document.getElementById('result');
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
+  formEl.addEventListener('submit', async (event)=>{
+    event.preventDefault();
+    const agree1=document.getElementById('agree1');
+    if(agree1 && !agree1.checked){ alert('개인정보 수집/이용에 동의하셔야 신청이 가능합니다.'); return; }
 
-  button.disabled = true; 
-  button.innerText = "신청하는 중..."; 
-  resultDiv.innerText = "";
+    const btn=formEl.querySelector('button'); const resDiv=document.getElementById('result');
+    btn.disabled=true; btn.innerText='신청하는 중...'; if(resDiv) resDiv.innerText='';
 
-  const formData = new FormData(form);
-  const data = {};
+    try{
+      const fd=new FormData(formEl);
+      const data={};
+      function getBirth(prefix){
+        const y=fd.get(`${prefix}_birth_year`), m=fd.get(`${prefix}_birth_month`), d=fd.get(`${prefix}_birth_day`);
+        return (y&&m&&d)? `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` : '';
+      }
+      let contact='';
+      if(fd.get('contact')) contact=fd.get('contact')||'';
+      else contact=(fd.get('contact1')||'')+(fd.get('contact2')||'')+(fd.get('contact3')||'');
+      data['연락처']="'"+contact.replace(/\D/g,'');
+      data['상품명']=fd.get('product'); data['이메일']=fd.get('email'); data['이름1']=fd.get('p1_name'); data['양음력1']=fd.get('p1_solarlunar');
+      const b1=getBirth('p1'); if(b1){ const [yy,mm,dd]=b1.split('-'); data['생년1']=yy; data['생월1']=mm; data['생일1']=dd; }
+      data['생시1']=fd.get('p1_hour'); data['생분1']=fd.get('p1_minute'); data['성별1']=fd.get('p1_gender');
+      if(formEl.querySelector('[name="p2_name"]')){
+        data['이름2']=fd.get('p2_name'); data['양음력2']=fd.get('p2_solarlunar');
+        const b2=getBirth('p2'); if(b2){ const [y2,m2,d2]=b2.split('-'); data['생년2']=y2; data['생월2']=m2; data['생일2']=d2; }
+        data['생시2']=fd.get('p2_hour'); data['생분2']=fd.get('p2_minute'); data['성별1']='남자'; data['성별2']='여자';
+      }
+      data['유입경로']=document.referrer||'직접 입력/알 수 없음';
+      const stay=Math.round((new Date()-pageLoadTime)/1000); data['체류시간']=`${Math.floor(stay/60)}분 ${stay%60}초`;
+      data['기기정보']=navigator.userAgent;
+      const agree2=document.getElementById('agree2');
+      data['개인정보수집동의']=agree1 && agree1.checked ? '동의':'미동의';
+      data['광고정보수신동의']=agree2 && agree2.checked ? '동의':'미동의';
 
-  function getBirthDate(prefix) { 
-    const year = formData.get(`${prefix}_birth_year`); 
-    const month = formData.get(`${prefix}_birth_month`); 
-    const day = formData.get(`${prefix}_birth_day`); 
-    if (year && month && day) { 
-      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`; 
-    } 
-    return ''; 
-  }
+      // 1) 시트 저장
+      const body=new URLSearchParams(data);
+      const r=await fetch(APPS_SCRIPT_URL,{method:'POST',body});
+      const j=await r.json();
+      if(!j || !j.success){ throw new Error('신청 저장 실패'); }
 
-  let fullContact; 
-  if (formData.get('contact')) { 
-    fullContact = formData.get('contact') || ''; 
-  } else { 
-    const contact1 = formData.get('contact1') || ''; 
-    const contact2 = formData.get('contact2') || ''; 
-    const contact3 = formData.get('contact3') || ''; 
-    fullContact = `${contact1}${contact2}${contact3}`; 
-  } 
-  data['연락처'] = "'" + fullContact.replace(/\D/g, '');
-  data['상품명'] = formData.get('product'); 
-  data['이메일'] = formData.get('email'); 
-  data['이름1'] = formData.get('p1_name'); 
-  data['양음력1'] = formData.get('p1_solarlunar'); 
+      // 2) 결제DB /create (실패해도 thankyou 이동)
+      const orderId='EZ'+Date.now();
+      const product=(document.getElementById('product')||{}).value||'';
+      const name=fd.get('p1_name')||'';
+      const phone=(fd.get('contact')||'').replace(/\D/g,'');
+      try{
+        const r2=await fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
+        // 결과는 사용 안 함 — 실패해도 종료 플로우 진행
+      }catch(_){}
 
-  const birth1 = getBirthDate('p1'); 
-  if (birth1) { 
-    [data['생년1'], data['생월1'], data['생일1']] = birth1.split('-'); 
-  } 
-  data['생시1'] = formData.get('p1_hour'); 
-  data['생분1'] = formData.get('p1_minute'); 
-  data['성별1'] = formData.get('p1_gender');
-
-  if (form.querySelector('[name="p2_name"]')) { 
-    data['이름2'] = formData.get('p2_name'); 
-    data['양음력2'] = formData.get('p2_solarlunar'); 
-    const birth2 = getBirthDate('p2'); 
-    if (birth2) { 
-      [data['생년2'], data['생월2'], data['생일2']] = birth2.split('-'); 
-    } 
-    data['생시2'] = formData.get('p2_hour'); 
-    data['생분2'] = formData.get('p2_minute'); 
-    data['성별1'] = '남자'; 
-    data['성별2'] = '여자'; 
-  }
-  
-  data['유입경로'] = document.referrer || '직접 입력/알 수 없음';
-  const timeOnPage = Math.round((new Date() - pageLoadTime) / 1000);
-  data['체류시간'] = `${Math.floor(timeOnPage / 60)}분 ${timeOnPage % 60}초`;
-  data['기기정보'] = navigator.userAgent;
-  
-  const agree2 = document.getElementById('agree2');
-  data['개인정보수집동의'] = agree1 && agree1.checked ? '동의' : '미동의';
-  data['광고정보수신동의'] = agree2 && agree2.checked ? '동의' : '미동의';
-
-  const urlEncodedData = new URLSearchParams(data);
-
-  // 1) 기존: 시트에 먼저 저장
-  fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData })
-    .then(response => response.json())
-    .then(result => {
-if (result.success) {
-const formEl = document.getElementById('saju-form');
-const fd = new FormData(formEl);
-
-text
-
-const orderId = 'EZ' + Date.now();
-const sel = document.getElementById('product');
-const product = sel ? sel.value : '';
-const name = fd.get('p1_name') || '';
-const phone = (fd.get('contact') || '').replace(/\D/g, '');
-
-return fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`)
-  .then(r => r.json())
-  .then(pay => {
-    if (pay && pay.success) {
-      window.location.href = 'thankyou.html?oid=' + encodeURIComponent(orderId) + '&paid=0';
-    } else {
-      window.location.href = 'thankyou.html?err=pay';
+      window.location.href='thankyou.html?oid='+encodeURIComponent(orderId)+'&paid=0';
+    }catch(err){
+      console.error(err);
+      if(resDiv) resDiv.innerText='⚠️ 오류가 발생했습니다. 다시 시도해주세요.';
+    }finally{
+      btn.disabled=false; btn.innerText='사주분석 신청하기';
     }
-  })
-  .catch(() => window.location.href = 'thankyou.html?err=net');
-} else {
-document.getElementById('result').innerText = ⚠️ 신청 실패: ${result.error || '알 수 없는 오류'};
-}
-})
-    .catch(error => { 
-      console.error('Fetch Error:', error); 
-      resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; 
-    })
-    .finally(() => { 
-      button.disabled = false; 
-      button.innerText = "사주분석 신청하기"; 
-    });
+  });
 });
