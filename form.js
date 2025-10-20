@@ -1,7 +1,7 @@
 // form.js — 최종 통합본 (신청 저장 + 결제 API 호출)
 
 const pageLoadTime = new Date();
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec";
 // ★★★ PAY_API 주소는 비워두거나, 나중에 PG 연동 시 real URL로 교체
 const PAY_API = "PLACEHOLDER_FOR_PAYMENT_API"; 
 
