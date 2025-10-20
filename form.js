@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     try{
       const fd=new FormData(formEl);
       const data={};
+      const orderId = 'EZ' + Date.now();
+      data['오더ID'] = orderId;
       const orderId = 'EZ' + Date.now(); // ← 추가
       data['주문ID'] = orderId; // ← 추가
       function getBirth(prefix){
