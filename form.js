@@ -2,6 +2,9 @@
 
 const pageLoadTime = new Date();
 
+// 결제 전용 웹앱(결제DB) 스테이징 주소
+const PAY_API = 'https://script.google.com/macros/s/AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec';
+
 document.addEventListener('DOMContentLoaded', function() {
     populateDateSelects('p1');
     populateDateSelects('p2');
@@ -10,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupAgreement();
     setupImageJump();
 });
+
 // --- 생년월일 드롭다운을 채우는 함수 ---
 function populateDateSelects(prefix) { 
     const yearSelect = document.querySelector(`select[name="${prefix}_birth_year"]`); 
@@ -27,8 +31,14 @@ function setupHourMinuteSync(personPrefix) {
     const hourSelect = document.querySelector(`select[name="${personPrefix}_hour"]`); 
     const minuteSelect = document.querySelector(`select[name="${personPrefix}_minute"]`); 
     if (!hourSelect || !minuteSelect) return; 
-    hourSelect.addEventListener('change', function() { if (this.value === "") { minuteSelect.value = ""; 
-    minuteSelect.disabled = true; } else { minuteSelect.disabled = false; } }); 
+    hourSelect.addEventListener('change', function() { 
+        if (this.value === "") { 
+            minuteSelect.value = ""; 
+            minuteSelect.disabled = true; 
+        } else { 
+            minuteSelect.disabled = false; 
+        } 
+    }); 
     if (hourSelect.value === "") minuteSelect.disabled = true;
 }
 
@@ -62,7 +72,6 @@ function setupAgreement() {
 
   // 약관 펼쳐보기(기존 동작 유지)
   document.querySelectorAll('.toggle-text').forEach(toggle => {
-    // 버튼이면 의도치 않은 submit 방지
     if (toggle.tagName === 'BUTTON' && !toggle.getAttribute('type')) {
       toggle.setAttribute('type', 'button');
     }
@@ -75,6 +84,7 @@ function setupAgreement() {
     });
   });
 }
+
 // --- 이미지 클릭 점프 기능 함수 ---
 function setupImageJump() {
   const allImages = document.querySelectorAll('.image-section img');
@@ -86,72 +96,148 @@ function setupImageJump() {
       image.addEventListener('click', function (event) {
         event.preventDefault();
 
-        // === 폼으로 부드럽게 스크롤 (화면 여백 보정 추가) ===
-const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180; // 여백 100px 정도
-window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
+        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 
-        // 스크롤 완료 후 첫 입력칸 포커스
         setTimeout(() => {
           const firstInput = formElement.querySelector('input, select, textarea');
           if (firstInput) firstInput.focus();
-        }, 800); // 스크롤 애니메이션 길이에 맞춰 0.8초 정도 지연
+        }, 800);
       });
     });
   }
 
   const headerButton = document.querySelector('.header-button');
-if (formElement && headerButton) {
-  headerButton.addEventListener('click', function (event) {
-    event.preventDefault();
+  if (formElement && headerButton) {
+    headerButton.addEventListener('click', function (event) {
+      event.preventDefault();
 
-    // 폼으로 부드럽게 스크롤 (화면 여백 동일하게 적용)
-    const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
-    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+      const offsetTop = formElement.getBoundingClientRect().top + window.scrollY - 180;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 
-    // 스크롤 완료 후 첫 입력칸 포커스
-    setTimeout(() => {
-      const firstInput = formElement.querySelector('input, select, textarea');
-      if (firstInput) firstInput.focus();
-    }, 800);
-  });
+      setTimeout(() => {
+        const firstInput = formElement.querySelector('input, select, textarea');
+        if (firstInput) firstInput.focus();
+      }, 800);
+    });
+  }
 }
-}
+
 // --- 폼 제출 기능 ---
 document.getElementById('saju-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const agree1 = document.getElementById('agree1');
-    if (agree1 && !agree1.checked) {
-        alert("개인정보 수집/이용에 동의하셔야 신청이 가능합니다.");
-        return;
-    }
-    const form = event.target;
-    const button = form.querySelector('button');
-    const resultDiv = document.getElementById('result');
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
-    button.disabled = true; button.innerText = "신청하는 중..."; resultDiv.innerText = "";
-    const formData = new FormData(form);
-    const data = {};
-    function getBirthDate(prefix) { const year = formData.get(`${prefix}_birth_year`); const month = formData.get(`${prefix}_birth_month`); const day = formData.get(`${prefix}_birth_day`); if (year && month && day) { return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`; } return ''; }
-    let fullContact; if (formData.get('contact')) { fullContact = formData.get('contact') || ''; } else { const contact1 = formData.get('contact1') || ''; const contact2 = formData.get('contact2') || ''; const contact3 = formData.get('contact3') || ''; fullContact = `${contact1}${contact2}${contact3}`; } data['연락처'] = "'" + fullContact.replace(/\D/g, '');
-    data['상품명'] = formData.get('product'); data['이메일'] = formData.get('email'); data['이름1'] = formData.get('p1_name'); data['양음력1'] = formData.get('p1_solarlunar'); const birth1 = getBirthDate('p1'); if (birth1) { [data['생년1'], data['생월1'], data['생일1']] = birth1.split('-'); } data['생시1'] = formData.get('p1_hour'); data['생분1'] = formData.get('p1_minute'); data['성별1'] = formData.get('p1_gender');
-    if (form.querySelector('[name="p2_name"]')) { data['이름2'] = formData.get('p2_name'); data['양음력2'] = formData.get('p2_solarlunar'); const birth2 = getBirthDate('p2'); if (birth2) { [data['생년2'], data['생월2'], data['생일2']] = birth2.split('-'); } data['생시2'] = formData.get('p2_hour'); data['생분2'] = formData.get('p2_minute'); data['성별1'] = '남자'; data['성별2'] = '여자'; }
-    
-    data['유입경로'] = document.referrer || '직접 입력/알 수 없음';
-    const timeOnPage = Math.round((new Date() - pageLoadTime) / 1000);
-    data['체류시간'] = `${Math.floor(timeOnPage / 60)}분 ${timeOnPage % 60}초`;
-    data['기기정보'] = navigator.userAgent;
-    
-    const agree2 = document.getElementById('agree2');
-    data['개인정보수집동의'] = agree1 && agree1.checked ? '동의' : '미동의';
-    data['광고정보수신동의'] = agree2 && agree2.checked ? '동의' : '미동의';
+  event.preventDefault();
 
-    const urlEncodedData = new URLSearchParams(data);
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData, })
+  const agree1 = document.getElementById('agree1');
+  if (agree1 && !agree1.checked) {
+    alert("개인정보 수집/이용에 동의하셔야 신청이 가능합니다.");
+    return;
+  }
+
+  const form = event.target;
+  const button = form.querySelector('button');
+  const resultDiv = document.getElementById('result');
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
+
+  button.disabled = true; 
+  button.innerText = "신청하는 중..."; 
+  resultDiv.innerText = "";
+
+  const formData = new FormData(form);
+  const data = {};
+
+  function getBirthDate(prefix) { 
+    const year = formData.get(`${prefix}_birth_year`); 
+    const month = formData.get(`${prefix}_birth_month`); 
+    const day = formData.get(`${prefix}_birth_day`); 
+    if (year && month && day) { 
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`; 
+    } 
+    return ''; 
+  }
+
+  let fullContact; 
+  if (formData.get('contact')) { 
+    fullContact = formData.get('contact') || ''; 
+  } else { 
+    const contact1 = formData.get('contact1') || ''; 
+    const contact2 = formData.get('contact2') || ''; 
+    const contact3 = formData.get('contact3') || ''; 
+    fullContact = `${contact1}${contact2}${contact3}`; 
+  } 
+  data['연락처'] = "'" + fullContact.replace(/\D/g, '');
+  data['상품명'] = formData.get('product'); 
+  data['이메일'] = formData.get('email'); 
+  data['이름1'] = formData.get('p1_name'); 
+  data['양음력1'] = formData.get('p1_solarlunar'); 
+
+  const birth1 = getBirthDate('p1'); 
+  if (birth1) { 
+    [data['생년1'], data['생월1'], data['생일1']] = birth1.split('-'); 
+  } 
+  data['생시1'] = formData.get('p1_hour'); 
+  data['생분1'] = formData.get('p1_minute'); 
+  data['성별1'] = formData.get('p1_gender');
+
+  if (form.querySelector('[name="p2_name"]')) { 
+    data['이름2'] = formData.get('p2_name'); 
+    data['양음력2'] = formData.get('p2_solarlunar'); 
+    const birth2 = getBirthDate('p2'); 
+    if (birth2) { 
+      [data['생년2'], data['생월2'], data['생일2']] = birth2.split('-'); 
+    } 
+    data['생시2'] = formData.get('p2_hour'); 
+    data['생분2'] = formData.get('p2_minute'); 
+    data['성별1'] = '남자'; 
+    data['성별2'] = '여자'; 
+  }
+  
+  data['유입경로'] = document.referrer || '직접 입력/알 수 없음';
+  const timeOnPage = Math.round((new Date() - pageLoadTime) / 1000);
+  data['체류시간'] = `${Math.floor(timeOnPage / 60)}분 ${timeOnPage % 60}초`;
+  data['기기정보'] = navigator.userAgent;
+  
+  const agree2 = document.getElementById('agree2');
+  data['개인정보수집동의'] = agree1 && agree1.checked ? '동의' : '미동의';
+  data['광고정보수신동의'] = agree2 && agree2.checked ? '동의' : '미동의';
+
+  const urlEncodedData = new URLSearchParams(data);
+
+  // 1) 기존: 시트에 먼저 저장
+  fetch(APPS_SCRIPT_URL, { method: 'POST', body: urlEncodedData })
     .then(response => response.json())
     .then(result => {
-        if (result.success) { window.location.href = 'thankyou.html'; } 
-        else { console.error('Apps Script Error:', result.error); resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`; }
+      if (result.success) {
+        // 2) 저장 성공 후: 결제DB /create 호출로 연결(공통 키: orderId)
+        const formEl = document.getElementById('saju-form');
+        const fd = new FormData(formEl);
+
+        const orderId = 'EZ' + Date.now();
+        const sel = document.getElementById('product');
+        const product = sel ? sel.value : '';
+        const name = fd.get('p1_name') || '';
+        const phone = (fd.get('contact') || '').replace(/\D/g, '');
+
+        return fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`)
+          .then(r => r.json())
+          .then(pay => {
+            if (pay && pay.success) {
+              alert(`주문 접수\n주문번호: ${orderId}\n상품: ${pay.product}\n금액: ${pay.amount}원`);
+              window.location.href = 'thankyou.html?oid=' + encodeURIComponent(orderId) + '&paid=0';
+            } else {
+              window.location.href = 'thankyou.html?err=pay';
+            }
+          });
+      } else {
+        console.error('Apps Script Error:', result.error);
+        resultDiv.innerText = `⚠️ 신청 실패: ${result.error || '알 수 없는 오류'}`;
+      }
     })
-    .catch(error => { console.error('Fetch Error:', error); resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; })
-    .finally(() => { button.disabled = false; button.innerText = "사주분석 신청하기"; });
+    .catch(error => { 
+      console.error('Fetch Error:', error); 
+      resultDiv.innerText = "⚠️ 신청 중 네트워크 오류가 발생했습니다. 다시 시도해주세요."; 
+    })
+    .finally(() => { 
+      button.disabled = false; 
+      button.innerText = "사주분석 신청하기"; 
+    });
 });
