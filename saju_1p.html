@@ -179,5 +179,42 @@
   });
 </script>
 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- jQuery 강제 로드 -->
+
+<script>
+// 결제 테스트 인라인 (기존 form.js + 결제 탭)
+$(document).ready(function() {
+  console.log('인라인 테스트 시작!');  // F12로 확인
+  
+  // 기존 핸들러 지우고 새로 (강제)
+  $('#sajuForm').off('submit').on('submit', function(e) {
+    console.log('=== 인라인 핸들러 잡음! ===');  // 이 로그 뜨면 성공!
+    
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    
+    var name = $('input[name="name"]').val();
+    console.log('이름:', name);
+    if (!name) { alert('이름 입력!'); return false; }
+    
+    // 결제 탭 열기
+    var payUrl = 'https://testpay.nicepayments.co.kr/pg/pay.jsp?MID=SIMPLETEST&Price=50000&GoodsName=사주&BuyerName=' + encodeURIComponent(name) + '&ReturnUrl=https://easysajusaju-dev.github.io/thankyou.html';
+    console.log('탭 URL:', payUrl);  // 로그
+    window.open(payUrl, '_blank');
+    alert('결제 탭 열렸어요! Sheets 저장 중...');
+    
+    // Sheets 저장 (기존 URL)
+    var formData = $(this).serialize();
+    $.post('https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec', formData, function(response) {
+      console.log('Sheets OK!', response);
+      setTimeout(function() { window.location.href = 'thankyou.html'; }, 1000);
+    });
+    
+    return false;
+  });
+  
+  console.log('인라인 설정 완료!');
+});
+</script>
 </body>
 </html>
