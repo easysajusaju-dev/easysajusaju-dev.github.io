@@ -2,7 +2,7 @@
 
 const pageLoadTime = new Date();
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
-const PAY_API = "https://script.google.com/macros/s/AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec"; // ★ Code.gs 웹앱 주소로 교체 확인
+const PAY_API = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec"; // ★ Code.gs 웹앱 주소로 교체 확인
 
 // --- 유틸리티 함수들 ---
 function populateDateSelects(prefix){ 
