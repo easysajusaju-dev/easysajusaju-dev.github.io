@@ -1,33 +1,50 @@
-// form.js — 신청 저장 및 UI 기능 복구용 (결제 연동 부분은 주석/제거)
-
 const pageLoadTime = new Date();
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
 
-// --- 초기화 및 UI 설정 함수들 (예전처럼) ---
-function populateDateSelects(prefix){ 
-    const y=document.querySelector(`select[name="${prefix}_birth_year"]`), m=document.querySelector(`select[name="${prefix}_birth_month"]`), d=document.querySelector(`select[name="${prefix}_birth_day"]`);
-    if(!y||!m||!d) return;
-    const cy=new Date().getFullYear();
+function populateDateSelects(prefix){
+  const y = document.querySelector(`select[name="${prefix}_birth_year"]`);
+  const m = document.querySelector(`select[name="${prefix}_birth_month"]`);
+  const d = document.querySelector(`select[name="${prefix}_birth_day"]`);
+  if(!y||!m||!d) return;
+  if(y.options.length < 10) { // 중복 방지
+    const cy = new Date().getFullYear();
     for(let i=cy;i>=1930;i--) y.add(new Option(i+'년',i));
     for(let i=1;i<=12;i++) m.add(new Option(i+'월',i));
     for(let i=1;i<=31;i++) d.add(new Option(i+'일',i));
+  }
 }
-function setupHourMinuteSync(person){ 
-    const h=document.querySelector(`select[name="${person}_hour"]`), mm=document.querySelector(`select[name="${person}_minute"]`);
-    if(!h||!mm) return;
-    h.addEventListener('change',()=>{ if(h.value===""){ mm.value=""; mm.disabled=true; } else mm.disabled=false; });
-    if(h.value==="") mm.disabled=true;
+function setupHourMinuteSync(person){
+  const h = document.querySelector(`select[name="${person}_hour"]`);
+  const mm = document.querySelector(`select[name="${person}_minute"]`);
+  if(!h||!mm) return;
+  if(mm.options.length < 10) { // 중복 방지
+    for(let i=0;i<=23;i++) h.add(new Option(i+'시',i));
+    for(let i=0;i<=59;i++) mm.add(new Option(i+'분',i));
+  }
+  h.addEventListener('change',()=>{ if(h.value===""){ mm.value=""; mm.disabled=true; } else mm.disabled=false; });
+  if(h.value==="") mm.disabled=true;
 }
 function setupAgreement(){
-  const agreeAll=document.getElementById('agree_all'), agree1=document.getElementById('agree1'), agree2=document.getElementById('agree2');
+  const agreeAll=document.getElementById('agree_all');
+  const agree1=document.getElementById('agree1');
+  const agree2=document.getElementById('agree2');
   if(!agreeAll) return;
   const items=[agree1,agree2].filter(Boolean);
-  function update(){ const c=items.filter(cb=>cb&&cb.checked).length; agreeAll.checked=c===items.length; agreeAll.indeterminate=c>0&&c<items.length;}
-  agreeAll.addEventListener('change',()=>{items.forEach(cb=>cb&&(cb.checked=agreeAll.checked));update();});
-  items.forEach(cb=>cb&&cb.addEventListener('change',update)); update();
+  function update(){ 
+    const c=items.filter(cb=>cb&&cb.checked).length; 
+    agreeAll.checked=c===items.length; 
+    agreeAll.indeterminate=c>0&&c<items.length;
+  }
+  agreeAll.addEventListener('change',()=>{ items.forEach(cb=>cb&&(cb.checked=agreeAll.checked)); update(); });
+  items.forEach(cb=>cb&&cb.addEventListener('change',update)); 
+  update();
   document.querySelectorAll('.toggle-text').forEach(t=>{
     if(t.tagName==='BUTTON'&&!t.getAttribute('type')) t.setAttribute('type','button');
-    t.addEventListener('click',()=>{ const box=t.closest('.agree-box'); if(!box) return; const tb=box.querySelector('.terms-box'); if(tb) tb.style.display=tb.style.display==='block'?'none':'block';});
+    t.addEventListener('click',()=>{ 
+      const box=t.closest('.agree-box'); if(!box) return; 
+      const tb=box.querySelector('.terms-box'); 
+      if(tb) tb.style.display=tb.style.display==='block'?'none':'block';
+    });
   });
 }
 function setupImageJump(){
@@ -37,7 +54,10 @@ function setupImageJump(){
     if(!formEl) return;
     const top=formEl.getBoundingClientRect().top+window.scrollY-180;
     window.scrollTo({top,behavior:'smooth'});
-    setTimeout(()=>{ const fi=formEl.querySelector('input,select,textarea'); if(fi) fi.focus();},800);
+    setTimeout(()=>{ 
+      const fi=formEl.querySelector('input,select,textarea'); 
+      if(fi) fi.focus();
+    },800);
   }
   imgs.forEach(img=>{ img.style.cursor='pointer'; img.addEventListener('click',e=>{e.preventDefault(); go();}); });
   const headerBtn=document.querySelector('.header-button');
@@ -64,11 +84,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     try{
       const fd=new FormData(formEl), data={};
-      // 주문 ID 생성 (이걸로 시트에서 찾을 것)
       const orderId='EZ'+Date.now(); 
       data['오더ID']=orderId;
 
-      function getBirth(prefix){ /* ... 기존 getBirth 유지 ... */ }
+      function getBirth(prefix){ 
+        const y=fd.get(`${prefix}_birth_year`), m=fd.get(`${prefix}_birth_month`), d=fd.get(`${prefix}_birth_day`);
+        return (y&&m&&d)?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:''; 
+      }
       let contact=''; if(fd.get('contact')) contact=fd.get('contact')||''; else contact=(fd.get('contact1')||'')+(fd.get('contact2')||'')+(fd.get('contact3')||'');
       data['연락처']="'"+contact.replace(/\D/g,''); data['상품명']=fd.get('product')||''; data['이메일']=fd.get('email')||''; data['이름1']=fd.get('p1_name')||''; data['양음력1']=fd.get('p1_solarlunar')||'';
       const b1=getBirth('p1'); if(b1){ const [yy,mm,dd]=b1.split('-'); data['생년1']=yy; data['생월1']=mm; data['생일1']=dd; }
