@@ -58,6 +58,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const formEl=document.getElementById('saju-form'); 
   if(!formEl) return;
 
+ // form.js — 결제 API 호출 로직 통합 (시트 저장 성공 직후)
+// ... (중간 함수들은 그대로 유지) ...
+
   formEl.addEventListener('submit', async (event)=>{
     event.preventDefault();
     const agree1=document.getElementById('agree1'); 
@@ -89,17 +92,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
       const t=await r.text(); let j; try{ j=JSON.parse(t);}catch(_){ j={success:true}; }
       if(!j || !j.success){ throw new Error('신청 저장 실패'); }
 
-      // 2) 결제DB 생성 (PAY_API 사용)
+      // 2) 결제 생성 호출 (PAY_API 사용)
       const sel=document.getElementById('product') || document.querySelector('select[name="product"]');
       const product = (sel && String(sel.value).trim()) ? sel.value : '종합사주';
       const name = fd.get('p1_name')||'';
       const phone=(fd.get('contact')||'').replace(/\D/g,'');
       
       try{ 
-        await fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`); 
-      }catch(_){}
-
-      window.location.href='thankyou.html?oid='+encodeURIComponent(orderId);
+        const payResult = await fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
+        const payJson = await payResult.json(); // JSON으로 응답을 받기를 기대
+        
+        if(payJson.success && payJson.redirectUrl) {
+          window.location.href = payJson.redirectUrl; // 3. PG 결제창으로 이동
+        } else {
+          throw new Error(payJson.msg || '결제 생성 API 실패');
+        }
+      }catch(_){
+        // 4. 결제 생성 실패 시 (API 문제, 로그 기록 등)
+        window.location.href = 'thankyou.html?oid='+encodeURIComponent(orderId); // 일단 thankyou로 이동
+      }
 
     }catch(err){ console.error(err); if(resDiv) resDiv.innerText='⚠️ 오류가 발생했습니다. 다시 시도해주세요.'; }
     finally{ btn.disabled=false; btn.innerText='사주분석 신청하기'; }
