@@ -1,10 +1,11 @@
-// form.js — 최종 안정화 버전 (신청 저장 + 결제DB 호출 + 스크롤/동의/점프 모두 포함)
+// form.js — 최종 안정화 버전 (신청 저장 + 결제 DB 생성 호출)
 
 const pageLoadTime = new Date();
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
-const PAY_API = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec"; // ★ Code.gs 웹앱 주소로 교체 확인
+// ★★★ PAY_API 주소는 Code.gs 웹앱의 'exec' URL (AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec)로 교체해야 함
+const PAY_API = "https://script.google.com/macros/s/AKfycbyaQ08k3mkmDyMhehI8TeT60PeW2O9nmAncBJB_7wvcmRHQRbOUf_lz1b8xHXknQUE8kA/exec"; 
 
-// --- 유틸리티 함수들 ---
+// --- 유틸리티 함수들 (기존 것과 동일) ---
 function populateDateSelects(prefix){ 
     const y=document.querySelector(`select[name="${prefix}_birth_year"]`), m=document.querySelector(`select[name="${prefix}_birth_month"]`), d=document.querySelector(`select[name="${prefix}_birth_day"]`);
     if(!y||!m||!d) return;
@@ -45,8 +46,9 @@ function setupImageJump(){
   if(headerBtn) headerBtn.addEventListener('click',e=>{e.preventDefault(); go();});
 }
 
+
 // -------------------------------------------------------------------
-// [폼 제출 핸들러] — 신청 저장(시트) + 결제 DB 생성 호출
+// [폼 제출 핸들러] — 신청 저장(시트) + 결제DB 생성 호출
 // -------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', ()=>{
   try{ 
@@ -57,9 +59,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   const formEl=document.getElementById('saju-form'); 
   if(!formEl) return;
-
- // form.js — 결제 API 호출 로직 통합 (시트 저장 성공 직후)
-// ... (중간 함수들은 그대로 유지) ...
 
   formEl.addEventListener('submit', async (event)=>{
     event.preventDefault();
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     try{
       const fd=new FormData(formEl), data={};
       const orderId='EZ'+Date.now(); 
-      data['오더ID']=orderId; // L열 기록용
+      data['오더ID']=orderId; // 로그 저장용 오더ID 생성
 
       function getBirth(prefix){ 
         const y=fd.get(`${prefix}_birth_year`), m=fd.get(`${prefix}_birth_month`), d=fd.get(`${prefix}_birth_day`);
@@ -99,18 +98,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
       const phone=(fd.get('contact')||'').replace(/\D/g,'');
       
       try{ 
-        const payResult = await fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
-        const payJson = await payResult.json(); // JSON으로 응답을 받기를 기대
-        
-        if(payJson.success && payJson.redirectUrl) {
-          window.location.href = payJson.redirectUrl; // 3. PG 결제창으로 이동
-        } else {
-          throw new Error(payJson.msg || '결제 생성 API 실패');
-        }
-      }catch(_){
-        // 4. 결제 생성 실패 시 (API 문제, 로그 기록 등)
-        window.location.href = 'thankyou.html?oid='+encodeURIComponent(orderId); // 일단 thankyou로 이동
-      }
+        await fetch(`${PAY_API}?action=create&orderId=${encodeURIComponent(orderId)}&product=${encodeURIComponent(product)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
+      }catch(_){}
+
+      window.location.href='thankyou.html?oid='+encodeURIComponent(orderId);
 
     }catch(err){ console.error(err); if(resDiv) resDiv.innerText='⚠️ 오류가 발생했습니다. 다시 시도해주세요.'; }
     finally{ btn.disabled=false; btn.innerText='사주분석 신청하기'; }
