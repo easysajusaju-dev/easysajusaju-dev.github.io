@@ -163,13 +163,21 @@
             <img src="images/saju1/023.png" alt="상 이미지">
         </div>
     </div>
-    <script src="form.js"></script>
-    <script src="form-payment-test.js"></script>  <!-- 테스트: 결제 추가 -->
-      <script>
-    fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
-      method: "GET",
-      mode: "no-cors"
-    });
-  </script>
+    <!-- jQuery 먼저 로드 (에러 방지) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- 기존 스크립트들 -->
+<script src="form.js"></script>
+<script src="form-payment-test.js"></script>  <!-- 테스트: 결제 추가 -->
+
+<!-- 인라인 fetch (테스트 중 주석 – 원래 필요하면 말씀하세요) -->
+<!--
+<script>
+  fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
+    method: "GET",
+    mode: "no-cors"
+  });
+</script>
+-->
 </body>
 </html>
