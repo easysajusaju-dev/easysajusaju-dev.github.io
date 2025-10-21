@@ -1,38 +1,32 @@
-// form-payment-test.js (테스트용: Sheets 저장 + 결제 새 탭 열기)
-// jQuery 필요 (saju_1p.html에 이미 있음)
-
+// form-payment-test.js (jQuery 확인 로그 추가)
 $(document).ready(function() {
-  // 기존 submit 핸들러 오버라이드 (덮어쓰기 – 원래 form.js 영향 안 줌)
-  $('#sajuForm').off('submit').on('submit', function(e) {
-    e.preventDefault(); // 기본 제출 막기
+  console.log('jQuery 로드 확인: OK!');  // 이게 새로 추가된 거예요 (F12 콘솔에서 봐요)
+  
+  console.log('테스트 JS 로드됨! jQuery OK.');  // 기존 로그
+  
+  // 기존 submit 핸들러에 "추가" (오버라이드 안 함 – 기존 흐름 유지)
+  $('#sajuForm').on('submit', function(e) {
+    e.preventDefault();  // 자동 제출 완전 막기
     
-    // 1. 폼 데이터 수집 (당신 기존처럼)
-    var formData = $(this).serialize(); // 모든 input 자동으로
+    console.log('버튼 클릭됨!');  // 콘솔 로그 (F12로 봐요)
     
-    // 2. 기존 Sheets 저장 (Script URL 그대로)
-    $.post('https://script.google.com/macros/s/AKfycbxw9v5o3g8.../exec', formData, function(response) {
-      console.log('Sheets 저장 OK!'); // F12 콘솔에서 확인
-      alert('신청이 Sheets에 저장됐어요! 이제 결제창이 열립니다.');
-    }).fail(function() {
-      alert('Sheets 저장 오류! 콘솔(F12) 확인하세요.');
-      return; // 실패 시 결제 스킵
-    });
+    // 폼 데이터 수집 (입력 확인)
+    var name = $('input[name="name"]').val();
+    if (!name) {
+      alert('이름을 입력하세요!');  // 빈 폼 방지
+      return false;
+    }
     
-    // 3. 결제 금액 (하드코딩 – 기본 50,000원)
-    var amount = 50000; // 나중엔 사주 타입별로 바꿈 (e.g., $('select[name="sajuType"]').val())
-    
-    // 4. NicePayments URL 만들기 (테스트 모드)
+    // 결제 부분만 실행 (Sheets는 기존 JS가 함)
+    var amount = 50000;
     var payUrl = 'https://testpay.nicepayments.co.kr/pg/pay.jsp?' +
-                 'MID=SIMPLETEST&' +  // 테스트 MID – 실제로 바꾸세요!
-                 'Price=' + amount +
-                 '&GoodsName=1인 사주풀이&' +
-                 'BuyerName=' + encodeURIComponent($('input[name="name"]').val()) +
-                 '&ReturnUrl=https://easysajusaju-dev.github.io/thankyou.html&' +
-                 'FailUrl=https://easysajusaju-dev.github.io/saju_1p.html';  // 실패 시 이 페이지로
+                 'MID=SIMPLETEST&Price=' + amount + 
+                 '&GoodsName=1인 사주풀이&BuyerName=' + encodeURIComponent(name) + 
+                 '&ReturnUrl=https://easysajusaju-dev.github.io/thankyou.html';
     
-    // 5. 새 탭으로 결제창 열기
-    window.open(payUrl, '_blank');
+    window.open(payUrl, '_blank');  // 새 탭 열기
+    alert('결제창이 열렸어요! (신청도 함께 진행됩니다.)');
     
-    return false; // 제출 막기
+    return true;  // 기존 제출 허용 (Sheets + thankyou)
   });
 });
