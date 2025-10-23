@@ -98,12 +98,12 @@
 
     <div class="agree-box">
         <input type="checkbox" id="agree_all">
-        <label for="agree_all">전체동의(수집/이용, 개인정보, 광고성 정보 수신)</label>
+        <label for="agree_all">전체동의 (필수항목, 광고성 정보 수신 포함)</label>
     </div>
 
     <!-- 개인정보 수집·이용 동의 (필수) -->
     <div class="agree-box">
-        <input type="checkbox" id="agree1" name="agree1" required>
+        <input type="checkbox" id="agree1" name="agree1" class="agree-item" required>
         <label for="agree1">[필수] 개인정보 수집·이용 동의 <span class="toggle-text">[보기]</span></label>
         <textarea class="terms-box" readonly>
 [필수] 개인정보 수집·이용 동의
@@ -129,7 +129,7 @@
 
     <!-- 광고성 정보 수신 동의 (선택) -->
     <div class="agree-box">
-        <input type="checkbox" id="agree2" name="agree2">
+        <input type="checkbox" id="agree2" name="agree2" class="agree-item">
         <label for="agree2">[선택] 광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
         <textarea class="terms-box" readonly>
 [선택] 광고성 정보 수신 동의
