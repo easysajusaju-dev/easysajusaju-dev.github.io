@@ -87,21 +87,6 @@ legend {
     grid-column: 1 / -1; /* 이름 필드는 한 줄 전체 사용 */
 }
 
-
-.agree-box {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    font-size: 13px;
-}
-.agree-box input[type="checkbox"] {
-    width: auto;
-    margin-right: 8px;
-}
-.agree-box label {
-    margin-bottom: 0;
-}
-
 button {
     width: 100%;
     padding: 15px;
@@ -225,45 +210,6 @@ button:hover {
     border-radius: 4px;
 }
 
-/* '전체동의' 항목 스타일 */
-.agree-section .agree-box:first-child {
-    border-bottom: 1px solid #4a627c;
-    padding-bottom: 10px;
-    margin-bottom: 12px; /* '전체동의'와 '필수' 항목 사이 간격 */
-}
-
-/* '전체동의' 라벨 텍스트만 굵게 */
-.agree-section .agree-box:first-child label {
-    font-weight: 700;
-}
-
-/* [필수]와 [선택] 항목을 포함한 모든 동의 항목 */
-.agree-section .agree-box {
-    margin-bottom: 4px; /* ★ 각 항목 사이의 간격을 4px로 바짝 붙임 */
-}
-
-/* 모든 라벨 텍스트 스타일 */
-.agree-section .agree-box label {
-    font-size: 12px;    /* ★ 폰트 크기를 12px로 한 단계 더 줄임 */
-    font-weight: 400;
-    line-height: 1.1;   /* ★ 줄 간격을 촘촘하게 만듦 */
-}
-
-/* 약관 내용 박스 (기본 숨김) */
-.agree-section .terms-box {
-    display: none;
-    margin-top: 10px;
-    font-size: 12px;
-    color: #ccc;
-    background-color: #333;
-    border: 1px solid #555;
-    padding: 10px;
-    height: 100px;
-    width: 100%;
-    box-sizing: border-box;
-}
-/* style.css 파일 맨 아래에 추가 */
-
 /* 연락처 입력 그룹 */
 .contact-group {
     display: flex;
@@ -283,25 +229,7 @@ button:hover {
 }
 /* style.css 파일 맨 아래에 추가 */
 
-/* 약관 보기 기능 스타일 */
-.toggle-text {
-    color: #a9cce3; /* 링크 색상 */
-    cursor: pointer;
-    text-decoration: underline;
-}
-.terms-box {
-    display: none; /* 평소에는 숨겨둠 */
-    width: 100%;
-    height: 80px;
-    margin-top: 10px;
-    padding: 8px;
-    font-size: 12px;
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical; /* 사용자가 높이를 조절할 수 있게 함 */
-}
+
 /* style.css 파일 맨 아래에 추가 */
 
 /* style.css 파일의 고정 헤더 관련 코드 전체를 이 코드로 교체 */
@@ -387,4 +315,77 @@ button:hover {
     height: 100px;
     width: 100%;
     box-sizing: border-box;
+}
+/* ================================================= */
+/* [최종 수정] 개인정보 동의 항목 스타일 (완성본)     */
+/* ================================================= */
+
+/* 동의 섹션 전체를 감싸는 박스 */
+.agree-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #22303f;
+    border-radius: 4px;
+}
+
+/* '전체동의' 항목의 스타일 (구분선과 간격) */
+.agree-section .agree-box:first-child {
+    border-bottom: 1px solid #4a627c;
+    padding-bottom: 10px;
+    margin-bottom: 10px; /* '전체동의'와 '필수' 사이의 간격 */
+}
+
+/* '전체동의' 라벨 텍스트만 굵게 */
+.agree-section .agree-box:first-child label {
+    font-weight: 700;
+}
+
+/* ★★★ 핵심: [필수]와 [선택] 항목이 포함된 각 줄의 스타일 ★★★ */
+/* !important를 사용하여 다른 모든 스타일을 무시하고 강제로 적용합니다. */
+.agree-section .agree-box {
+    display: flex !important;
+    align-items: center !important;
+    padding: 1px 0 !important;      /* 위아래 여백을 최소화 */
+    margin: 0 !important;           /* ★ 각 줄 사이의 외부 여백을 완전히 제거 */
+}
+
+/* 라벨 텍스트 스타일 강제 지정 */
+.agree-section .agree-box label {
+    font-size: 12px !important;     /* 글자 크기를 강제로 12px로 줄임 */
+    line-height: 1.1 !important;    /* 줄간격을 강제로 촘촘하게 만듦 */
+    margin: 0 !important;           /* 라벨 자체의 모든 여백 제거 */
+    padding: 0 !important;          /* 라벨 자체의 모든 패딩 제거 */
+    display: inline-block !important; /* 다른 곳의 display:block 속성을 무시 */
+    font-weight: 400 !important;    /* 굵기를 보통으로 강제 지정 */
+}
+
+/* 체크박스 스타일 강제 지정 */
+.agree-section .agree-box input[type="checkbox"] {
+    margin: 0 8px 0 0 !important;   /* 위,아래,왼쪽 여백 0 / 오른쪽 여백만 8px */
+    transform: scale(0.9);          /* 체크박스 크기를 약간 줄여 더 작아보이게 함 */
+    padding: 0 !important;
+    width: auto !important;
+}
+
+/* 약관 보기 [보기] 텍스트 스타일 */
+.agree-section .toggle-text {
+    color: #a9cce3;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 5px; /* 앞 텍스트와 약간의 간격 */
+}
+
+/* 약관 내용 박스 (기본 숨김) */
+.agree-section .terms-box {
+    display: none;
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
 }
