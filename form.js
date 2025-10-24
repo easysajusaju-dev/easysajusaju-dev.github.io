@@ -97,12 +97,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
       data['생시1']=fd.get('p1_hour')||''; data['생분1']=fd.get('p1_minute')||''; data['성별1']=fd.get('p1_gender')||'';
       if(formEl.querySelector('[name="p2_name"]')){ data['이름2']=fd.get('p2_name')||''; data['양음력2']=fd.get('p2_solarlunar')||''; const b2=getBirth('p2'); if(b2){ const [y2,m2,d2]=b2.split('-'); data['생년2']=y2; data['생월2']=m2; data['생일2']=d2; } data['생시2']=fd.get('p2_hour')||''; data['생분2']=fd.get('p2_minute')||''; data['성별1']='남자'; data['성별2']='여자'; }
       data['유입경로']=document.referrer||'직접 입력/알 수 없음'; const stay=Math.round((new Date()-pageLoadTime)/1000); data['체류시간']=`${Math.floor(stay/60)}분 ${stay%60}초`; data['기기정보']=navigator.userAgent;
-      // ================== [UTM 추적 코드 추가] ==================
-      const urlParams = new URLSearchParams(window.location.search);
-      data['UTM소스'] = urlParams.get('utm_source') || '직접입력';
-      data['UTM매체'] = urlParams.get('utm_medium') || '없음';
-      data['UTM캠페인'] = urlParams.get('utm_campaign') || '없음';
-// ==========================================================
+      /// ================== [UTM 추적 코드 업그레이드] ==================
+const urlParams = new URLSearchParams(window.location.search);
+
+// 1순위: 현재 URL의 UTM, 2순위: '포스트잇'(세션 스토리지), 3순위: 기본값
+data['UTM소스'] = urlParams.get('utm_source') || sessionStorage.getItem('utm_source') || '직접입력';
+data['UTM매체'] = urlParams.get('utm_medium') || sessionStorage.getItem('utm_medium') || '없음';
+data['UTM캠페인'] = urlParams.get('utm_campaign') || sessionStorage.getItem('utm_campaign') || '없음';
+// =============================================================
       const agree2=document.getElementById('agree2'); data['개인정보수집동의']=(agree1&&agree1.checked)?'동의':'미동의'; data['광고정보수신동의']=(agree2&&agree2.checked)?'동의':'미동의';
 
       // 1) 시트 저장 (기존 로직 유지)
