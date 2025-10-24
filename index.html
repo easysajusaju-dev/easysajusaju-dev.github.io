@@ -148,6 +148,30 @@
 </footer>
     
     <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
+<script>
+  // 페이지가 열리면, URL에 UTM 꼬리표가 있는지 확인하고,
+  // 있으면 브라우저의 '임시 주머니(세션 스토리지)'에 저장합니다.
+  document.addEventListener("DOMContentLoaded", function() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utm_source = urlParams.get('utm_source');
+      const utm_medium = urlParams.get('utm_medium');
+      const utm_campaign = urlParams.get('utm_campaign');
+
+      if (utm_source) {
+        sessionStorage.setItem('utm_source', utm_source);
+      }
+      if (utm_medium) {
+        sessionStorage.setItem('utm_medium', utm_medium);
+      }
+      if (utm_campaign) {
+        sessionStorage.setItem('utm_campaign', utm_campaign);
+      }
+    } catch(e) {
+      console.error("UTM 저장 중 오류 발생:", e);
+    }
+  });
+</script>
 
 </body>
 </html>
