@@ -115,7 +115,44 @@ data['UTM캠페인'] = urlParams.get('utm_campaign') || sessionStorage.getItem('
 
       // 2) 결제 생성 호출 (PAY_API는 현재 비활성화/플레이스홀더 상태 유지)
       // PG 연동 전이므로, 일단 성공으로 간주하고 thankyou로 이동
-      window.location.href='thankyou.html?oid='+encodeURIComponent(orderId);
+     // --- 이 아래 코드로 전체를 교체합니다 ---
+
+// 1. 폼에서 상품명 가져오기
+const productName = fd.get('product') || '기본 상품';
+
+// 2. 상품명에 따라 가격 결정하기 (이 부분은 실제 상품/가격에 맞게 직접 수정해주세요)
+let productPrice = 0;
+if (productName === '종합사주 미니') {
+  productPrice = 5000;
+} else if (productName === '신년운세') {
+  productPrice = 19900;
+} else if (productName === '종합사주') {
+  productPrice = 34900;
+} else if (productName === '재물사주') {
+  productPrice = 14900;
+} else if (productName === '결혼사주') {
+  productPrice = 12900;
+} else if (productName === '연애사주') {
+  productPrice = 9900;
+} else if (productName === '연애패키지') {
+  productPrice = 19900;
+} else if (productName === '타이밍패키지') {
+  productPrice = 26900;
+} else if (productName === '인생패키지') {
+  productPrice = 39900;
+} else if (productName === '재회운') {
+  productPrice = 29900;
+} else if (productName === '궁합사주') {
+  productPrice = 29900;
+} else {
+  productPrice = 34900; // 기본값 또는 다른 상품 가격
+}
+
+// 3. 상품명과 가격을 꼬리표로 붙여 thank you 페이지로 이동시키기
+const thankYouUrl = `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
+window.location.href = thankYouUrl;
+
+// --- 여기까지 교체 ---
 
     }catch(err){ console.error(err); if(resDiv) resDiv.innerText='⚠️ 오류가 발생했습니다. 다시 시도해주세요.'; }
     finally{ btn.disabled=false; btn.innerText='사주분석 신청하기'; }
