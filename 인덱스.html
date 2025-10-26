@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+ <!-- ================== ⭐ 파비콘 설정 코드 ================== -->
+<link rel="icon" href="https://easysajusaju-dev.github.io/easysajusaju-dev.github.io/images/logo.png" type="image/png">
+<!-- 애플 기기용 아이콘 (홈 화면에 추가 시 보임) -->
+<link rel="apple-touch-icon" href="https://easysajusaju-dev.github.io/easysajusaju-dev.github.io/images/logo.png">
+<!-- ======================================================= -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+ <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
+  <meta property="og:title" content="이지사주">
+  <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
+  <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
+  <meta property="og:url" content="https://easysajusaju-dev.github.io/">
+  <meta property="og:type" content="website">
+<!-- ======================================================================= -->
+
+ 
+    <title>이지사주 - 당신의 운명을 풀어내는 곳</title>
+    <link rel="stylesheet" href="style_index.css"> <!-- index.html 전용 스타일시트 -->
+    <!-- Meta Pixel Code -->
+
+    <!-- End Meta Pixel Code -->
+</head>
+<body>
+   <!-- ================== 상단바바 시작 ================== -->
+<div class="index-topbar"> <a href="index.html" class="topbar-brand">
+  <img src="logo.png" alt="이지사주 로고"> <span>이지사주</span> </a>
+  <button id="open-nav-btn" class="topbar-burger" aria-label="메뉴 열기">&#9776;</button>
+</div>
+
+  <!-- ================== 사이드 메뉴 코드 시작 ================== -->
+<!-- 화면을 덮는 반투명 오버레이 -->
+<div id="nav-overlay"></div>
+
+<!-- 사이드 메뉴 (숨겨져 있음) -->
+<nav id="side-nav">
+        <div class="nav-header">
+        <!-- 로고 이미지와 텍스트를 함께 표시하는 부분 -->
+        <div class="logo-in-nav">
+            <img src="logo.png" alt="이지사주 로고">
+            <span>이지사주</span>
+        </div>
+        <a href="javascript:void(0);" id="close-nav-btn">&times;</a>
+    </div>
+    <ul class="nav-menu">
+        <li><a href="index.html">홈으로 가기</a></li>
+        
+        <!-- 아코디언 메뉴 1 -->
+        <li class="accordion">
+            <div class="accordion-header">사주 분석 신청<span class="arrow">&#9662;</span></div>
+            <div class="accordion-content">
+                <a href="saju_1p.html">이지사주 개인사주</a>
+                <a href="#">이지사주 신년운세</a>
+                <a href="saju_2p.html">이지사주 재회운(궁합)</a>
+            </div>
+        </li>
+
+        <!-- 아코디언 메뉴 2 -->
+        <li class="accordion">
+            <div class="accordion-header">무료 운세 <span class="arrow">&#9662;</span></div>
+            <div class="accordion-content">
+                <a href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer">오늘의 운세</a>
+                <a href="https://script.google.com/macros/s/AKfycbwc4LpxlkQZUOh7sPRcOC6cUOZYx5TU7J2FB0Dd66PniVVigClskbPNbb7dDSkpDgNvtA/exec" target="_blank" rel="noopener noreferrer">무료 운세 보기</a>
+            </div>
+        </li>
+
+              <li><a href="#">내 분석 결과 다시 보기</a></li>
+    </ul>
+    <div class="nav-footer">
+        <a href="http://pf.kakao.com/_xkAevn/chat" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
+        <p>운영시간 평일 09:00~18:00</p>
+    </div>
+</nav>
+<!-- ================== 사이드 메뉴 코드 끝 ================== -->
+ 
+    <!-- 1. 히어로 섹션: 배경 이미지와 핵심 메시지 -->
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>당신의 운명, 궁금하지 않으신가요?</h1>
+            <p>13년 경력의 명리 전문가가 굳게 닫힌 운명의 문을 열어 당신의 길을 밝혀드립니다.</p>
+            <p>- 이지사주 -</p>
+            <a href="#services" class="hero-button">서비스 둘러보기</a>
+        </div>
+    </header>
+
+    <!-- 2. 서비스 소개 섹션 -->
+    <main id="services" class="services-section">
+        <h3>어떤 분석을 원하시나요?</h3>
+        <div class="service-cards cover-card-grid">
+          <!-- 개인 사주 -->
+          <a class="cover-card" href="saju_1p.html"> 
+            <img src="images/card-individual.jpg" alt="개인 사주 분석" loading="lazy">
+            <div class="cover-caption"
+              > <h3>개인 사주 분석</h3>
+              <p>재물운·연애운·결혼운·종합사주</p>
+              <span class="cover-cta">신청하기</span>
+            </div>
+          </a>          <!-- 궁합/재회 -->
+          <a class="cover-card" href="saju_2p.html">
+            <img src="images/card-couple.jpg" alt="궁합 / 재회운 분석" loading="lazy">
+            <div class="cover-caption">
+              <h3>궁합 / 재회운 분석</h3>
+              <p>그 사람과의 인연과 흐름을 깊이 분석</p>
+              <span class="cover-cta">신청하기</span>
+            </div>
+          </a> <!-- 무료 사주 (외부) --> <a class="cover-card" href="https://script.google.com/macros/s/AKfycbwc4LpxlkQZUOh7sPRcOC6cUOZYx5TU7J2FB0Dd66PniVVigClskbPNbb7dDSkpDgNvtA/exec" target="_blank" rel="noopener noreferrer"> <img src="images/card-free.jpg" alt="무료 사주 분석" loading="lazy"> <div class="cover-caption"> <h3>무료 사주 분석</h3> <p>요약 사주분석을 무료로 제공</p> <span class="cover-cta">바로가기</span> </div> </a> <!-- 오늘의 운세 (외부) --> <a class="cover-card" href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer"> <img src="images/card-daily.jpg" alt="오늘의 운세" loading="lazy"> <div class="cover-caption"> <h3>오늘의 운세</h3> <p>매일 아침 찾아오는 나만의 가이드</p> <span class="cover-cta">조회하기</span> </div> </a> </div>
+        </div>
+    </main>
+    
+    <!-- 3. 신뢰도 구축 섹션 (고객 후기 등) -->
+ <section class="review-section">
+  <h2>"철학관보다 만족스러웠어요!"</h2>
+  <p class="review-guide">좌우로 밀면 보다 많은 후기를 볼 수 있어요.</p>
+
+  <div class="review-container">   
+      <span class="arrow left">〈</span>
+      <div class="review-slider" id="reviewSlider">
+    <div class="review">
+      “헤어진 지 세 달 만에 재회운 상담을 신청했어요. 처음엔 반신반의했는데 조언해주신 시기와 행동 팁이 정말 딱 들어맞아서 놀랐습니다. 지금은 다시 사이도 좋아져서 행복해요.”
+    </div>
+
+    <div class="review">
+      “직장 문제로 불안할 때 사주를 봤는데, 제가 진짜 잘 맞는 분야를 구체적으로 알려주셨어요. 조언대로 움직였더니 이번엔 면접도 잘 보고 좋은 결과가 있었습니다. 방향을 찾은 느낌이에요.”
+    </div>
+
+    <div class="review">
+      “결혼운이 궁금해서 신청했는데, 단순한 시기 얘기가 아니라 제 성향과 어울리는 사람의 특징까지 알려주셔서 신기했어요. 마음이 훨씬 편해졌습니다.”
+    </div>
+
+    <div class="review">
+      “재물운 상담을 받았는데 너무 현실적인 조언이라 깜짝 놀랐어요. 월별 운 흐름대로 계획을 세웠더니 이상하게도 지출이 줄고 수입이 안정됐습니다. 덕분에 자신감이 생겼어요.”
+    </div>
+
+    <div class="review">
+      “시험 준비 중이라 심리적으로 힘들었는데 분석서를 받고 나서 마음이 정리됐어요. 집중해야 할 시기와 쉬어야 할 때를 구분해주셔서 공부 효율이 확 높아졌습니다.”
+    </div>
+
+    <div class="review">
+      “무료 분석을 신청했을 뿐인데 생각보다 상세하게 나와서 놀랐어요. 특히 제 성향 분석 부분이 너무 정확해서 공감됐어요. 친구한테도 추천했습니다.”
+    </div>
+
+    <div class="review">
+      “사업 방향에 대해 막막했는데, 사주 흐름을 기반으로 구체적인 시기별 전략을 알려주셔서 큰 도움이 됐어요. 지금도 그 일정표를 참고하고 있습니다.”
+    </div>
+
+    <div class="review">
+      “올해 연애운이 궁금해서 가볍게 신청했는데, 제 감정 패턴을 짚어주셔서 오히려 제 자신을 이해하게 됐어요. 결과 보고 정말 감탄했습니다.”
+    </div>
+    <span class="arrow right">〉</span>      
+  </div>
+</section>
+
+     <!-- 4. 푸터 -->
+    <footer class="footer">
+        <!-- 소셜 아이콘 링크 (새로 추가) -->
+        <div class="social-icons">
+            <!-- 
+                아래 href="#" 부분에 실제 본인의 채널 주소를 넣어주세요.
+                src="images/..." 부분에 준비한 아이콘 이미지 파일 경로를 넣어주세요.
+             -->
+            <a href="http://pf.kakao.com/_xkAevn" target="_blank" title="카카오채널"><img src="images/kakaotalk.png" alt="카카오채널 아이콘"></a>
+            <a href="https://www.threads.com/@easy.saju?hl=ko" target="_blank" title="스레드"><img src="images/threads.png" alt="스레드 아이콘"></a>
+            <a href="https://www.instagram.com/easy.saju" target="_blank" title="인스타그램"><img src="images/instagram.png" alt="인스타그램 아이콘"></a>
+            <a href="https://www.youtube.com/channel/UCLQGqG5Vy2WcTaKbvYOwHLA?sub_confirmation=1" target="_blank" title="유튜브"><img src="images/youtube.png" alt="유튜브 아이콘"></a>
+            <a href="https://www.tiktok.com/@easysaju" target="_blank" title="틱톡"><img src="images/tiktok.png" alt="틱톡 아이콘"></a>
+        </div>
+
+       <!-- 사업자 정보 (펼치기/접기 기능 추가) -->
+    <div class="footer-info">
+        <!-- ▼▼▼ 약관, 개인정보지침 추가 ▼▼▼ -->
+<div class="footer-links">
+    <a href="terms.html">이용약관</a>
+    <span class="link-divider">·</span>
+    <a href="privacy.html">개인정보처리방침</a>
+</div>
+        <!-- (1) 클릭할 제목 부분 -->
+        <div class="info-toggle" id="info-toggle-button">
+            이지사주 사업자정보 <span id="info-arrow">▼</span>
+        </div>
+
+        <!-- (2) 펼쳐질 상세 정보 부분 -->
+        <div class="info-details" id="business-info-details">
+            <p>상호명: 이지사주 | 대표: 안미정</p>
+            <p>사업자등록번호: 550-64-00884</p>
+            <p>통신판매번호: 제2025-고양일산동-1332호</p>
+            <p>이메일: easysaju.saju@gmail.com</p>
+            <p>전화: 010-2151-3949</p>
+        </div>
+
+        <!-- (3) 항상 보이는 저작권 정보 -->
+        <p class="copyright">&copy; 2025 이지사주. All rights reserved.</p>
+    </div>
+</footer>
+    
+    <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
+<script>
+  // 페이지가 열리면, URL에 UTM 꼬리표가 있는지 확인하고,
+  // 있으면 브라우저의 '임시 주머니(세션 스토리지)'에 저장합니다.
+  document.addEventListener("DOMContentLoaded", function() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utm_source = urlParams.get('utm_source');
+      const utm_medium = urlParams.get('utm_medium');
+      const utm_campaign = urlParams.get('utm_campaign');
+
+      if (utm_source) {
+        sessionStorage.setItem('utm_source', utm_source);
+      }
+      if (utm_medium) {
+        sessionStorage.setItem('utm_medium', utm_medium);
+      }
+      if (utm_campaign) {
+        sessionStorage.setItem('utm_campaign', utm_campaign);
+      }
+    } catch(e) {
+      console.error("UTM 저장 중 오류 발생:", e);
+    }
+  });
+</script>
+ <script>
+    // 페이지 로드 후 실행
+    document.addEventListener('DOMContentLoaded', function() {
+        const openNavBtn = document.getElementById('open-nav-btn');
+        const closeNavBtn = document.getElementById('close-nav-btn');
+        const sideNav = document.getElementById('side-nav');
+        const navOverlay = document.getElementById('nav-overlay');
+        const accordions = document.querySelectorAll('.accordion-header');
+
+// 메뉴 열기
+openNavBtn.addEventListener('click', function () {
+    sideNav.classList.add('active');
+    navOverlay.classList.add('active');
+
+    // 메뉴가 화면에 렌더된 뒤 첫 번째 아코디언 자동 펼치기
+    setTimeout(function () {
+        // 1) 모두 접기
+        const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
+        items.forEach(function (li) {
+            li.classList.remove('active');
+            const content = li.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = null;
+        });
+
+        // 2) 첫 번째 아코디언만 펼치기 (사주 분석 신청)
+        const first = sideNav.querySelector('.nav-menu > li.accordion');
+        if (first) {
+            first.classList.add('active');
+            const content = first.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }, 50); // 30~80ms 사이로 조절 가능
+});
+        
+        // 메뉴 닫기 (X 버튼, 배경 클릭)
+        function closeMenu() {
+            sideNav.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
+        closeNavBtn.addEventListener('click', closeMenu);
+        navOverlay.addEventListener('click', closeMenu);
+
+        // 아코디언 메뉴 기능
+        accordions.forEach(function(accordion) {
+            accordion.addEventListener('click', function() {
+                this.parentElement.classList.toggle('active');
+            });
+        });
+    });
+</script>
+</body>
+</html>
