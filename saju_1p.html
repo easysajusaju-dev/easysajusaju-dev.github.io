@@ -244,30 +244,31 @@ Contact : easysaju.saju@gmail.com<br>
         const navOverlay = document.getElementById('nav-overlay');
         const accordions = document.querySelectorAll('.accordion-header');
 
-        // 메뉴 열기
-        openNavBtn.addEventListener('click', function () {
-sideNav.classList.add('active');
-navOverlay.classList.add('active');
+// 메뉴 열기
+openNavBtn.addEventListener('click', function () {
+    sideNav.classList.add('active');
+    navOverlay.classList.add('active');
 
-text
+    // 메뉴가 화면에 렌더된 뒤 첫 번째 아코디언 자동 펼치기
+    setTimeout(function () {
+        // 1) 모두 접기
+        const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
+        items.forEach(function (li) {
+            li.classList.remove('active');
+            const content = li.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = null;
+        });
 
-// 1) 모든 아코디언 접기
-const items = document.querySelectorAll('#side-nav .accordion');
-items.forEach(function (li) {
-    li.classList.remove('active');
-    const content = li.querySelector('.accordion-content');
-    if (content) content.style.maxHeight = null; // 안전조치(인라인 높이 초기화)
+        // 2) 첫 번째 아코디언만 펼치기 (사주 분석 신청)
+        const first = sideNav.querySelector('.nav-menu > li.accordion');
+        if (first) {
+            first.classList.add('active');
+            const content = first.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }, 50); // 30~80ms 사이로 조절 가능
 });
-
-// 2) 첫 번째 아코디언만 펼치기
-const first = document.querySelector('#side-nav .accordion');
-if (first) {
-    first.classList.add('active');
-    const content = first.querySelector('.accordion-content');
-    if (content) content.style.maxHeight = content.scrollHeight + 'px';
-}
-});
-
+        
         // 메뉴 닫기 (X 버튼, 배경 클릭)
         function closeMenu() {
             sideNav.classList.remove('active');
