@@ -598,3 +598,36 @@ button:hover {
 /* 예전에 로고 숨기던 규칙 덮어쓰기(필수) */
 .header-logo-link::before{ content:none !important; } /* 옛 ☰ 의사요소 제거 */
 .header-logo-link .header-logo{ display:inline-block !important; }
+/* 헤더 왼쪽: 햄버거 + 로고 + 텍스트 모두 보이게 + 간격 주기 */
+.header-logo-link{
+  display: flex;
+  align-items: center;
+  gap: 10px;                 /* 햄버거 ↔ 로고 ↔ 글씨 간격: 8~14px로 조절 */
+  text-decoration: none;
+  color: #222;
+}
+
+/* 의사요소로 만든 옛 햄버거 제거(겹침 방지) */
+.header-logo-link::before{ content: none !important; }
+
+/* 실제 햄버거 span 강제 표시 */
+#open-nav-btn .burger{
+  display: inline-block !important;
+  font-size: 22px;           /* 크기 조절 */
+  line-height: 1;
+  color: #222;
+  margin-right: 2px;         /* 필요 시 0~6px 조정 */
+}
+
+/* 로고 이미지 확실히 보이게 */
+.header-logo{
+  display: inline-block !important;
+  height: 22px;              /* 20~26px로 조절 */
+  width: auto;
+}
+
+/* 텍스트 스타일 */
+.header-title{
+  font-weight: 700;
+  font-size: 18px;           /* 16~20px로 조절 */
+}
