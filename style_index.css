@@ -670,7 +670,7 @@ box-shadow:0 2px 10px rgba(0,0,0,.2);
 .cover-card.split .cover-caption p{ margin: 0; font-size: 14px; color: #666; }
 .cover-card.split .cover-cta{
   position: absolute !important;
-  left: 16px;
+  right: 16px;
   bottom: calc(100% - clamp(190px, 38vw, 260px) + 12px);
   margin: 0;
   padding: 8px 12px;
