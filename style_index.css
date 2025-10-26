@@ -497,3 +497,73 @@ body, html {
 .index-topbar.light .topbar-brand span,
 .index-topbar.light .topbar-burger{ color:#111; text-shadow:none; }
 .index-topbar.light .topbar-burger:hover{ background: rgba(0,0,0,.06); }
+/* ===== 인덱스: 사이드 메뉴 전체 스타일 ===== */
+#nav-overlay{
+position:fixed; inset:0;
+background:rgba(0,0,0,.5);
+z-index:999;
+opacity:0; visibility:hidden;
+transition:opacity .3s, visibility .3s;
+}
+#nav-overlay.active{ opacity:1; visibility:visible; }
+
+#side-nav{
+position:fixed; top:0; left:0;
+width:80%; max-width:320px; height:100%;
+background:#fff; box-shadow:2px 0 10px rgba(0,0,0,.12);
+transform:translateX(-100%);
+transition:transform .3s ease;
+z-index:1000;
+display:flex; flex-direction:column;
+}
+#side-nav.active{ transform:translateX(0); }
+
+/* 헤더(로고+X) */
+#side-nav .nav-header{
+display:flex; align-items:center; justify-content:space-between;
+padding:14px 16px; border-bottom:1px solid #eee;
+}
+#side-nav .logo-in-nav{ display:flex; align-items:center; gap:8px; font-weight:800; color:#222; font-size:18px; }
+#side-nav .logo-in-nav img{ height:24px; width:auto; }
+#close-nav-btn{ font-size:28px; color:#888; text-decoration:none; cursor:pointer; }
+
+/* 메뉴 리스트 */
+#side-nav .nav-menu{
+list-style:none; margin:0; padding:8px 0;
+flex:1; overflow-y:auto;
+}
+#side-nav .nav-menu > li > a,
+#side-nav .nav-menu > li > .accordion-header{
+display:block; padding:16px 18px;
+font-weight:700; font-size:19px; color:#222; text-decoration:none;
+border-bottom:1px solid #f3f3f3;
+}
+
+/* 아코디언 */
+.accordion .accordion-header{ display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.accordion .arrow{ transition:transform .25s; }
+.accordion.active .arrow{ transform:rotate(180deg); }
+
+.accordion-content{
+max-height:0; overflow:hidden;
+transition:max-height .3s ease;
+background:#fafafa;
+}
+.accordion.active .accordion-content{ max-height:800px; } /* 필요하면 숫자 더 키워도 됨 */
+.accordion-content a{
+display:block; padding:12px 18px 12px 34px;
+font-size:16px; font-weight:400; color:#444; text-decoration:none;
+border-bottom:1px solid #f3f3f3;
+}
+
+/* 푸터 */
+#side-nav .nav-footer{ border-top:1px solid #eee; padding:16px; text-align:center; }
+#side-nav .kakao-btn{
+display:block; background:#FEE500; color:#191919;
+padding:12px; border-radius:8px; font-weight:700; text-decoration:none;
+}
+#side-nav .nav-footer p{ margin:10px 0 0; font-size:12px; color:#888; }
+
+/* 투명 상단바와의 z-index 관계 */
+#nav-overlay{ z-index:999 !important; }
+#side-nav{ z-index:1000 !important; }
