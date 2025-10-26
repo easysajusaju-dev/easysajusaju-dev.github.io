@@ -548,7 +548,7 @@ button:hover {
     color: #333;
 }
 #side-nav .logo-in-nav img {
-    height: 35px; /* 로고 이미지 높이 조절 */
+    height: 30px; /* 로고 이미지 높이 조절 */
     width: auto;
 }
 
@@ -558,16 +558,14 @@ button:hover {
 }
 
 /* -- 폰트 스타일 변경 (핵심) -- */
-
 /* 1. 메인 메뉴 항목 (굵고 크게) */
-#side-nav .nav-menu > li > a,
-#side-nav .accordion-header {
-    font-size: 26px; /* 폰트 크기 키움 */
-    font-weight: 700; /* 굵은 글씨 (bold) */
-    color: #222; /* 약간 더 진한 검은색 */
-    padding: 20px 22px; /* 위아래 여백을 늘려 시원하게 */
+#side-nav .nav-menu > li > a, 
+#side-nav .nav-menu > li > .accordion-header {
+    font-size: 26px; /* 글씨 크기를 19px로 통일 (더 키우고 싶으면 이 숫자를 조절하세요) */
+    font-weight: 700; /* 굵은 글씨 */
+    color: #222;
+    padding: 20px 22px;
 }
-
 /* 2. 서브 메뉴 항목 (보통 굵기, 약간 작은 글씨) */
 .accordion-content a {
     font-size: 24px !important; /* 메인 메뉴보다 약간 작게 */
