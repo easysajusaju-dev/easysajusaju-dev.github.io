@@ -543,18 +543,18 @@ button:hover {
     display: flex; /* 로고 이미지와 텍스트를 나란히 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
     gap: 8px; /* 이미지와 텍스트 사이 간격 */
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     color: #333;
 }
 #side-nav .logo-in-nav img {
-    height: 24px; /* 로고 이미지 높이 조절 */
+    height: 30px; /* 로고 이미지 높이 조절 */
     width: auto;
 }
 
 /* 닫기 버튼(X) 크기 키우기 */
 #side-nav #close-nav-btn {
-    font-size: 32px;
+    font-size: 40px;
 }
 
 /* -- 폰트 스타일 변경 (핵심) -- */
@@ -562,15 +562,15 @@ button:hover {
 /* 1. 메인 메뉴 항목 (굵고 크게) */
 #side-nav .nav-menu > li > a,
 #side-nav .accordion-header {
-    font-size: 17px; /* 폰트 크기 키움 */
+    font-size: 28px; /* 폰트 크기 키움 */
     font-weight: 700; /* 굵은 글씨 (bold) */
     color: #222; /* 약간 더 진한 검은색 */
-    padding: 18px 20px; /* 위아래 여백을 늘려 시원하게 */
+    padding: 20px 22px; /* 위아래 여백을 늘려 시원하게 */
 }
 
 /* 2. 서브 메뉴 항목 (보통 굵기, 약간 작은 글씨) */
 .accordion-content a {
-    font-size: 15px !important; /* 메인 메뉴보다 약간 작게 */
+    font-size: 22px !important; /* 메인 메뉴보다 약간 작게 */
     font-weight: 400 !important; /* 보통 굵기 (normal) */
     color: #444 !important; /* 메인 메뉴보다 약간 연한 색 */
     padding: 14px 20px 14px 35px !important; /* 왼쪽 들여쓰기 유지 및 여백 조절 */
