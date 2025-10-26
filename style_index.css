@@ -645,26 +645,45 @@ border-radius:10px; background:rgba(255,255,255,.92); color:#111; font-weight:70
 box-shadow:0 2px 10px rgba(0,0,0,.2);
 }
 
-/* split 카드: 이미지 가로형 유지 + 텍스트는 아래 */
+/* split 카드: 이미지 가로형 유지 + 텍스트는 아래 + 버튼은 이미지 안쪽 /
 .cover-card.split{
-  aspect-ratio: auto !important;   /* 카드 높이는 이미지+텍스트 합 */
-  border-radius: 12px;
-  overflow: hidden;
+position: relative; / 버튼 절대위치 기준 /
+aspect-ratio: auto !important; / 카드 높이는 이미지+텍스트 합 /
+border-radius: 12px;
+overflow: hidden;
 }
 .cover-card.split img{
-  width: 100% !important;
-  height: clamp(190px, 38vw, 260px) !important; /* 필요시 210/42vw/320 등으로 조절 */
-  object-fit: cover !important;
-  object-position: center;
+width: 100% !important;
+height: clamp(190px, 38vw, 260px) !important; / ← 너의 이미지 높이 값 /
+object-fit: cover !important;
+object-position: center;
 }
-.cover-card.split::after{ display:none !important; } /* 오버레이 제거 */
+/ 오버레이 제거 + 캡션은 아래로 */
+.cover-card.split::after{ display:none !important; }
 .cover-card.split .cover-caption{
-  position: static !important;
-  padding: 14px 16px 16px;
-  background: #fff;
-  color: #111;
-  text-shadow: none;
+position: static !important;
+padding: 14px 16px 16px;
+background: #fff;
+color: #111;
+text-shadow: none;
 }
 .cover-card.split .cover-caption h3{ margin:0 0 4px; font-size:18px; font-weight:800; }
 .cover-card.split .cover-caption p{ margin:0; font-size:14px; color:#666; }
-.cover-card.split .cover-cta{ background:#111; color:#fff; }
+
+/* 버튼만 이미지 영역(좌하단)에 배치 /
+.cover-card.split .cover-cta{
+position: absolute;
+left: 16px;
+bottom: calc(100% - clamp(190px, 38vw, 260px) + 12px);
+/ ↑ 카드 전체 높이에서 이미지 높이를 빼고 +12px 올려서 '이미지 하단에서 12px 위'에 고정
+clamp 값은 위 img의 높이와 반드시 동일해야 정확히 맞음 */
+margin: 0;
+padding: 8px 12px;
+border-radius: 10px;
+background: rgba(255,255,255,.95);
+color: #111;
+font-weight: 700;
+font-size: 13px;
+box-shadow: 0 2px 10px rgba(0,0,0,.2);
+z-index: 2;
+}
