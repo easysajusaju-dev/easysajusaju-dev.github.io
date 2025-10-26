@@ -245,10 +245,28 @@ Contact : easysaju.saju@gmail.com<br>
         const accordions = document.querySelectorAll('.accordion-header');
 
         // 메뉴 열기
-        openNavBtn.addEventListener('click', function() {
-            sideNav.classList.add('active');
-            navOverlay.classList.add('active');
-        });
+        openNavBtn.addEventListener('click', function () {
+sideNav.classList.add('active');
+navOverlay.classList.add('active');
+
+text
+
+// 1) 모든 아코디언 접기
+const items = document.querySelectorAll('#side-nav .accordion');
+items.forEach(function (li) {
+    li.classList.remove('active');
+    const content = li.querySelector('.accordion-content');
+    if (content) content.style.maxHeight = null; // 안전조치(인라인 높이 초기화)
+});
+
+// 2) 첫 번째 아코디언만 펼치기
+const first = document.querySelector('#side-nav .accordion');
+if (first) {
+    first.classList.add('active');
+    const content = first.querySelector('.accordion-content');
+    if (content) content.style.maxHeight = content.scrollHeight + 'px';
+}
+});
 
         // 메뉴 닫기 (X 버튼, 배경 클릭)
         function closeMenu() {
