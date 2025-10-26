@@ -534,3 +534,57 @@ button:hover {
     color: #888;
     margin: 0;
 }
+/* ---------------------------------------------- */
+/* 사이드 네비게이션 디자인 업그레이드 */
+/* ---------------------------------------------- */
+
+/* 사이드바 헤더 로고 스타일 */
+#side-nav .logo-in-nav {
+    display: flex; /* 로고 이미지와 텍스트를 나란히 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 8px; /* 이미지와 텍스트 사이 간격 */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+#side-nav .logo-in-nav img {
+    height: 24px; /* 로고 이미지 높이 조절 */
+    width: auto;
+}
+
+/* 닫기 버튼(X) 크기 키우기 */
+#side-nav #close-nav-btn {
+    font-size: 32px;
+}
+
+/* -- 폰트 스타일 변경 (핵심) -- */
+
+/* 1. 메인 메뉴 항목 (굵고 크게) */
+#side-nav .nav-menu > li > a,
+#side-nav .accordion-header {
+    font-size: 17px; /* 폰트 크기 키움 */
+    font-weight: 700; /* 굵은 글씨 (bold) */
+    color: #222; /* 약간 더 진한 검은색 */
+    padding: 18px 20px; /* 위아래 여백을 늘려 시원하게 */
+}
+
+/* 2. 서브 메뉴 항목 (보통 굵기, 약간 작은 글씨) */
+.accordion-content a {
+    font-size: 15px !important; /* 메인 메뉴보다 약간 작게 */
+    font-weight: 400 !important; /* 보통 굵기 (normal) */
+    color: #444 !important; /* 메인 메뉴보다 약간 연한 색 */
+    padding: 14px 20px 14px 35px !important; /* 왼쪽 들여쓰기 유지 및 여백 조절 */
+}
+
+/* 아코디언 메뉴가 활성화되었을 때 배경색 변경 */
+.accordion.active {
+    background-color: #f7f7f7;
+}
+.accordion.active .accordion-content {
+    background-color: transparent; /* 하위 메뉴 배경은 투명하게 */
+}
+
+/* 카카오톡 문의 버튼 등 푸터 영역 여백 조절 */
+#side-nav .nav-footer {
+    padding: 25px 20px;
+}
