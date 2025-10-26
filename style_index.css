@@ -606,3 +606,9 @@ display:inline-block; padding:8px 12px; border-radius:10px;
 background:rgba(255,255,255,.92); color:#111; font-weight:700; font-size:13px;
 box-shadow:0 2px 10px rgba(0,0,0,.2);
 }
+.cover-card.split { aspect-ratio: auto; } ← 카드 높이를 “이미지 + 텍스트” 합으로
+.cover-card.split::after { display: none; } ← 오버레이 그라데이션 제거
+.cover-card.split .cover-caption { position: static; background: #fff; color: #111; padding: 14px 16px 16px; text-shadow: none; }
+.cover-card.split .cover-caption h3 { font-size: 18~20px; font-weight: 800; margin: 0 0 4px; }
+.cover-card.split .cover-caption p { font-size: 13~14px; color: #666; margin: 0; }
+.cover-card.split .cover-cta { background:#111; color:#fff; } ← 흰 배경에서 버튼 가독성 확보
