@@ -568,7 +568,7 @@ button:hover {
 }
 /* 2. 서브 메뉴 항목 (보통 굵기, 약간 작은 글씨) */
 .accordion-content a {
-    font-size: 24px !important; /* 메인 메뉴보다 약간 작게 */
+    font-size: 22px !important; /* 메인 메뉴보다 약간 작게 */
     font-weight: 400 !important; /* 보통 굵기 (normal) */
     color: #444 !important; /* 메인 메뉴보다 약간 연한 색 */
     padding: 14px 20px 14px 35px !important; /* 왼쪽 들여쓰기 유지 및 여백 조절 */
