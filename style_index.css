@@ -611,9 +611,53 @@ box-shadow:0 2px 10px rgba(0,0,0,.2);
   padding-right: calc(env(safe-area-inset-right, 0px) + 30px) !important; /* 22~30px 사이 취향대로 */
 }
 .topbar-burger{
-  margin-right: 10px !important;  /* 6~10px 사이로 조정 */
+  margin-right: 14px !important;  /* 6~10px 사이로 조정 */
 }
 /* 사이드메뉴 상단(X)도 우측 여백 추가 */
 #side-nav .nav-header{
   padding: 15px 24px !important; /* (위아래 15, 좌우 22) 20~24로 조절 */
 }
+/* 기본 카드(오버레이) 복구 /
+.cover-card{
+position: relative; display: block;
+border-radius: 12px; overflow: hidden;
+aspect-ratio: 16/9 !important; / 가로형 유지 */
+background: #111;
+}
+.cover-card img{
+display:block; width:100% !important; height:100% !important;
+object-fit: cover !important; object-position: center;
+}
+.cover-card::after{
+content:""; position:absolute; inset:0;
+background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 40%, rgba(0,0,0,0) 70%);
+pointer-events:none;
+}
+.cover-caption{
+position:absolute !important; left:14px; right:14px; bottom:14px; z-index:1;
+color:#fff; text-shadow:0 2px 8px rgba(0,0,0,.45);
+}
+.cover-caption h3{ margin:0; font-size:20px; font-weight:800; letter-spacing:-.2px; }
+.cover-caption p{ margin:0; font-size:14px; opacity:.9; line-height:1.35; }
+.cover-cta{
+display:inline-block; margin-top:8px; padding:8px 12px;
+border-radius:10px; background:rgba(255,255,255,.92); color:#111; font-weight:700; font-size:13px;
+box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+/* 분리 모드: 이미지 위 오버레이 제거 + 텍스트를 아래로 /
+.cover-card.split{
+aspect-ratio: auto !important; / 카드 높이를 이미지+텍스트 합으로 /
+}
+.cover-card.split img{
+height: auto !important; / 정사각형으로 잘리는 현상 방지 */
+}
+.cover-card.split::after{ display:none !important; }
+.cover-card.split .cover-caption{
+position: static !important;
+padding: 14px 16px 16px;
+background:#fff; color:#111; text-shadow:none;
+}
+.cover-card.split .cover-caption h3{ font-size:18px; font-weight:800; margin:0 0 4px; }
+.cover-card.split .cover-caption p{ font-size:14px; color:#666; margin:0; }
+.cover-card.split .cover-cta{ background:#111; color:#fff; }
