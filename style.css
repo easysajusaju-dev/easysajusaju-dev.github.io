@@ -543,7 +543,7 @@ button:hover {
     display: flex; /* 로고 이미지와 텍스트를 나란히 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
     gap: 8px; /* 이미지와 텍스트 사이 간격 */
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     color: #333;
 }
@@ -561,14 +561,14 @@ button:hover {
 /* 1. 메인 메뉴 항목 (굵고 크게) */
 #side-nav .nav-menu > li > a, 
 #side-nav .nav-menu > li > .accordion-header {
-    font-size: 24px; /* 글씨 크기를 19px로 통일 (더 키우고 싶으면 이 숫자를 조절하세요) */
+    font-size: 22px; /* 글씨 크기를 19px로 통일 (더 키우고 싶으면 이 숫자를 조절하세요) */
     font-weight: 700; /* 굵은 글씨 */
     color: #222;
-    padding: 18px 20px;
+    padding: 16px 18px;
 }
 /* 2. 서브 메뉴 항목 (보통 굵기, 약간 작은 글씨) */
 .accordion-content a {
-    font-size: 20px !important; /* 메인 메뉴보다 약간 작게 */
+    font-size: 18px !important; /* 메인 메뉴보다 약간 작게 */
     font-weight: 400 !important; /* 보통 굵기 (normal) */
     color: #444 !important; /* 메인 메뉴보다 약간 연한 색 */
     padding: 14px 20px 14px 35px !important; /* 왼쪽 들여쓰기 유지 및 여백 조절 */
