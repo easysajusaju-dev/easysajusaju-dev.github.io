@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 파비콘 설정 (index.html 동일) -->
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+
+    <!-- 소셜 공유(오픈 그래프) 설정 (index.html 동일) -->
+    <meta property="og:title" content="이지사주">
+    <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
+    <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
+    <meta property="og:url" content="https://easysajusaju-dev.github.io/">
+    <meta property="og:type" content="website">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>운명 보고서 신청하기 - 이지사주</title>
+
+    <!-- Tailwind CDN (index.html 동일) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 외부 스타일시트 (index.html 동일) -->
+    <link rel="stylesheet" href="style_index.css">
+
+    <style>
+        /* saju_1p.html의 레이아웃 스타일 */
+        body { font-family: 'Arial', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        h1 { text-align: center; color: #333; }
+        .image-placeholder { width: 100%; height: 200px; background-color: #eee; margin: 10px 0; text-align: center; line-height: 200px; font-size: 14px; color: #666; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; background-color: #333; color: white; }
+
+        /* index.html의 폼 스타일 유지 (Tailwind 기반) */
+        .no-scroll { overflow: hidden; }
+    </style>
+</head>
+<body>
+    <!-- 헤더 (saju_1p.html 스타일) -->
+    <h1>운명 보고서 신청하기</h1>
+
+    <!-- 이벤트 이미지 (saju_1p.html 구조) -->
+    <div class="image-placeholder">이벤트 이미지</div>
+
+    <!-- 안내 이미지들 (saju_1p.html 구조) -->
+    <div class="image-placeholder">안내 이미지 1</div>
+    <div class="image-placeholder">안내 이미지 2</div>
+    <div class="image-placeholder">안내 이미지 3</div>
+    <div class="image-placeholder">안내 이미지 4</div>
+    <div class="image-placeholder">안내 이미지 5</div>
+    <div class="image-placeholder">안내 이미지 6</div>
+    <div class="image-placeholder">안내 이미지 7</div>
+    <div class="image-placeholder">안내 이미지 8</div>
+    <div class="image-placeholder">안내 이미지 9</div>
+    <div class="image-placeholder">안내 이미지 10</div>
+
+    <!-- 입력 폼 (index.html에서 그대로 복사) -->
+    <div class="p-4 sm:p-8 md:p-10 max-w-3xl mx-auto">
+        <form id="fortuneForm" class="space-y-8" action="https://script.google.com/macros/s/AKfycbzij2Oorrv6DqmmEGcTXrDkj7wqbmpr_Wl2C3nXJGARLcc1oFdZtUaH8AkFVgZdrajo/exec" method="POST" accept-charset="UTF-8">
+            <!-- 기본 정보 -->
+            <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                <h2 class="font-bold text-gray-800 mb-6 flex items-center text-2xl sm:text-3xl">
+                    <span class="bg-blue-100 text-blue-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">📋</span>기본 정보
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성명</label>
+                        <input id="name" name="name" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">전화번호</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="01012345678"
+                            required
+                            maxlength="11"
+                            pattern="^01[0-9]{8,9}$"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                            class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 사주 정보 -->
+            <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                <h2 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
+                    <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">년주</label>
+                        <input id="yearJoo" name="yearJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">월주</label>
+                        <input id="monthJoo" name="monthJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">일주</label>
+                        <input id="dayJoo" name="dayJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">시주</label>
+                        <input id="timeJoo" name="timeJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 정보 -->
+            <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                <h2 class="font-bold text-gray-800 mb-5 flex items-center text-2xl sm:text-3xl">
+                    <span class="bg-green-100 text-green-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💬</span>추가 정보
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성별</label>
+                        <label class="inline-flex items-center mr-6">
+                            <input type="radio" name="gender" value="남성" checked class="h-5 w-5 sm:h-6 sm:w-6 text-blue-600">
+                            <span class="ml-2 text-base sm:text-lg text-gray-700">남성</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" value="여성" class="h-5 w-5 sm:h-6 sm:w-6 text-pink-600">
+                            <span class="ml-2 text-base sm:text-lg text-gray-700">여성</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">궁금한 점</label>
+                        <input id="question" name="question" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 통합 동의 -->
+            <div class="bg-gray-100 p-4 sm:p-6 rounded-2xl border border-gray-200">
+                <label class="flex items-start">
+                    <input id="agree_all" name="agree_all" type="checkbox" class="h-6 w-6 sm:h-8 sm:w-8 mt-1.5 text-blue-600 border-gray-400 rounded" required>
+                    <span class="ml-3 font-bold text-gray-900 leading-snug text-lg sm:text-2xl">
+                        [필수] 개인정보 수집·이용 및 광고성 정보 수신에 동의합니다.
+                        <span class="text-blue-700 underline cursor-pointer" onclick="showPolicyModal()">개인정보 처리방침 보기</span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- 안내 + 버튼 -->
+            <div id="actionArea" class="w-full mt-8 flex flex-col space-y-4 text-center">
+                <p id="channelGuide" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl">
+                    💛 무료 분석 결과는 카카오 채널 가입 후 확인할 수 있습니다.<br class="hidden sm:block">
+                    채널 추가 후 창을 닫으면 결과보기 버튼이 자동 활성화됩니다.
+                </p>
+                <button id="actionBtn" type="button"
+                    class="w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-lg">
+                    👉 카카오채널 가입하고 무료 사주 결과 보기
+                </button>
+
+                <!-- 안내 박스 -->
+                <div class="text-center mt-2 p-4 bg-yellow-50 border border-yellow-300 rounded-lg shadow-sm">
+                    <p class="text-base sm:text-lg text-gray-800 font-bold">
+                        🎁 아직 이지사주 채널에 가입하지 않으셨나요?
+                    </p>
+                    <p class="text-sm sm:text-lg text-gray-700 mt-1">
+                        무료 사주 조회는 채널 가입 후 이용 가능합니다.<br class="hidden sm:block">
+                        가입하면 친구 전용 1 + 1 혜택도 받을 수 있어요.
+                    </p>
+                </div>
+            </div>
+        </form>
+
+        <!-- 결과 영역 (index.html 동일, 리다이렉트 방식이라 숨김) -->
+        <div id="resultContainer" class="hidden mt-10 text-center">
+            <div class="rounded-2xl shadow-sm border border-gray-200 overflow-hidden bg-white">
+                <h2 class="font-bold text-gray-800 pt-6 text-2xl sm:text-4xl">🔮 분석 결과 🔮</h2>
+                <div id="fortuneResult" class="p-6 text-base sm:text-xl leading-relaxed text-gray-800 whitespace-pre-wrap text-left mb-6"></div>
+            </div>
+            <div class="text-center mt-8 mb-12 p-5 rounded-xl border border-yellow-400 bg-yellow-50 shadow-sm">
+                <p class="text-xl font-bold text-gray-800 mb-2">🎁 이지사주 채널에 가입하셨나요?</p>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">
+                    카카오톡 <b class="text-blue-600">이지사주 채널</b>로 가면 친구 전용 쿠폰 메시지가 도착해 있어요!<br class="hidden sm:block">
+                    [쿠폰받기] 버튼을 눌러 1 + 1 혜택을 받아보세요 🎊
+                </p>
+                <button 
+                    onclick="window.open('https://pf.kakao.com/_xkAevn')"
+                    class="inline-block px-6 py-3 text-base sm:text-xl font-bold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-md">
+                    👉 이지사주 채널로 바로 가기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 개인정보 처리방침 모달 (index.html 동일) -->
+    <div id="policyModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-6 sm:p-8 overflow-y-auto max-h-[90%] relative">
+            <button onclick="closePolicyModal()" class="absolute top-3 right-4 text-gray-500 text-2xl sm:text-3xl font-bold">&times;</button>
+            <h2 class="font-bold mb-4 sm:mb-6 text-2xl sm:text-4xl">개인정보 처리방침</h2>
+            <div class="leading-relaxed text-gray-800 space-y-2 text-sm sm:text-xl">
+                <p>이지사주는 고객님의 개인정보를 보호하며, 아래와 같이 처리합니다.</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>수집정보: 이름, 전화번호, 사주정보, 성별, 문의내용, 접속정보</li>
+                    <li>수집목적: 사주분석 결과제공, 상담응대, 이벤트 및 프로모션 안내</li>
+                    <li>보유기간: 수집 후 1년 보관 후 파기 (법규 근거시 예외 보관)</li>
+                    <li>권리: 광고 정보 거부 및 개인정보 삭제 요청 가능</li>
+                    <li>문의: easysaju.saju@gmail.com / 010‑2151‑3949</li>
+                </ul>
+            </div>
+            <div class="mt-5 sm:mt-6 text-right">
+                <button onclick="closePolicyModal()" class="px-5 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 오버레이 (index.html 동일) -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+        <div class="text-white text-center animate-pulse">
+            <svg class="animate-spin inline-block w-12 h-12 sm:w-16 sm:h-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <p class="mt-3 text-lg sm:text-2xl">사주를 분석 중입니다...</p>
+        </div>
+    </div>
+
+    <!-- 후기 이미지 (saju_1p.html 구조) -->
+    <div class="image-placeholder">후기 이미지</div>
+
+    <!-- 상 이미지 (saju_1p.html 구조) -->
+    <div class="image-placeholder">상 이미지</div>
+
+    <!-- 푸터 (saju_1p.html 구조) -->
+    <footer>
+        <p>서비스명: 이지사주 | 대표자: 안미정 | Contact: easysaju.saju@gmail.com | 통신판매신고 번호: 2025-고양일산동-1332</p>
+    </footer>
+
+    <!-- 스크립트 (index.html 동일) -->
+    <script>
+        const KAKAO_CHANNEL_URL = "https://pf.kakao.com/_xkAevn/friend";
+        const actionBtn = document.getElementById("actionBtn");
+        const channelGuide = document.getElementById("channelGuide");
+        const fortuneForm = document.getElementById("fortuneForm");
+        const resultContainer = document.getElementById("resultContainer");
+        const fortuneResult = document.getElementById("fortuneResult");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+
+        function showPolicyModal() {
+            document.getElementById("policyModal").classList.remove("hidden");
+            document.body.classList.add('no-scroll');
+        }
+        function closePolicyModal() {
+            document.getElementById("policyModal").classList.add("hidden");
+            document.body.classList.remove('no-scroll');
+        }
+
+        // 하루 단위 joinedChannel 리셋
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem("joinedChannelDate");
+        if (savedDate !== today) {
+            localStorage.removeItem("joinedChannel");
+        }
+        if (localStorage.getItem("joinedChannel")) switchToResultMode();
+
+        function switchToResultMode() {
+            channelGuide.textContent = "이제 무료 사주 분석을 시작할 수 있습니다.";
+            channelGuide.classList.replace("text-yellow-600", "text-green-600");
+            actionBtn.textContent = "🔮 무료 사주 분석 결과보기";
+            actionBtn.className = "w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105 shadow-lg";
+            actionBtn.onclick = runAnalysis;
+        }
+
+        // 버튼 클릭 이벤트
+        actionBtn.addEventListener("click", () => {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("📋 개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
+
+            if (!localStorage.getItem("joinedChannel")) {
+                const popup = window.open(KAKAO_CHANNEL_URL, "kakaoPopup", "width=480,height=720");
+                setTimeout(() => {
+                    if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                        alert("📱 카카오채널이 같은 탭에서 열렸어요.\n추가 후 '뒤로가기'로 이 화면으로 돌아오세요!");
+                    }
+                }, 700);
+
+                const timer = setInterval(() => {
+                    if (popup && popup.closed) {
+                        clearInterval(timer);
+                        localStorage.setItem("joinedChannel", "true");
+                        localStorage.setItem("joinedChannelDate", today);
+                        switchToResultMode();
+                    }
+                }, 800);
+            } else {
+                runAnalysis();
+            }
+        });
+
+        // 분석 실행 (사주 입력 검증 포함)
+        function runAnalysis() {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
+
+            // 사주 입력값 검증
+            const heavenly = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
+            const earthly = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
+            const fields = [
+                document.getElementById("yearJoo"),
+                document.getElementById("monthJoo"),
+                document.getElementById("dayJoo"),
+                document.getElementById("timeJoo")
+            ];
+
+            for (let fld of fields) {
+                const val = (fld.value || '').trim();
+                const gan = val.substring(0, 1);
+                const ji = val.substring(1, 2);
+                if (val.length !== 2 || !heavenly.includes(gan) || !earthly.includes(ji)) {
+                    alert("사주 정보는 '갑자', '병인'처럼 두 글자의 천간·지지 조합으로 입력해야 합니다.");
+                    fld.focus();
+                    return;
+                }
+            }
+
+            // 버튼 비활성화 + 로딩 표시
+            if (actionBtn.disabled) return;
+            actionBtn.disabled = true;
+            loadingOverlay.style.display = "flex";
+
+            // 네이티브 POST로 Apps Script로 이동
+            setTimeout(() => fortuneForm.submit(), 50);
+        }
+    </script>
+</body>
+</html>
