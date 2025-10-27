@@ -37,6 +37,34 @@
         }
         /* index.html의 inline CSS */
         .no-scroll { overflow: hidden; }
+        /* 사이드 메뉴 왼쪽 슬라이드 */
+        #side-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        #side-nav.active {
+            transform: translateX(0);
+        }
+        #nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+        #nav-overlay.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +77,7 @@
         <a href="#fortuneForm" class="header-button">사주분석 신청하기</a>
     </div>
 
-    <!-- 사이드 메뉴 (saju_1p.html 그대로, index.html과 동일) -->
+    <!-- 사이드 메뉴 (saju_1p.html) -->
     <div id="nav-overlay"></div>
     <nav id="side-nav">
         <div class="nav-header">
@@ -86,20 +114,20 @@
     <div class="main-container">
         <!-- 상단 이미지 영역 (saju_1p.html) -->
         <div class="image-section">
-            <img src="images/saju1/001.png" alt="이벤트 이미지">
-            <img src="images/saju1/002.png" alt="안내 이미지 1">
-            <img src="images/saju1/003.png" alt="안내 이미지 2">
-            <img src="images/saju1/004.png" alt="안내 이미지 3">
-            <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4">
-            <img src="images/saju1/007.png" alt="안내 이미지 5">
-            <img src="images/saju1/008.png" alt="안내 이미지 6">
-            <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7">
-            <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8">
-            <img src="images/saju1/020.png" alt="안내 이미지 9">
-            <img src="images/saju1/021.gif" alt="안내 이미지 10">
+            <img src="images/saju1/001.png" alt="이벤트 이미지" class="scroll-to-form">
+            <img src="images/saju1/002.png" alt="안내 이미지 1" class="scroll-to-form">
+            <img src="images/saju1/003.png" alt="안내 이미지 2" class="scroll-to-form">
+            <img src="images/saju1/004.png" alt="안내 이미지 3" class="scroll-to-form">
+            <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4" class="scroll-to-form">
+            <img src="images/saju1/007.png" alt="안내 이미지 5" class="scroll-to-form">
+            <img src="images/saju1/008.png" alt="안내 이미지 6" class="scroll-to-form">
+            <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7" class="scroll-to-form">
+            <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8" class="scroll-to-form">
+            <img src="images/saju1/020.png" alt="안내 이미지 9" class="scroll-to-form">
+            <img src="images/saju1/021.gif" alt="안내 이미지 10" class="scroll-to-form">
         </div>
 
-        <!-- 폼 영역 (index.html의 폼과 로직) -->
+        <!-- 폼 영역 (index.html) -->
         <div class="form-container">
             <form id="fortuneForm" class="space-y-8" action="https://script.google.com/macros/s/AKfycbzij2Oorrv6DqmmEGcTXrDkj7wqbmpr_Wl2C3nXJGARLcc1oFdZtUaH8AkFVgZdrajo/exec" method="POST" accept-charset="UTF-8">
                 <!-- 기본 정보 -->
@@ -293,7 +321,16 @@
             const sideNav = document.getElementById('side-nav');
             const navOverlay = document.getElementById('nav-overlay');
             const accordions = document.querySelectorAll('.accordion-header');
+            const scrollImages = document.querySelectorAll('.scroll-to-form');
 
+            // 이미지 클릭 시 폼으로 스크롤
+            scrollImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    document.getElementById('fortuneForm').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // 메뉴 열기
             openNavBtn.addEventListener('click', function() {
                 sideNav.classList.add('active');
                 navOverlay.classList.add('active');
@@ -313,6 +350,7 @@
                 }, 50);
             });
 
+            // 메뉴 닫기
             function closeMenu() {
                 sideNav.classList.remove('active');
                 navOverlay.classList.remove('active');
@@ -320,9 +358,16 @@
             closeNavBtn.addEventListener('click', closeMenu);
             navOverlay.addEventListener('click', closeMenu);
 
+            // 아코디언 메뉴
             accordions.forEach(function(accordion) {
                 accordion.addEventListener('click', function() {
                     this.parentElement.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
                 });
             });
         });
