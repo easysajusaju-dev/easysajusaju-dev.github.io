@@ -1,262 +1,473 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <base target="_top">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <title>이지사주 · 분석 결과</title>
-    <!-- Tailwind CSS 추가 -->
+<head>
+    <!-- 파비콘 설정 (index.html & saju_1p.html 동일) -->
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+
+    <!-- 오픈 그래프 (index.html 동일) -->
+    <meta property="og:title" content="이지사주">
+    <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
+    <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
+    <meta property="og:url" content="https://easysajusaju-dev.github.io/">
+    <meta property="og:type" content="website">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운명 보고서 신청하기 - 이지사주</title>
+
+    <!-- Tailwind CDN (index.html) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- saju_1p.html의 style.css + index.html의 style_index.css -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_index.css">
+
     <style>
-      :root {
-        --c-text: #1f2937;
-        --c-muted: #6b7280;
-        --c-border: #e5e7eb;
-        --c-bg: #ffffff; /* 흰색 배경 */
-        --c-primary: #3b82f6; /* 청록색 (사주분석하기 버튼 색상 기반) */
-        --c-acc: #f59e0b;
-        --c-ok: #16a34a;
-        --c-err: #dc2626;
-        --fs-h1: clamp(24px, 6vw, 36px);
-        --fs-h2: clamp(20px, 5.5vw, 28px);
-        --fs-body: clamp(16px, 4.5vw, 22px);
-        --radius: 16px;
-        --space: clamp(16px, 4.5vw, 28px);
-      }
-      html, body {
-        margin: 0;
-        padding: 0;
-        background: var(--c-bg); /* 흰색 배경 */
-        color: var(--c-text);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Apple SD Gothic Neo, Helvetica, Arial, 'Noto Sans KR', sans-serif;
-      }
-      .sticky-header {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: #ffffff; /* 흰색 배경 */
-        padding: 1rem 2rem; /* 높이 약 4rem */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .header-title {
-        color: #000000; /* 검정색 글씨 */
-        font-size: var(--fs-h1);
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        display: flex;
-        align-items: center;
-      }
-      .header-logo {
-        width: 40px;
-        height: 40px;
-        margin-right: 1rem;
-      }
-      #side-nav {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: 250px;
-        background: #fff;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-        z-index: 1000;
-        padding: 1.5rem;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-      }
-      #side-nav.active {
-        transform: translateX(0);
-      }
-      #nav-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        z-index: 999;
-      }
-      #nav-overlay.active {
-        display: block;
-      }
-      .nav-menu a {
-        display: block;
-        padding: 0.75rem 1rem;
-        color: #000000; /* 검정색 글씨 */
-        text-decoration: none;
-        border-radius: var(--radius);
-        font-size: var(--fs-body);
-      }
-      .nav-menu a:hover {
-        background: var(--c-border);
-      }
-      .wrap {
-        max-width: 760px;
-        margin: 0 auto;
-        padding: var(--space);
-      }
-      .card {
-        background: #f9fafb; /* 약간 회색 (흰색과 구분되며 가독성 유지) */
-        border: 1px solid var(--c-border);
-        border-radius: var(--radius);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        padding: var(--space);
-        animation: fadeIn 0.5s ease-in;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      .muted {
-        color: var(--c-muted);
-        font-size: calc(var(--fs-body) - 2px);
-      }
-      .spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #e5e7eb;
-        border-top-color: var(--c-primary);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 16px auto;
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-      .title {
-        font-size: var(--fs-h2);
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        margin: 0 0 12px 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .result {
-        white-space: pre-wrap;
-        line-height: 1.75;
-        font-size: var(--fs-body);
-        color: var(--c-text);
-      }
-      .ok { color: var(--c-ok); font-weight: 800; }
-      .err { color: var(--c-err); font-weight: 800; }
-      .row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-      .section { margin-top: var(--space); }
-      .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-      #status { font-size: 66px; }
-      #out { font-size: 54px; }
-      .notice {
-        background: #fff3cd;
-        padding: 1rem;
-        border-radius: var(--radius);
-        margin-top: var(--space);
-        text-align: center;
-        font-size: var(--fs-body);
-        color: #856404;
-        font-weight: 600;
-      }
+        /* saju_1p.html의 inline CSS (#copy) */
+        #copy {
+            max-width: 800px;
+            margin: auto;
+            padding: 0px 10px;
+            text-align: left;
+            font-size: 12px;
+            color: rgb(102, 102, 102);
+            line-height: 1.5;
+            z-index: 1001;
+        }
+        /* index.html의 inline CSS */
+        .no-scroll { overflow: hidden; }
+        /* 사이드 메뉴 왼쪽 슬라이드 */
+        #side-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        #side-nav.active {
+            transform: translateX(0);
+        }
+        #nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+        #nav-overlay.active {
+            display: block;
+        }
     </style>
-  </head>
-  <body>
-    <!-- 고정 헤더 -->
+</head>
+<body>
+    <!-- 고정 헤더 (saju_1p.html 구조, index.html 텍스트) -->
     <div class="sticky-header">
-      <div class="flex items-center">
-        <img src="https://easysajusaju-dev.github.io/images/logo.png" alt="이지사주 로고" class="header-logo">
-        <span class="header-title">무료사주 결과</span>
-      </div>
-      <a href="javascript:void(0);" id="open-nav-btn" class="flex items-center text-3xl text-black">
-        <span class="burger">&#9776;</span>
-      </a>
+        <a href="javascript:void(0);" id="open-nav-btn" class="header-logo-link">
+            <span class="burger" aria-hidden="true">&#9776;</span>
+            <span class="header-title">무료사주</span>
+        </a>
+        <a href="#fortuneForm" class="header-button">사주분석 신청하기</a>
     </div>
 
-<!-- 슬라이딩 메뉴 (오른쪽) -->
+    <!-- 사이드 메뉴 (saju_1p.html) -->
     <div id="nav-overlay"></div>
     <nav id="side-nav">
-      <div class="p-4">
-        <a href="javascript:void(0);" id="close-nav-btn" class="text-3xl text-black">&times;</a>
-        <ul class="nav-menu mt-6">
-          <li><a href="index.html">홈으로</a></li>
-          <li><a href="saju_1p.html">종합사주 신청</a></li>
-          <li><a href="saju_2p.html">재회운 신청</a></li>
+        <div class="nav-header">
+            <div class="logo-in-nav">
+                <img src="logo.png" alt="이지사주 로고">
+                <span>이지사주</span>
+            </div>
+            <a href="javascript:void(0);" id="close-nav-btn">&times;</a>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="index.html">홈으로 가기</a></li>
+            <li class="accordion">
+                <div class="accordion-header">사주 분석 신청<span class="arrow">&#9662;</span></div>
+                <div class="accordion-content">
+                    <a href="saju_1p.html">프리미엄 종합사주</a>
+                    <a href="saju_2p.html">이지사주 재회운(궁합)</a>
+                    <a href="saju_1p.html">이지사주 신년운세</a>
+                </div>
+            </li>
+            <li class="accordion">
+                <div class="accordion-header">무료 운세 <span class="arrow">&#9662;</span></div>
+                <div class="accordion-content">
+                    <a href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer">오늘의 운세</a>
+                    <a href="https://script.google.com/macros/s/AKfycbwc4LpxlkQZUOh7sPRcOC6cUOZYx5TU7J2FB0Dd66PniVVigClskbPNbb7dDSkpDgNvtA/exec" target="_blank" rel="noopener noreferrer">무료 운세 보기</a>
+                </div>
+            </li>
         </ul>
-      </div>
+        <div class="nav-footer">
+            <a href="http://pf.kakao.com/_xkAevn/chat" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
+            <p>운영시간 평일 09:00~18:00</p>
+        </div>
     </nav>
 
-    <div class="wrap">
-      <!-- 로딩 섹션 -->
-      <div id="loading" class="card" role="status" aria-live="polite">
-        <div class="title">분석을 진행 중입니다...</div>
-        <div class="muted">이지사주가 사주를 해석하고 있어요. 잠시만 기다려 주세요.</div>
-        <div class="spinner"></div>
-      </div>
-
-      <!-- 결과 섹션 -->
-      <div id="resultWrap" class="card section" style="display:none;">
-        <h2 id="status" class="title">
-          <span style="color: var(--c-primary);">✅ 사주 분석 완료  ✅</span>
-        </h2>
-        <div id="out" class="result"></div>
-        <div class="notice">
-          📢 우측 상단 메뉴를 눌러 뒤로가기 가능! 
+    <div class="main-container">
+        <!-- 상단 이미지 영역 (saju_1p.html) -->
+        <div class="image-section">
+            <img src="images/saju1/001.png" alt="이벤트 이미지" class="scroll-to-form">
+            <img src="images/saju1/002.png" alt="안내 이미지 1" class="scroll-to-form">
+            <img src="images/saju1/003.png" alt="안내 이미지 2" class="scroll-to-form">
+            <img src="images/saju1/004.png" alt="안내 이미지 3" class="scroll-to-form">
+            <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4" class="scroll-to-form">
+            <img src="images/saju1/007.png" alt="안내 이미지 5" class="scroll-to-form">
+            <img src="images/saju1/008.png" alt="안내 이미지 6" class="scroll-to-form">
+            <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7" class="scroll-to-form">
+            <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8" class="scroll-to-form">
+            <img src="images/saju1/020.png" alt="안내 이미지 9" class="scroll-to-form">
+            <img src="images/saju1/021.gif" alt="안내 이미지 10" class="scroll-to-form">
         </div>
-      </div>
+
+        <!-- 폼 영역 (index.html) -->
+        <div class="form-container">
+            <form id="fortuneForm" class="space-y-8" action="https://script.google.com/macros/s/AKfycbzij2Oorrv6DqmmEGcTXrDkj7wqbmpr_Wl2C3nXJGARLcc1oFdZtUaH8AkFVgZdrajo/exec" method="POST" accept-charset="UTF-8">
+                <!-- 기본 정보 -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h2 class="font-bold text-gray-800 mb-6 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-blue-100 text-blue-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">📋</span>기본 정보
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성명</label>
+                            <input id="name" name="name" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="성명" />
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">전화번호</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="01012345678"
+                                required
+                                maxlength="11"
+                                pattern="^01[0-9]{8,9}$"
+                                inputmode="numeric"
+                                autocomplete="tel"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 사주 정보 -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h2 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">년주</label>
+                            <input id="yearJoo" name="yearJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="갑자" />
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">월주</label>
+                            <input id="monthJoo" name="monthJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="을축" />
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">일주</label>
+                            <input id="dayJoo" name="dayJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="병인" />
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">시주</label>
+                            <input id="timeJoo" name="timeJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="정묘" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 추가 정보 -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h2 class="font-bold text-gray-800 mb-5 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-green-100 text-green-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💬</span>추가 정보
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성별</label>
+                            <label class="inline-flex items-center mr-6">
+                                <input type="radio" name="gender" value="남성" checked class="h-5 w-5 sm:h-6 sm:w-6 text-blue-600">
+                                <span class="ml-2 text-base sm:text-lg text-gray-700">남성</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="여성" class="h-5 w-5 sm:h-6 sm:w-6 text-pink-600">
+                                <span class="ml-2 text-base sm:text-lg text-gray-700">여성</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">궁금한 점</label>
+                            <input id="question" name="question" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="궁금한 점을 입력하세요" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 통합 동의 -->
+                <div class="bg-gray-100 p-4 sm:p-6 rounded-2xl border border-gray-200">
+                    <label class="flex items-start">
+                        <input id="agree_all" name="agree_all" type="checkbox" class="h-6 w-6 sm:h-8 sm:w-8 mt-1.5 text-blue-600 border-gray-400 rounded" required>
+                        <span class="ml-3 font-bold text-gray-900 leading-snug text-lg sm:text-2xl">
+                            [필수] 개인정보 수집·이용 및 광고성 정보 수신에 동의합니다.
+                            <span class="text-blue-700 underline cursor-pointer" onclick="showPolicyModal()">개인정보 처리방침 보기</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- 안내 + 버튼 -->
+                <div id="actionArea" class="w-full mt-8 flex flex-col space-y-4 text-center">
+                    <p id="channelGuide" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl">
+                        💛 무료 분석 결과는 카카오 채널 가입 후 확인할 수 있습니다.<br class="hidden sm:block">
+                        채널 추가 후 창을 닫으면 결과보기 버튼이 자동 활성화됩니다.
+                    </p>
+                    <button id="actionBtn" type="button"
+                        class="w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-lg">
+                        👉 카카오채널 가입하고 무료 사주 결과 보기
+                    </button>
+
+                    <!-- 안내 박스 -->
+                    <div class="text-center mt-2 p-4 bg-yellow-50 border border-yellow-300 rounded-lg shadow-sm">
+                        <p class="text-base sm:text-lg text-gray-800 font-bold">
+                            🎁 아직 이지사주 채널에 가입하지 않으셨나요?
+                        </p>
+                        <p class="text-sm sm:text-lg text-gray-700 mt-1">
+                            무료 사주 조회는 채널 가입 후 이용 가능합니다.<br class="hidden sm:block">
+                            가입하면 친구 전용 1 + 1 혜택도 받을 수 있어요.
+                        </p>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 결과 영역 (index.html, 숨김) -->
+            <div id="resultContainer" class="hidden mt-10 text-center">
+                <div class="rounded-2xl shadow-sm border border-gray-200 overflow-hidden bg-white">
+                    <h2 class="font-bold text-gray-800 pt-6 text-2xl sm:text-4xl">🔮 분석 결과 🔮</h2>
+                    <div id="fortuneResult" class="p-6 text-base sm:text-xl leading-relaxed text-gray-800 whitespace-pre-wrap text-left mb-6"></div>
+                </div>
+                <div class="text-center mt-8 mb-12 p-5 rounded-xl border border-yellow-400 bg-yellow-50 shadow-sm">
+                    <p class="text-xl font-bold text-gray-800 mb-2">🎁 이지사주 채널에 가입하셨나요?</p>
+                    <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">
+                        카카오톡 <b class="text-blue-600">이지사주 채널</b>로 가면 친구 전용 쿠폰 메시지가 도착해 있어요!<br class="hidden sm:block">
+                        [쿠폰받기] 버튼을 눌러 1 + 1 혜택을 받아보세요 🎊
+                    </p>
+                    <button 
+                        onclick="window.open('https://pf.kakao.com/_xkAevn')"
+                        class="inline-block px-6 py-3 text-base sm:text-xl font-bold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-md">
+                        👉 이지사주 채널로 바로 가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 이미지 영역 (saju_1p.html, 스크롤 추가) -->
+        <div class="image-section">
+            <img src="images/saju1/022.png" alt="후기 이미지" class="scroll-to-form">
+            <img src="images/saju1/023.png" alt="상 이미지" class="scroll-to-form">
+        </div>
     </div>
 
+    <!-- 개인정보 처리방침 모달 (index.html) -->
+    <div id="policyModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-6 sm:p-8 overflow-y-auto max-h-[90%] relative">
+            <button onclick="closePolicyModal()" class="absolute top-3 right-4 text-gray-500 text-2xl sm:text-3xl font-bold">&times;</button>
+            <h2 class="font-bold mb-4 sm:mb-6 text-2xl sm:text-4xl">개인정보 처리방침</h2>
+            <div class="leading-relaxed text-gray-800 space-y-2 text-sm sm:text-xl">
+                <p>이지사주는 고객님의 개인정보를 보호하며, 아래와 같이 처리합니다.</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>수집정보: 이름, 전화번호, 사주정보, 성별, 문의내용, 접속정보</li>
+                    <li>수집목적: 사주분석 결과제공, 상담응대, 이벤트 및 프로모션 안내</li>
+                    <li>보유기간: 수집 후 1년 보관 후 파기 (법규 근거시 예외 보관)</li>
+                    <li>권리: 광고 정보 거부 및 개인정보 삭제 요청 가능</li>
+                    <li>문의: easysaju.saju@gmail.com / 010‑2151‑3949</li>
+                </ul>
+            </div>
+            <div class="mt-5 sm:mt-6 text-right">
+                <button onclick="closePolicyModal()" class="px-5 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 오버레이 (index.html) -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+        <div class="text-white text-center animate-pulse">
+            <svg class="animate-spin inline-block w-12 h-12 sm:w-16 sm:h-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <p class="mt-3 text-lg sm:text-2xl">사주를 분석 중입니다...</p>
+        </div>
+    </div>
+
+    <!-- 푸터 (saju_1p.html) -->
+    <div id="copy">
+        <b>서비스명: 이지사주</b><br>
+        대표자: 안미정<br>
+        Contact: easysaju.saju@gmail.com<br>
+        통신판매신고 번호: 2025-고양일산동-1332
+    </div>
+
+    <!-- 스크립트 -->
+    <!-- saju_1p.html의 메뉴 스크립트 -->
+    <script src="script_index.js"></script>
     <script>
-      // 서버에서 받은 데이터
-      const userData = <?!= JSON.stringify(userData) ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            const openNavBtn = document.getElementById('open-nav-btn');
+            const closeNavBtn = document.getElementById('close-nav-btn');
+            const sideNav = document.getElementById('side-nav');
+            const navOverlay = document.getElementById('nav-overlay');
+            const accordions = document.querySelectorAll('.accordion-header');
+            const scrollImages = document.querySelectorAll('.scroll-to-form');
 
-      // 결과 그리기
-      function showSuccess(text) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('resultWrap').style.display = 'block';
-        document.getElementById('status').innerHTML = `<span style="color: var(--c-primary);">✅ 분석이 완료되었습니다.</span>`;
-        document.getElementById('out').textContent = text || '';
-      }
-      function showError(msg) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('resultWrap').style.display = 'block';
-        document.getElementById('status').innerHTML = '❌ <span class="err">분석을 진행할 수 없습니다.</span>';
-        document.getElementById('out').textContent = msg || '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
-      }
+            // 이미지 클릭 시 폼으로 스크롤
+            scrollImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    document.getElementById('fortuneForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
 
-      // 액션 버튼
-      function toggleMenu() {
-        const sideNav = document.getElementById('side-nav');
-        const navOverlay = document.getElementById('nav-overlay');
-        sideNav.classList.toggle('active');
-        navOverlay.classList.toggle('active');
-      }
-      function closeMenu() {
-        const sideNav = document.getElementById('side-nav');
-        const navOverlay = document.getElementById('nav-overlay');
-        sideNav.classList.remove('active');
-        navOverlay.classList.remove('active');
-      }
+            // 메뉴 열기
+            openNavBtn.addEventListener('click', function() {
+                sideNav.classList.add('active');
+                navOverlay.classList.add('active');
+                setTimeout(function() {
+                    const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
+                    items.forEach(function(li) {
+                        li.classList.remove('active');
+                        const content = li.querySelector('.accordion-content');
+                        if (content) content.style.maxHeight = null;
+                    });
+                    const first = sideNav.querySelector('.nav-menu > li.accordion');
+                    if (first) {
+                        first.classList.add('active');
+                        const content = first.querySelector('.accordion-content');
+                        if (content) content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                }, 50);
+            });
 
-      document.getElementById('open-nav-btn')?.addEventListener('click', toggleMenu);
-      document.getElementById('close-nav-btn')?.addEventListener('click', closeMenu);
-      document.getElementById('nav-overlay')?.addEventListener('click', closeMenu);
+            // 메뉴 닫기
+            function closeMenu() {
+                sideNav.classList.remove('active');
+                navOverlay.classList.remove('active');
+            }
+            closeNavBtn.addEventListener('click', closeMenu);
+            navOverlay.addEventListener('click', closeMenu);
 
-      // 서버 호출
-      google.script.run
-        .withSuccessHandler(function(res) {
-          if (res && res.success) { showSuccess(res.fortune); }
-          else { showError((res && res.message) || '분석을 진행할 수 없습니다.'); }
-        })
-        .withFailureHandler(function(err) {
-          showError((err && err.message) ? err.message : String(err));
-        })
-        .getFortuneFromOpenAI(userData);
+            // 아코디언 메뉴
+            accordions.forEach(function(accordion) {
+                accordion.addEventListener('click', function() {
+                    this.parentElement.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
     </script>
-  </body>
+
+    <!-- index.html의 폼 스크립트 -->
+    <script>
+        const KAKAO_CHANNEL_URL = "https://pf.kakao.com/_xkAevn/friend";
+        const actionBtn = document.getElementById("actionBtn");
+        const channelGuide = document.getElementById("channelGuide");
+        const fortuneForm = document.getElementById("fortuneForm");
+        const resultContainer = document.getElementById("resultContainer");
+        const fortuneResult = document.getElementById("fortuneResult");
+        const loadingOverlay = document.getElementById("loadingOverlay");
+
+        function showPolicyModal() {
+            document.getElementById("policyModal").classList.remove("hidden");
+            document.body.classList.add('no-scroll');
+        }
+        function closePolicyModal() {
+            document.getElementById("policyModal").classList.add("hidden");
+            document.body.classList.remove('no-scroll');
+        }
+
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem("joinedChannelDate");
+        if (savedDate !== today) {
+            localStorage.removeItem("joinedChannel");
+        }
+        if (localStorage.getItem("joinedChannel")) switchToResultMode();
+
+        function switchToResultMode() {
+            channelGuide.textContent = "이제 무료 사주 분석을 시작할 수 있습니다.";
+            channelGuide.classList.replace("text-yellow-600", "text-green-600");
+            actionBtn.textContent = "🔮 무료 사주 분석 결과보기";
+            actionBtn.className = "w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105 shadow-lg";
+            actionBtn.onclick = runAnalysis;
+        }
+
+        actionBtn.addEventListener("click", () => {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("📋 개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
+
+            if (!localStorage.getItem("joinedChannel")) {
+                const popup = window.open(KAKAO_CHANNEL_URL, "kakaoPopup", "width=480,height=720");
+                setTimeout(() => {
+                    if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                        alert("📱 카카오채널이 같은 탭에서 열렸어요.\n추가 후 '뒤로가기'로 이 화면으로 돌아오세요!");
+                    }
+                }, 700);
+
+                const timer = setInterval(() => {
+                    if (popup && popup.closed) {
+                        clearInterval(timer);
+                        localStorage.setItem("joinedChannel", "true");
+                        localStorage.setItem("joinedChannelDate", today);
+                        switchToResultMode();
+                    }
+                }, 800);
+            } else {
+                runAnalysis();
+            }
+        });
+
+        function runAnalysis() {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
+
+            const heavenly = ['갑', '을', '병', '정', '무', '기', '경', '신', '임', '계'];
+            const earthly = ['자', '축', '인', '묘', '진', '사', '오', '미', '신', '유', '술', '해'];
+            const fields = [
+                document.getElementById("yearJoo"),
+                document.getElementById("monthJoo"),
+                document.getElementById("dayJoo"),
+                document.getElementById("timeJoo")
+            ];
+
+            for (let fld of fields) {
+                const val = (fld.value || '').trim();
+                const gan = val.substring(0, 1);
+                const ji = val.substring(1, 2);
+                if (val.length !== 2 || !heavenly.includes(gan) || !earthly.includes(ji)) {
+                    alert("사주 정보는 '갑자', '병인'처럼 두 글자의 천간·지지 조합으로 입력해야 합니다.");
+                    fld.focus();
+                    return;
+                }
+            }
+
+            if (actionBtn.disabled) return;
+            actionBtn.disabled = true;
+            loadingOverlay.style.display = "flex";
+
+            setTimeout(() => fortuneForm.submit(), 50);
+        }
+    </script>
+</body>
 </html>
