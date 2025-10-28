@@ -83,14 +83,135 @@
     <img src="images/saju1/021.gif" alt="안내 이미지 10">
 </div>
 <!-- 입력 폼 -->
+        <!-- 신청 폼 영역 -->
+        <div class="form-container">
+             
+            <form id="saju-form">
+                <div class="form-group">
+                    <label>이름</label>
+                    <input type="text" name="p1_name" placeholder="이름">
+                </div>
+                <div class="form-group">
+                     <label for="contact">연락처</label>
+                     <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
+                </div>
+                <div class="form-group">
+                    <label>생년월일</label>
+                    <div class="birth-select">
+                        <select name="p1_birth_year"><option value="">-년-</option></select>
+                        <select name="p1_birth_month"><option value="">-월-</option></select>
+                        <select name="p1_birth_day"><option value="">-일-</option></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>양/음력</label>
+                    <div class="button-group">
+                        <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
+                        <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
+                        <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>성별</label>
+                    <div class="button-group">
+                        <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
+                        <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>태어난 시간</label>
+                    <div class="birth-select">
+                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
+                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
+                    </div>
+                </div>
+                <div class="form-group">
+    <label for="email">이메일 (선택)</label>
+    <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
+</div>
+                <div class="form-group">
+                    <label for="product">상품 선택</label>
+                    <select id="product" name="product">
+                        <option>종합사주 미니</option>
+                        <option>신년운세</option>
+                        <option>종합사주</option>
+                        <option>재물사주</option>
+                        <option>결혼사주</option>
+                        <option>연애사주</option>
+                        <option>연애패키지</option>
+                        <option>타이밍패키지</option>
+                        <option>인생패키지</option>
+                     </select>
+                </div>
 
-      
-            
+    <div class="agree-section">
 
+    <div class="agree-box">
+        <input type="checkbox" id="agree_all">
+        <label for="agree_all">전체동의 (필수항목, 광고성 정보 수신 포함)</label>
+    </div>
 
+    <!-- 개인정보 수집·이용 동의 (필수) -->
+    <div class="agree-box">
+        <input type="checkbox" id="agree1" name="agree1" class="agree-item" required>
+        <label for="agree1">[필수] 개인정보 수집·이용 동의 <span class="toggle-text">[보기]</span></label>
+        <textarea class="terms-box" readonly>
+[필수] 개인정보 수집·이용 동의
 
+1. 수집 항목
+- 이름, 생년월일시, 성별, 전화번호, (선택) 이메일
 
-        
+2. 이용 목적
+- 사주 분석 및 결과서(PDF) 제작·전송
+- 이용자 문의 응대 및 분석결과 재전송
+- 서비스 품질 개선을 위한 통계 활용(개인 식별 불가 형태)
+
+3. 보유 및 이용 기간
+- 서비스 제공 완료일로부터 1년간 보관 후 즉시 파기
+(단, 관련 법령에 특별한 규정이 있는 경우 해당 기간까지 보관)
+
+4. 동의 거부권 및 불이익
+- 개인정보 수집·이용에 대한 동의는 필수이며, 거부 시 서비스 제공이 불가합니다.
+
+이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 동의합니다.
+        </textarea>
+    </div>
+
+    <!-- 광고성 정보 수신 동의 (선택) -->
+    <div class="agree-box">
+        <input type="checkbox" id="agree2" name="agree2" class="agree-item">
+        <label for="agree2">[선택] 광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
+        <textarea class="terms-box" readonly>
+[선택] 광고성 정보 수신 동의
+
+1. 수신 항목 및 수단
+- 카카오 알림톡, 문자(SMS), 이메일 등
+
+2. 이용 목적
+- 신규 서비스, 이벤트, 할인·프로모션 등 마케팅 정보 제공
+- 시즌별 사주분석 리마인드, 맞춤 안내 등 고객 알림 발송
+
+3. 보유 및 이용 기간
+- 동의일로부터 1년간 또는 수신 거부 요청 시 즉시 파기
+
+4. 동의 철회 방법
+- 발송 메시지 내 ‘수신거부’ 또는 이메일(easysaju.saju@gmail.com)로 연락 시 언제든 철회 가능
+- 광고성 정보 수신에 동의하지 않아도 서비스 이용에는 제한이 없습니다.
+
+이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 선택적으로 동의할 수 있습니다.
+        </textarea>
+    </div>
+
+</div>
+<!-- UTM 정보를 저장할 숨겨진 필드 (여기에 추가) -->
+<input type="hidden" id="utm_source" name="utm_source">
+<input type="hidden" id="utm_medium" name="utm_medium">
+<input type="hidden" id="utm_campaign" name="utm_campaign">
+            <!-- 기존 신청 버튼 -->            
+                <button type="submit">사주분석 신청하기</button>
+                <div id="result"></div>
+            </form>
+        </div>        
 
         <!-- 하단 이미지 영역 -->
         <div class="image-section">
