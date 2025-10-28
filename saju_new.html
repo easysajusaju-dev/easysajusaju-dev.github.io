@@ -159,30 +159,33 @@
                     </div>
                 </div>
 
-                <!-- 사주 정보 -->
-                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
-                    <h2 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
-                        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">년주</label>
-                            <input id="yearJoo" name="yearJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="갑자" />
-                        </div>
-                        <div>
-                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">월주</label>
-                            <input id="monthJoo" name="monthJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="을축" />
-                        </div>
-                        <div>
-                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">일주</label>
-                            <input id="dayJoo" name="dayJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="병인" />
-                        </div>
-                        <div>
-                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">시주</label>
-                            <input id="timeJoo" name="timeJoo" required class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="정묘" />
-                        </div>
-                    </div>
-                </div>
+
+<!-- 사주 정보 -->
+<div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+    <h2 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
+        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
+    </h2>
+    <!-- 👇 이 부분의 클래스가 변경되었습니다. -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div>
+            <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">년주</label>
+            <input id="yearJoo" name="yearJoo" required class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="갑자" />
+        </div>
+        <div>
+            <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">월주</label>
+            <input id="monthJoo" name="monthJoo" required class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="을축" />
+        </div>
+        <div>
+            <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">일주</label>
+            <input id="dayJoo" name="dayJoo" required class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="병인" />
+        </div>
+        <div>
+            <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">시주</label>
+            <input id="timeJoo" name="timeJoo" required class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500" placeholder="정묘" />
+        </div>
+    </div>
+</div>
+                
 
                 <!-- 추가 정보 -->
                 <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
