@@ -16,6 +16,8 @@
             --text-light: #6C757D;
             --bg-light: #f8f9fa;
             --border-color: #dee2e6;
+            --content-max: 480px;   /* 아래 카드가 들어있는 컨테이너의 max-width와 동일 값 */
+            --content-gutter: 16px; /* 카드와 동일한 좌우 여백(패딩) */
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
@@ -58,8 +60,7 @@
             font-weight: 500;
         }
 
-       /* 메인 배너 */
-/* 고정 높이 배너 */
+   /* 고정 높이 배너 */
 .banner {
   --banner-h: 140px;          /* ← 왼쪽 참고 사이트 느낌으로 고정 높이(원하면 값만 바꾸세요) */
   position: relative;
