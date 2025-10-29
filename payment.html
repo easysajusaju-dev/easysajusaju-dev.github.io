@@ -216,7 +216,7 @@
             <img src="/images/card-individual.png" alt="" class="bg-img">
             <div class="text-content">
                 <p class="subtitle">당신의 운명을 풀어내는 곳</p>
-                <h2 class="title">이지사주 종합사주주</h2>
+                <h2 class="title">이지사주 -  종합사주</h2>
                 <p class="desc">복채 결제하기</p>
             </div>
         </div>
@@ -262,19 +262,27 @@
                     </div>
                 </div>
                 
-                <div class="payment-buttons">
-                    <div class="sns-payment-group">
-                        <button class="btn btn-kakao">
-                            <img src="https://i.imgur.com/L3x1QVB.png" alt="">
-                            <span>pay 결제하기</span>
-                        </button>
-                        <button class="btn btn-naver">
-                            <img src="https://i.imgur.com/zW3bB32.png" alt="">
-                            <span>pay 결제하기</span>
-                        </button>
-                    </div>
-                    <button class="btn btn-primary">일반 결제</button>
-                </div>
+                <!-- payment-buttons 부분을 아래 코드로 교체하세요 -->
+<div class="payment-buttons">
+    <!-- 1. 카카오/네이버 버튼 그룹 -->
+    <div class="sns-payment-group">
+        <!-- 👇 나중에 requestPay() 함수에 결제사 코드를 넣으면 됩니다. -->
+        <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
+            <!-- SVG 대신 img 태그 사용 -->
+            <img src="https://i.imgur.com/L3x1QVB.png" alt="카카오페이 로고">
+            <span>pay 결제하기</span>
+        </button>
+        <button class="btn btn-naver" onclick="requestPay('naverpay')">
+            <!-- SVG 대신 img 태그 사용 -->
+            <img src="https://i.imgur.com/zW3bB32.png" alt="네이버페이 로고">
+            <span>pay 결제하기</span>
+        </button>
+    </div>
+    
+    <!-- 2. 일반 결제 버튼 -->
+    <!-- [수정] 클래스 이름을 btn-normal -> btn-primary로 변경하여 CSS와 맞춤 -->
+    <button class="btn btn-primary" onclick="requestPay('nice_v2')">일반 결제</button>
+</div>
             </div>
         </main>
         </header>
