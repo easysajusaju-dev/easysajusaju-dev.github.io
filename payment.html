@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제하기 - 이지사주</title>
+    <!-- 아임포트(포트원) 라이브러리 (나중에 실제 연동 시 주석 해제) -->
+    <!-- <script src="https://cdn.iamport.kr/v1/iamport.js"></script> -->
+    <style>
+        /* 기본 스타일 리셋 및 폰트 설정 */
+        :root {
+            --primary-color: #3B5998; /* 이지사주 메인 색상 (예시) */
+            --kakao-yellow: #FEE500;
+            --naver-green: #03C75A;
+            --text-dark: #212529;
+            --text-light: #6C757D;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 전체 레이아웃 */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+
+        /* 헤더 */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header .back-btn {
+            position: absolute;
+            left: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* 메인 배너 */
+        .banner {
+            background-image: linear-gradient(to right, #1d2b64, #2c3e50); /* 어두운 남색 계열 그라데이션 */
+            color: #fff;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .banner .text-content .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .banner .text-content .title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        .banner .text-content .desc {
+            font-size: 1rem;
+        }
+        .banner .char-img {
+            width: 100px; /* 이미지 크기 조절 */
+            height: auto;
+            border-radius: 50%; /* 이미지를 동그랗게 */
+        }
+
+        /* 컨텐츠 섹션 */
+        main {
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 휴대폰 번호 입력 */
+        .phone-inputs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .phone-inputs select, .phone-inputs input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* 결제 금액 */
+        .price-details .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .price-details .item .label .discount-badge {
+            background-color: #3b82f6;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 0.5rem;
+        }
+        .price-details hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 1.5rem 0;
+        }
+        .price-details .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .price-details .total .price {
+            font-size: 1.5rem;
+        }
+
+        /* 결제 버튼 */
+        .payment-buttons {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        .payment-buttons .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .payment-buttons .btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        .payment-buttons .btn-kakao { background-color: var(--kakao-yellow); color: #000; }
+        .payment-buttons .btn-naver { background-color: var(--naver-green); color: #fff; }
+        .payment-buttons .btn-normal { background-color: var(--primary-color); color: #fff; }
+        
+        .agreements {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .agreements .agreement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .agreements a {
+            color: var(--text-light);
+            text-decoration: underline;
+        }
+        
+        /* 푸터 */
+        .footer {
+            background-color: var(--bg-light);
+            padding: 2rem 1.5rem;
+            font-size: 0.75rem;
+            color: #888;
+            text-align: center;
+        }
+        .footer .logo img {
+            height: 25px;
+            margin-bottom: 1rem;
+        }
+        .footer p { margin: 0.3rem 0; }
+        .footer .links { margin-top: 1rem; }
+        .footer .links a { color: #888; margin: 0 0.5rem; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <button class="back-btn" onclick="history.back()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="#212529" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <h1>결제하기</h1>
+        </header>
+
+        <!-- 배너 -->
+        <div class="banner">
+            <div class="text-content">
+                <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+                <h2 class="title" id="banner-product-name">이지사주 1인</h2>
+                <p class="desc">복채 결제하기</p>
+            </div>
+            <!-- 👇 나중에 사용자님의 캐릭터 이미지 경로로 바꿔주세요 -->
+            <img src="/images/your-character-image.png" alt="캐릭터" class="char-img">
+        </div>
+
+        <main>
+            <!-- 휴대폰 번호 입력 -->
+            <div class="card">
+                <h3 class="card-title">휴대폰 번호</h3>
+                <p class="card-desc">사주&운세 결과 확인 및 안내 메시지 발송에 이용됩니다.</p>
+                <div class="phone-inputs">
+                    <select>
+                        <option>010</option>
+                        <option>011</option>
+                        <option>016</option>
+                        <option>017</option>
+                        <option>019</option>
+                    </select>
+                    <input type="tel" maxlength="4" placeholder="">
+                    <input type="tel" maxlength="4" placeholder="">
+                </div>
+            </div>
+
+            <!-- 결제 금액 -->
+            <div class="card price-details">
+                <h3 class="card-title">결제 금액</h3>
+                <div class="item">
+                    <span class="label" id="product-name">이지사주 1인</span>
+                    <span class="price" id="original-price">10,000원</span>
+                </div>
+                <div class="item">
+                    <span class="label">얼리버드 특별 할인<span class="discount-badge" id="discount-rate">-30%</span></span>
+                    <span class="price" id="discount-amount">-3,000원</span>
+                </div>
+                <hr>
+                <div class="total">
+                    <span class="label">최종 결제금액</span>
+                    <span class="price" id="total-price">7,000원</span>
+                </div>
+            </div>
+
+            <!-- 결제 버튼 -->
+            <div class="payment-buttons">
+                <!-- 👇 나중에 requestPay() 함수에 결제사 코드를 넣으면 됩니다. -->
+                <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 5.817 2 9.991c0 2.454 1.353 4.635 3.447 5.918L4 22l4.883-2.441C9.855 19.82 10.903 20 12 20c5.523 0 10-3.817 10-8.009C22 5.817 17.523 2 12 2z"></path></svg>
+                    pay 결제하기
+                </button>
+                <button class="btn btn-naver" onclick="requestPay('naverpay')">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.273 12.845h-3.95v-3.32h3.95V12.845zM7.727 7.78v7.544h1.745V9.524l3.95 5.8h1.746V7.78H13.42l-3.95 5.8H7.727z"></path></svg>
+                    pay 결제하기
+                </button>
+                <button class="btn btn-normal" onclick="requestPay('nice_v2')">일반 결제</button>
+            </div>
+
+            <!-- 약관 동의 -->
+            <div class="agreements">
+                <div class="agreement-item">
+                    <input type="checkbox" id="agree1" checked>
+                    <label for="agree1">개인정보 이용 동의 <a href="#">자세히 보기</a></label>
+                </div>
+                <div class="agreement-item">
+                    <input type="checkbox" id="agree2" checked>
+                    <label for="agree2">결제 진행 동의 <a href="#">자세히 보기</a></label>
+                </div>
+            </div>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <!-- 👇 로고 경로는 본인 사이트에 맞게 수정해주세요 -->
+            <div class="logo"><img src="/images/logo.png" alt="이지사주"></div>
+            <!-- 👇 상호, 대표자명 등은 본인 정보로 수정해주세요 -->
+            <p>상호: 이지사주 | 대표: 홍길동</p>
+            <p>주소: [대표님 주소를 입력하세요]</p>
+            <p>통신판매업신고번호: [번호를 입력하세요]</p>
+            <p>사업자등록번호: [번호를 입력하세요]</p>
+            <p>고객상담 이메일: [이메일 주소를 입력하세요]</p>
+            <div class="links">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+            </div>
+            <p>Copyright © 2024 EasySaju - All right reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- 이 곳에 결제 로직을 구현합니다 ---
+
+        // 1. 상품 정보 및 가격표 (보안을 위해 서버가 아닌 여기서 가격을 관리)
+        const priceList = {
+            'saju_1p': { name: '이지사주 1인', price: 10000, discount: 3000 },
+            'saju_2p': { name: '이지사주 2인', price: 20000, discount: 5000 },
+            'new_year': { name: '신년 운세', price: 15000, discount: 0 }
+            // 여기에 다른 상품들을 추가하세요
+        };
+
+        let product; // 현재 선택된 상품 정보를 담을 변수
+
+        // 2. 페이지가 로드되면 URL에서 상품 ID를 가져와 화면을 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('productID'); // 예: 'saju_1p'
+
+            product = priceList[productId];
+
+            if (product) {
+                // 화면에 상품 정보 업데이트
+                const totalPrice = product.price - product.discount;
+                const discountRate = Math.round((product.discount / product.price) * 100);
+
+                document.getElementById('banner-product-name').innerText = product.name;
+                document.getElementById('product-name').innerText = product.name;
+                document.getElementById('original-price').innerText = product.price.toLocaleString() + '원';
+                document.getElementById('discount-rate').innerText = `-${discountRate}%`;
+                document.getElementById('discount-amount').innerText = `-${product.discount.toLocaleString()}원`;
+                document.getElementById('total-price').innerText = totalPrice.toLocaleString() + '원';
+            } else {
+                // 잘못된 상품 ID일 경우 처리
+                alert('상품 정보가 올바르지 않습니다.');
+                document.body.innerHTML = '<h1>잘못된 접근입니다.</h1>';
+            }
+        });
+
+        // 3. 결제 요청 함수 (나중에 여기에 아임포트 코드를 넣습니다)
+        function requestPay(pgProvider) {
+            if (!product) {
+                alert('상품 정보를 먼저 확인해주세요.');
+                return;
+            }
+
+            // 아임포트(포트원) 가맹점 식별코드 (본인 코드로 교체)
+            const impCode = 'imp_xxxxxxxx'; 
+            
+            // 나중에 아임포트 라이브러리 주석을 풀고 아래 코드를 사용하세요.
+            /*
+            IMP.init(impCode);
+            IMP.request_pay({
+                pg: pgProvider, // 'kakaopay', 'naverpay', 'nice_v2' 등
+                pay_method: "card",
+                merchant_uid: "easysaju_" + new Date().getTime(),
+                name: product.name,
+                amount: product.price - product.discount, // ★★★ URL이 아닌, 가격표의 안전한 금액 사용
+                buyer_email: "customer@email.com", // 실제로는 입력받아야 함
+                buyer_name: "구매자",
+                buyer_tel: "010-1234-5678",
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    // 결제 성공 시, 최종 감사 페이지로 이동
+                    alert('결제가 완료되었습니다.');
+                    // URL에 상품명과 가격을 담아 thankyou.html로 보냄
+                    window.location.href = `thankyou.html?product=${product.name}&price=${rsp.paid_amount}`;
+                } else {
+                    // 결제 실패 시
+                    alert("결제에 실패했습니다. 에러: " + rsp.error_msg);
+                }
+            });
+            */
+
+            // --- 연동 전 테스트용 코드 ---
+            console.log(`${pgProvider}로 결제를 요청합니다.`);
+            console.log('상품명:', product.name);
+            console.log('결제금액:', product.price - product.discount);
+            alert(`[테스트] ${product.name} 상품 ${product.price - product.discount}원 결제를 요청합니다. (PG: ${pgProvider})`);
+            // --- 여기까지 테스트용 코드 ---
+        }
+    </script>
+</body>
+</html>
