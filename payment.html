@@ -208,13 +208,78 @@
 
     <div class="wrapper">
         <header class="header">
-            <!-- 헤더 내용 -->
+                    <button class="back-btn" onclick="history.back()">&lt;</button>
+            <h1>결제하기</h1>
         </header>
 
+        <div class="banner">
+            <img src="https://i.imgur.com/gK2T3eP.jpeg" alt="" class="bg-img">
+            <div class="text-content">
+                <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+                <h2 class="title">이지사주 1인</h2>
+                <p class="desc">복채 결제하기</p>
+            </div>
+        </div>
+
         <main>
-            <!-- 메인 컨텐츠 내용 -->
+            <div class="card">
+                <h3 class="card-title">휴대폰 번호</h3>
+                <p class="card-desc">사주&운세 결과 확인 및 안내 메시지 발송에 이용됩니다.</p>
+                <div class="phone-inputs">
+                    <select>
+                        <option>010</option>
+                    </select>
+                    <span>-</span>
+                    <input type="tel" maxlength="4" placeholder="">
+                    <span>-</span>
+                    <input type="tel" maxlength="4" placeholder="">
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">결제 금액</h3>
+                <div class="price-info">
+                    <span class="label">이지사주 1인</span>
+                    <span class="amount">10,000원</span>
+                </div>
+                <div class="price-info">
+                    <span class="label">얼리버드 특별 할인 <span class="discount">-30%</span></span>
+                    <span class="amount">-3,000원</span>
+                </div>
+                <div class="price-info total">
+                    <span class="label">최종 결제금액</span>
+                    <span class="amount">7,000원</span>
+                </div>
+
+                <div class="agreements">
+                    <div class="agreement-item">
+                        <input type="checkbox" id="agree1" checked>
+                        <label for="agree1">개인정보 이용 등의 <a href="#">자세히 보기</a></label>
+                    </div>
+                    <div class="agreement-item">
+                        <input type="checkbox" id="agree2" checked>
+                        <label for="agree2">결제 진행 등의 <a href="#">자세히 보기</a></label>
+                    </div>
+                </div>
+                
+                <div class="payment-buttons">
+                    <div class="sns-payment-group">
+                        <button class="btn btn-kakao">
+                            <img src="https://i.imgur.com/L3x1QVB.png" alt="">
+                            <span>pay 결제하기</span>
+                        </button>
+                        <button class="btn btn-naver">
+                            <img src="https://i.imgur.com/zW3bB32.png" alt="">
+                            <span>pay 결제하기</span>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary">일반 결제</button>
+                </div>
+            </div>
         </main>
-        
+        </header>
+
+   
         <!-- [수정] 푸터 HTML 교체 -->
         <footer class="footer">
             <div class="social-icons">
