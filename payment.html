@@ -58,32 +58,80 @@
             font-weight: 500;
         }
 
-        /* 메인 배너 */
-        .banner {
-            background-image: linear-gradient(to right, #1d2b64, #2c3e50); /* 어두운 남색 계열 그라데이션 */
-            color: #fff;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .banner .text-content .subtitle {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        .banner .text-content .title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 0.5rem 0;
-        }
-        .banner .text-content .desc {
-            font-size: 1rem;
-        }
-        .banner .char-img {
-            width: 200px; /* 이미지 크기 조절 */
-            height: auto;
-            border-radius: 5%; /* 이미지를 동그랗게 */
-        }
+       /* 메인 배너 */
+.banner {
+  position: relative;
+  color: #fff;
+  padding: 2rem;
+  min-height: 420px;     /* 필요에 맞게 조정 */
+  overflow: hidden;
+}
+
+/* 배경 이미지: 배너를 꽉 채우기 */
+.banner .char-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* 비율 유지하며 꽉 채우기 */
+  border-radius: 0;       /* 전체 배경이므로 라운드 제거 */
+  z-index: 0;
+}
+
+/* 가독성 향상을 위한 오버레이(기존 그라데이션 느낌 유지) */
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    /* 상/하 어둡게 */
+    linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.10) 40%, rgba(0,0,0,.55) 100%),
+    /* 좌/우 남색 계열 틴트 */
+    linear-gradient(to right, rgba(29,43,100,.35), rgba(44,62,80,.35));
+  z-index: 1;
+}
+
+/* 텍스트를 상단/하단로 배치 */
+.banner .text-content {
+  position: relative;
+  z-index: 2;               /* 이미지/오버레이 위로 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* 상단(부제+타이틀), 하단(설명)로 배치되도록 desc를 아래로 밀기 */
+.banner .text-content .desc {
+  margin-top: auto;         /* 하단 고정 효과 */
+}
+
+/* 타이포 그대로 유지(필요시 조정) */
+.banner .text-content .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.banner .text-content .title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.banner .text-content .desc {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+/* 반응형(선택) */
+@media (max-width: 768px) {
+  .banner {
+    min-height: 320px;
+    padding: 1.5rem;
+  }
+  .banner .text-content .title { font-size: 1.6rem; }
+  .banner .text-content .desc { font-size: 0.95rem; }
+}
 
         /* 컨텐츠 섹션 */
         main {
