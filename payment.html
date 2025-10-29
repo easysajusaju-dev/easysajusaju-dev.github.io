@@ -7,20 +7,18 @@
     <!-- 아임포트(포트원) 라이브러리 (나중에 실제 연동 시 주석 해제) -->
     <!-- <script src="https://cdn.iamport.kr/v1/iamport.js"></script> -->
     <style>
-        /* 기본 스타일 리셋 및 폰트 설정 */
-        :root {
-            --primary-color: #3B5998; /* 이지사주 메인 색상 (예시) */
-            --kakao-yellow: #FEE500;
-            --naver-green: #03C75A;
-            --text-dark: #212529;
-            --text-light: #6C757D;
-            --bg-light: #f8f9fa;
-            --border-color: #dee2e6;
-            --content-max: 480px;   /* 아래 카드가 들어있는 컨테이너의 max-width와 동일 값 */
-            --content-gutter: 16px; /* 카드와 동일한 좌우 여백(패딩) */
-        }
+    /* [수정!] @import 규칙은 반드시 스타일시트 최상단에 위치해야 합니다. */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+    /* [수정!] CSS 변수들을 한 곳에 모아서 정의합니다. */
+    :root {
+        --primary-color: #3B5998;
+        --kakao-yellow: #FEE500;
+        --naver-green: #03C75A;
+        --text-dark: #212529;
+        --text-light: #6C757D;
+        --bg-light: #f8f9fa;
+        --border-color: #dee2e6;
 
 /* =======================================================
    전체 CSS 수정본 (이 코드를 복사해서 사용하세요)
