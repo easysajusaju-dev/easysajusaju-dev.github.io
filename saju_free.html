@@ -300,40 +300,38 @@ openNavBtn.addEventListener('click', function () {
         });
     });
 </script>
-    <!-- 카카오톡 채널 플로팅 버튼 시작 -->
+    <!-- <!-- 카카오톡 채널 플로팅 버튼 시작 (버전 1: 심플 아이콘) -->
 <style>
     .kakao-chat-button {
-        position: fixed; /* 화면에 고정 */
-        bottom: 25px; /* 화면 하단에서 25px 위 */
-        right: 25px; /* 화면 오른쪽에서 25px 왼쪽 */
-        z-index: 999; /* 다른 요소들 위에 보이도록 설정 */
-        
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 999;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        width: 60px; /* 버튼 너비 */
-        height: 60px; /* 버튼 높이 */
-        background-color: #FEE500; /* 카카오톡 노란색 */
-        border-radius: 50%; /* 원 모양으로 만들기 */
-        
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
-        transition: all 0.2s ease-in-out; /* 부드러운 효과 */
+        width: 60px;
+        height: 60px;
+        background-color: #FEE500;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease-in-out;
     }
 
     .kakao-chat-button:hover {
-        transform: scale(1.05); /* 마우스를 올리면 살짝 커짐 */
+        transform: scale(1.05);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
     
     .kakao-chat-button img {
-        width: 32px; /* 아이콘 크기 */
-        height: 32px;
+        width: 30px; /* 아이콘 크기 조정 */
+        height: auto;
     }
 </style>
 
 <a href="http://pf.kakao.com/_xkAevn/chat" target="_blank" class="kakao-chat-button">
-    <img src="https://www.kakaocorp.com/page/favicon.ico" alt="카카오톡 채널 채팅하기 버튼">
+    <!-- 아이콘 이미지 주소 변경 -->
+    <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalk/kakaotalk_symbol_black.png" alt="카카오톡 채널 채팅하기 버튼">
 </a>
 <!-- 카카오톡 채널 플로팅 버튼 끝 -->
 </body>
