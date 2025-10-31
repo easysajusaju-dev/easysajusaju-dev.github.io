@@ -19,7 +19,7 @@
     <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
     <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
     <meta property="og:url" content="https://easysajusaju-dev.github.io/">
-    <meta property="og:type" content="website">
+    <meta property  property="og:type" content="website">
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,7 +56,7 @@
         .kakao-chat-button {
             position: fixed; bottom: 25px; right: 25px; z-index: 999;
             width: 60px; height: 60px; background: #FEE500; border-radius: 50%;
-            display: flex; align-items: center; justify: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.2s;
         }
         .kakao-chat-button:hover { transform: scale(1.05); }
@@ -270,10 +270,12 @@
                     if (!res.ok) throw new Error('API 응답 오류');
                     const data = await res.json();
 
-                    document.getElementById('yearJoo').value = data.yearGanji || '';
-                    document.getElementById('monthJoo').value = data.monthGanji || '';
-                    document.getElementById('dayJoo').value = data.dayGanji || '';
-                    document.getElementById('timeJoo').value = data.hourGanji || '';
+                    const clean = (s) => (s || '').toString().trim().replace(/[^가-힣]/g, '');
+
+                    document.getElementById('yearJoo').value = clean(data.yearGanji);
+                    document.getElementById('monthJoo').value = clean(data.monthGanji);
+                    document.getElementById('dayJoo').value = clean(data.dayGanji);
+                    document.getElementById('timeJoo').value = clean(data.hourGanji);
 
                     alert('사주가 자동 입력되었습니다!');
                 } catch (e) {
@@ -336,11 +338,15 @@
             function runAnalysis() {
                 const fields = ['yearJoo', 'monthJoo', 'dayJoo', 'timeJoo'];
                 for (let id of fields) {
-                    const val = document.getElementById(id).value.trim();
-                    if (!/^[가-힣]{2}$/.test(val)) {
-                        alert("사주 정보가 올바르지 않습니다. 자동 입력을 다시 시도하세요.");
+                    const input = document.getElementById(id);
+                    const raw = input.value;
+                    const clean = raw.trim().replace(/[^가-힣]/g, '');
+
+                    if (clean.length !== 2) {
+                        alert(`사주 정보 오류: ${input.placeholder}\n입력값: "${raw}"\n자동 입력을 다시 시도하세요.`);
                         return;
                     }
+                    input.value = clean; // 정제된 값으로 재할당
                 }
                 submitBtn.disabled = true;
                 document.getElementById('saju-form').submit();
