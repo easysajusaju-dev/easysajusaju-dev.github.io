@@ -4,21 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지사주 무료운세</title>
-
-    <!-- 파비콘 -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://easysajusaju-dev.github.io/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="https://easysajusaju-dev.github.io/images/favicon-96x96.png">
-
-    <!-- 오픈 그래프 -->
-    <meta property="og:title" content="무료운세풀이- 이지사주">
-    <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
-    <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
-    <meta property="og:url" content="https://easysajusaju-dev.github.io/">
-    <meta property="og:type" content="website">
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         .form-container { max-width: 800px; margin: auto; padding: 20px; }
         .form-group { margin-bottom: 1.5rem; }
@@ -38,8 +25,8 @@
         .saju-input { background: #f3f4f6; font-weight: bold; text-align: center; }
         #submitBtn { width: 100%; padding: 16px; background: #fbbf24; color: white; font-weight: bold; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; margin-top: 1rem; }
         #submitBtn:disabled { background: #ccc; cursor: not-allowed; }
-        .kakao-chat-button { position: fixed; bottom: 25px; right: 25px; z-index: 999; width: 60px; height: 60px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.2s; }
-        .kakao-chat-button:hover { transform: scale(1.05); }
+        .kakao-chat-button { position: fixed; bottom: 25px; right: 25px; z-index: 999; width: 60px; height: 60px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        #result { margin-top: 20px; padding: 16px; background: #f0f9ff; border-radius: 12px; min-height: 50px; }
     </style>
 </head>
 <body>
@@ -159,12 +146,10 @@
         </div>
     </div>
 
-    <!-- 카카오 플로팅 버튼 -->
     <a href="http://pf.kakao.com/_xkAevn/chat" target="_blank" class="kakao-chat-button">
         <img src="https://easysajusaju-dev.github.io/images/icons8-카카오-톡-48.png" alt="카카오톡">
     </a>
 
-    <!-- 스크립트 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const yearSel = document.getElementById('p1_birth_year');
@@ -173,11 +158,8 @@
             const hourSel = document.getElementById('p1_hour');
             const minuteSel = document.getElementById('p1_minute');
 
-            // 연도
             for (let y = new Date().getFullYear(); y >= 1900; y--) yearSel.add(new Option(y + '년', y));
-            // 월
             for (let m = 1; m <= 12; m++) monthSel.add(new Option(m + '월', m));
-            // 일
             function updateDays() {
                 const y = yearSel.value, m = monthSel.value;
                 daySel.innerHTML = '<option value="">-일-</option>';
@@ -187,12 +169,9 @@
                 }
             }
             yearSel.onchange = monthSel.onchange = updateDays;
-            // 시간
             for (let h = 0; h < 24; h++) hourSel.add(new Option(h + '시', h));
-            // 분
             for (let m = 0; m < 60; m++) minuteSel.add(new Option(m + '분', m));
 
-            // 한자 → 한글 변환
             const hanziToHangul = {
                 '甲': '갑', '乙': '을', '丙': '병', '丁': '정', '戊': '무',
                 '己': '기', '庚': '경', '辛': '신', '壬': '임', '癸': '계',
@@ -227,13 +206,10 @@
                 });
 
                 const url = `https://saju-proxy.onrender.com/proxy/saju?${params}`;
-                console.log('요청 URL:', url);
-
                 try {
                     const res = await fetch(url);
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     const data = await res.json();
-                    console.log('API 응답:', data);
 
                     const year = clean(data.yearGanji);
                     const month = clean(data.monthGanji);
@@ -245,10 +221,9 @@
                     document.getElementById('dayJoo').value = day;
                     document.getElementById('timeJoo').value = hour;
 
-                    alert(`사주 입력 완료!\n년: ${year} 월: ${month} 일: ${day} 시: ${hour}`);
+                    alert(`사주 입력 완료!\n${year} ${month} ${day} ${hour}`);
                 } catch (e) {
-                    console.error(e);
-                    alert('만세력 API 오류. 프록시 서버 확인: https://saju-proxy.onrender.com/ping');
+                    alert('만세력 API 오류. 다시 시도하세요.');
                 }
             };
 
@@ -260,20 +235,18 @@
                 };
             });
 
-            // 전체 동의
             document.getElementById('agree_all').onchange = function() {
                 document.querySelectorAll('.agree-item').forEach(c => c.checked = this.checked);
             };
 
-            // UTM
             const params = new URLSearchParams(location.search);
-            ['utm_source', 'utm_medium', 'utm_campaign'].forEach(k => {
+            ['utm_source','utm_medium','utm_campaign'].forEach(k => {
                 document.getElementById(k).value = params.get(k) || '';
             });
 
-            // 카카오 채널 + 분석
             const KAKAO_URL = "https://pf.kakao.com/_xkAevn/friend";
             const submitBtn = document.getElementById('submitBtn');
+            const resultDiv = document.getElementById('result');
             const today = new Date().toDateString();
 
             if (localStorage.getItem("joinedChannelDate") !== today) localStorage.removeItem("joinedChannel");
@@ -281,7 +254,27 @@
 
             function switchToResultMode() {
                 submitBtn.textContent = "무료 사주 분석 결과보기";
-                submitBtn.onclick = runAnalysis;
+                submitBtn.onclick = () => runAnalysis();
+            }
+
+            // 제출 → GAS가 중복 체크 + 결과 반환
+            function runAnalysis() {
+                const saju = [
+                    document.getElementById('yearJoo').value,
+                    document.getElementById('monthJoo').value,
+                    document.getElementById('dayJoo').value,
+                    document.getElementById('timeJoo').value
+                ];
+                if (saju.some(v => v.length !== 2)) {
+                    alert("사주를 자동 입력 후 제출하세요.");
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                resultDiv.innerHTML = "분석 중입니다...";
+
+                // 폼 제출 → GAS가 중복 체크 + 결과 반환
+                document.getElementById('saju-form').submit();
             }
 
             submitBtn.onclick = (e) => {
@@ -303,21 +296,14 @@
                 }
             };
 
-            function runAnalysis() {
-                const fields = ['yearJoo', 'monthJoo', 'dayJoo', 'timeJoo'];
-                for (let id of fields) {
-                    const input = document.getElementById(id);
-                    const raw = input.value;
-                    const cleaned = raw.trim().replace(/[^가-힣]/g, '');
-                    if (cleaned.length !== 2) {
-                        alert(`사주 오류: ${input.placeholder}\n"${raw}" → "${cleaned}"\n자동입력 다시`);
-                        return;
-                    }
-                    input.value = cleaned;
+            // GAS 응답 처리 (기존 방식)
+            window.addEventListener('load', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('result')) {
+                    resultDiv.innerHTML = decodeURIComponent(urlParams.get('result'));
+                    history.replaceState({}, '', window.location.pathname);
                 }
-                submitBtn.disabled = true;
-                document.getElementById('saju-form').submit();
-            }
+            });
         });
     </script>
 </body>
