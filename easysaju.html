@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이지사주 무료운세 - 당신의 운명의 문을 두드리세요!</title>
+    <title>이지사주 무료운세</title>
 
     <!-- 파비콘 -->
     <link rel="apple-touch-icon" sizes="180x180" href="https://easysajusaju-dev.github.io/images/apple-icon-180x180.png">
@@ -19,20 +19,18 @@
     <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
     <meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
     <meta property="og:url" content="https://easysajusaju-dev.github.io/">
-    <meta property  property="og:type" content="website">
+    <meta property="og:type" content="website">
 
-    <!-- Tailwind CDN -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- 스타일 -->
     <style>
         .no-scroll { overflow: hidden; }
         #side-nav { position: fixed; top: 0; left: 0; height: 100%; width: 250px; background: white; transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 1000; }
         #side-nav.active { transform: translateX(0); }
-        #nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999; }
+        #nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         #nav-overlay.active { display: block; }
 
-        /* 입력 폼 스타일 */
         .form-container { max-width: 800px; margin: auto; padding: 20px; }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: #333; }
@@ -64,45 +62,7 @@
 </head>
 <body>
 
-    <!-- 헤더 -->
-    <div class="sticky-header">
-        <a href="javascript:void(0);" id="open-nav-btn" class="header-logo-link">
-            <span class="burger">Menu</span>
-            <span class="header-title">무료사주</span>
-        </a>
-        <a href="#saju-form" class="header-button">사주분석 신청하기</a>
-    </div>
-
-    <!-- 사이드 메뉴 -->
-    <div id="nav-overlay"></div>
-    <nav id="side-nav">
-        <div class="nav-header">
-            <div class="logo-in-nav"><span>이지사주</span></div>
-            <a href="javascript:void(0);" id="close-nav-btn">Close</a>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="index.html">홈으로 가기</a></li>
-        </ul>
-    </nav>
-
     <div class="main-container">
-
-         <!-- ===== 1. 상단 이미지 영역 (수동 관리) ===== -->
-<div class="image-section">
-    <img src="images/saju1/001.png" alt="이벤트 이미지">
-    <img src="images/saju1/002.png" alt="안내 이미지 1">
-    <img src="images/saju1/003.png" alt="안내 이미지 2">
-    <img src="images/saju1/004.png" alt="안내 이미지 3">
-    <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4">
-    <img src="images/saju1/007.png" alt="안내 이미지 5">
-    <img src="images/saju1/008.png" alt="안내 이미지 6">
-    <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7">
-    <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8">
-    <img src="images/saju1/020.png" alt="안내 이미지 9">
-    <img src="images/saju1/021.gif" alt="안내 이미지 10">
-</div>
-        
-        <!-- 입력 폼 -->
         <div class="form-container">
             <form id="saju-form" action="https://script.google.com/macros/s/AKfycbzij2Oorrv6DqmmEGcTXrDkj7wqbmpr_Wl2C3nXJGARLcc1oFdZtUaH8AkFVgZdrajo/exec" method="POST">
                 
@@ -138,12 +98,12 @@
                     </div>
                 </div>
 
-                <!-- 성별 -->
+                <!-- 성별 (수정됨!) -->
                 <div class="form-group">
                     <label>성별</label>
                     <div class="button-group">
-                        <input type="radio" id="p1_male" name="p1_genderr" value="남자" checked><label for="p1_male">남자</label>
-                        <input type="radio" id="p1_female" name="p1_genderr" value="여자"><label for="p1_female">여자</label>
+                        <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
+                        <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
                     </div>
                 </div>
 
@@ -192,7 +152,7 @@
                 <div class="agree-section">
                     <div class="agree-box">
                         <input type="checkbox" id="agree_all">
-                        <label for="agree_all">전체동의 (필수항목, 광고성 정보 수신 포함)</label>
+                        <label for="agree_all">전체동의</label>
                     </div>
                     <div class="agree-box">
                         <input type="checkbox" id="agree1" class="agree-item" required>
@@ -210,14 +170,6 @@
                 <button type="submit" id="submitBtn">사주분석 신청하기</button>
                 <div id="result"></div>
             </form>
-        </div>
-
-        <!-- 결과 영역 -->
-        <div id="resultContainer" class="hidden mt-10 text-center">
-            <div class="rounded-2xl shadow-sm border border-gray-200 overflow-hidden bg-white p-6">
-                <h2 class="font-bold text-3xl mb-4">사주 분석 결과</h2>
-                <div id="fortuneResult" class="p-4 text-left text-lg leading-relaxed whitespace-pre-wrap"></div>
-            </div>
         </div>
     </div>
 
@@ -254,7 +206,7 @@
             // 분
             for (let m = 0; m < 60; m++) minuteSel.add(new Option(m + '분', m));
 
-            // 사주 자동 입력 (프록시 사용)
+            // 사주 자동 입력 (강화된 버전)
             document.getElementById('fetchSajuBtn').onclick = async () => {
                 const y = yearSel.value, m = monthSel.value, d = daySel.value;
                 const h = hourSel.value || 0;
@@ -264,7 +216,7 @@
                 const isLunar = document.getElementById('p1_lunar').checked;
                 const isLeap = document.getElementById('p1_lunar_leap').checked;
 
-                if (!y || !m || !d) return alert('생년월일을 선택하세요.');
+                if (!y || !m || !d) return alert('생년월일을 모두 선택하세요.');
 
                 const params = new URLSearchParams({
                     year: y,
@@ -279,23 +231,34 @@
                 });
 
                 const url = `https://saju-proxy.onrender.com/proxy/saju?${params}`;
+                console.log('요청 URL:', url); // 디버그
 
                 try {
                     const res = await fetch(url);
-                    if (!res.ok) throw new Error('API 응답 오류');
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
                     const data = await res.json();
+                    console.log('API 응답:', data); // 디버그
 
                     const clean = (s) => (s || '').toString().trim().replace(/[^가-힣]/g, '');
 
-                    document.getElementById('yearJoo').value = clean(data.yearGanji);
-                    document.getElementById('monthJoo').value = clean(data.monthGanji);
-                    document.getElementById('dayJoo').value = clean(data.dayGanji);
-                    document.getElementById('timeJoo').value = clean(data.hourGanji);
+                    const year = clean(data.yearGanji);
+                    const month = clean(data.monthGanji);
+                    const day = clean(data.dayGanji);
+                    const hour = clean(data.hourGanji);
 
-                    alert('사주가 자동 입력되었습니다!');
+                    if (year && month && day && hour) {
+                        document.getElementById('yearJoo').value = year;
+                        document.getElementById('monthJoo').value = month;
+                        document.getElementById('dayJoo').value = day;
+                        document.getElementById('timeJoo').value = hour;
+                        alert('사주가 정상 입력되었습니다!');
+                    } else {
+                        alert('API 응답에 사주 정보가 없습니다. 다시 시도하세요.');
+                    }
                 } catch (e) {
-                    console.error(e);
-                    alert('만세력 API 연결 실패. 다시 시도해주세요.');
+                    console.error('API 오류:', e);
+                    alert('만세력 API 연결 실패. 프록시 서버가 정상인지 확인하세요.\nhttps://saju-proxy.onrender.com/ping');
                 }
             };
 
@@ -318,7 +281,7 @@
                 document.getElementById(k).value = params.get(k) || '';
             });
 
-            // 카카오 채널 가입 유도 + 분석
+            // 카카오 채널 + 분석
             const KAKAO_URL = "https://pf.kakao.com/_xkAevn/friend";
             const submitBtn = document.getElementById('submitBtn');
             const today = new Date().toDateString();
@@ -361,7 +324,7 @@
                         alert(`사주 정보 오류: ${input.placeholder}\n입력값: "${raw}"\n자동 입력을 다시 시도하세요.`);
                         return;
                     }
-                    input.value = clean; // 정제된 값으로 재할당
+                    input.value = clean;
                 }
                 submitBtn.disabled = true;
                 document.getElementById('saju-form').submit();
