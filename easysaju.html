@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이지사주 만세력 변환기</title>
+    <title>이지사주 만세력 → 복사 전용</title>
     <link rel="icon" type="image/png" sizes="32x32" href="https://easysajusaju-dev.github.io/images/favicon-32x32.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); font-family: 'Malgun Gothic', sans-serif; }
-        .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .title { text-align: center; font-size: 1.8rem; font-weight: bold; color: #1e40af; margin-bottom: 1.5rem; }
+        body { background: #f8fafc; font-family: 'Malgun Gothic', sans-serif; }
+        .container { max-width: 560px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .title { text-align: center; font-size: 1.8rem; font-weight: bold; color: #1e40af; margin-bottom: 0.5rem; }
+        .subtitle { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: #1f2937; }
-        .birth-select, .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .birth-select { display: flex; gap: 8px; flex-wrap: wrap; }
         .birth-select select { flex: 1; min-width: 100px; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px; }
-        .button-group { display: flex; gap: 12px; }
+        .button-group { display: flex; gap: 12px; margin-bottom: 1rem; }
         .button-group input[type="radio"] { display: none; }
         .button-group label { padding: 10px 16px; background: #f3f4f6; border-radius: 8px; cursor: pointer; font-size: 14px; }
         .button-group input:checked + label { background: #3b82f6; color: white; }
         .convert-btn { width: 100%; padding: 14px; background: linear-gradient(to right, #8b5cf6, #ec4899); color: white; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; font-size: 18px; margin-top: 1rem; }
-        .result-box { margin-top: 1.5rem; padding: 1.5rem; background: #f0f9ff; border: 2px dashed #0ea5e9; border-radius: 12px; text-align: center; font-size: 1.3rem; font-weight: bold; color: #1e40af; }
-        .copy-btn { margin-top: 0.5rem; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .result-box { margin-top: 1.5rem; padding: 1.5rem; background: #ecfdf5; border: 2px solid #10b981; border-radius: 12px; text-align: center; }
+        .saju-text { font-size: 1.5rem; font-weight: bold; color: #065f46; margin-bottom: 0.5rem; }
+        .copy-btn { padding: 10px 20px; background: #10b981; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        .debug { font-size: 0.8rem; color: #dc2626; margin-top: 1rem; white-space: pre-wrap; background: #fee2e2; padding: 0.5rem; border-radius: 6px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">이지사주 만세력 변환기</h1>
-        <p style="text-align:center; color:#6b7280; margin-bottom:1.5rem;">생년월일시 + 양/음력 + 성별 입력 → 사주 즉시 확인</p>
+        <h1 class="title">만세력 → 복사 전용</h1>
+        <p class="subtitle">사주 변환 후 복사 → 기존 앱에 붙여넣기</p>
 
         <!-- 생년월일 -->
         <div class="form-group">
@@ -69,11 +72,15 @@
         <!-- 변환 버튼 -->
         <button type="button" id="convertBtn" class="convert-btn">사주 변환하기</button>
 
-        <!-- 결과 -->
+        <!-- 결과 + 복사 -->
         <div id="result" class="result-box" style="display:none;">
-            <div id="sajuText"></div>
-            <button type="button" id="copyBtn" class="copy-btn">결과 복사</button>
+            <div class="saju-text" id="sajuText"></div>
+            <button type="button" id="copyBtn" class="copy-btn">복사하기 → 기존 앱에 붙여넣기</button>
+            <p style="font-size:0.85rem; color:#059669; margin-top:0.5rem;">복사 후, 기존 앱의 사주 입력란 4개에 순서대로 붙여넣기</p>
         </div>
+
+        <!-- 디버그 출력 -->
+        <div id="debug" class="debug" style="display:none;"></div>
     </div>
 
     <script>
@@ -83,46 +90,32 @@
             const daySel = document.getElementById('day');
             const hourSel = document.getElementById('hour');
             const minuteSel = document.getElementById('minute');
+            const debugDiv = document.getElementById>('debug');
 
-            // 년도
-            for (let y = new Date().getFullYear(); y >= 1900; y--) {
-                yearSel.add(new Option(y + '년', y));
-            }
-            // 월
-            for (let m = 1; m <= 12; m++) {
-                monthSel.add(new Option(m + '월', m));
-            }
-            // 일 (동적)
-            const updateDays = () => {
-                const y = yearSel.value, m = monthSel.value;
-                daySel.innerHTML = '<option value="">-일-</option>';
-                if (y && m) {
-                    const days = new Date(y, m, 0).getDate();
-                    for (let d = 1; d <= days; d++) {
-                        daySel.add(new Option(d + '일', d));
-                    }
-                }
-            };
-            yearSel.onchange = monthSel.onchange = updateDays;
-
-            // 시간
-            for (let h = 0; h < 24; h++) {
-                hourSel.add(new Option(h + '시', h));
-            }
-            // 분
+            // 초기화
+            for (let y = new Date().getFullYear(); y >= 1900; y--) yearSel.add(new Option(y + '년', y));
+            for (let m = 1; m <= 12; m++) monthSel.add(new Option(m + '월', m));
+            for (let h = 0; h < 24; h++) hourSel.add(new Option(h + '시', h));
             for (let m = 0; m < 60; m++) {
                 const mm = m.toString().padStart(2, '0');
                 minuteSel.add(new Option(mm + '분', m));
             }
 
-            // 한자 → 한글
-            const map = {
-                '甲':'갑','乙':'을','丙':'병','丁':'정','戊':'무','己':'기','庚':'경','辛':'신','壬':'임','癸':'계',
-                '子':'자','丑':'축','寅':'인','卯':'묘','辰':'진','巳':'사','午':'오','未':'미','申':'신','酉':'유','戌':'술','亥':'해'
+            const updateDays = () => {
+                const y = yearSel.value, m = monthSel.value;
+                daySel.innerHTML = '<option value="">-일-</option>';
+                if (y && m) {
+                    const days = new Date(y, m, 0).getDate();
+                    for (let d = 1; d <= days; d++) daySel.add(new Option(d + '일', d));
+                }
             };
-            const toHangul = (s) => (s || '').split('').map(c => map[c] || c).join('').replace(/[^가-힣]/g, '').slice(0,2);
+            yearSel.onchange = monthSel.onchange = updateDays;
 
-            // 변환 버튼
+            // 한자 → 한글
+            const map = {'甲':'갑','乙':'을','丙':'병','丁':'정','戊':'무','己':'기','庚':'경','辛':'신','壬':'임','癸':'계','子':'자','丑':'축','寅':'인','卯':'묘','辰':'진','巳':'사','午':'오','未':'미','申':'신','酉':'유','戌':'술','亥':'해'};
+            const toHangul = (s) => (s || '').split('').map(c => map[c] || '').join('').replace(/[^가-힣]/g, '').slice(0,2);
+
+            // 변환
             document.getElementById('convertBtn').onclick = async () => {
                 const y = yearSel.value, m = monthSel.value, d = daySel.value;
                 const h = hourSel.value || 0, min = minuteSel.value || 0;
@@ -138,28 +131,51 @@
                 });
 
                 const url = `https://saju-proxy.onrender.com/proxy/saju?${params}`;
+                debugDiv.style.display = 'block';
+                debugDiv.textContent = `요청 중...\nURL: ${url}\n기다려주세요 (최대 30초)`;
+
                 try {
-                    const res = await fetch(url);
-                    if (!res.ok) throw new Error();
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 30000); // 30초 타임아웃
+
+                    const res = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeout);
+
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`HTTP ${res.status}\n${text}`);
+                    }
+
                     const data = await res.json();
+                    debugDiv.textContent += `\n\n응답 성공!\n${JSON.stringify(data, null, 2)}`;
 
                     const year = toHangul(data.yearGanji);
                     const month = toHangul(data.monthGanji);
                     const day = toHangul(data.dayGanji);
                     const hour = toHangul(data.hourGanji);
 
-                    const result = `${year} ${month} ${day} ${hour}`;
-                    document.getElementById('sajuText').textContent = result;
-                    document.getElementById('result').style.display = 'block';
+                    if (!year || !month || !day || !hour) {
+                        throw new Error(`사주 변환 실패\nyearGanji: ${data.yearGanji}\nmonthGanji: ${data.monthGanji}`);
+                    }
 
-                    // 복사 기능
+                    const resultText = `${year} ${month} ${day} ${hour}`;
+                    document.getElementById('sajuText').textContent = resultText;
+                    document.getElementById('result').style.display = 'block';
+                    debugDiv.style.display = 'none';
+
                     document.getElementById('copyBtn').onclick = () => {
-                        navigator.clipboard.writeText(result).then(() => {
-                            alert('사주가 복사되었습니다: ' + result);
+                        const copyText = `${year}\n${month}\n${day}\n${hour}`;
+                        navigator.clipboard.writeText(copyText).then(() => {
+                            alert(`복사 완료!\n\n${resultText}\n\n기존 앱에 붙여넣기 하세요.`);
                         });
                     };
+
                 } catch (e) {
-                    alert('만세력 API 연결 실패. 다시 시도하세요.');
+                    if (e.name === 'AbortError') {
+                        debugDiv.textContent = `오류: 서버 응답 없음 (30초 초과)\n\n해결법:\n1. 30초 후 다시 시도\n2. Render 대시보드에서 서버 깨우기\n   → https://dashboard.render.com`;
+                    } else {
+                        debugDiv.textContent = `오류: ${e.message}`;
+                    }
                 }
             };
         });
