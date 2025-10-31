@@ -101,9 +101,9 @@
                 <div id="result"></div>
             </form>
 
-            <!-- 새로 추가: 사주 변환 입력 폼 -->
+            <!-- 사주 변환 입력 폼 -->
             <div class="convert-box mt-8">
-                <h3 class="font-bold text-lg mb-4 text-center text-blue-700">사주 변환 입력 (아래 입력 후 "변환하기" 클릭)</h3>
+                <h3 class="font-bold text-lg mb-4 text-center text-blue-700">사주 변환 입력</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- 생년월일 -->
                     <div class="form-group">
@@ -157,14 +157,13 @@
     <!-- 스크립트 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // === 기존 로직 그대로 시작 ===
+            // === 기존 로직 그대로 ===
             const yearSel = document.getElementById('p1_birth_year');
             const monthSel = document.getElementById('p1_birth_month');
             const daySel = document.getElementById('p1_birth_day');
             const hourSel = document.getElementById('p1_hour');
             const minuteSel = document.getElementById('p1_minute');
 
-            // 연도, 월, 일, 시간, 분 (기존 그대로)
             for (let y = new Date().getFullYear(); y >= 1900; y--) yearSel.add(new Option(y + '년', y));
             for (let m = 1; m <= 12; m++) monthSel.add(new Option(m + '월', m));
             function updateDays() {
@@ -179,7 +178,6 @@
             for (let h = 0; h < 24; h++) hourSel.add(new Option(h + '시', h));
             for (let m = 0; m < 60; m++) minuteSel.add(new Option(m + '분', m));
 
-            // 동의 토글
             document.querySelectorAll('.toggle-text').forEach(t => {
                 t.onclick = () => {
                     const box = t.parentElement.nextElementSibling;
@@ -187,18 +185,15 @@
                 };
             });
 
-            // 전체 동의
             document.getElementById('agree_all').onchange = function() {
                 document.querySelectorAll('.agree-item').forEach(c => c.checked = this.checked);
             };
 
-            // UTM
             const params = new URLSearchParams(location.search);
             ['utm_source','utm_medium','utm_campaign'].forEach(k => {
                 document.getElementById(k).value = params.get(k) || '';
             });
 
-            // 카카오 채널 + 분석 (기존 그대로)
             const KAKAO_URL = "https://pf.kakao.com/_xkAevn/friend";
             const submitBtn = document.getElementById('submitBtn');
             const today = new Date().toDateString();
@@ -247,7 +242,7 @@
             }
             // === 기존 로직 끝 ===
 
-            // === 새로 추가: 변환 입력 폼 초기화 ===
+            // === 변환 입력 폼 초기화 (숫자 정상 표시) ===
             const convYear = document.getElementById('conv_year');
             const convMonth = document.getElementById('conv_month');
             const convDay = document.getElementById('conv_day');
@@ -256,6 +251,9 @@
 
             for (let y = new Date().getFullYear(); y >= 1900; y--) convYear.add(new Option(y + '년', y));
             for (let m = 1; m <= 12; m++) convMonth.add(new Option(m + '월', m));
+            for (let h = 0; h < 24; h++) convHour.add(new Option(h + '시', h));
+            for (let m = 0; m < 60; m++) convMinute.add(new Option(m + '분', m));
+
             function updateConvDays() {
                 const y = convYear.value, m = convMonth.value;
                 convDay.innerHTML = '<option value="">-일-</option>';
@@ -265,8 +263,6 @@
                 }
             }
             convYear.onchange = convMonth.onchange = updateConvDays;
-            for (let h = 0; h < 24; h++) convHour.add(new Option(h + '시', h));
-            for (let m = 0; m < 60; m++) convMinute.add(new Option(m + '분', m));
 
             // === 변환하기 버튼 ===
             document.getElementById('convertBtn').onclick = async () => {
