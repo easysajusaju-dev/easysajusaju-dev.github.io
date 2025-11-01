@@ -248,3 +248,164 @@
     window.addEventListener('resize', onResize);
     prev.onclick = ()=>vp.scrollBy({left:-vp.clientWidth,behavior:'smooth'});
     next.onclick = ()=>vp.scrollBy({left: vp.clientWidth,behavior:'smooth'});
+    setTimeout(onResize,0);
+  }
+
+  /* ───────── 대운(샘플 스타일) ───────── */
+  function renderDaeRowLikeSample(data, dayStem, birthYear){
+    const vp = document.getElementById('daeRow');
+    const header = document.getElementById('daeHeader');
+    vp.innerHTML = '';
+
+    // 첫 대운 나이(대운수)
+    const firstYear = (data.daeWoonYear||[])[0] || birthYear;
+    const startAge = Math.max(1, firstYear - birthYear + 1);
+
+    // 방향
+    const dirText = (data.daeWoon||[])[0] || '';
+    const isForward = dirText.includes('순행');
+    const dirLabel = isForward ? '정사' : '역사';
+
+    header.textContent = `대운수 : ${startAge}(${dirLabel})`;
+
+    // 2,12,22,…,92 (100세 이하)
+    const ages = [];
+    for(let a=startAge; a<=100; a+=10) ages.push(a);
+
+    const gjList = data.daeWoonGanji || [];
+    for(let i=0;i<ages.length && i<gjList.length;i++){
+      const age = ages[i];
+      const gj = gjList[i] || '';
+      const [s,b] = split(gj);
+      const tg = tenGod(dayStem, s);
+
+      const tile = document.createElement('div');
+      tile.className = 'tile' + ((data.daeWoonYear?.[i]===nowYear)?' on':'');
+      tile.innerHTML = `
+        <div class="yr">${age}</div>
+        <div class="gbox">
+          <div class="mini ${elemOf(s)}">${s||'-'}</div>
+          <div class="mini small ${elemOf(b)}">${b||'-'}</div>
+        </div>
+        <div class="subnote">${tg}</div>
+      `;
+      vp.appendChild(tile);
+    }
+    fitTen(vp);
+  }
+
+  /* ───────── 연운(10칸, 가운데 현재년도, 1년 단위 이동) ───────── */
+  let runCenterYear = nowYear;
+  const RUN_VISIBLE = 10;
+
+  function renderRunRow(centerYear){
+    const vp = document.getElementById('runRow');
+    const hdr = document.getElementById('runHeader');
+    vp.innerHTML = '';
+
+    const half = Math.floor(RUN_VISIBLE/2); // 5
+    const start = centerYear - half;
+    const end   = start + RUN_VISIBLE - 1;
+
+    for(let y=start; y<=end; y++){
+      const g = yearGanjiOf(y);
+      const [s,b] = [g[0],g[1]];
+      const tile = document.createElement('div');
+      tile.className = 'tile' + (y===centerYear?' on':'');
+      tile.innerHTML = `
+        <div class="yr">${y}</div>
+        <div class="gbox">
+          <div class="mini ${elemOf(s)}">${s}</div>
+          <div class="mini small ${elemOf(b)}">${b}</div>
+        </div>
+      `;
+      tile.onclick = ()=>{ runCenterYear = y; renderRunRow(runCenterYear); loadMonths(y); };
+      vp.appendChild(tile);
+    }
+    hdr.textContent = `연운 : ${start} ~ ${end} (가운데 ${centerYear})`;
+
+    // 버튼: 1년씩 이동
+    const car = document.getElementById('car-run');
+    car.querySelector('.prev').onclick = ()=>{ runCenterYear -= 1; renderRunRow(runCenterYear); };
+    car.querySelector('.next').onclick = ()=>{ runCenterYear += 1; renderRunRow(runCenterYear); };
+
+    fitTen(vp);
+  }
+
+  /* ───────── 월운(선택 연도 1~12월, 10칸) ───────── */
+  async function loadMonths(year){
+    const vp=document.getElementById('monthRow'); vp.innerHTML='';
+    const male=document.querySelector('input[name=sex]:checked').value==='male';
+    const pivot=+document.querySelector('input[name=pivot]:checked').value;
+    try{
+      const calls=[...Array(12)].map((_,i)=>{
+        const m=i+1;
+        const q={year,month:m,day:15,hour:12,min:0,isMale:String(male),isLunar:'false',leap:'false',pivotMin:String(pivot)};
+        return fetchSaju(q).then(d=>({m,gj:d.monthGanji}));
+      });
+      const list=await Promise.all(calls);
+      list.forEach(({m,gj})=>{
+        const [s,b]=split(gj);
+        const tile=document.createElement('div'); tile.className='tile';
+        tile.innerHTML=`<div class="yr">${m}월</div>
+          <div class="gbox">
+            <div class="mini ${elemOf(s)}">${s||'-'}</div>
+            <div class="mini small ${elemOf(b)}">${b||'-'}</div>
+          </div>`;
+        vp.appendChild(tile);
+      });
+      fitTen(vp);
+    }catch(e){
+      vp.innerHTML='<span class="note">월운 불러오기 실패: '+(e?.message||e)+'</span>';
+    }
+  }
+
+  /* 조회 */
+  document.getElementById('go').addEventListener('click', async ()=>{
+    const msg=document.getElementById('msg'); msg.textContent='조회 중...';
+    const y=iv('yy'), m=iv('mm'), d=iv('dd'), h=iv('hh'), mi=iv('mi');
+    const isLunar=document.querySelector('input[name=cal]:checked').value==='lunar';
+    const leap=isLunar && document.getElementById('leap').checked;
+    const isMale=document.querySelector('input[name=sex]:checked').value==='male';
+    const pivotMin=+document.querySelector('input[name=pivot]:checked').value;
+
+    try{
+      const data=await fetchSaju({
+        year:y, month:m, day:d, hour:h, min:mi,
+        isMale:String(isMale), isLunar:String(isLunar), leap:String(leap), pivotMin:String(pivotMin)
+      });
+      document.getElementById('raw').textContent=JSON.stringify(data,null,2);
+
+      /* 요약 */
+      setText('solarText', data.solarText || `${y}년 ${String(m).padStart(2,'0')}월 ${String(d).padStart(2,'0')}일 ${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}`);
+      setText('lunarText', data.lunarText || (isLunar? `음력 ${m}월 ${d}일 ${leap?'(윤달)':''}`:'-'));
+      setText('termText',  data.termName ? `${data.termName} ${data.termDate||''}` : '-');
+      setText('stdText',   `pivot ${pivotMin}분`);
+
+      /* 4주 */
+      const [ys,yb]=split(data.yearGanji), [ms,mb]=split(data.monthGanji), [ds,db]=split(data.dayGanji), [hs,hb]=split(data.hourGanji);
+      setBox('yStem',ys); setBox('yBranch',yb);
+      setBox('mStem',ms); setBox('mBranch',mb);
+      setBox('dStem',ds); setBox('dBranch',db);
+      setBox('hStem',hs); setBox('hBranch',hb);
+
+      /* 대운(샘플 스타일) */
+      renderDaeRowLikeSample(data, ds, y);
+      initCarouselScroll('car-dae');
+
+      /* 연운(10칸 윈도우, 가운데 올해) + 월운 */
+      runCenterYear = nowYear;
+      renderRunRow(runCenterYear);
+      loadMonths(runCenterYear);
+
+      /* 월운 캐러셀 스크롤 버튼만 초기화 */
+      initCarouselScroll('car-month');
+
+      msg.textContent='완료';
+    }catch(e){
+      msg.textContent='오류: '+(e?.message||String(e));
+    }
+  });
+</script>
+</body>
+</html>
