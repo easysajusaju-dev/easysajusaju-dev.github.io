@@ -3,114 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이지사주 - 결제 완료</title>
+<title>신청 완료 - 이지사주</title>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
-body {
-  font-family:'Noto Sans KR',sans-serif;
-  background:#f7f9fa; color:#333;
-  min-height:100vh; display:flex; justify-content:center; align-items:center;
-  margin:0; padding:20px; box-sizing:border-box;
-}
-.container {
-  max-width:500px; width:100%;
-  background:#fff; padding:40px; border-radius:12px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08); text-align:center;
-}
-.icon { font-size:40px; color:#2ecc71; }
-h1 { font-size:26px; margin:20px 0 10px; }
-p { font-size:16px; color:#555; line-height:1.6; margin-bottom:20px; }
-.info-box, .order-summary {
-  background:#f7f9fa; padding:20px; border-radius:8px; text-align:left; margin-bottom:20px;
-}
-.info-box h3, .order-summary h3 {
-  font-size:18px; margin:0 0 10px; border-bottom:1px solid #e0e0e0; padding-bottom:8px;
-}
-.info-box ul, .order-summary ul { list-style:none; padding:0; margin:0; }
-.info-box li, .order-summary li { font-size:15px; margin-bottom:7px; }
-.home-button {
-  display:inline-block; margin-top:20px; padding:12px 25px;
-  font-size:16px; font-weight:700; background:#2c3e50; color:#fff;
-  border-radius:30px; text-decoration:none;
-}
+body {font-family:'Noto Sans KR',sans-serif;background:#f6f8fa;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;}
+.box {background:#fff;padding:32px;border-radius:12px;max-width:400px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.1);}
+h2 {margin-top:0;}
+.btn {display:inline-block;margin-top:20px;padding:12px 24px;background:#4a5a73;color:#fff;border-radius:6px;text-decoration:none;}
 </style>
 </head>
 
 <body>
-<div class="container">
-  <div id="statusIcon" class="icon">⌛</div>
-  <h1 id="title">결제 확인 중...</h1>
-  <p id="message">잠시만 기다려주세요. 주문을 확인하고 있습니다.</p>
-
-  <div class="order-summary">
-      <h3>주문 정보</h3>
-      <ul>
-        <li><strong>상품:</strong> <span id="product-name"></span></li>
-        <li><strong>금액:</strong> <span id="product-price"></span>원</li>
-      </ul>
-  </div>
-
-  <div class="info-box" id="nextStepsBox" style="display:none;">
-      <h3>진행 안내</h3>
-      <ul>
-        <li>✅ 결제가 정상적으로 완료되었습니다.</li>
-        <li>📄 사주 분석이 진행됩니다. (1~2일 이내)</li>
-        <li>📩 PDF 분석지를 카카오톡/이메일로 보내드릴게요!</li>
-      </ul>
-  </div>
-
-  <a class="home-button" href="index.html">홈으로 가기</a>
+<div class="box">
+  <h2>✅ 신청 및 결제 완료</h2>
+  <p>감사합니다.<br>사주 분석이 시작됩니다 😊</p>
+  <a href="index.html" class="btn">홈으로가기</a>
 </div>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec
-"; // ✅ 반드시 교체!
+// ✅ 결제 후 시트에 결제완료 알리기
+const params = new URLSearchParams(location.search);
+const oid = params.get("oid");
 
-const url = new URL(location.href);
-const oid = url.searchParams.get("oid");
-const resultCode = url.searchParams.get("resultCode");
-const product = url.searchParams.get("product");
-const price = url.searchParams.get("price");
-
-document.getElementById("product-name").innerText = product || "-";
-document.getElementById("product-price").innerText = Number(price || 0).toLocaleString();
-
-async function updateStatus(payStatus){
-  try{
-    await fetch(scriptURL,{
-      method:"POST",
-      headers:{ "Content-Type":"application/x-www-form-urlencoded" },
-      body:new URLSearchParams({
-        mode:"updatePayment",
-        orderId:oid,
-        payStatus
-      })
-    });
-  }catch(e){ console.log("update error",e); }
+if (oid) {
+  fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: `mode=updatePayment&orderId=${oid}&payStatus=결제완료`
+  });
 }
-
-function showSuccess(){
-  document.getElementById("statusIcon").innerText="✅";
-  document.getElementById("title").innerText="결제가 완료되었습니다!";
-  document.getElementById("message").innerText="소중한 신청 감사드립니다 🙏";
-  document.getElementById("nextStepsBox").style.display="block";
-}
-
-function showFail(){
-  document.getElementById("statusIcon").innerText="❌";
-  document.getElementById("title").innerText="결제 실패";
-  document.getElementById("message").innerText="결제가 정상적으로 처리되지 않았습니다.";
-}
-
-(async ()=>{
-  if(resultCode==="0000"){
-    await updateStatus("결제완료");
-    showSuccess();
-  } else {
-    await updateStatus("결제실패");
-    showFail();
-  }
-})();
 </script>
+
 </body>
 </html>
