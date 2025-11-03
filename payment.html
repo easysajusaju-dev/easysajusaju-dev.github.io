@@ -5,15 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>결제하기 - 이지사주</title>
 
-<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
-
 <style>
-/* ----- 기존 CSS 유지 (생략) ----- */
-/* 너가 준 CSS 영역 그대로 두세요 */
+/* 기존 CSS 그대로 유지 */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+:root{--primary-color:#4a5a73;--kakao-yellow:#FEE500;--naver-green:#03C75A;--text-dark:#212529;--text-light:#6C757D;--bg-light:#f8f9fa;--border-color:#dee2e6;}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;background-color:var(--bg-light);color:var(--text-dark);}
+.wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.header{display:flex;align-items:center;justify-content:center;position:sticky;top:0;background:#fff;padding:1rem;border-bottom:1px solid var(--border-color);}
+.back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
+.banner{position:relative;width:100%;height:140px;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:1rem;}
+.bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2;}
+.banner .text-content{position:relative;z-index:3;}
+main{padding:1.5rem;background-color:var(--bg-light);}
+.card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+.card-title{font-size:1.1rem;font-weight:700;margin:0 0 .5rem;}
+.card-desc{font-size:.85rem;color:var(--text-light);margin:0 0 1.5rem;}
+.price-info{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:1rem;}
+.price-info.total{font-size:1.2rem;font-weight:700;padding-top:1rem;border-top:1px solid var(--border-color);}
+.payment-buttons{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem;}
+.sns-payment-group{display:flex;gap:.75rem;}
+.btn{display:flex;align-items:center;justify-content:center;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem;}
+.btn-kakao{background:var(--kakao-yellow);color:#000;}
+.btn-naver{background:var(--naver-green);color:#fff;}
+.btn-primary{background:var(--primary-color);color:#fff;}
 </style>
 </head>
-<body>
 
+<body>
 <div class="wrapper">
 <header class="header">
 <button class="back-btn" onclick="history.back()">&lt;</button>
@@ -21,81 +40,66 @@
 </header>
 
 <div class="banner">
-<img src="/images/card-individual.png" class="bg-img" />
+<img src="/images/card-individual.png" class="bg-img">
 <div class="text-content">
 <p class="subtitle">당신의 운명을 풀어내는 곳</p>
-<h2 class="title">이지사주 결제</h2>
+<h2 class="title" id="productTitle">이지사주 결제</h2>
 <p class="desc">복채 결제하기</p>
 </div>
 </div>
 
 <main>
 <div class="card">
-<h3 class="card-title">결제 정보</h3>
+<h3 class="card-title">결제 금액</h3>
 <div class="price-info">
-<span class="label" id="productNameArea">상품명 불러오는 중...</span>
-<span class="amount" id="productPriceArea"></span>
+<span class="label" id="productLabel">상품명</span>
+<span class="amount" id="productPrice">0원</span>
 </div>
 </div>
 
-<!-- 결제 버튼 -->
 <div class="payment-buttons">
-
-<!-- 카카오페이 -->
-<button class="btn btn-kakao" id="btnKakao">
-<img src="images/kakao.png" style="height:16px;" /> 카카오페이 결제
-</button>
-
-<!-- 네이버페이 -->
-<button class="btn btn-naver" id="btnNaver">
-<img src="images/badge_npay.png" style="height:16px;" /> 네이버페이 결제
-</button>
-
-<!-- 일반 카드결제 -->
-<button class="btn btn-primary" id="btnCard">카드 결제</button>
-
+<div class="sns-payment-group">
+<button class="btn btn-kakao" id="btnKakao">카카오페이 결제</button>
+<button class="btn btn-naver" id="btnNaver">네이버페이 결제</button>
+</div>
+<button class="btn btn-primary" id="btnCard">일반 카드결제</button>
 </div>
 </main>
-
 </div>
 
+<!-- ✅ 나이스페이 결제 SDK -->
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
 <script>
-// ✅ URL에서 주문정보 가져오기
-const urlParams = new URLSearchParams(window.location.search);
-const orderId = urlParams.get("oid");
-const productName = urlParams.get("product");
-const price = Number(urlParams.get("price"));
+// ✅ URL에서 값 읽기
+const params = new URLSearchParams(window.location.search);
+const oid = params.get("oid");
+const product = params.get("product");
+const price = params.get("price");
 
-// ✅ 화면에 표시
-document.getElementById("productNameArea").textContent = productName;
-document.getElementById("productPriceArea").textContent = price.toLocaleString() + "원";
+document.getElementById("productTitle").innerText = product + " 결제";
+document.getElementById("productLabel").innerText = product;
+document.getElementById("productPrice").innerText = Number(price).toLocaleString() + "원";
 
-// ✅ 포스타트 clientKey
-const clientKey = "pk_test_85a6d05aa2f141c6803e4f02"; // 포스타트에서 받은 값
+// ✅ 공통 결제 호출 함수
+function startPay(method) {
 
-const returnUrl = `${window.location.origin}/thankyou.html`;
+  const request = {
+    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721", 
+    method: method,
+    orderId: oid,
+    amount: Number(price),
+    goodsName: product,
+    returnUrl: window.location.origin + "/thankyou.html?oid=" + oid + "&product=" + encodeURIComponent(product) + "&price=" + price
+  };
 
-// ✅ 공통 결제 함수
-async function pay(method) {
-await PortOne.requestPayment({
-storeId: "pg_nicepay",
-channelKey: clientKey,
-paymentId: orderId,
-orderName: productName,
-totalAmount: price,
-currency: "KRW",
-payMethod: method,
-redirectUrl: `${returnUrl}?oid=${orderId}&paid=1&price=${price}&product=${productName}`,
-});
+  AUTHNICE.requestPay(request);
 }
 
-// ✅ 버튼 연결
-document.getElementById("btnKakao").onclick = () => pay("KAKAOPAY");
-document.getElementById("btnNaver").onclick = () => pay("NAVERPAY");
-document.getElementById("btnCard").onclick = () => pay("CARD");
-
+// ✅ 버튼 이벤트 연결
+document.getElementById("btnKakao").onclick = () => startPay("kakaopay");
+document.getElementById("btnNaver").onclick = () => startPay("naverpay");
+document.getElementById("btnCard").onclick = () => startPay("card");
 </script>
-
 </body>
 </html>
-
