@@ -344,5 +344,39 @@
             }
         });
     </script>
+<!-- ✅ 포스타트 결제 SDK -->
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
+<script>
+const params = new URLSearchParams(location.search);
+const orderId = params.get("oid");
+const productName = params.get("product");
+const productPrice = params.get("price");
+
+// ✅ 네가 제공한 clientKey 그대로 넣음
+const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
+
+// ✅ 결제 함수
+function requestPay(method) {
+
+    if(!document.getElementById('agree1').checked) {
+        alert("개인정보 이용에 동의해야 결제가 가능합니다.");
+        return;
+    }
+
+    // 추후 method에 따라 카카오/네이버 구분 가능
+    window.nicepay.pay({
+        clientId: clientKey,
+        method: method, // kakaopay / naverpay / card
+        orderId: orderId,
+        amount: Number(productPrice),
+        goodsName: productName,
+        returnUrl: `${location.origin}/thankyou.html?oid=${orderId}&product=${productName}&price=${productPrice}`
+    });
+}
+</script>
+
+
+    
 </body>
 </html>
