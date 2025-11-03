@@ -343,66 +343,38 @@
                 });
             }
         });
-    </script>
-<!-- ✅ 포스타트 결제 SDK -->
+   <!-- ✅ NICEPAY 포스타트 SDK -->
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
 
 <script>
-const params = new URLSearchParams(location.search);
-const orderId = params.get("oid");
-const productName = params.get("product");
-const productPrice = params.get("price");
+// ✅ URL 파라미터 가져오기
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get("oid");
+const productName = urlParams.get("product");
+const productPrice = Number(urlParams.get("price"));
 
-// ✅ 네가 제공한 clientKey 그대로 넣음
+// ✅ 화면에 상품 정보 반영
+document.querySelector(".banner .title").textContent = `이지사주 - ${productName}`;
+document.querySelector(".price-info:nth-child(1) .amount").textContent = `${(productPrice * 1).toLocaleString()}원`;
+document.querySelector(".price-info.total .amount").textContent = `${productPrice.toLocaleString()}원`;
+
+// ✅ 포스타트 Key
 const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
 
 // ✅ 결제 함수
 function requestPay(method) {
 
-    if(!document.getElementById('agree1').checked) {
-        alert("개인정보 이용에 동의해야 결제가 가능합니다.");
-        return;
-    }
-
-    // 추후 method에 따라 카카오/네이버 구분 가능
-    window.nicepay.pay({
-        clientId: clientKey,
-        method: method, // kakaopay / naverpay / card
-        orderId: orderId,
-        amount: Number(productPrice),
-        goodsName: productName,
-        returnUrl: `${location.origin}/thankyou.html?oid=${orderId}&product=${productName}&price=${productPrice}`
-    });
-}
-</script>
-<script src="https://pay.nicepay.co.kr/v1/js/"></script>
-
-<script>
-const params = new URLSearchParams(location.search);
-const orderId = params.get("oid");
-const productName = params.get("product");
-const productPrice = Number(params.get("price"));
-
-console.log("상품명:", productName, "금액:", productPrice);
-
-// ✅ 화면에 표시 (현재 payment.html 디자인에 맞게 채움)
-document.querySelector(".title").textContent = `이지사주 - ${productName}`;
-document.querySelector(".price-info:nth-child(1) .amount").textContent = `${(productPrice * 1.0).toLocaleString()}원`;
-document.querySelector(".price-info.total .amount").textContent = `${productPrice.toLocaleString()}원`;
-
-// ✅ 포스타트 clientKey
-const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
-
-// ✅ 결제 요청 함수
-function requestPay(method) {
+    // 필수약관 체크
     if (!document.getElementById('agree1').checked) {
         alert("개인정보 이용 동의가 필요합니다.");
         return;
     }
 
+    console.log("결제 시작:", method, orderId, productPrice);
+
     window.nicepay.pay({
         clientId: clientKey,
-        method: method,        // kakaopay / naverpay / card
+        method: method,  // kakaopay / naverpay / card
         orderId: orderId,
         amount: productPrice,
         goodsName: productName,
@@ -410,6 +382,7 @@ function requestPay(method) {
     });
 }
 </script>
+
 
 
     
