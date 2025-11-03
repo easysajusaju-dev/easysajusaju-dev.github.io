@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결제하기 - 이지사주</title>
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+    
     <!-- 아임포트(포트원) 라이브러리 (나중에 실제 연동 시 주석 해제) -->
     <!-- <script src="https://cdn.iamport.kr/v1/iamport.js"></script> -->
     <style>
@@ -343,47 +345,46 @@
                 });
             }
         });
-   <!-- ✅ NICEPAY 포스타트 SDK -->
-<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+   
 
 <script>
-// ✅ URL 파라미터 가져오기
-const urlParams = new URLSearchParams(window.location.search);
-const orderId = urlParams.get("oid");
-const productName = urlParams.get("product");
-const productPrice = Number(urlParams.get("price"));
+const url = new URLSearchParams(location.search);
+const oid = url.get("oid");
+const product = url.get("product");
+const price = Number(url.get("price"));
 
-// ✅ 화면에 상품 정보 반영
-document.querySelector(".banner .title").textContent = `이지사주 - ${productName}`;
-document.querySelector(".price-info:nth-child(1) .amount").textContent = `${(productPrice * 1).toLocaleString()}원`;
-document.querySelector(".price-info.total .amount").textContent = `${productPrice.toLocaleString()}원`;
+// ✅ 화면 반영
+document.querySelector(".banner .title").textContent = `이지사주 - ${product}`;
+document.querySelector(".price-info .amount").textContent = `${(price * 1).toLocaleString()}원`;
+document.querySelector(".price-info.total .amount").textContent = `${price.toLocaleString()}원`;
 
-// ✅ 포스타트 Key
+// ✅ 포스타트 clientKey
 const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
 
 // ✅ 결제 함수
-function requestPay(method) {
-
-    // 필수약관 체크
-    if (!document.getElementById('agree1').checked) {
+function requestPay(method){
+    if(!document.getElementById("agree1").checked){
         alert("개인정보 이용 동의가 필요합니다.");
         return;
     }
 
-    console.log("결제 시작:", method, orderId, productPrice);
+    console.log("결제 시작", method, oid, price);
+
+    if(!window.nicepay){
+        alert("결제시스템 로딩 중입니다. 다시 시도해주세요.");
+        return;
+    }
 
     window.nicepay.pay({
         clientId: clientKey,
-        method: method,  // kakaopay / naverpay / card
-        orderId: orderId,
-        amount: productPrice,
-        goodsName: productName,
-        returnUrl: `${location.origin}/thankyou.html?oid=${orderId}&product=${productName}&price=${productPrice}`
+        method: method,
+        orderId: oid,
+        amount: price,
+        goodsName: product,
+        returnUrl: `${location.origin}/thankyou.html?oid=${oid}&product=${product}&price=${price}`
     });
 }
 </script>
-
-
 
     
 </body>
