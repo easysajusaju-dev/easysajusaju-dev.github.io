@@ -43,24 +43,36 @@ const price = Number(qs.get("price"));
 document.getElementById("p-name").textContent = productName;
 document.getElementById("p-price").textContent = price.toLocaleString();
 
-// ✅ 포스타트 clientKey (네가 받은 값)
+// ✅ 포스타트 clientKey
 const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
 
-// ✅ 결제 버튼 클릭
+// ✅ SDK 로드 성공할 때까지 대기
+function waitNicepayLoaded(callback) {
+  if (window.nicepay && typeof window.nicepay.pay === "function") {
+    console.log("✅ NICEPAY SDK 로드 완료");
+    callback();
+  } else {
+    console.log("🕒 NICEPAY SDK 로딩 중...");
+    setTimeout(() => waitNicepayLoaded(callback), 200);
+  }
+}
+
+// ✅ 버튼 클릭
 document.getElementById("payBtn").addEventListener("click", function () {
   console.log("✅ 결제 요청 시작");
 
-  window.nicepay.pay({
-    clientId: clientKey,
-    method: "card",
-    orderId: orderId,
-    amount: price,
-    goodsName: productName,
-
-    // ✅ thankyou.html 자동 이동 (어디 폴더든 OK)
-    returnUrl: window.location.href.replace("payment.html", "thankyou.html")
+  waitNicepayLoaded(() => {
+    window.nicepay.pay({
+      clientId: clientKey,
+      method: "card",
+      orderId: orderId,
+      amount: price,
+      goodsName: productName,
+      returnUrl: window.location.origin + window.location.pathname.replace("payment.html", "thankyou.html")
+    });
   });
 });
 </script>
+
 </body>
 </html>
