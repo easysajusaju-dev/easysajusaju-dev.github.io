@@ -5,101 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>결제하기 - 이지사주</title>
 
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
 <style>
-/* 기존 CSS 그대로 유지 */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
-:root{--primary-color:#4a5a73;--kakao-yellow:#FEE500;--naver-green:#03C75A;--text-dark:#212529;--text-light:#6C757D;--bg-light:#f8f9fa;--border-color:#dee2e6;}
-body{margin:0;font-family:'Noto Sans KR',sans-serif;background-color:var(--bg-light);color:var(--text-dark);}
-.wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-.header{display:flex;align-items:center;justify-content:center;position:sticky;top:0;background:#fff;padding:1rem;border-bottom:1px solid var(--border-color);}
-.back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
-.banner{position:relative;width:100%;height:140px;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:1rem;}
-.bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
-.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2;}
-.banner .text-content{position:relative;z-index:3;}
-main{padding:1.5rem;background-color:var(--bg-light);}
-.card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
-.card-title{font-size:1.1rem;font-weight:700;margin:0 0 .5rem;}
-.card-desc{font-size:.85rem;color:var(--text-light);margin:0 0 1.5rem;}
-.price-info{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:1rem;}
-.price-info.total{font-size:1.2rem;font-weight:700;padding-top:1rem;border-top:1px solid var(--border-color);}
-.payment-buttons{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem;}
-.sns-payment-group{display:flex;gap:.75rem;}
-.btn{display:flex;align-items:center;justify-content:center;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+:root {
+  --primary-color:#4a5a73; --kakao-yellow:#FEE500; --naver-green:#03C75A;
+  --text-dark:#212529; --text-light:#6C757D; --bg-light:#f8f9fa; --border-color:#dee2e6;
+}
+body {margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg-light);color:var(--text-dark);}
+.wrapper {max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.header {display:flex;align-items:center;justify-content:center;position:sticky;top:0;background:#fff;padding:1rem;border-bottom:1px solid var(--border-color);}
+.header .back-btn {position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
+.banner {position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center;}
+.banner .bg-img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+.banner::after {content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2;}
+.banner .text-content {position:relative;z-index:3;}
+.banner .subtitle {margin:0;font-size:.9rem;}
+.banner .title {margin:.25rem 0;font-size:2.1rem;font-weight:700;}
+.banner .desc {margin:0;font-size:1.2rem;}
+main {padding:1.5rem;}
+.card {background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+.card-title {font-size:1.1rem;font-weight:700;margin:0 0 .5rem 0;}
+.price-info {display:flex;justify-content:space-between;font-size:1rem;margin-bottom:1rem;}
+.price-info.total {font-size:1.2rem;font-weight:700;padding-top:1rem;border-top:1px solid var(--border-color);}
+.payment-buttons {display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem;}
+.sns-payment-group {display:flex;gap:.75rem;}
+.btn {display:flex;align-items:center;justify-content:center;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem;}
 .btn-kakao{background:var(--kakao-yellow);color:#000;}
 .btn-naver{background:var(--naver-green);color:#fff;}
 .btn-primary{background:var(--primary-color);color:#fff;}
+.btn img{height:16px;}
 </style>
 </head>
 
 <body>
 <div class="wrapper">
 <header class="header">
-<button class="back-btn" onclick="history.back()">&lt;</button>
-<h1>결제하기</h1>
+  <button class="back-btn" onclick="history.back()">&lt;</button>
+  <h1>결제하기</h1>
 </header>
 
 <div class="banner">
-<img src="/images/card-individual.png" class="bg-img">
-<div class="text-content">
-<p class="subtitle">당신의 운명을 풀어내는 곳</p>
-<h2 class="title" id="productTitle">이지사주 결제</h2>
-<p class="desc">복채 결제하기</p>
-</div>
+  <img src="/images/card-individual.png" class="bg-img" />
+  <div class="text-content">
+    <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+    <h2 class="title">이지사주</h2>
+    <p class="desc">복채 결제하기</p>
+  </div>
 </div>
 
 <main>
-<div class="card">
-<h3 class="card-title">결제 금액</h3>
-<div class="price-info">
-<span class="label" id="productLabel">상품명</span>
-<span class="amount" id="productPrice">0원</span>
-</div>
-</div>
+  <!-- 상품 정보 표시 -->
+  <div class="card">
+    <h3 class="card-title">주문 정보</h3>
+    <div class="price-info"><span>상품명</span><span id="productName"></span></div>
+    <div class="price-info total"><span>최종 결제금액</span><span id="productPrice"></span></div>
+  </div>
 
-<div class="payment-buttons">
-<div class="sns-payment-group">
-<button class="btn btn-kakao" id="btnKakao">카카오페이 결제</button>
-<button class="btn btn-naver" id="btnNaver">네이버페이 결제</button>
-</div>
-<button class="btn btn-primary" id="btnCard">일반 카드결제</button>
-</div>
+  <div class="card">
+    <h3 class="card-title">결제 방식</h3>
+
+    <div class="payment-buttons">
+      <div class="sns-payment-group">
+        <button class="btn btn-kakao" onclick="alert('카카오페이는 곧 열립니다 😊')">
+          <img src="images/카카오페이_CI_combination_with_BG.png" />
+          카카오페이
+        </button>
+        <button class="btn btn-naver" onclick="alert('네이버페이는 곧 열립니다 😊')">
+          <img src="images/badge_npay.png" />
+          네이버페이
+        </button>
+      </div>
+
+      <button class="btn btn-primary" id="payBtn">일반 카드결제</button>
+    </div>
+  </div>
 </main>
 </div>
 
-<!-- ✅ 나이스페이 결제 SDK -->
-<script src="https://pay.nicepay.co.kr/v1/js/"></script>
-
+<!-- ✅ 가격 테이블 + 검증 + NICEPAY SCRIPT -->
 <script>
-// ✅ URL에서 값 읽기
-const params = new URLSearchParams(window.location.search);
+const PRICE_TABLE = {
+  "종합사주 미니": 5000,
+  "신년운세": 19900,
+  "종합사주": 34900,
+  "재물사주": 14900,
+  "결혼사주": 12900,
+  "연애사주": 9900,
+  "연애패키지": 19900,
+  "타이밍패키지": 26900,
+  "인생패키지": 39900,
+  "재회운": 29900,
+  "궁합사주": 29900
+};
+
+const params = new URLSearchParams(location.search);
 const oid = params.get("oid");
 const product = params.get("product");
-const price = params.get("price");
+const price = Number(params.get("price"));
 
-document.getElementById("productTitle").innerText = product + " 결제";
-document.getElementById("productLabel").innerText = product;
-document.getElementById("productPrice").innerText = Number(price).toLocaleString() + "원";
-
-// ✅ 공통 결제 호출 함수
-function startPay(method) {
-
-  const request = {
-    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721", 
-    method: method,
-    orderId: oid,
-    amount: Number(price),
-    goodsName: product,
-    returnUrl: window.location.origin + "/thankyou.html?oid=" + oid + "&product=" + encodeURIComponent(product) + "&price=" + price
-  };
-
-  AUTHNICE.requestPay(request);
+// 교차 검증
+const realPrice = PRICE_TABLE[product];
+if (!realPrice || realPrice !== price) {
+  alert("🚨 결제금액이 안전하지 않습니다. 다시 시도해주세요.");
+  location.href = "/"; throw new Error("Tamper");
 }
 
-// ✅ 버튼 이벤트 연결
-document.getElementById("btnKakao").onclick = () => startPay("kakaopay");
-document.getElementById("btnNaver").onclick = () => startPay("naverpay");
-document.getElementById("btnCard").onclick = () => startPay("card");
+// UI 반영
+document.getElementById("productName").textContent = product;
+document.getElementById("productPrice").textContent = realPrice.toLocaleString()+"원";
+
+// ✅ NICEPAY 결제 호출
+document.getElementById("payBtn").addEventListener("click", () => {
+  try {
+    AUTHNICE.requestPay({
+      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+      method: "card",
+      orderId: oid,
+      amount: realPrice,
+      goodsName: product,
+      returnUrl: location.origin + "/thankyou.html"
+    });
+  } catch(e) {
+    alert("결제 호출 오류: "+e);
+  }
+});
 </script>
 </body>
 </html>
