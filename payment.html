@@ -1,258 +1,60 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>결제하기 - 이지사주</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>결제하기 - 이지사주</title>
 
-  <!-- NICEPAY 결제 스크립트 (라이브) -->
-  <script src="https://pay.nicepay.co.kr/v1/js/"></script>
+<!-- ✅ 포스타트 결제 SDK -->
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-
-    :root{
-      --primary-color:#4a5a73;
-      --kakao-yellow:#FEE500;
-      --naver-green:#03C75A;
-      --text-dark:#212529;
-      --text-light:#6C757D;
-      --bg-light:#f8f9fa;
-      --border-color:#dee2e6;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'Noto Sans KR',sans-serif;
-      background:var(--bg-light);
-      color:var(--text-dark);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-    .header{
-      display:flex;align-items:center;justify-content:center;
-      position:sticky;top:0;z-index:10;
-      background:#fff;padding:1rem;border-bottom:1px solid var(--border-color)
-    }
-    .back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer}
-    .banner{position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center}
-    .banner .bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-    .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2}
-    .banner .text-content{position:relative;z-index:3}
-    .banner .subtitle{margin:0;font-size:.9rem;opacity:.9}
-    .banner .title{margin:.25rem 0;font-size:2.1rem;font-weight:700}
-    .banner .desc{margin:0;font-size:1.2rem;opacity:.95}
-
-    main{padding:1.5rem}
-    .card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;border:1px solid var(--border-color)}
-    .card-title{margin:0 0 .75rem 0;font-size:1.1rem;font-weight:700}
-    .price-info{display:flex;justify-content:space-between;align-items:center;font-size:1rem;margin:.5rem 0}
-    .price-info.total{font-size:1.2rem;font-weight:700;padding-top:1rem;border-top:1px solid var(--border-color)}
-
-    .payment-buttons{display:flex;flex-direction:column;gap:.75rem;margin-top:1.25rem}
-    .sns-payment-group{display:flex;gap:.75rem}
-    .btn{display:flex;align-items:center;justify-content:center;width:100%;padding:.85rem 1rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem}
-    .btn img{height:16px}
-    .btn-kakao{background:var(--kakao-yellow);color:#000}
-    .btn-naver{background:var(--naver-green);color:#fff}
-    .btn-primary{background:var(--primary-color);color:#fff}
-    .hint{font-size:.85rem;color:var(--text-light);margin-top:.5rem;line-height:1.5}
-
-    .footer{padding:1.5rem;text-align:center;color:var(--text-light);font-size:.85rem}
-  </style>
+<style>
+body {font-family: 'Noto Sans KR', sans-serif; margin:0; background:#f8f9fa;}
+.wrapper {max-width:480px; margin:0 auto; background:#fff; padding:1rem;}
+.title {font-size:1.4rem; font-weight:700; margin-bottom:1rem;}
+.info {font-size:1rem; margin-bottom:0.5rem;}
+.btn {width:100%; padding:1rem; background:#4a5a73; color:#fff; border:none; border-radius:8px;
+font-size:1.1rem; cursor:pointer; margin-top:1rem;}
+.btn:hover {background:#3c4d61;}
+.price-box {background:#f1f3f5; padding:1rem; border-radius:8px; margin-bottom:1rem;}
+</style>
 </head>
+
 <body>
 <div class="wrapper">
-  <header class="header">
-    <button class="back-btn" onclick="history.back()" aria-label="뒤로가기">&lt;</button>
-    <h1>결제하기</h1>
-  </header>
+  <h2 class="title">복채 결제하기</h2>
 
-  <div class="banner">
-    <img src="/images/card-individual.png" alt="" class="bg-img"/>
-    <div class="text-content">
-      <p class="subtitle">당신의 운명을 풀어내는 곳</p>
-      <h2 class="title">이지사주</h2>
-      <p class="desc">복채 결제하기</p>
-    </div>
+  <div class="price-box">
+    <div class="info">상품명: <span id="p-name"></span></div>
+    <div class="info">결제금액: <span id="p-price"></span>원</div>
   </div>
 
-  <main>
-    <!-- 주문/금액 안내 -->
-    <div class="card">
-      <h3 class="card-title">주문 정보</h3>
-      <div class="price-info"><span>주문번호</span><span id="oidText">-</span></div>
-      <div class="price-info"><span>상품명</span><span id="productName">-</span></div>
-      <div class="price-info total"><span>최종 결제금액</span><span id="productPrice">-</span></div>
-      <div class="hint">※ 결제 금액은 서버 기준표와 교차검증됩니다.</div>
-    </div>
-
-    <!-- 결제 방식 -->
-    <div class="card">
-      <h3 class="card-title">결제 방식</h3>
-      <div class="payment-buttons">
-        <div class="sns-payment-group">
-          <button class="btn btn-kakao" type="button" id="kakaoBtn">
-            <img src="images/카카오페이_CI_combination_with_BG.png" alt="카카오페이"/>
-            카카오페이 (준비중)
-          </button>
-          <button class="btn btn-naver" type="button" id="naverBtn">
-            <img src="images/badge_npay.png" alt="네이버페이"/>
-            네이버페이 (준비중)
-          </button>
-        </div>
-
-        <button class="btn btn-primary" type="button" id="cardBtn">일반 카드결제</button>
-        <div class="hint" id="errorBox" style="display:none;"></div>
-      </div>
-    </div>
-  </main>
-
-  <div class="footer">© 2025 이지사주</div>
+  <button class="btn" id="payBtn">카드결제 진행</button>
 </div>
 
 <script>
-/* ---------- 하드코딩 가격표(교차검증용, 서버 기준과 동일) ---------- */
-const PRICE_TABLE = {
-  "종합사주 미니": 5000,
-  "신년운세": 19900,
-  "종합사주": 34900,
-  "재물사주": 14900,
-  "결혼사주": 12900,
-  "연애사주": 9900,
-  "연애패키지": 19900,
-  "타이밍패키지": 26900,
-  "인생패키지": 39900,
-  "재회운": 29900,
-  "궁합사주": 29900
-};
+const params = new URLSearchParams(location.search);
+const orderId = params.get("oid");
+const productName = params.get("product");
+const price = Number(params.get("price"));
 
-/* ---------- 쿼리 파라미터 파싱 ---------- */
-const qs = new URLSearchParams(location.search);
-const OID = qs.get('oid') || '';
-const PRODUCT = qs.get('product') || '';
-const PRICE_FROM_QUERY = Number(qs.get('price') || '0');
+// 화면 표시
+document.getElementById("p-name").textContent = productName;
+document.getElementById("p-price").textContent = price.toLocaleString();
 
-/* ---------- 교차 검증 & UI 반영 ---------- */
-(function initUI(){
-  const realPrice = PRICE_TABLE[PRODUCT];
-  if(!OID || !PRODUCT || !realPrice){
-    alert("주문 정보가 올바르지 않습니다. 처음부터 다시 시도해주세요.");
-    location.replace("index.html");
-    return;
-  }
-  if(realPrice !== PRICE_FROM_QUERY){
-    alert("결제금액이 변조되었거나 만료되었습니다. 다시 시도해주세요.");
-    location.replace("index.html");
-    return;
-  }
-  document.getElementById('oidText').textContent = OID;
-  document.getElementById('productName').textContent = PRODUCT;
-  document.getElementById('productPrice').textContent = realPrice.toLocaleString('ko-KR')+"원";
-})();
+// ✅ 포스타트 clientKey 넣기 (이미 네가 준거)
+const clientKey = "👉여기에_네_clientKey_붙여넣기👈";
 
-/* ---------- 버튼 핸들러 ---------- */
-document.getElementById('kakaoBtn').addEventListener('click', ()=> {
-  alert("카카오페이는 곧 열립니다 😊\n우선 '일반 카드결제'로 진행해주세요.");
-});
-document.getElementById('naverBtn').addEventListener('click', ()=> {
-  alert("네이버페이는 곧 열립니다 😊\n우선 '일반 카드결제'로 진행해주세요.");
-});
-
-/* ---------- NICEPAY 호출 ---------- */
-const CLIENT_ID = "R2_29330d4bbbe14f5c85925e52e48e0721"; // 포스타트에서 받은 Client Key
-const RETURN_URL = location.origin + "/thankyou.html" 
-  + `?oid=${encodeURIComponent(OID)}&product=${encodeURIComponent(PRODUCT)}&price=${encodeURIComponent(PRICE_FROM_QUERY)}`;
-
-function openCardPay(){
-  const realPrice = PRICE_TABLE[PRODUCT];
-  if(typeof AUTHNICE === 'undefined' || !AUTHNICE.requestPay){
-    showErr("결제 모듈 초기화 중입니다. 잠시 후 다시 시도해주세요.");
-    return;
-  }
-  try{
-    // NICEPAY 호출
-    AUTHNICE.requestPay({
-      clientId : CLIENT_ID,
-      method   : "card",            // 일반 카드결제
-      orderId  : OID,               // 너가 만든 오더ID 그대로
-      amount   : realPrice,         // 반드시 교차검증한 금액
-      goodsName: PRODUCT,           // 품목명
-      returnUrl: RETURN_URL         // 결제 후 돌아올 URL (thankyou.html)
-    });
-  }catch(e){
-    console.error(e);
-    showErr("결제 호출 중 오류가 발생했습니다: " + e);
-  }
-}
-
-function showErr(msg){
-  const box = document.getElementById('errorBox');
-  box.style.display = 'block';
-  box.textContent = msg;
-}
-
-/* 이중 클릭 방지 + 클릭 바인딩 */
-const cardBtn = document.getElementById('cardBtn');
-let locking = false;
-cardBtn.addEventListener('click', ()=>{
-  if(locking) return;
-  locking = true;
-  cardBtn.disabled = true;
-  cardBtn.textContent = "결제창 여는 중...";
-  setTimeout(()=>{ // UX용 딜레이
-    openCardPay();
-    // 혹시 모듈이 팝업/리다이렉트하는 동안 버튼은 비활성화 유지
-    setTimeout(()=>{ locking=false; cardBtn.disabled=false; cardBtn.textContent="일반 카드결제"; }, 6000);
-  }, 150);
-});
-</script>
-  <!-- ✅ NICEPAY SDK -->
-<script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js"></script>
-<script src="https://nicepay.github.io/web-resources/js/nicepay-start.js"></script>
-
-<script>
-// ✅ 결제 시작
-function goPay() {
-  const orderId = new URLSearchParams(location.search).get("oid") || "";
-  const amount = new URLSearchParams(location.search).get("price") || "";
-  const product = new URLSearchParams(location.search).get("product") || "";
-
-  if(!orderId || !amount){
-    alert("주문정보가 누락되었습니다.");
-    return;
-  }
-
-  nicepayStart({
-    clientId: "your_client_id_here",   // ← 나이스페이 상점키 넣어야함
-    method: "CARD",
-    orderId,
-    amount,
-    goodsName: product,
+document.getElementById("payBtn").onclick = function () {
+  window.nicepay.pay({
+    clientId: clientKey,
+    method: "card",
+    orderId: orderId,
+    amount: price,
+    goodsName: productName,
     returnUrl: location.origin + "/thankyou.html"
   });
-}
-
-// ✅ 필수 함수
-function fnSubmit() { return true; }
-
-// ✅ 결제 성공 콜백
-function fnSuccess(data) {
-  const params = new URLSearchParams({
-    oid: data.MOID,
-    authResultCode: data.ResultCode,
-    authResultMsg: data.ResultMsg
-  });
-
-  window.location.href = `/thankyou.html?${params.toString()}`;
-}
-
-// ✅ 결제 실패 콜백
-function fnError(data) {
-  alert("결제가 중단되었습니다.\n사유: " + (data.ResultMsg || "알 수 없는 오류"));
-}
+};
 </script>
-
 </body>
 </html>
