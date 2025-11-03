@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>결제하기 - 이지사주</title>
 
-<!-- ✅ 포스타트 결제 SDK -->
+<!-- ✅ NICEPAY FOR START SDK -->
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
 
 <style>
@@ -33,28 +33,34 @@ font-size:1.1rem; cursor:pointer; margin-top:1rem;}
 </div>
 
 <script>
-const params = new URLSearchParams(location.search);
-const orderId = params.get("oid");
-const productName = params.get("product");
-const price = Number(params.get("price"));
+// ✅ URL 파라미터 읽기
+const qs = new URLSearchParams(location.search);
+const orderId = qs.get("oid");
+const productName = qs.get("product");
+const price = Number(qs.get("price"));
 
-// 화면 표시
+// ✅ 화면 표시
 document.getElementById("p-name").textContent = productName;
 document.getElementById("p-price").textContent = price.toLocaleString();
 
-// ✅ 포스타트 clientKey 넣기 (이미 네가 준거)
+// ✅ 포스타트 clientKey (네가 받은 값)
 const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
 
-document.getElementById("payBtn").onclick = function () {
+// ✅ 결제 버튼 클릭
+document.getElementById("payBtn").addEventListener("click", function () {
+  console.log("✅ 결제 요청 시작");
+
   window.nicepay.pay({
     clientId: clientKey,
     method: "card",
     orderId: orderId,
     amount: price,
     goodsName: productName,
-    returnUrl: location.origin + "/thankyou.html"
+
+    // ✅ thankyou.html 자동 이동 (어디 폴더든 OK)
+    returnUrl: window.location.href.replace("payment.html", "thankyou.html")
   });
-};
+});
 </script>
 </body>
 </html>
