@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>결제하기 - 이지사주</title>
 
-<!-- ✅ NICEPAY FOR START SDK -->
+<!-- ✅ NICEPAY FOR START v1 SDK -->
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
 
 <style>
-body {font-family: 'Noto Sans KR', sans-serif; margin:0; background:#f8f9fa;}
-.wrapper {max-width:480px; margin:0 auto; background:#fff; padding:1rem;}
-.title {font-size:1.4rem; font-weight:700; margin-bottom:1rem;}
-.info {font-size:1rem; margin-bottom:0.5rem;}
-.btn {width:100%; padding:1rem; background:#4a5a73; color:#fff; border:none; border-radius:8px;
-font-size:1.1rem; cursor:pointer; margin-top:1rem;}
-.btn:hover {background:#3c4d61;}
-.price-box {background:#f1f3f5; padding:1rem; border-radius:8px; margin-bottom:1rem;}
+  body{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:#f7f9fa;margin:0}
+  .wrap{max-width:480px;margin:24px auto;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden}
+  header{padding:16px 20px;border-bottom:1px solid #eee;font-weight:700}
+  main{padding:20px}
+  .row{display:flex;justify-content:space-between;margin:8px 0}
+  .row.total{margin-top:12px;padding-top:12px;border-top:1px solid #eee;font-weight:700}
+  button{width:100%;padding:14px;border:0;border-radius:10px;background:#2c3e50;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+  button:disabled{opacity:.6;cursor:not-allowed}
 </style>
 </head>
-
 <body>
-<div class="wrapper">
-  <h2 class="title">복채 결제하기</h2>
-
-  <div class="price-box">
-    <div class="info">상품명: <span id="p-name"></span></div>
-    <div class="info">결제금액: <span id="p-price"></span>원</div>
-  </div>
-
-  <button class="btn" id="payBtn">카드결제 진행</button>
+<div class="wrap">
+  <header>복채 결제하기</header>
+  <main>
+    <div class="row"><span>상품명</span><span id="pname"></span></div>
+    <div class="row total"><span>최종 결제금액</span><span id="pprice"></span></div>
+    <div style="height:16px"></div>
+    <button id="payBtn">카드결제 진행</button>
+  </main>
 </div>
 
 <script>
-// ✅ URL 파라미터 읽기
-const qs = new URLSearchParams(location.search);
-const orderId = qs.get("oid");
-const productName = qs.get("product");
-const price = Number(qs.get("price"));
+(function(){
+  const q = new URLSearchParams(location.search);
+  const oid = q.get('oid');
+  const product = q.get('product') || '상품';
+  const price = Number(q.get('price') || 0);
 
-// ✅ 화면 표시
-document.getElementById("p-name").textContent = productName;
-document.getElementById("p-price").textContent = price.toLocaleString();
+  document.getElementById('pname').textContent = product;
+  document.getElementById('pprice').textContent = price.toLocaleString('ko-KR') + '원';
 
-// ✅ 포스타트 clientKey
-const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
+  const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721"; // 포스타트에서 받은 clientKey
 
-// ✅ SDK 로드 성공할 때까지 대기
-function waitNicepayLoaded(callback) {
-  if (window.nicepay && typeof window.nicepay.pay === "function") {
-    console.log("✅ NICEPAY SDK 로드 완료");
-    callback();
-  } else {
-    console.log("🕒 NICEPAY SDK 로딩 중...");
-    setTimeout(() => waitNicepayLoaded(callback), 200);
-  }
-}
+  const payBtn = document.getElementById('payBtn');
+  payBtn.addEventListener('click', function(){
+    if (!window.AUTHNICE || !AUTHNICE.requestPay) {
+      alert('결제 모듈 로드에 실패했습니다. 새로고침 후 다시 시도해주세요.');
+      return;
+    }
+    payBtn.disabled = true;
 
-// ✅ 버튼 클릭
-document.getElementById("payBtn").addEventListener("click", function () {
-  console.log("✅ 결제 요청 시작");
+    // GitHub Pages의 405(POST 금지) 회피: returnUrl에 GET 파라미터로 결과 페이지 지정
+    const backUrl =
+      location.origin + '/thankyou.html' +
+      `?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${price}`;
 
-  waitNicepayLoaded(() => {
-    window.nicepay.pay({
-      clientId: clientKey,
-      method: "card",
-      orderId: orderId,
-      amount: price,
-      goodsName: productName,
-      returnUrl: window.location.origin + window.location.pathname.replace("payment.html", "thankyou.html")
-    });
+    try {
+      AUTHNICE.requestPay({
+        clientId: clientKey,
+        method: 'card',
+        orderId: oid,
+        amount: price,
+        goodsName: product,
+        returnUrl: backUrl,         // 결제 완료 후 우리 페이지로 돌아옴 (GET)
+        fnError: function (err) {   // ✅ 필수 에러 콜백
+          alert('결제 오류: ' + (err && err.message ? err.message : JSON.stringify(err)));
+          payBtn.disabled = false;
+        }
+      });
+      // 팝업/리다이렉트는 SDK가 처리. 성공 시 thankyou.html로 돌아오게 됨.
+    } catch (e) {
+      alert('결제 호출 실패: ' + e.message);
+      payBtn.disabled = false;
+    }
   });
-});
+})();
 </script>
-
 </body>
 </html>
