@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>결제하기 - 이지사주</title>
 
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
@@ -56,7 +56,6 @@ main {padding:1.5rem;}
 </div>
 
 <main>
-  <!-- 상품 정보 표시 -->
   <div class="card">
     <h3 class="card-title">주문 정보</h3>
     <div class="price-info"><span>상품명</span><span id="productName"></span></div>
@@ -84,20 +83,12 @@ main {padding:1.5rem;}
 </main>
 </div>
 
-<!-- ✅ 가격 테이블 + 검증 + NICEPAY SCRIPT -->
 <script>
 const PRICE_TABLE = {
-  "종합사주 미니": 5000,
-  "신년운세": 19900,
-  "종합사주": 34900,
-  "재물사주": 14900,
-  "결혼사주": 12900,
-  "연애사주": 9900,
-  "연애패키지": 19900,
-  "타이밍패키지": 26900,
-  "인생패키지": 39900,
-  "재회운": 29900,
-  "궁합사주": 29900
+  "종합사주 미니": 5000, "신년운세": 19900, "종합사주": 34900,
+  "재물사주": 14900, "결혼사주": 12900, "연애사주": 9900,
+  "연애패키지": 19900, "타이밍패키지": 26900, "인생패키지": 39900,
+  "재회운": 29900, "궁합사주": 29900
 };
 
 const params = new URLSearchParams(location.search);
@@ -105,31 +96,24 @@ const oid = params.get("oid");
 const product = params.get("product");
 const price = Number(params.get("price"));
 
-// 교차 검증
 const realPrice = PRICE_TABLE[product];
 if (!realPrice || realPrice !== price) {
-  alert("🚨 결제금액이 안전하지 않습니다. 다시 시도해주세요.");
+  alert("🚨 결제금액 오류. 다시 시도해주세요.");
   location.href = "/"; throw new Error("Tamper");
 }
 
-// UI 반영
 document.getElementById("productName").textContent = product;
 document.getElementById("productPrice").textContent = realPrice.toLocaleString()+"원";
 
-// ✅ NICEPAY 결제 호출
 document.getElementById("payBtn").addEventListener("click", () => {
-  try {
-    AUTHNICE.requestPay({
-      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
-      method: "card",
-      orderId: oid,
-      amount: realPrice,
-      goodsName: product,
-      returnUrl: location.origin + "/thankyou.html"
-    });
-  } catch(e) {
-    alert("결제 호출 오류: "+e);
-  }
+  AUTHNICE.requestPay({
+    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+    method: "card",
+    orderId: oid,
+    amount: realPrice,
+    goodsName: product,
+    returnUrl: location.origin + `/thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${realPrice}`
+  });
 });
 </script>
 </body>
