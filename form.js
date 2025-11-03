@@ -129,8 +129,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       else productPrice = 34900;
 
       // ✅ 여기서 thankyou.html로 가던 것을 payment.html로 변경 (기존 기능 외 변동 없음)
-      const payUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
-      window.location.href = thankyouUrl;
+     const payUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
+window.location.href = payUrl;
+
 
 
     }catch(err){ 
