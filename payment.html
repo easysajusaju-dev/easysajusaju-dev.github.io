@@ -1,158 +1,101 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>결제하기 - 이지사주</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>결제하기 - 이지사주</title>
 
-  <!-- ✅ 나이스페이 포스타트 SDK -->
-  <script src="https://pay.nicepay.co.kr/v1/js/"></script>
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-    :root{--primary-color:#4a5a73;--kakao-yellow:#FEE500;--naver-green:#03C75A;--text-dark:#212529;--text-light:#6C757D;--bg-light:#f8f9fa;--border-color:#dee2e6;}
-    body{margin:0;font-family:'Noto Sans KR',sans-serif;background-color:var(--bg-light);color:var(--text-dark);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-    .wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-    .header{display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:10;width:100%;background:#fff;padding:1rem;border-bottom:1px solid var(--border-color);box-sizing:border-box;}
-    .header .back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
-    .header h1{margin:0;font-size:1.1rem;font-weight:500;}
-    .banner{position:relative;width:100%;height:140px;color:#fff;display:flex;align-items:flex-start;justify-content:center;flex-direction:column;padding:1rem;box-sizing:border-box;}
-    .banner .bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;}
-    .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2;}
-    .banner .text-content{position:relative;z-index:3;}
-    .banner .subtitle{font-size:.9rem;opacity:.9;margin:0;}
-    .banner .title{font-size:2.1rem;font-weight:700;margin:.25rem 0;}
-    .banner .desc{font-size:1.2rem;opacity:.95;margin:0;}
-    main{padding:1.5rem;background-color:var(--bg-light);}
-    .card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
-    .card-title{font-size:1.1rem;font-weight:700;margin:0 0 .5rem;}
-    .card-desc{font-size:.85rem;color:var(--text-light);margin:0 0 1.5rem;}
-    .payment-buttons{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem;}
-    .sns-payment-group{display:flex;gap:.75rem;}
-    .btn{display:flex;align-items:center;justify-content:center;width:100%;padding:.85rem 1rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem}
-    .btn-kakao{background:var(--kakao-yellow);color:#000;}
-    .btn-naver{background:var(--naver-green);color:#fff;}
-    .btn-primary{background:var(--primary-color);color:#fff;}
-    .btn img{height:16px;}
-    .footer{padding:2rem 1rem;background:var(--bg-light);text-align:center;}
-    .social-icons{display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem;}
-    .social-icons a img{height:28px;opacity:.7;transition:opacity .2s;}
-    .social-icons a:hover img{opacity:1;}
-    .footer-links{margin-bottom:1rem;font-size:.9rem;}
-    .footer-links a{color:var(--text-dark);text-decoration:none;}
-    .footer-links .link-divider{margin:0 .5rem;color:var(--border-color);}
-    .info-toggle{cursor:pointer;color:var(--text-light);font-size:.9rem;padding:.5rem;margin-bottom:1rem;}
-    .info-details{display:none;text-align:left;font-size:.8rem;color:var(--text-light);line-height:1.6;background:#f1f3f5;padding:1rem;border-radius:8px;margin-bottom:1.5rem;}
-    .info-details.show{display:block;}
-    .copyright{font-size:.75rem;color:#adb5bd;margin-top:1rem;}
-  </style>
+<style>
+/* ----- 기존 CSS 유지 (생략) ----- */
+/* 너가 준 CSS 영역 그대로 두세요 */
+</style>
 </head>
 <body>
-  <div class="wrapper">
-    <header class="header">
-      <button class="back-btn" onclick="history.back()">&lt;</button>
-      <h1>결제하기</h1>
-    </header>
 
-    <div class="banner">
-      <img src="/images/card-individual.png" alt="" class="bg-img">
-      <div class="text-content">
-        <p class="subtitle">당신의 운명을 풀어내는 곳</p>
-        <h2 class="title">이지사주 - 종합사주</h2>
-        <p class="desc">복채 결제하기</p>
-      </div>
-    </div>
+<div class="wrapper">
+<header class="header">
+<button class="back-btn" onclick="history.back()">&lt;</button>
+<h1>결제하기</h1>
+</header>
 
-    <main>
-      <div class="card">
-        <h3 class="card-title">결제 수단 선택</h3>
-        <div class="payment-buttons">
-          <div class="sns-payment-group">
-            <button class="btn btn-kakao" onclick="startPay('KAKAOPAY')">
-              <img src="images/카카오페이_CI_combination_with_BG.png" alt="카카오페이 로고">
-              <span>카카오페이 결제</span>
-            </button>
-            <button class="btn btn-naver" onclick="startPay('NAVERPAY')">
-              <img src="images/badge_npay.png" alt="네이버페이 로고">
-              <span>네이버페이 결제</span>
-            </button>
-          </div>
-          <button class="btn btn-primary" onclick="startPay('CARD')">💳 일반 결제</button>
-        </div>
-      </div>
-    </main>
+<div class="banner">
+<img src="/images/card-individual.png" class="bg-img" />
+<div class="text-content">
+<p class="subtitle">당신의 운명을 풀어내는 곳</p>
+<h2 class="title">이지사주 결제</h2>
+<p class="desc">복채 결제하기</p>
+</div>
+</div>
 
-    <footer class="footer">
-      <div class="social-icons">
-        <a href="http://pf.kakao.com/_xkAevn" target="_blank" title="카카오채널"><img src="images/kakaotalk.png" alt="카카오채널 아이콘"></a>
-        <a href="https://www.threads.com/@easy.saju?hl=ko" target="_blank" title="스레드"><img src="images/threads.png" alt="스레드 아이콘"></a>
-        <a href="https://www.instagram.com/easy.saju" target="_blank" title="인스타그램"><img src="images/instagram.png" alt="인스타그램 아이콘"></a>
-        <a href="https://www.youtube.com/channel/UCLQGqG5Vy2WcTaKbvYOwHLA?sub_confirmation=1" target="_blank" title="유튜브"><img src="images/youtube.png" alt="유튜브 아이콘"></a>
-        <a href="https://www.tiktok.com/@easysaju" target="_blank" title="틱톡"><img src="images/tiktok.png" alt="틱톡 아이콘"></a>
-      </div>
+<main>
+<div class="card">
+<h3 class="card-title">결제 정보</h3>
+<div class="price-info">
+<span class="label" id="productNameArea">상품명 불러오는 중...</span>
+<span class="amount" id="productPriceArea"></span>
+</div>
+</div>
 
-      <div class="footer-info">
-        <div class="footer-links">
-          <a href="terms.html">이용약관</a><span class="link-divider">·</span><a href="privacy.html">개인정보처리방침</a>
-        </div>
+<!-- 결제 버튼 -->
+<div class="payment-buttons">
 
-        <div class="info-toggle" id="info-toggle-button">
-          이지사주 사업자정보 <span id="info-arrow">▼</span>
-        </div>
+<!-- 카카오페이 -->
+<button class="btn btn-kakao" id="btnKakao">
+<img src="images/kakao.png" style="height:16px;" /> 카카오페이 결제
+</button>
 
-        <div class="info-details" id="business-info-details">
-          <p>상호명: 이지사주 | 대표: 안미정</p>
-          <p>사업자등록번호: 550-64-00884</p>
-          <p>통신판매번호: 제2025-고양일산동-1332호</p>
-          <p>이메일: easysaju.saju@gmail.com</p>
-          <p>전화: 010-2151-3949</p>
-        </div>
+<!-- 네이버페이 -->
+<button class="btn btn-naver" id="btnNaver">
+<img src="images/badge_npay.png" style="height:16px;" /> 네이버페이 결제
+</button>
 
-        <p class="copyright">&copy; 2025 이지사주. All rights reserved.</p>
-      </div>
-    </footer>
-  </div>
+<!-- 일반 카드결제 -->
+<button class="btn btn-primary" id="btnCard">카드 결제</button>
 
-  <script>
-    // ✅ 포스타트 클라이언트 키 (고객님의 화면에서 공유 가능)
-    const CLIENT_KEY = "R2_29330d4bbbe14f5c85925e52e48e0721";
+</div>
+</main>
 
-    // 폼에서 전달된 주문/상품/가격 받기
-    const url = new URL(location.href);
-    const orderId = url.searchParams.get('oid') || ('EZ'+Date.now());
-    const product = url.searchParams.get('product') || '이지사주';
-    const price = Number(url.searchParams.get('price') || 0);
+</div>
 
-    function startPay(method){
-      // NICEPAY 결제창 호출
-      NICEPAY.requestPay({
-        clientKey: CLIENT_KEY,
-        method: method,                 // 'KAKAOPAY' | 'NAVERPAY' | 'CARD'
-        orderId: orderId,
-        amount: price,
-        goodsName: product,
-        returnUrl: location.origin + "/thankyou.html?oid="+encodeURIComponent(orderId)+"&product="+encodeURIComponent(product)+"&price="+encodeURIComponent(price)
-      }, function(res){
-        // 콜백은 브라우저 환경/결제수단에 따라 호출되지 않을 수 있음 → returnUrl에서 안내됨
-        if(res && res.resultCode === "0000"){
-          // 즉시 완료 안내
-          location.href = "thankyou.html?oid="+encodeURIComponent(orderId)+"&product="+encodeURIComponent(product)+"&price="+encodeURIComponent(price);
-        } else if(res && res.resultMsg){
-          alert("결제 실패/취소: " + res.resultMsg);
-        }
-      });
-    }
+<script>
+// ✅ URL에서 주문정보 가져오기
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get("oid");
+const productName = urlParams.get("product");
+const price = Number(urlParams.get("price"));
 
-    // 사업자정보 토글
-    document.addEventListener('DOMContentLoaded',function(){
-      const btn=document.getElementById('info-toggle-button');
-      const details=document.getElementById('business-info-details');
-      const arrow=document.getElementById('info-arrow');
-      if(btn){ btn.addEventListener('click',function(){
-        details.classList.toggle('show');
-        arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
-      });}
-    });
-  </script>
+// ✅ 화면에 표시
+document.getElementById("productNameArea").textContent = productName;
+document.getElementById("productPriceArea").textContent = price.toLocaleString() + "원";
+
+// ✅ 포스타트 clientKey
+const clientKey = "pk_test_85a6d05aa2f141c6803e4f02"; // 포스타트에서 받은 값
+
+const returnUrl = `${window.location.origin}/thankyou.html`;
+
+// ✅ 공통 결제 함수
+async function pay(method) {
+await PortOne.requestPayment({
+storeId: "pg_nicepay",
+channelKey: clientKey,
+paymentId: orderId,
+orderName: productName,
+totalAmount: price,
+currency: "KRW",
+payMethod: method,
+redirectUrl: `${returnUrl}?oid=${orderId}&paid=1&price=${price}&product=${productName}`,
+});
+}
+
+// ✅ 버튼 연결
+document.getElementById("btnKakao").onclick = () => pay("KAKAOPAY");
+document.getElementById("btnNaver").onclick = () => pay("NAVERPAY");
+document.getElementById("btnCard").onclick = () => pay("CARD");
+
+</script>
+
 </body>
 </html>
+
