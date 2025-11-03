@@ -148,9 +148,10 @@ if (productName === '종합사주 미니') {
   productPrice = 34900; // 기본값 또는 다른 상품 가격
 }
 
-// 3. 상품명과 가격을 꼬리표로 붙여 thank you 페이지로 이동시키기
-const thankYouUrl = `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
-window.location.href = thankYouUrl;
+// 3. 상품명과 가격을 꼬리표로 붙여 payment 페이지로 이동시키기
+const paymentUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
+window.location.href = paymentUrl;
+
 
 // --- 여기까지 교체 ---
 
