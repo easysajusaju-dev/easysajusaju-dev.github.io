@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>결제하기 - 이지사주</title>
 
+<!-- ✅ NICEPAY SDK -->
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
 
 <style>
@@ -84,11 +85,19 @@ main {padding:1.5rem;}
 </div>
 
 <script>
+// ✅ 가격 테이블
 const PRICE_TABLE = {
-  "종합사주 미니": 5000, "신년운세": 19900, "종합사주": 34900,
-  "재물사주": 14900, "결혼사주": 12900, "연애사주": 9900,
-  "연애패키지": 19900, "타이밍패키지": 26900, "인생패키지": 39900,
-  "재회운": 29900, "궁합사주": 29900
+  "종합사주 미니": 5000,
+  "신년운세": 19900,
+  "종합사주": 34900,
+  "재물사주": 14900,
+  "결혼사주": 12900,
+  "연애사주": 9900,
+  "연애패키지": 19900,
+  "타이밍패키지": 26900,
+  "인생패키지": 39900,
+  "재회운": 29900,
+  "궁합사주": 29900
 };
 
 const params = new URLSearchParams(location.search);
@@ -96,15 +105,18 @@ const oid = params.get("oid");
 const product = params.get("product");
 const price = Number(params.get("price"));
 
+// ✅ 서버가격과 비교(보안)
 const realPrice = PRICE_TABLE[product];
 if (!realPrice || realPrice !== price) {
-  alert("🚨 결제금액 오류. 다시 시도해주세요.");
-  location.href = "/"; throw new Error("Tamper");
+  alert("🚨 결제금액이 안전하지 않습니다. 다시 시도해주세요.");
+  location.href = "/";
+  throw new Error("Tamper");
 }
 
 document.getElementById("productName").textContent = product;
 document.getElementById("productPrice").textContent = realPrice.toLocaleString()+"원";
 
+// ✅ NICEPAY 결제 실행
 document.getElementById("payBtn").addEventListener("click", () => {
   AUTHNICE.requestPay({
     clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
@@ -112,9 +124,21 @@ document.getElementById("payBtn").addEventListener("click", () => {
     orderId: oid,
     amount: realPrice,
     goodsName: product,
-    returnUrl: location.origin + `/thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${realPrice}`
+    returnUrl: location.origin + "/thankyou.html",
+
+    fnSuccess: function (result) {
+      console.log("결제 성공:", result);
+      alert("✅ 결제가 완료되었습니다!");
+      window.location.href = "/thankyou.html?oid=" + oid + "&product=" + encodeURIComponent(product) + "&price=" + price;
+    },
+
+    fnError: function (error) {
+      console.error("결제 실패:", error);
+      alert("❌ 결제가 실패했습니다.\n" + error.errorMessage);
+    }
   });
 });
 </script>
+
 </body>
 </html>
