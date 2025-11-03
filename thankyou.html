@@ -1,38 +1,168 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>신청 완료 - 이지사주</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이지사주 - 신청 접수 완료</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f7f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        .icon {
+            font-size: 40px;
+            color: #2ecc71;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 20px 0 10px 0;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .info-box, .order-summary { /* --- ⭐ 스타일 추가 --- */
+            background-color: #f7f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 25px; /* --- 간격 조정 --- */
+        }
+        .info-box h3, .order-summary h3 { /* --- ⭐ 스타일 추가 --- */
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .info-box ul, .order-summary ul { /* --- ⭐ 스타일 추가 --- */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .info-box li, .order-summary li { /* --- ⭐ 스타일 추가 --- */
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .home-button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            background-color: #2c3e50;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .home-button:hover {
+            background-color: #4a627c;
+        }
+    </style>
+    
+    <!-- Meta Pixel Code (기존 코드 유지) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1159392269346574');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
-<style>
-body {font-family:'Noto Sans KR',sans-serif;background:#f6f8fa;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;}
-.box {background:#fff;padding:32px;border-radius:12px;max-width:400px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.1);}
-h2 {margin-top:0;}
-.btn {display:inline-block;margin-top:20px;padding:12px 24px;background:#4a5a73;color:#fff;border-radius:6px;text-decoration:none;}
-</style>
+    <!-- ===== ⭐ 전환 이벤트 코드 (기존 코드 유지) ===== -->
+    <script>
+        fbq('track', 'CompleteRegistration');
+    </script>
+    <!-- ===== ⭐ 끝 ===== -->
+
 </head>
-
 <body>
-<div class="box">
-  <h2>✅ 신청 및 결제 완료</h2>
-  <p>감사합니다.<br>사주 분석이 시작됩니다 😊</p>
-  <a href="index.html" class="btn">홈으로가기</a>
-</div>
 
-<script>
-// ✅ 결제 후 시트에 결제완료 알리기
-const params = new URLSearchParams(location.search);
-const oid = params.get("oid");
+    <div class="container">
+        <div class="icon">✔️</div>
+        <h1>신청이 완료되었습니다.</h1>
+        <p>
+            신청해주셔서 감사합니다.<br>
+            아래 신청 내역과 금액을 확인 후 입금해 주세요.
+        </p>
 
-if (oid) {
-  fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
-    method: "POST",
-    headers: {"Content-Type": "application/x-www-form-urlencoded"},
-    body: `mode=updatePayment&orderId=${oid}&payStatus=결제완료`
-  });
-}
-</script>
+        <!-- ====================== ⭐ [새로 추가된 부분] 신청 내역 표시 박스 ====================== -->
+        <div class="order-summary">
+            <h3>신청 내역</h3>
+            <ul>
+                <li><strong>신청 상품:</strong> <span id="product-name"></span></li>
+                <li><strong>결제할 금액:</strong> <span id="product-price"></span>원</li>
+            </ul>
+        </div>
+        <!-- =================================================================================== -->
+
+        <div class="info-box">
+            <h3>입금 및 진행 안내</h3> <!-- --- 제목 수정 --- -->
+            <ul>
+                <li><strong>1단계:</strong> 복비 입금하기</li>
+                <li><strong>[카카오뱅크 3333-34-7794668 안미정]</strong></li>  
+                <li>입금 후 <strong>"입금완료"</strong> 카톡 남겨주세요!</li>
+                <li><strong>2단계:</strong> 복비 입금 확인 </li>
+                <li><strong>3단계:</strong> 사주 분석 및 분석지 제작 (1~2일 소요)</li>
+                <li><strong>4단계:</strong> PDF 분석지 카톡/이메일로 발송</li>
+            </ul>
+        </div>
+        
+        <a href="index.html" class="home-button">홈으로 돌아가기</a>
+    </div>
+
+    <!-- ====================== ⭐ [새로 추가된 부분] URL 정보 읽어오는 스크립트 ====================== -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. 현재 페이지의 URL에서 파라미터(꼬리표)를 읽을 준비를 합니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 2. 'product'와 'price'라는 꼬리표의 값을 가져옵니다.
+        const productName = urlParams.get('product');
+        const productPrice = urlParams.get('price');
+        
+        // 3. 'product-name'이라는 id를 가진 자리에 상품명을 표시합니다.
+        if (productName) {
+          document.getElementById('product-name').innerText = productName;
+        }
+        
+        // 4. 'product-price'라는 id를 가진 자리에 가격을 콤마(,)와 함께 예쁘게 표시합니다.
+        if (productPrice) {
+          const formattedPrice = Number(productPrice).toLocaleString('ko-KR');
+          document.getElementById('product-price').innerText = formattedPrice;
+        }
+      });
+    </script>
+    <!-- ======================================================================================== -->
 
 </body>
 </html>
