@@ -1,15 +1,14 @@
-/* ====== 이 파일은 기존 흐름 복구(A안) 전용 완성본 ======
-   흐름: 폼 제출 → Apps Script doPost 저장 → thankyou.html 이동
-   - 기존 시트/알림톡 흐름 1도 안 건드림
-   - 결제는 thankyou에서 버튼 눌러 payment.html로 이동 (파라미터 유지)
+/* ====== 이 파일은 결제 연동 흐름(B안 최종) ======
+   흐름: 폼 제출 → Apps Script 저장 → payment.html 이동(결제)
+   - 기존 시트/알림톡 흐름 그대로 둠
+   - orderId 프론트에서 생성 → 시트 기록 유지
 ========================================================== */
 
 const pageLoadTime = new Date();
-// 본사 Webhook (배포된 Apps Script URL) — 기존 그대로 사용
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
 
-// A안: 저장 후 thankyou.html로 이동(기존 UX 복원)
-const REDIRECT_AFTER_SAVE = "thankyou"; // "thankyou" | "payment"
+// ✅ 항상 payment.html로 이동
+const REDIRECT_AFTER_SAVE = "payment"; 
 
 function populateDateSelects(prefix){
   const y = document.querySelector(`select[name="${prefix}_birth_year"]`);
@@ -57,15 +56,6 @@ function setupAgreement(){
   });
   items.forEach(cb=>cb&&cb.addEventListener('change',update));
   update();
-  document.querySelectorAll('.toggle-text').forEach(t=>{
-    if(t.tagName==='BUTTON'&&!t.getAttribute('type')) t.setAttribute('type','button');
-    t.addEventListener('click',()=>{
-      const box=t.closest('.agree-box');
-      if(!box) return;
-      const tb=box.querySelector('.terms-box');
-      if(tb) tb.style.display=tb.style.display==='block'?'none':'block';
-    });
-  });
 }
 
 function setupImageJump(){
@@ -84,11 +74,8 @@ function setupImageJump(){
     img.style.cursor='pointer';
     img.addEventListener('click',e=>{e.preventDefault(); go();});
   });
-  const headerBtn=document.querySelector('.header-button');
-  if(headerBtn) headerBtn.addEventListener('click',e=>{e.preventDefault(); go();});
 }
 
-// 상품명→가격 테이블 (thankyou/payment 공통으로 쓰는 기준표)
 const PRICE_TABLE = {
   "종합사주 미니": 5000,
   "신년운세": 19900,
@@ -104,11 +91,9 @@ const PRICE_TABLE = {
 };
 
 document.addEventListener('DOMContentLoaded', ()=>{
-  try{
-    populateDateSelects('p1'); populateDateSelects('p2');
-    setupHourMinuteSync('p1'); setupHourMinuteSync('p2');
-    setupAgreement(); setupImageJump();
-  }catch(e){ console.error('init error',e); }
+  populateDateSelects('p1'); populateDateSelects('p2');
+  setupHourMinuteSync('p1'); setupHourMinuteSync('p2');
+  setupAgreement(); setupImageJump();
 
   const formEl=document.getElementById('saju-form');
   if(!formEl) return;
@@ -123,18 +108,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     const btn=formEl.querySelector('button'); 
-    const resDiv=document.getElementById('result');
     btn.disabled=true; btn.innerText='신청하는 중...'; 
-    if(resDiv) resDiv.innerText='';
-
-    // ---- 네트워크 안전 가드(과도 지연 방지) ----
-    const FETCH_TIMEOUT_MS = 12000;
-    let timeoutId;
 
     try{
       const fd=new FormData(formEl), data={};
-      // 오더ID는 프론트에서 생성(결제·추적 동일 번호)
-      const orderId='EZ'+Date.now();
+      const orderId='EZ'+Date.now(); // ✅ 결제·시트 동일 주문번호
       data['오더ID']=orderId;
 
       function getBirth(prefix){
@@ -143,13 +121,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
 
       let contact='';
-      if(fd.get('contact')) contact=fd.get('contact')||'';
-      else contact=(fd.get('contact1')||'')+(fd.get('contact2')||'')+(fd.get('contact3')||'');
+      contact=(fd.get('contact1')||'')+(fd.get('contact2')||'')+(fd.get('contact3')||'');
       data['연락처']="'"+String(contact||'').replace(/\D/g,'');
 
-      // 상품/이메일/기본정보
-      const productNameFromForm = fd.get('product') || '';
-      data['상품명']= productNameFromForm;
+      const productName = fd.get('product') || '';
+      data['상품명']=productName;
       data['이메일']=fd.get('email')||'';
       data['이름1']=fd.get('p1_name')||'';
       data['양음력1']=fd.get('p1_solarlunar')||'';
@@ -163,81 +139,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
       data['생분1']=fd.get('p1_minute')||'';
       data['성별1']=fd.get('p1_gender')||'';
 
-      // 2인용(궁합 등) 대비
-      if(formEl.querySelector('[name="p2_name"]')){
-        data['이름2']=fd.get('p2_name')||'';
-        data['양음력2']=fd.get('p2_solarlunar')||'';
-        const b2=getBirth('p2');
-        if(b2){
-          const [y2,m2,d2]=b2.split('-');
-          data['생년2']=y2; data['생월2']=m2; data['생일2']=d2;
-        }
-        data['생시2']=fd.get('p2_hour')||'';
-        data['생분2']=fd.get('p2_minute')||'';
-        // (원래 코드 유지) 성별 기본값
-        data['성별1']='남자'; 
-        data['성별2']='여자';
-      }
-
-      // 트래킹/동의
-      data['유입경로']=document.referrer||'직접 입력/알 수 없음';
+      data['유입경로']=document.referrer||'';
       const stay=Math.round((new Date()-pageLoadTime)/1000);
       data['체류시간']=`${Math.floor(stay/60)}분 ${stay%60}초`;
       data['기기정보']=navigator.userAgent;
 
-      const urlParams = new URLSearchParams(window.location.search);
-      data['UTM소스'] = urlParams.get('utm_source') || sessionStorage.getItem('utm_source') || '직접입력';
-      data['UTM매체'] = urlParams.get('utm_medium') || sessionStorage.getItem('utm_medium') || '없음';
-      data['UTM캠페인'] = urlParams.get('utm_campaign') || sessionStorage.getItem('utm_campaign') || '없음';
-
-      const agree2=document.getElementById('agree2');
-      data['개인정보수집동의']=(agree1&&agree1.checked)?'동의':'미동의';
-      data['광고정보수신동의']=(agree2&&agree2.checked)?'동의':'미동의';
-
-      // 서버로 전송 (본사 doPost 그대로)
       const body=new URLSearchParams(data);
+      await fetch(APPS_SCRIPT_URL,{method:'POST',body}); // ✅ 시트 기록
 
-      const controller = new AbortController();
-      timeoutId = setTimeout(()=>controller.abort(), FETCH_TIMEOUT_MS);
-
-      const r = await fetch(APPS_SCRIPT_URL, { method:'POST', body, signal: controller.signal });
-      clearTimeout(timeoutId);
-
-      // 응답 파싱 (CORS로 텍스트만 와도 성공 처리)
-      const t = await r.text();
-      let j; 
-      try { j = JSON.parse(t); } catch(_) { j = { success:true }; }
-
-      if(!j || !j.success){
-        // 본사 응답이 실패로 오더라도 사용자 경험은 이어감(기존 thankyou 이동)
-        console.warn('doPost 응답 실패로 판단, 계속 진행:', t);
-      }
-
-      // ---- 여기서 기존 UX로 이동: thankyou.html ----
-      const productName = productNameFromForm || '기본상품';
-      const productPrice = PRICE_TABLE[productName] || 34900;
-
-      const nextUrl = (REDIRECT_AFTER_SAVE === 'payment')
-        ? `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`
-        : `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
-
-      window.location.href = nextUrl;
+      const price = PRICE_TABLE[productName] || 34900;
+      const payUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${price}`;
+      window.location.href = payUrl;
 
     }catch(err){
-      clearTimeout(timeoutId);
-      console.error('[submit error]', err);
-      if(resDiv) resDiv.innerText='⚠️ 네트워크 지연 또는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-      // 완전 차단 방지: 2초 뒤 thankyou로라도 안내 이동(사용자 보호)
-      try{
-        const productSelect = document.getElementById('product');
-        const productName = (productSelect && productSelect.value) ? productSelect.value : '기본상품';
-        const fallbackPrice = PRICE_TABLE[productName] || 34900;
-        const fallbackId = 'EZ'+Date.now();
-        setTimeout(()=>{
-          const url = `thankyou.html?oid=${encodeURIComponent(fallbackId)}&product=${encodeURIComponent(productName)}&price=${fallbackPrice}`;
-          window.location.href = url;
-        }, 1800);
-      }catch(_){}
+      alert('네트워크 오류입니다. 잠시 후 다시 시도해주세요.');
     } finally {
       btn.disabled=false;
       btn.innerText='사주분석 신청하기';
