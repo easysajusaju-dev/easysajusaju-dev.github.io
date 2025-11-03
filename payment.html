@@ -375,6 +375,41 @@ function requestPay(method) {
     });
 }
 </script>
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
+<script>
+const params = new URLSearchParams(location.search);
+const orderId = params.get("oid");
+const productName = params.get("product");
+const productPrice = Number(params.get("price"));
+
+console.log("상품명:", productName, "금액:", productPrice);
+
+// ✅ 화면에 표시 (현재 payment.html 디자인에 맞게 채움)
+document.querySelector(".title").textContent = `이지사주 - ${productName}`;
+document.querySelector(".price-info:nth-child(1) .amount").textContent = `${(productPrice * 1.0).toLocaleString()}원`;
+document.querySelector(".price-info.total .amount").textContent = `${productPrice.toLocaleString()}원`;
+
+// ✅ 포스타트 clientKey
+const clientKey = "R2_29330d4bbbe14f5c85925e52e48e0721";
+
+// ✅ 결제 요청 함수
+function requestPay(method) {
+    if (!document.getElementById('agree1').checked) {
+        alert("개인정보 이용 동의가 필요합니다.");
+        return;
+    }
+
+    window.nicepay.pay({
+        clientId: clientKey,
+        method: method,        // kakaopay / naverpay / card
+        orderId: orderId,
+        amount: productPrice,
+        goodsName: productName,
+        returnUrl: `${location.origin}/thankyou.html?oid=${orderId}&product=${productName}&price=${productPrice}`
+    });
+}
+</script>
 
 
     
