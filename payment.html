@@ -208,5 +208,51 @@ cardBtn.addEventListener('click', ()=>{
   }, 150);
 });
 </script>
+  <!-- ✅ NICEPAY SDK -->
+<script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js"></script>
+<script src="https://nicepay.github.io/web-resources/js/nicepay-start.js"></script>
+
+<script>
+// ✅ 결제 시작
+function goPay() {
+  const orderId = new URLSearchParams(location.search).get("oid") || "";
+  const amount = new URLSearchParams(location.search).get("price") || "";
+  const product = new URLSearchParams(location.search).get("product") || "";
+
+  if(!orderId || !amount){
+    alert("주문정보가 누락되었습니다.");
+    return;
+  }
+
+  nicepayStart({
+    clientId: "your_client_id_here",   // ← 나이스페이 상점키 넣어야함
+    method: "CARD",
+    orderId,
+    amount,
+    goodsName: product,
+    returnUrl: location.origin + "/thankyou.html"
+  });
+}
+
+// ✅ 필수 함수
+function fnSubmit() { return true; }
+
+// ✅ 결제 성공 콜백
+function fnSuccess(data) {
+  const params = new URLSearchParams({
+    oid: data.MOID,
+    authResultCode: data.ResultCode,
+    authResultMsg: data.ResultMsg
+  });
+
+  window.location.href = `/thankyou.html?${params.toString()}`;
+}
+
+// ✅ 결제 실패 콜백
+function fnError(data) {
+  alert("결제가 중단되었습니다.\n사유: " + (data.ResultMsg || "알 수 없는 오류"));
+}
+</script>
+
 </body>
 </html>
