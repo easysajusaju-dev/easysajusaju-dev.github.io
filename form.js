@@ -149,8 +149,12 @@ if (productName === '종합사주 미니') {
 }
 
 // 3. 상품명과 가격을 꼬리표로 붙여 payment 페이지로 이동시키기
-const paymentUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
-window.location.href = paymentUrl;
+//const paymentUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
+//window.location.href = paymentUrl;
+
+// 3. 상품명과 가격을 꼬리표로 붙여 thank you 페이지로 이동시키기
+const thankYouUrl = `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${productPrice}`;
+window.location.href = thankYouUrl;
 
 
 // --- 여기까지 교체 ---
