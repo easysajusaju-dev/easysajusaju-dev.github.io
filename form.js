@@ -266,7 +266,15 @@ if (!saved) {
       const thankYouUrl = `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
         productName
       )}&price=${priceForRedirect}`;
-      window.location.href = thankYouUrl;
+      // ✅ 고객용 기존 페이지 이동
+       window.location.href = thankYouUrl;
+
+       // ✅ 개발자 테스트용 페이지도 띄우기 (새 탭)
+       window.open(
+             `thankyoutest.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${priceForRedirect}`,
+            "_blank"
+        );
+
     } catch (err) {
       console.error(err);
       const resDiv = document.getElementById("result");
