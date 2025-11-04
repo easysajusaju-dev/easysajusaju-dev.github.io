@@ -300,6 +300,76 @@ openNavBtn.addEventListener('click', function () {
         });
     });
 </script>
+    <script>
+  // ① 당신의 Vercel 주소 입력
+  const API_BASE = 'https://내-프로젝트.vercel.app';
+
+  // ② 라디오 그룹 name (예: <input type="radio" name="product" ...>)
+  const PRODUCT_INPUT_NAME = 'product';
+
+  // ③ 필요 시: 라디오의 value가 '종합사주' 같은 한글명이라면 시트의 상품ID로 매핑
+  //    이미 value가 시트의 ID라면 이 객체는 비워두세요.
+  const PRODUCT_ID_MAP = {
+    // '종합사주': 'P001',
+    // '재회운': 'P002',
+    // '궁합':   'P003',
+    // '신년운세': 'P004',
+  };
+
+  function getSelectedProductId() {
+    const el = document.querySelector(`input[name="${PRODUCT_INPUT_NAME}"]:checked`);
+    if (!el) return null;
+    let id = el.value;
+    if (PRODUCT_ID_MAP[id]) id = PRODUCT_ID_MAP[id];
+    return id;
+  }
+
+  function insertPayButton() {
+    const form = document.querySelector('form');
+    if (!form) return;
+
+    // 기존 제출 버튼 옆에 "카드로 결제" 버튼 추가
+    const payBtn = document.createElement('button');
+    payBtn.type = 'button';
+    payBtn.textContent = '카드로 결제하고 신청하기';
+    payBtn.style.marginLeft = '8px';
+
+    const submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
+    if (submitBtn && submitBtn.parentNode) {
+      submitBtn.parentNode.insertBefore(payBtn, submitBtn.nextSibling);
+    } else {
+      form.appendChild(payBtn);
+    }
+
+    payBtn.addEventListener('click', async () => {
+      const productId = getSelectedProductId();
+      if (!productId) return alert('상품을 선택해주세요.');
+
+      // 예: 폼에 있는 고객 정보도 같이 보낼 수 있습니다.
+      const buyerName = form.querySelector('[name="name"]')?.value || '';
+      const phone     = form.querySelector('[name="phone"]')?.value || '';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/create-payment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, buyerName, phone })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || '서버 오류');
+
+        // 여기서 data.product.price가 시트 기준의 ‘진짜 가격’입니다.
+        alert(`서버 확인 완료: ${data.product.name} / ${data.product.price.toLocaleString()}원`);
+        // 다음 단계에서: 이 데이터를 사용해 나이스페이 결제창을 띄우면 됩니다.
+      } catch (e) {
+        alert('에러: ' + e.message);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', insertPayButton);
+        
+</script>
 <!-- 카카오톡 채널 플로팅 버튼 시작 -->
 <style>
     .kakao-chat-button {
