@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>결제 테스트 | 이지사주</title>
+<style>
+body { font-family: Pretendard, sans-serif; padding:20px; max-width:400px; margin:auto; }
+button { width:100%; padding:12px; background:#007bff; color:#fff; border:0; border-radius:8px; font-size:16px; margin-top:10px; }
+.box { padding:20px; border:1px solid #ddd; border-radius:10px; margin-bottom:15px; }
+</style>
+<script src="/payment/payment-ui.js"></script>
+</head>
+<body>
+
+<h2>💳 결제 테스트</h2>
+
+<div class="box">
+  <p>상품명 : <b id="productName">테스트 사주</b></p>
+  <p>결제 금액 : <b id="productPrice">100원</b></p>
+</div>
+
+<button onclick="startFakePayment()">가짜 결제 흐름 보기</button>
+<button onclick="startRealPayment()">실제 결제 실행</button>
+
+</body>
+</html>
