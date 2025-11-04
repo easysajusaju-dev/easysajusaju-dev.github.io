@@ -101,13 +101,53 @@ const productName = productSelect.options[productSelect.selectedIndex].text;
 data['상품ID'] = productId;
 
 // 시트에는 상품명 저장
+// ✅ 상품 ID & 상품명 처리
+const productSelect = document.querySelector('#product');
+const productId = productSelect.value; 
+const productName = productSelect.options[productSelect.selectedIndex].text;
+
+// ✅ 서버용: 상품ID 저장
+data['상품ID'] = productId;
+
+// ✅ 시트용: 상품명 저장 (기존 로직 교체)
 data['상품명'] = productName;
- data['이메일']=fd.get('email')||''; data['이름1']=fd.get('p1_name')||''; data['양음력1']=fd.get('p1_solarlunar')||'';
-      const b1=getBirth('p1'); if(b1){ const [yy,mm,dd]=b1.split('-'); data['생년1']=yy; data['생월1']=mm; data['생일1']=dd; }
-      data['생시1']=fd.get('p1_hour')||''; data['생분1']=fd.get('p1_minute')||''; data['성별1']=fd.get('p1_gender')||'';
-      if(formEl.querySelector('[name="p2_name"]')){ data['이름2']=fd.get('p2_name')||''; data['양음력2']=fd.get('p2_solarlunar')||''; const b2=getBirth('p2'); if(b2){ const [y2,m2,d2]=b2.split('-'); data['생년2']=y2; data['생월2']=m2; data['생일2']=d2; } data['생시2']=fd.get('p2_hour')||''; data['생분2']=fd.get('p2_minute')||''; data['성별1']='남자'; data['성별2']='여자'; }
-      data['유입경로']=document.referrer||'직접 입력/알 수 없음'; const stay=Math.round((new Date()-pageLoadTime)/1000); data['체류시간']=`${Math.floor(stay/60)}분 ${stay%60}초`; data['기기정보']=navigator.userAgent;
-      /// ================== [UTM 추적 코드 업그레이드] ==================
+
+// ✅ 나머지 기존 로직
+data['이메일']=fd.get('email')||''; 
+data['이름1']=fd.get('p1_name')||''; 
+data['양음력1']=fd.get('p1_solarlunar')||'';
+
+const b1=getBirth('p1'); 
+if(b1){ 
+  const [yy,mm,dd]=b1.split('-'); 
+  data['생년1']=yy; data['생월1']=mm; data['생일1']=dd; 
+}
+
+data['생시1']=fd.get('p1_hour')||''; 
+data['생분1']=fd.get('p1_minute')||''; 
+data['성별1']=fd.get('p1_gender')||'';
+
+if(formEl.querySelector('[name="p2_name"]')){
+  data['이름2']=fd.get('p2_name')||''; 
+  data['양음력2']=fd.get('p2_solarlunar')||''; 
+  
+  const b2=getBirth('p2'); 
+  if(b2){ 
+    const [y2,m2,d2]=b2.split('-'); 
+    data['생년2']=y2; data['생월2']=m2; data['생일2']=d2; 
+  }
+  
+  data['생시2']=fd.get('p2_hour')||''; 
+  data['생분2']=fd.get('p2_minute')||''; 
+  data['성별1']='남자'; 
+  data['성별2']='여자'; 
+}
+
+data['유입경로']=document.referrer||'직접 입력/알 수 없음'; 
+const stay=Math.round((new Date()-pageLoadTime)/1000); 
+data['체류시간']=`${Math.floor(stay/60)}분 ${stay%60}초`; 
+data['기기정보']=navigator.userAgent;
+/// ================== [UTM 추적 코드 업그레이드] ==================
 const urlParams = new URLSearchParams(window.location.search);
 
 // 1순위: 현재 URL의 UTM, 2순위: '포스트잇'(세션 스토리지), 3순위: 기본값
