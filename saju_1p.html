@@ -370,6 +370,66 @@ openNavBtn.addEventListener('click', function () {
   document.addEventListener('DOMContentLoaded', insertPayButton);
         
 </script>
+
+<script>
+// ① 당신의 Vercel 주소
+const API_BASE = 'https://my-payment-server.vercel.app';
+
+// ② select 또는 radio 어떤 구조든 자동으로 잡아보는 함수
+function getSelectedProductKey(form) {
+  // select 우선 (id="product" 또는 name="product")
+  const sel = form.querySelector('select#product, select[name="product"]');
+  if (sel && sel.value) return sel.value.trim();
+
+  // 라디오 백업: name="product"
+  const r = form.querySelector('input[type="radio"][name="product"]:checked');
+  if (r && r.value) return r.value.trim();
+
+  return null;
+}
+
+(function insertPayButton() {
+  const form = document.querySelector('form');
+  if (!form) return;
+
+  // 새 버튼 추가
+  const payBtn = document.createElement('button');
+  payBtn.type = 'button';
+  payBtn.textContent = '카드결제 신청하기';
+  payBtn.style.marginLeft = '8px';
+
+  const submitBtn = form.querySelector('[type="submit"]') || form.querySelector('button');
+  (submitBtn?.parentNode || form).insertBefore(payBtn, submitBtn?.nextSibling || null);
+
+  // 클릭 핸들러
+  payBtn.addEventListener('click', async () => {
+    const productKey = getSelectedProductKey(form);
+    if (!productKey) return alert('상품을 선택해 주세요.');
+
+    // 필요 시 폼의 다른 항목도 같이 수집
+    const buyerName = form.querySelector('[name="name"]')?.value || '';
+    const phone     = form.querySelector('[name="phone"]')?.value || '';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/create-payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productKey, buyerName, phone })
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || '서버 오류');
+
+      // 이 시점의 금액은 "시트 기준의 진짜 금액"
+      alert(`서버 확인 완료: ${data.product.name} / ${Number(data.product.price).toLocaleString()}원`);
+
+      // 다음 단계: 여기에서 나이스페이 포스타트 결제창을 띄웁니다.
+      // (PG 연동 파트는 create-payment에서 파라미터 생성 → 여기서 open 호출 형태로 이어갑니다.)
+    } catch (e) {
+      alert('에러: ' + e.message);
+    }
+  });
+})();
+</script>    
 <!-- 카카오톡 채널 플로팅 버튼 시작 -->
 <style>
     .kakao-chat-button {
