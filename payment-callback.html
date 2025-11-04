@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>결제 처리중...</title>
+<style>
+body {
+  font-family: Pretendard, sans-serif;
+  background: #f8fafc;
+  text-align: center;
+  padding: 50px;
+}
+.loader {
+  margin-top: 40px;
+  font-size: 18px;
+  color: #333;
+}
+</style>
+
+<script>
+// ✅ GET 파라미터 가져오기
+function getParam(key) {
+  return new URLSearchParams(window.location.search).get(key) || "";
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const tid = getParam("tid");
+  const amount = getParam("amount");
+  const oid = getParam("oid");
+  const product = getParam("product");
+
+  if (!tid) {
+    alert("결제 정보가 없습니다. 다시 시도해주세요.");
+    location.href = "index.html";
+    return;
+  }
+
+  try {
+    // ✅ 서버로 최종 승인 요청 보내기
+    const res = await fetch("https://my-payment-server.vercel.app/api/pay/approve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tid, amount, orderId: oid })
+    });
+
+    const result = await res.json();
+    
+    if (result.success) {
+      // ✅ 승인 성공 → thankyou 페이지 이동
+      window.location.href =
+        `thankyoutest.html?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${encodeURIComponent(amount)}`;
+    } else {
+      alert("결제 승인 실패: " + (result.message || "알 수 없는 오류"));
+      location.href = "index.html";
+    }
+  } catch (err) {
+    alert("서버 통신 오류. 다시 시도해주세요");
+    location.href = "index.html";
+  }
+});
+</script>
+</head>
+
+<body>
+<h2>결제를 처리하고 있습니다...</h2>
+<div class="loader">잠시만 기다려주세요 ⏳</div>
+</body>
+</html>
