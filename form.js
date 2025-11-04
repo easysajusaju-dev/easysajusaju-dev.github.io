@@ -235,16 +235,31 @@ document.addEventListener("DOMContentLoaded", () => {
       data["광고정보수신동의"] = agree2 && agree2.checked ? "동의" : "미동의";
 
       // 1) 구글 시트 저장
-      const body = new URLSearchParams(data);
-      const r = await fetch(APPS_SCRIPT_URL, { method: "POST", body });
-      const t = await r.text();
-      let j;
-      try {
-        j = JSON.parse(t);
-      } catch (_) {
-        j = { success: true }; // 구형 응답 호환
-      }
-      if (!j || !j.success) throw new Error("신청 저장 실패");
+      // 디버그용: 시트로 보내는 값 확인
+        console.log("[submit] payload to Apps Script:", data);
+
+        const body = new URLSearchParams(data);
+        const r = await fetch(APPS_SCRIPT_URL, { method: "POST", body });
+        const t = await r.text();
+
+        let j = {};
+        try { 
+            j = JSON.parse(t); 
+            } catch (_) { /* 구형 응답 호환 */ }
+
+// ✅ Apps Script가 success:false 내려도
+// 시트에 row나 traceId가 있으면 저장 성공으로 처리
+const saved =
+  (j && j.success === true) ||
+  Boolean(j && (j.row || j.traceId)) ||
+  /"success"\s*:\s*true/i.test(t);
+
+// ✅ 저장 실패 판정 보수화
+if (!saved) {
+  const msg = (j && j.error) ? j.error : "신청 저장 실패";
+  throw new Error(msg);
+}
+
 
       // 2) 결제/리다이렉트 (PG 붙이기 전까지 임시)
       const priceForRedirect = Number(productPrice || 0);
