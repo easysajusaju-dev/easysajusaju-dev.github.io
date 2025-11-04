@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이지사주 종합사주 - 1인용</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- 파비콘 -->
+<link rel="icon" href="https://easysajusaju-dev.github.io/images/favicon.ico">
+
+<!-- OG 메타 -->
+<meta property="og:title" content="프리미엄 종합사주 - 이지사주">
+<meta property="og:description" content="13년 명리전문가가 분석하는 프리미엄 사주">
+<meta property="og:image" content="https://easysajusaju-dev.github.io/images/share.png">
+<meta property="og:url" content="https://easysajusaju-dev.github.io/">
+
+</head>
+<body>
+
+<div class="main-container">
+
+<!-- 메인 이미지 -->
+<div class="image-section">
+    <img src="images/saju1/top.png" alt="상단 이미지">
+</div>
+
+<div class="form-container">
+<form id="saju-form">
+
+<!-- 연락처 -->
+<div class="form-group">
+    <label>연락처</label>
+    <input type="tel" name="contact" placeholder="'-' 없이 숫자만 입력" required>
+</div>
+
+<!-- 이메일 -->
+<div class="form-group">
+    <label for="email">이메일 (선택)</label>
+    <input type="email" id="email" name="email" placeholder="결과 수신 이메일">
+</div>
+
+<fieldset>
+<legend>👤 신청자 정보</legend>
+
+<div class="form-group"><label>이름</label><input type="text" name="p1_name" required></div>
+
+<div class="form-group">
+<label>생일</label>
+<div class="birth-select">
+    <select name="p1_birth_year"></select>
+    <select name="p1_birth_month"></select>
+    <select name="p1_birth_day"></select>
+</div>
+</div>
+
+<div class="form-group">
+<label>성별</label>
+<div class="button-group">
+    <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
+    <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
+</div>
+</div>
+
+<div class="form-group">
+<label>양/음력</label>
+<div class="button-group">
+    <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
+    <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
+    <input type="radio" id="p1_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_leap">윤달</label>
+</div>
+</div>
+
+<div class="form-group">
+<label>태어난 시간</label>
+<div class="birth-select">
+    <select name="p1_hour"><option value="">모름</option></select>
+    <select name="p1_minute"><option value="">모름</option></select>
+</div>
+</div>
+</fieldset>
+
+<!-- ✅ 상품 셀렉트 (자동으로 채워짐) -->
+<div class="form-group">
+<label for="product">상품 선택</label>
+<select id="product" name="product"></select>
+</div>
+
+<!-- 동의 -->
+<div class="agree-box">
+    <input type="checkbox" id="agree_all"> 전체동의
+</div>
+
+<div class="agree-box">
+    <input type="checkbox" id="agree1" required> 개인정보 수집 동의
+</div>
+
+<div class="agree-box">
+    <input type="checkbox" id="agree2"> 광고 수신 동의
+</div>
+
+<!-- 숨김 UTM -->
+<input type="hidden" id="utm_source" name="utm_source">
+<input type="hidden" id="utm_medium" name="utm_medium">
+<input type="hidden" id="utm_campaign" name="utm_campaign">
+
+<button type="submit">사주 분석 신청하기</button>
+<div id="result"></div>
+
+</form>
+</div>
+
+</div>
+
+<!-- ✅ scripts -->
+<script src="products-load.js"></script>
+<script src="form.js"></script>
+
+</body>
+</html>
