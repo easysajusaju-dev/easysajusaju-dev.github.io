@@ -317,6 +317,34 @@ openNavBtn.addEventListener('click', function () {
         });
     });
 </script>
+<script>
+const API_BASE = "https://my-payment-server.vercel.app";
+const PAGE_CATEGORY = "p_2"; // ✅ 2인 사주 카테고리
+
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API_BASE}/api/products?category=${PAGE_CATEGORY}`);
+    const data = await res.json();
+
+    const select = document.getElementById("product");
+    select.innerHTML = "";
+
+    data.items.forEach(item => {
+      const opt = document.createElement("option");
+      opt.value = item.id; 
+      opt.textContent = `${item.name} (${item.price.toLocaleString()}원)`;
+      select.appendChild(opt);
+    });
+  } catch (e) {
+    console.error(e);
+    alert("상품 목록 불러오기 실패!");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadProducts);
+</script>
+
+    
 <!-- 카카오톡 채널 플로팅 버튼 시작 -->
 <style>
     .kakao-chat-button {
