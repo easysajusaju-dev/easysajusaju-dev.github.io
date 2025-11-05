@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>결제하기 - 이지사주</title>
+
+<!-- ✅ 나이스페이 Start 위젯 SDK -->
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
+<style>
+/* (기존 스타일 동일 — 삭제 안함) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+:root { --primary-color:#4a5a73; --kakao-yellow:#FEE500; --naver-green:#03C75A; --text-dark:#212529; --text-light:#6C757D; --bg-light:#f8f9fa; --border-color:#dee2e6;}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;background-color:var(--bg-light);color:var(--text-dark);}
+.wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.header{display:flex;align-items:center;justify-content:center;padding:1rem;border-bottom:1px solid var(--border-color);}
+.header .back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
+.banner{position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center;}
+.banner .bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+.banner::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);z-index:2;}
+.banner .text-content{z-index:3;}
+.price-info{display:flex;justify-content:space-between;margin-bottom:.6rem;}
+.price-info.total{font-size:1.2rem;font-weight:700;padding-top:1rem;border-top:1px solid var(--border-color);}
+.btn{padding:.85rem;font-size:1rem;font-weight:700;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+.btn-kakao{background:var(--kakao-yellow);}
+.btn-naver{background:var(--naver-green);color:#fff;}
+.btn-primary{background:var(--primary-color);color:#fff;}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<header class="header">
+<button class="back-btn" onclick="history.back()">&lt;</button>
+<h1>결제하기</h1>
+</header>
+
+<div class="banner">
+<img src="/images/card-individual.png" class="bg-img">
+<div class="text-content">
+<p class="subtitle">당신의 운명을 풀어내는 곳</p>
+<h2 class="title">이지사주</h2>
+<p class="desc">복채 결제하기</p>
+</div>
+</div>
+
+<main style="padding:1.5rem">
+
+<!-- ✅ 금액 표시 -->
+<div class="price-info">
+<span class="label" id="pay-product-name">상품명</span>
+<span class="amount" id="pay-product-price">0원</span>
+</div>
+<div class="price-info">
+<span>할인 적용</span><span id="pay-discount">-0원</span>
+</div>
+<div class="price-info total">
+<span>최종 결제금액</span><span id="pay-final-price">0원</span>
+</div>
+
+<!-- ✅ 버튼 -->
+<div style="margin-top:1.5rem">
+<button class="btn btn-kakao" onclick="requestPay('kakao')">카카오페이</button>
+<button class="btn btn-naver" onclick="alert('네이버는 준비중입니다 🙂')">네이버페이</button>
+<button class="btn btn-primary" onclick="requestPay('card')">일반결제 (카드)</button>
+</div>
+
+</main>
+</div>
+
+<script>
+// ✅ URL 값 가져오기
+function getParam(k){return new URLSearchParams(location.search).get(k);}
+const oid = getParam("oid");
+const product = decodeURIComponent(getParam("product")||"상품");
+const price = Number(getParam("price")||0);
+
+// ✅ UI 반영
+document.querySelector(".title").textContent = `이지사주 - ${product}`;
+document.getElementById("pay-product-name").textContent = product;
+document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
+document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
+
+// ✅ 결제 함수 (Start 위젯)
+function requestPay(type){
+  if(type==="kakao"){
+    // ✔️ 지금은 테스트로 thankyou 이동
+    location.href=`thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+    return;
+  }
+
+  if(type==="card"){
+    nicepay.requestPay({
+      clientId:"R2_29330d4bbbe14f5c85925e52e48e0721", // ✅ 포스타트 키
+      method:"CARD",
+      orderId:oid,
+      amount:price,
+      goodsName:product,
+      returnUrl:"https://easysajusaju-dev.github.io/thankyou.html" // ✅ 지금은 단순 테스트
+    });
+  }
+}
+</script>
+</body>
+</html>
