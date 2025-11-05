@@ -125,21 +125,20 @@ function requestPay(type){
   }
 
   // ✅ NICE 카드 결제 (실제 창 뜨는 방식)
-  if(type === "card") {
-    const payUrl =
-      `https://pay.nicepay.co.kr/v1/pay?` +
-      new URLSearchParams({
-        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
-        method:"CARD",
-        orderId:oid,
-        amount:price,
-        goodsName:product,
-        returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
-      });
+if(type === "card") {
+  const params = new URLSearchParams({
+    clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
+    method:"CARD",
+    orderId: oid,
+    amount: price,
+    goodsName: product,
+    returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
+  });
 
-    window.location.href = payUrl;
-  }
+  // ✅ 나이스페이 카드 테스트 결제 페이지 이동
+  window.location.href = "https://pay.nicepay.co.kr/v1/pay?" + params.toString();
 }
+
 </script>
 </body>
 </html>
