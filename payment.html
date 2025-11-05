@@ -419,18 +419,7 @@ async function requestPay(method) {
 
   console.log(`🧾 결제 시도 | 주문번호: ${oid} | 상품: ${product} | 가격: ${price}`);
 
- // ✅ 카카오 테스트 모드
-if (method === "kakaopay") {
-  alert("현재는 테스트 모드입니다 😎\n결제 없이 완료페이지로 이동합니다");
 
-  window.location.href =
-    `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&paymethod=kakaopay&success=1`;
-  return;
-}
-
-
-  alert("🚧 현재 준비 중인 결제수단입니다.");
-}
 </script>
 
 
