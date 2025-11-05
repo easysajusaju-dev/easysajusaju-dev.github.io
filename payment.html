@@ -94,55 +94,48 @@ main {padding:1.5rem;}
 </main>
 </div>
 
-<!-- ✅ URL param + 결제JS ONLY -->
 <script>
-// ✅ URL 파라미터 읽기
+// URL 파라미터
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
-
 const oid = getParam("oid");
-const product = decodeURIComponent(getParam("product") || "");
-const price = Number(getParam("price") || 0);
+const product = decodeURIComponent(getParam("product") || "ITEM");
+const price = Number(getParam("price") || 1);
 
-// ✅ 페이지 로드시 UI 반영
+// UI 반영
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".title").textContent = `이지사주 - ${product}`;
   document.getElementById("pay-product-name").textContent = product;
-  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
-  document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
+  document.getElementById("pay-product-price").textContent = `${price}원`;
+  document.getElementById("pay-final-price").textContent = `${price}원`;
 });
 
-// ✅ 결제 요청 함수
+// 결제 실행
 function requestPay(type){
   if(!oid || !price){
-    alert("주문정보가 없습니다.");
+    alert("주문정보 없음");
     return;
   }
 
-  // ✅ 카카오 결제 테스트 (임시)
-  if(type === "kakao"){
-    location.href =
-      `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+  // ✅ 카카오 테스트
+  if(type==="kakao"){
+    location.href = `thankyou.html?oid=${oid}&product=${product}&price=${price}&success=1`;
     return;
   }
 
-  // ✅ 나이스페이 카드 실 결제
-  if(type === "card"){
-    const payUrl =
-      `https://pay.nicepay.co.kr/v1/pay?` +
-      new URLSearchParams({
-        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
-        method:"CARD",
-        orderId:oid,
-        amount:price,
-        goodsName:product,
-        returnUrl:"https://easysajusaju-dev.github.io/payment-callback"
-
-      });
-
+  // ✅ 카드 결제 (영문 goodsName + .html 제거)
+  if(type==="card"){
+    const payUrl = "https://pay.nicepay.co.kr/v1/pay?" + new URLSearchParams({
+      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+      method: "CARD",
+      orderId: oid,
+      amount: price,
+      goodsName: "SAJU", 
+      returnUrl: "https://easysajusaju-dev.github.io/payment-callback"
+    });
     window.location.href = payUrl;
   }
 }
 </script>
+
 
 </body>
 </html>
