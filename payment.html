@@ -107,35 +107,38 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
 });
 
+// ✅ 결제 실행 함수 (테스트 모드 유지)
 function requestPay(method){
-  console.log("결제 시도:", method, oid, product, price);
 
-  // ✅ 테스트용 카카오페이
+  // ✅ 카카오 테스트: 바로 thankyou로
   if(method === "kakaopay"){
-    alert("✅ 테스트 결제 완료되었습니다!");
+    alert("✅ 테스트: 결제 완료 처리합니다!");
     location.href = `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
-  // ✅ 카드결제 (승인 전이라 흰 화면 정상)
+  // ✅ 카드 결제 (심사 전이므로 흰 화면 = 정상)
   if(method === "card"){
-    const url = `https://pay.nicepay.co.kr/v1/pay?` + new URLSearchParams({
-      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
-      method: "CARD",
-      orderId: oid,
-      amount: price,
-      goodsName: product,
-      returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
-    }).toString();
+    const url =
+      `https://pay.nicepay.co.kr/v1/pay?` +
+      new URLSearchParams({
+        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
+        method:"CARD",
+        orderId:oid,
+        amount:price,
+        goodsName:product,
+        returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
+      });
 
-    alert("📡 카드 결제창 연결 시도 중 (승인 후 동작)");
+    alert("📡 카드 결제창 오픈 시도 (심사 후 정상작동)");
     window.location.href = url;
     return;
   }
 
-  alert("아직 준비되지 않은 결제수단입니다.");
+  alert("🚧 준비 중인 결제수단입니다.");
 }
 </script>
+
 
 
 </body>
