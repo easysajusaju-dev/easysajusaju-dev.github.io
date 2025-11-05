@@ -96,14 +96,14 @@ main {padding:1.5rem;}
 
 <!-- ✅ URL param + 결제JS ONLY -->
 <script>
-// URL 파라미터
+// ✅ URL 파라미터 읽기
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
 
 const oid = getParam("oid");
 const product = decodeURIComponent(getParam("product") || "");
 const price = Number(getParam("price") || 0);
 
-// UI 반영
+// ✅ 페이지 로드시 UI 반영
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".title").textContent = `이지사주 - ${product}`;
   document.getElementById("pay-product-name").textContent = product;
@@ -111,34 +111,37 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
 });
 
-// 결제 요청
+// ✅ 결제 요청 함수
 function requestPay(type){
   if(!oid || !price){
     alert("주문정보가 없습니다.");
     return;
   }
 
-  // ✅ 카카오 결제(테스트)
-  if(type === "kakao") {
-    location.href = `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+  // ✅ 카카오 결제 테스트 (임시)
+  if(type === "kakao"){
+    location.href =
+      `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
-  // ✅ NICE 카드 결제 (실제 창 뜨는 방식)
-if(type === "card") {
-  const params = new URLSearchParams({
-    clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
-    method:"CARD",
-    orderId: oid,
-    amount: price,
-    goodsName: product,
-    returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
-  });
+  // ✅ 나이스페이 카드 실 결제
+  if(type === "card"){
+    const payUrl =
+      `https://pay.nicepay.co.kr/v1/pay?` +
+      new URLSearchParams({
+        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
+        method:"CARD",
+        orderId:oid,
+        amount:price,
+        goodsName:product,
+        returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
+      });
 
-  // ✅ 나이스페이 카드 테스트 결제 페이지 이동
-  window.location.href = "https://pay.nicepay.co.kr/v1/pay?" + params.toString();
+    window.location.href = payUrl;
+  }
 }
-
 </script>
+
 </body>
 </html>
