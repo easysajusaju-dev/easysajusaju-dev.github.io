@@ -70,38 +70,45 @@ body{margin:0;font-family:'Noto Sans KR',sans-serif;background-color:var(--bg-li
 </main>
 </div>
 
+<!-- ✅ NICEPAY 위젯 SDK -->
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+
 <script>
-// ✅ URL 값 가져오기
+window.nicepay = window.nicepay || {}; // ✅ nicepay 객체 보장
+
 function getParam(k){return new URLSearchParams(location.search).get(k);}
 const oid = getParam("oid");
 const product = decodeURIComponent(getParam("product")||"상품");
 const price = Number(getParam("price")||0);
 
 // ✅ UI 반영
-document.querySelector(".title").textContent = `이지사주 - ${product}`;
-document.getElementById("pay-product-name").textContent = product;
-document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
-document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".title").textContent = `이지사주 - ${product}`;
+  document.getElementById("pay-product-name").textContent = product;
+  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
+  document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
+});
 
-// ✅ 결제 함수 (Start 위젯)
+// ✅ 결제 호출
 function requestPay(type){
   if(type==="kakao"){
-    // ✔️ 지금은 테스트로 thankyou 이동
     location.href=`thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
   if(type==="card"){
+    // ✅ nicepay widget 호출
     nicepay.requestPay({
-      clientId:"R2_29330d4bbbe14f5c85925e52e48e0721", // ✅ 포스타트 키
+      clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
       method:"CARD",
       orderId:oid,
       amount:price,
       goodsName:product,
-      returnUrl:"https://easysajusaju-dev.github.io/thankyou.html" // ✅ 지금은 단순 테스트
+      returnUrl:"https://easysajusaju-dev.github.io/thankyou.html"
     });
   }
 }
 </script>
+
 </body>
 </html>
