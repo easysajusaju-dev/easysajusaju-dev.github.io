@@ -94,12 +94,16 @@ main {padding:1.5rem;}
 </main>
 </div>
 
+<!-- ✅ URL param + 결제JS ONLY -->
 <script>
-function getParam(k){return new URLSearchParams(location.search).get(k);}
-const oid = getParam("oid") || "";
-const product = decodeURIComponent(getParam("product") || "상품");
+// URL 파라미터
+function getParam(k){ return new URLSearchParams(location.search).get(k); }
+
+const oid = getParam("oid");
+const product = decodeURIComponent(getParam("product") || "");
 const price = Number(getParam("price") || 0);
 
+// UI 반영
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".title").textContent = `이지사주 - ${product}`;
   document.getElementById("pay-product-name").textContent = product;
@@ -107,19 +111,22 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
 });
 
-// ✅ 결제 실행 함수 (테스트 모드 유지)
-function requestPay(method){
+// 결제 요청
+function requestPay(type){
+  if(!oid || !price){
+    alert("주문정보가 없습니다.");
+    return;
+  }
 
-  // ✅ 카카오 테스트: 바로 thankyou로
-  if(method === "kakaopay"){
-    alert("✅ 테스트: 결제 완료 처리합니다!");
+  // ✅ 카카오 결제(테스트)
+  if(type === "kakao") {
     location.href = `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
-  // ✅ 카드 결제 (심사 전이므로 흰 화면 = 정상)
-  if(method === "card"){
-    const url =
+  // ✅ NICE 카드 결제 (실제 창 뜨는 방식)
+  if(type === "card") {
+    const payUrl =
       `https://pay.nicepay.co.kr/v1/pay?` +
       new URLSearchParams({
         clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
@@ -130,16 +137,9 @@ function requestPay(method){
         returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
       });
 
-    alert("📡 카드 결제창 오픈 시도 (심사 후 정상작동)");
-    window.location.href = url;
-    return;
+    window.location.href = payUrl;
   }
-
-  alert("🚧 준비 중인 결제수단입니다.");
 }
 </script>
-
-
-
 </body>
 </html>
