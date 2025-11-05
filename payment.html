@@ -114,16 +114,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ✅ 결제 요청
 
+const clientId = "R2_29330d4bbbe14f5c85925e52e48e0721";
+
 function requestPay(type) {
-  if (type !== "card") return alert("준비중");
+  if (type !== "card") {
+    alert("준비중입니다!");
+    return;
+  }
 
   AUTHNICE.requestPay({
-    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+    clientId: clientId,
     method: "card",
     orderId: oid,
     amount: price,
     goodsName: product,
-    returnUrl: "https://my-payment-server.vercel.app/api/pay/callback"
+    returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
   });
 }
 </script>
