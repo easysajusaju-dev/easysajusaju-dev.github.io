@@ -346,6 +346,21 @@
     </script>
     <script src="https://pay.nicepay.co.kr/v1/js/"></script>
     <script src="payment.js"></script>
+    <script>
+// URL에서 id, 상품명, 가격 읽기
+function getParam(k){
+  return new URLSearchParams(location.search).get(k);
+}
+
+const orderId = getParam("oid");
+const product = getParam("product");
+const price = Number(getParam("price") || 0);
+
+// 화면 바인딩 (나중에 UI에 넣을 용도)
+console.log("주문번호:", orderId);
+console.log("상품명:", product);
+console.log("가격:", price.toLocaleString());
+</script>
 
 </body>
 </html>
