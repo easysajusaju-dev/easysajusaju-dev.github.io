@@ -116,10 +116,28 @@ document.addEventListener("DOMContentLoaded", () => {
 // ✅ 결제 요청
 
 function requestPay(type) {
+  const oid = getParam("oid");
+  const product = decodeURIComponent(getParam("product") || "");
+  const price = Number(getParam("price")) || 0;
 
-  if (type === "kakao") {
-    location.href =
-      `thankyou.html?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+  if (type === "kakao" || type === "naverpay") {
+    AUTHNICE.requestPay({
+      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721", // 그대로 사용
+      method: type, // "kakaopay" 또는 "naverpay"
+      orderId: oid,
+      amount: price,
+      goodsName: product,
+      returnUrl: "https://my-payment-server.vercel.app/api/pay/callback",
+
+      fnError: function (err) {
+        console.error("❌ 인증 오류:", err);
+        alert("결제가 취소되었거나 오류가 발생했습니다.");
+      },
+
+      fnSuccess: function (res) {
+        console.log(`✅ ${type} 인증 성공:`, res);
+      }
+    });
     return;
   }
 
@@ -138,12 +156,12 @@ function requestPay(type) {
       },
 
       fnSuccess: function (res) {
-        console.log("✅ 인증 성공:", res);
-        // (여기서는 승인까지 하지 않음 — 콜백 페이지에서 처리)
+        console.log("✅ 카드 인증 성공:", res);
       }
     });
   }
 }
+
 
 </script>
 
