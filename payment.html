@@ -113,44 +113,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ✅ 결제 요청
-async function requestPay(type){
 
-  if(type === "kakao"){
-    location.href =
-      `thankyou.html?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
-    return;
-  }
+function requestPay(type) {
+  if (type !== "card") return alert("준비중");
 
-  if(type === "card"){
-    try{
-      const res = await fetch(`${API_BASE}/api/pay/start`, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          orderId: oid,
-          goodsName: product,
-          amount: price,
-          payMethod: "CARD",
-          returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
-        })
-      });
-
-      const data = await res.json();
-      if(!data.redirectUrl){
-        console.error("❗ 서버 응답:", data);
-        alert("결제창 링크가 없습니다.");
-        return;
-      }
-
-      location.href = data.redirectUrl;
-
-    }catch(e){
-      console.error(e);
-      alert("결제 시작 실패. 잠시뒤 다시 시도해주세요.");
-    }
-  }
+  AUTHNICE.requestPay({
+    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+    method: "card",
+    orderId: oid,
+    amount: price,
+    goodsName: product,
+    returnUrl: "https://my-payment-server.vercel.app/api/pay/callback"
+  });
 }
 </script>
+
 
 </body>
 </html>
