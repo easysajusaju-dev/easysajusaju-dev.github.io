@@ -94,47 +94,79 @@ main {padding:1.5rem;}
 </main>
 </div>
 
+<!-- ✅ payment.html 맨 아래, </body> 바로 위에 이 <script> 하나만 남기고 이전 결제 관련 스크립트는 삭제 -->
 <script>
-// URL 파라미터
-function getParam(k){ return new URLSearchParams(location.search).get(k); }
-const oid = getParam("oid");
-const product = decodeURIComponent(getParam("product") || "ITEM");
-const price = Number(getParam("price") || 1);
+  // ====== URL 파라미터 ======
+  function getParam(k){ return new URLSearchParams(location.search).get(k); }
+  const API_BASE = "https://my-payment-server.vercel.app"; // 네 Vercel API
+  const oid    = getParam("oid") || "";
+  const product= decodeURIComponent(getParam("product") || "");
+  const price  = Number(getParam("price") || 0);
 
-// UI 반영
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("pay-product-name").textContent = product;
-  document.getElementById("pay-product-price").textContent = `${price}원`;
-  document.getElementById("pay-final-price").textContent = `${price}원`;
-});
+  // ====== UI 바인딩 ======
+  document.addEventListener("DOMContentLoaded", () => {
+    const titleEl = document.querySelector(".title");
+    const nameEl  = document.getElementById("pay-product-name");
+    const priceEl = document.getElementById("pay-product-price");
+    const finalEl = document.getElementById("pay-final-price");
+    if (titleEl) titleEl.textContent = `이지사주 - ${product || "-"}`;
+    if (nameEl)  nameEl.textContent  = product || "-";
+    if (priceEl) priceEl.textContent = `${price.toLocaleString()}원`;
+    if (finalEl) finalEl.textContent = `${price.toLocaleString()}원`;
+  });
 
-// 결제 실행
-function requestPay(type){
-  if(!oid || !price){
-    alert("주문정보 없음");
-    return;
+  // ====== 결제 시작 (서버 모델) ======
+  async function requestPay(type){
+    if(!oid || !price){
+      alert("주문정보가 없습니다. 다시 시도해주세요.");
+      return;
+    }
+
+    // 1) 카카오(임시) : 바로 완료 페이지로
+    if(type === "kakaopay"){
+      location.href = `thankyou.html?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+      return;
+    }
+
+    // 2) 나이스 카드(서버 모델) : 서버에 '결제 시작' 요청 → 리다이렉트 URL 수신 → 이동
+    if(type === "card"){
+      try{
+        const res = await fetch(`${API_BASE}/api/pay/start`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({
+            orderId: oid,
+            goodsName: product,
+            amount: price,
+            payMethod: "CARD",
+            // 결제 완료 후 돌아올 페이지(프론트 콜백)
+            returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
+          })
+        });
+        if(!res.ok){ throw new Error("서버 통신 실패"); }
+        const data = await res.json();
+
+        // 서버가 NICE로부터 받아온 리다이렉트 URL 키 (문서에 따라 이름 다를 수 있어 대비)
+        const redirectUrl = data.redirectUrl || data.payUrl || data.nextUrl;
+        if(!redirectUrl){
+          console.error("서버 응답:", data);
+          alert("결제 시작 URL을 받지 못했습니다.");
+          return;
+        }
+        // NICE 결제창으로 이동
+        location.href = redirectUrl;
+
+      }catch(err){
+        console.error(err);
+        alert("결제 시작에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+      return;
+    }
+
+    alert("🚧 준비 중인 결제수단입니다.");
   }
-
-  // ✅ 카카오 테스트
-  if(type==="kakao"){
-    location.href = `thankyou.html?oid=${oid}&product=${product}&price=${price}&success=1`;
-    return;
-  }
-
-  // ✅ 카드 결제 (영문 goodsName + .html 제거)
-  if(type==="card"){
-    const payUrl = "https://pay.nicepay.co.kr/v1/pay?" + new URLSearchParams({
-      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
-      method: "CARD",
-      orderId: oid,
-      amount: price,
-      goodsName: "SAJU", 
-      returnUrl: "https://easysajusaju-dev.github.io/payment-callback"
-    });
-    window.location.href = payUrl;
-  }
-}
 </script>
+
 
 
 </body>
