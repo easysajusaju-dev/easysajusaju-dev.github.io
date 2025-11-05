@@ -130,6 +130,17 @@ function requestPay(type) {
     amount: price,
     goodsName: product,
     returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
+     // ✅ 필수: 오류 콜백
+    fnError: function (result) {
+      console.error("결제 오류:", result);
+      alert("결제가 취소되었거나 오류가 발생했습니다.");
+    },
+
+    // ✅ 선택(콜백에서 딴짓 안할거면 없어도 됨)
+    fnSuccess: function (result) {
+      console.log("결제 인증 성공:", result);
+      // 인증 후 실제 승인 API는 payment-callback.html에서 처리함
+    }
   });
 }
 </script>
