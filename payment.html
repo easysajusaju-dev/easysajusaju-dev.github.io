@@ -391,8 +391,8 @@ async function requestPay(method) {
   // ✅ 카카오 테스트 모드
   if (method === "kakaopay") {
     alert("현재는 테스트 모드입니다 😎\n결제 없이 완료페이지로 이동합니다");
-
-    window.location.href = `payment-callback.html?oid=${oid}&product=${encodeURIComponent(product)}&amount=${price}&method=kakaopay&success=1`;
+    window.location.href = `payment-callback.html?oid=${orderId}&product=${encodeURIComponent(product)}&amount=${price}&paymethod=kakaopay&success=1`;
+ 
     return;
   }
 
