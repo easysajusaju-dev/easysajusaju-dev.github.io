@@ -359,19 +359,23 @@ const oid = getParam("oid");
 const product = decodeURIComponent(getParam("product") || "");
 const price = Number(getParam("price") || 0);
 
-// 화면 반영
 document.addEventListener("DOMContentLoaded", () => {
-  
-  // ✅ 제목 동기화
+
+  // ✅ 배너 타이틀 변경
   const titleEl = document.querySelector(".title");
   if (titleEl) titleEl.textContent = `이지사주 - ${product}`;
 
-  // ✅ 가격 영역 업데이트
-  const priceRows = document.querySelectorAll(".price-info .amount");
-  if (priceRows.length >= 3) {
-    priceRows[0].textContent = `${price.toLocaleString()}원`; // 상품가격
-    priceRows[1].textContent = `-0원`; // 할인 (지금 없음)
-    priceRows[2].textContent = `${price.toLocaleString()}원`; // 최종가
+  // ✅ 결제 정보 표시
+  const nameEl = document.getElementById("pay-product-name");
+  const priceEl = document.getElementById("pay-product-price");
+  const discountEl = document.getElementById("pay-discount");
+  const finalEl = document.getElementById("pay-final-price");
+
+  if (nameEl && priceEl && discountEl && finalEl) {
+    nameEl.textContent = product;
+    priceEl.textContent = `${price.toLocaleString()}원`;
+    discountEl.textContent = `-0원`;   // 할인 정책 생기면 변경
+    finalEl.textContent = `${price.toLocaleString()}원`;
   }
 });
 
