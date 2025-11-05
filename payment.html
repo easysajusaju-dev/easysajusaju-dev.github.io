@@ -237,19 +237,26 @@
             </div>
 
             <div class="card">
-                <h3 class="card-title">결제 금액</h3>
-                <div class="price-info">
-                    <span class="label">이지사주 1인</span>
-                    <span class="amount">10,000원</span>
-                </div>
-                <div class="price-info">
-                    <span class="label">얼리버드 특별 할인 <span class="discount">-30%</span></span>
-                    <span class="amount">-3,000원</span>
-                </div>
-                <div class="price-info total">
-                    <span class="label">최종 결제금액</span>
-                    <span class="amount">7,000원</span>
-                </div>
+    <h3 class="card-title">결제 금액</h3>
+    
+    <!-- ✅ 상품명 -->
+    <div class="price-info">
+        <span class="label" id="pay-product-name">상품명</span>
+        <span class="amount" id="pay-product-price">0원</span>
+    </div>
+
+    <!-- ✅ 할인 (필요시 반영) -->
+    <div class="price-info">
+        <span class="label">할인 적용</span>
+        <span class="amount" id="pay-discount">-0원</span>
+    </div>
+
+    <!-- ✅ 최종 결제금액 -->
+    <div class="price-info total">
+        <span class="label">최종 결제금액</span>
+        <span class="amount" id="pay-final-price">0원</span>
+    </div>
+</div>
 
                 <div class="agreements">
                     <div class="agreement-item">
