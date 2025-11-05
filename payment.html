@@ -130,7 +130,7 @@ function requestPay(type) {
       orderId: oid,
       amount: price,
       goodsName: product,
-      returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html",
+      returnUrl: "https://my-payment-server.vercel.app/api/pay/callback",
 
       fnError: function (err) {
         console.error("❌ 인증 오류:", err);
