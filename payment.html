@@ -361,6 +361,24 @@ console.log("주문번호:", orderId);
 console.log("상품명:", product);
 console.log("가격:", price.toLocaleString());
 </script>
+<script>
+async function requestPay(method) {
+  if (!orderId) {
+    alert("주문 정보가 없습니다. 다시 시도해주세요.");
+    return;
+  }
+
+  console.log(`🔔 결제 시도: ${method}, 주문ID: ${orderId}`);
+
+  if (method === "kakaopay") {
+    // 🔥 아직 테스트 모드: 결제 안하고 성공페이지 바로 이동 테스트
+    window.location.href = `payment-callback.html?oid=${orderId}&amount=${price}&paymethod=kakaopay&success=1`;
+    return;
+  }
+
+  alert("아직 준비되지 않은 결제입니다.");
+}
+</script>
 
 </body>
 </html>
