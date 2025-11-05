@@ -115,34 +115,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ✅ 결제 요청
 
-const clientId = "R2_29330d4bbbe14f5c85925e52e48e0721";
-
 function requestPay(type) {
-  if (type !== "card") {
-    alert("준비중입니다!");
+
+  if (type === "kakao") {
+    location.href =
+      `thankyou.html?oid=${encodeURIComponent(oid)}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
-  AUTHNICE.requestPay({
-    clientId: clientId,
-    method: "card",
-    orderId: oid,
-    amount: price,
-    goodsName: product,
-    returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
-     // ✅ 필수: 오류 콜백
-    fnError: function (result) {
-      console.error("결제 오류:", result);
-      alert("결제가 취소되었거나 오류가 발생했습니다.");
-    },
+  if (type === "card") {
+    AUTHNICE.requestPay({
+      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+      method: "card",
+      orderId: oid,
+      amount: price,
+      goodsName: product,
+      returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html",
 
-    // ✅ 선택(콜백에서 딴짓 안할거면 없어도 됨)
-    fnSuccess: function (result) {
-      console.log("결제 인증 성공:", result);
-      // 인증 후 실제 승인 API는 payment-callback.html에서 처리함
-    }
-  });
+      fnError: function (err) {
+        console.error("❌ 인증 오류:", err);
+        alert("결제가 취소되었거나 오류가 발생했습니다.");
+      },
+
+      fnSuccess: function (res) {
+        console.log("✅ 인증 성공:", res);
+        // (여기서는 승인까지 하지 않음 — 콜백 페이지에서 처리)
+      }
+    });
+  }
 }
+
 </script>
 
 
