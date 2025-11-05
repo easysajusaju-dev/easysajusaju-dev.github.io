@@ -344,64 +344,51 @@
             }
         });
     </script>
-    <script src="https://pay.nicepay.co.kr/v1/js/"></script>
-    <script src="payment.js"></script>
-    <script>
-// URL에서 id, 상품명, 가격 읽기
-function getParam(k){
-  return new URLSearchParams(location.search).get(k);
-}
-
-const orderId = getParam("oid");
-const product = getParam("product");
-const price = Number(getParam("price") || 0);
-
-// 화면 바인딩 (나중에 UI에 넣을 용도)
-console.log("주문번호:", orderId);
-console.log("상품명:", product);
-console.log("가격:", price.toLocaleString());
-</script>
-<script>
-async function requestPay(method) {
-  if (!orderId) {
-    alert("주문 정보가 없습니다. 다시 시도해주세요.");
-    return;
-  }
-
-  console.log(`🔔 결제 시도: ${method}, 주문ID: ${orderId}`);
-
-  if (method === "kakaopay") {
-    // 🔥 아직 테스트 모드: 결제 안하고 성공페이지 바로 이동 테스트
-    window.location.href = `payment-callback.html?oid=${orderId}&amount=${price}&paymethod=kakaopay&success=1`;
-    return;
-  }
-
-  alert("아직 준비되지 않은 결제입니다.");
-}
-</script>
-<script>
+   <script>
+const API_BASE = "https://my-payment-server.vercel.app"; // 너의 vercel API
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
 
 const oid = getParam("oid");
 const product = decodeURIComponent(getParam("product") || "");
 const price = Number(getParam("price") || 0);
 
-// UI 바인딩
+// 화면 반영
 document.addEventListener("DOMContentLoaded", () => {
-  // 상품명 들어갈 곳 (여기 ID 이름을 페이지에서 실제 사용한 이름과 맞춰줘야 함)
+  
+  // ✅ 제목 동기화
   const titleEl = document.querySelector(".title");
   if (titleEl) titleEl.textContent = `이지사주 - ${product}`;
 
-  // 가격 영역 업데이트
-  const priceEls = document.querySelectorAll(".amount");
-  // 가정: 0번째 원가, 1번째 할인, 2번째 최종가격 노출 자리
-  if (priceEls.length >= 3) {
-    priceEls[0].textContent = `${(price * 1.0).toLocaleString()}원`;
-    priceEls[1].textContent = `-${(price * 0.0).toLocaleString()}원`; // 일단 할인 0
-    priceEls[2].textContent = `${price.toLocaleString()}원`;
+  // ✅ 가격 영역 업데이트
+  const priceRows = document.querySelectorAll(".price-info .amount");
+  if (priceRows.length >= 3) {
+    priceRows[0].textContent = `${price.toLocaleString()}원`; // 상품가격
+    priceRows[1].textContent = `-0원`; // 할인 (지금 없음)
+    priceRows[2].textContent = `${price.toLocaleString()}원`; // 최종가
   }
 });
+
+// ✅ 결제 함수
+async function requestPay(method) {
+  if (!oid) {
+    alert("주문 정보가 없습니다. 다시 시도해주세요.");
+    return;
+  }
+
+  console.log(`🧾 결제 시도 | 주문번호: ${oid} | 상품: ${product} | 가격: ${price}`);
+
+  // ✅ 카카오 테스트 모드
+  if (method === "kakaopay") {
+    alert("현재는 테스트 모드입니다 😎\n결제 없이 완료페이지로 이동합니다");
+
+    window.location.href = `payment-callback.html?oid=${oid}&product=${encodeURIComponent(product)}&amount=${price}&method=kakaopay&success=1`;
+    return;
+  }
+
+  alert("🚧 현재 준비 중인 결제수단입니다.");
+}
 </script>
+
 
 </body>
 </html>
