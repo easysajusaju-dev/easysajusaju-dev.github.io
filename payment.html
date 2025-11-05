@@ -379,6 +379,29 @@ async function requestPay(method) {
   alert("아직 준비되지 않은 결제입니다.");
 }
 </script>
+<script>
+function getParam(k){ return new URLSearchParams(location.search).get(k); }
+
+const oid = getParam("oid");
+const product = decodeURIComponent(getParam("product") || "");
+const price = Number(getParam("price") || 0);
+
+// UI 바인딩
+document.addEventListener("DOMContentLoaded", () => {
+  // 상품명 들어갈 곳 (여기 ID 이름을 페이지에서 실제 사용한 이름과 맞춰줘야 함)
+  const titleEl = document.querySelector(".title");
+  if (titleEl) titleEl.textContent = `이지사주 - ${product}`;
+
+  // 가격 영역 업데이트
+  const priceEls = document.querySelectorAll(".amount");
+  // 가정: 0번째 원가, 1번째 할인, 2번째 최종가격 노출 자리
+  if (priceEls.length >= 3) {
+    priceEls[0].textContent = `${(price * 1.0).toLocaleString()}원`;
+    priceEls[1].textContent = `-${(price * 0.0).toLocaleString()}원`; // 일단 할인 0
+    priceEls[2].textContent = `${price.toLocaleString()}원`;
+  }
+});
+</script>
 
 </body>
 </html>
