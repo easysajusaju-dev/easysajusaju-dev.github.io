@@ -94,16 +94,12 @@ main {padding:1.5rem;}
 </main>
 </div>
 
-<!-- ✅ URL param + 결제JS ONLY -->
 <script>
-// URL 파라미터
-function getParam(k){ return new URLSearchParams(location.search).get(k); }
-
-const oid = getParam("oid");
-const product = decodeURIComponent(getParam("product") || "");
+function getParam(k){return new URLSearchParams(location.search).get(k);}
+const oid = getParam("oid") || "";
+const product = decodeURIComponent(getParam("product") || "상품");
 const price = Number(getParam("price") || 0);
 
-// UI 반영
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".title").textContent = `이지사주 - ${product}`;
   document.getElementById("pay-product-name").textContent = product;
@@ -111,36 +107,36 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
 });
 
-// 결제 요청
-function requestPay(type){
-  if(!oid || !price){
-    alert("주문정보가 없습니다.");
-    return;
-  }
+function requestPay(method){
+  console.log("결제 시도:", method, oid, product, price);
 
-  // ✅ 카카오 결제(테스트)
-  if(type === "kakao") {
+  // ✅ 테스트용 카카오페이
+  if(method === "kakaopay"){
+    alert("✅ 테스트 결제 완료되었습니다!");
     location.href = `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
     return;
   }
 
-  // ✅ NICE 카드 결제 (실제 창 뜨는 방식)
-  if(type === "card") {
-    const payUrl =
-      `https://pay.nicepay.co.kr/v1/pay?` +
-      new URLSearchParams({
-        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721",
-        method:"CARD",
-        orderId:oid,
-        amount:price,
-        goodsName:product,
-        returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
-      });
+  // ✅ 카드결제 (승인 전이라 흰 화면 정상)
+  if(method === "card"){
+    const url = `https://pay.nicepay.co.kr/v1/pay?` + new URLSearchParams({
+      clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+      method: "CARD",
+      orderId: oid,
+      amount: price,
+      goodsName: product,
+      returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
+    }).toString();
 
-    window.location.href = payUrl;
+    alert("📡 카드 결제창 연결 시도 중 (승인 후 동작)");
+    window.location.href = url;
+    return;
   }
+
+  alert("아직 준비되지 않은 결제수단입니다.");
 }
 </script>
+
 
 </body>
 </html>
