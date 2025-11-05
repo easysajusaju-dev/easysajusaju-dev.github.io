@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>결제 승인 처리 중...</title>
-</head>
+<head><meta charset="UTF-8"><title>결제 처리중...</title></head>
 <body>
-<h2>🔄 결제 승인 처리 중...</h2>
+<script>
+const params = new URLSearchParams(location.search);
+const success = params.get("success");
+const oid = params.get("oid");
+const amount = params.get("amount") || 0;
+const paymethod = params.get("paymethod");
 
-<script src="js/pay-complete.js"></script>
+if (success === "1") {
+  console.log(`✅ 임시결제 성공 처리: ${oid}`);
+
+  // 👉 나중에 여기가 시트 업데이트 API 호출 위치
+
+  alert("결제가 완료되었습니다!");
+  location.href = `thankyou.html?oid=${oid}&price=${amount}`;
+} else {
+  alert("결제가 취소되었습니다.");
+  history.back();
+}
+</script>
 </body>
 </html>
