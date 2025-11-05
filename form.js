@@ -271,7 +271,7 @@ window.location.href = thankYouUrl;
 
 // ✅ 개발자 테스트용 페이지 호출 (백그라운드)
 fetch(
-  `thankyoutest.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${priceForRedirect}`,
+  `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${priceForRedirect}`,
   { mode: "no-cors" }
 );
 
