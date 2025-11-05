@@ -353,77 +353,55 @@
         });
     </script>
    <script>
-const API_BASE = "https://my-payment-server.vercel.app"; // 너의 vercel API
+<script>
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
 
 const oid = getParam("oid");
 const product = decodeURIComponent(getParam("product") || "");
 const price = Number(getParam("price") || 0);
 
+// ✅ 페이지 로드되면 UI 반영
 document.addEventListener("DOMContentLoaded", () => {
-
-  // ✅ 배너 타이틀 변경
+  // 제목
   const titleEl = document.querySelector(".title");
   if (titleEl) titleEl.textContent = `이지사주 - ${product}`;
 
-  // ✅ 결제 정보 표시
-  const nameEl = document.getElementById("pay-product-name");
-  const priceEl = document.getElementById("pay-product-price");
-  const discountEl = document.getElementById("pay-discount");
-  const finalEl = document.getElementById("pay-final-price");
-
-  if (nameEl && priceEl && discountEl && finalEl) {
-    nameEl.textContent = product;
-    priceEl.textContent = `${price.toLocaleString()}원`;
-    discountEl.textContent = `-0원`;   // 할인 정책 생기면 변경
-    finalEl.textContent = `${price.toLocaleString()}원`;
-  }
-});
-
-<script>
-function getParam(k){return new URLSearchParams(location.search).get(k);}
-const oid = getParam("oid");
-const product = decodeURIComponent(getParam("product")||"상품");
-const price = Number(getParam("price")||0);
-
-// ✅ UI 반영
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".title").textContent = `이지사주 - ${product}`;
+  // 가격 영역
   document.getElementById("pay-product-name").textContent = product;
   document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
   document.getElementById("pay-final-price").textContent = `${price.toLocaleString()}원`;
 });
 
 // ✅ 결제 실행 함수
-function requestPay(type){
-  // 카카오 테스트 모드
-  if(type==="kakaopay"){
-    location.href=`thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+function requestPay(type) {
+  if (!oid || !price) {
+    alert("주문 정보가 없습니다. 처음부터 다시 진행해주세요.");
     return;
   }
 
-  // ✅ 나이스페이 카드 결제 URL 방식
-  if(type==="card"){
+  // 🔹 카카오 임시 성공 처리
+  if (type === "kakaopay") {
+    location.href = `thankyou.html?oid=${oid}&product=${encodeURIComponent(product)}&price=${price}&method=kakao&success=1`;
+    return;
+  }
+
+  // 🔹 나이스 카드 결제 (URL 방식)
+  if (type === "card") {
     const payUrl =
       `https://pay.nicepay.co.kr/v1/pay?` +
       new URLSearchParams({
-        clientId:"R2_29330d4bbbe14f5c85925e52e48e0721", 
-        method:"CARD",
-        orderId:oid,
-        amount:price,
-        goodsName:product,
-        returnUrl:"https://easysajusaju-dev.github.io/payment-callback.html"
-      }).toString();
+        clientId: "R2_29330d4bbbe14f5c85925e52e48e0721", 
+        method: "CARD",
+        orderId: oid,
+        amount: price,
+        goodsName: product,
+        returnUrl: "https://easysajusaju-dev.github.io/payment-callback.html"
+      });
 
+    console.log("✅ NICE 결제창 이동:", payUrl);
     window.location.href = payUrl;
   }
 }
-</script>
-
-
-  console.log(`🧾 결제 시도 | 주문번호: ${oid} | 상품: ${product} | 가격: ${price}`);
-
-
 </script>
 
 
