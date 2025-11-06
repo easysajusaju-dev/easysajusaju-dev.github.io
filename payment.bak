@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결제하기 - 이지사주</title>
-    <!-- 아임포트(포트원) 라이브러리 (나중에 실제 연동 시 주석 해제) -->
-    <!-- <script src="https://cdn.iamport.kr/v1/iamport.js"></script> -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
