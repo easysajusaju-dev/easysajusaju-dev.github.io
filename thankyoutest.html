@@ -1,88 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>결제 및 신청 완료 | 이지사주</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 완료 - 이지사주</title>
 
-<style>
-  body { font-family: "Pretendard", sans-serif; color:#333; text-align:center; padding:40px 20px; background:#f9fafb; }
-  .box {
-    max-width: 480px; margin: auto; background:white; padding:30px 22px;
-    border-radius:14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  :root {
+    --primary-color: #4a5a73;
+    --text-dark: #212529;
+    --text-light: #6C757D;
+    --bg-light: #f8f9fa;
+    --border-color: #dee2e6;
   }
-  .check-icon {
-    font-size:48px; color:#4CAF50; margin-bottom:10px;
+  body {
+    margin:0;
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--bg-light);
+    color:var(--text-dark);
   }
-  .big-title { font-size:22px; font-weight:700; margin-bottom:8px; }
-  .desc { font-size:14px; color:#666; margin-bottom:20px; line-height:1.6; }
-
-  .info-box {
-    background:#F4F8FF; border:1px solid #D6E4FF; padding:14px;
-    border-radius:10px; margin-bottom:20px; text-align:left;
+  .wrapper {max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+  .header {display:flex;align-items:center;justify-content:center;padding:1rem;border-bottom:1px solid var(--border-color);}
+  .banner {position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center;}
+  .banner .bg-img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .banner::after {content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);}
+  .banner .text-content {position:relative;}
+  .banner .title {font-size:1.8rem;font-weight:700;margin:.2rem 0;}
+  main {padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .card {
+    background:#fff;
+    border-radius:12px;
+    padding:2rem 1.5rem;
+    width:100%;
+    box-shadow:0 3px 8px rgba(0,0,0,0.05);
   }
-  .info-row { display:flex; justify-content:space-between; margin:6px 0; font-size:15px;}
-  
-  .price-row { font-size:17px; font-weight:700; color:#0077FF; }
-  .small { font-size:13px; color:#777; margin-top:20px; }
-
-  .btn {
-    background:#0098FF; color:white; border:0; padding:12px 0;
-    border-radius:10px; font-size:16px; width:100%; cursor:pointer; font-weight:600;
+  .card h2 {font-size:1.3rem;margin-bottom:.8rem;}
+  .card p {font-size:0.95rem;color:var(--text-light);margin-bottom:1.5rem;line-height:1.6;}
+  .btn-primary {
+    background:var(--primary-color);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:.9rem 1rem;
+    width:100%;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
   }
-</style>
-
-<script>
-// ✅ URL에서 파라미터 읽기
-function getParam(key){
-  return new URLSearchParams(location.search).get(key) || "";
-}
-
-document.addEventListener("DOMContentLoaded", ()=>{
-  const oid = getParam("oid");
-  const name = getParam("product");
-  const price = Number(getParam("price") || 0);
-
-  document.getElementById("p-name").innerText = name || "-";
-  document.getElementById("p-price").innerText = price ? price.toLocaleString() + "원" : "-";
-  document.getElementById("order-id").innerText = oid;
-});
-</script>
+  .btn-primary:hover {opacity:.9;}
+  footer {
+    padding:2rem 1rem;
+    background:var(--bg-light);
+    text-align:center;
+  }
+  .copyright {font-size:0.8rem;color:#adb5bd;margin-top:1rem;}
+  </style>
 </head>
 
 <body>
-<div class="box">
+  <div class="wrapper">
+    <header class="header">
+      <h1>결제 완료</h1>
+    </header>
 
-  <div class="check-icon">✅</div>
-  <div class="big-title">신청이 완료되었습니다!</div>
-
-  <div class="desc">
-    고객님의 소중한 정보를 잘 받았습니다.<br>
-    사주 분석 결과는 순차적으로 발송됩니다.<br>
-    빠른 접수 감사드립니다 🙏
-  </div>
-
-  <div class="info-box">
-    <div class="info-row"><span>신청 상품</span> <span id="p-name">-</span></div>
-    <div class="info-row price-row">
-      <span>결제 금액</span> <span id="p-price">-</span>
+    <div class="banner">
+      <img src="/images/card-individual.png" class="bg-img" alt="">
+      <div class="text-content">
+        <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+        <h2 class="title">이지사주</h2>
+        <p class="desc">결제가 정상적으로 완료되었습니다</p>
+      </div>
     </div>
-    <div class="info-row"><span>주문번호</span> <span id="order-id">-</span></div>
+
+    <main>
+      <div class="card">
+        <h2>복채 결제가 완료되었습니다 🙏</h2>
+        <p>
+          신청하신 상담 정보와 결제 내역이 정상적으로 접수되었습니다.<br>
+          순차적으로 분석이 진행되며, 완료 시 문자 또는 이메일로 안내드릴 예정입니다.
+        </p>
+        <button class="btn-primary" onclick="location.href='https://easysajusaju-dev.github.io/'">홈으로 돌아가기</button>
+      </div>
+    </main>
+
+    <footer>
+      <p class="copyright">© 2025 이지사주. All rights reserved.</p>
+    </footer>
   </div>
-  
-<button class="btn" id="payBtn">💳 카드로 결제하기</button>
-<p style="font-size:12px; color:#888; margin-top:5px;">(테스트 전용 버튼)</p>
-
-<!-- 결제 스크립트 -->
-<script src="js/pay-start.js"></script>
-
-  <button class="btn" onclick="location.href='index.html'">홈으로 돌아가기</button>
-
-  <div class="small">
-    문의가 필요하시면 카카오톡으로 편히 연락 주세요 💬
-  </div>
-
-</div>
 </body>
 </html>
