@@ -78,13 +78,13 @@ main {padding:1.5rem;}
 
 <div class="payment-buttons">
   <div class="sns-payment-group">
-    <button class="btn btn-kakao" onclick="requestPay('kakao')">
+    <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
       <img src="images/카카오페이_CI_combination_with_BG.png">카카오페이
     </button>
-    <button class="btn btn-naver" onclick="requestPay('naver')">
+    <button class="btn btn-naver" onclick="requestPay('naverpay')">
       <img src="images/badge_npay.png">네이버페이
     </button>
-    <button class="btn btn-toss" onclick="requestPay('toss')">
+    <button class="btn btn-toss" onclick="requestPay('tosspay')">
       <img src="images/toss_logo.png">토스페이
     </button>
   </div>
@@ -98,50 +98,51 @@ const API_BASE = "https://my-payment-server.vercel.app";
 
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
 
-async function requestPay(type) {
-  if (type !== "card") {
-    alert("현재는 카드결제만 가능합니다 (심사용)");
-    return;
-  }
+const oid     = getParam("oid");
+const product = decodeURIComponent(getParam("product") || "");
+const price   = Number(getParam("price") || 0);
 
-  const orderId = getParam("oid");
-  const goodsName = decodeURIComponent(getParam("product") || "");
-  // 클라이언트 amount는 보낼 수 있지만 서버는 무조건 시트 가격을 사용합니다.
-  const amount = Number(getParam("price")) || 0;
+// ✅ UI 세팅
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".title").textContent = `이지사주 - ${product}`;
+  document.getElementById("pay-product-name").textContent  = product;
+  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
+  document.getElementById("pay-final-price").textContent   = `${price.toLocaleString()}원`;
+});
 
-  try {
-    const res = await fetch(`${API_BASE}/api/pay/start`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        orderId,
-        goodsName,
-        // amount: amount, // 보내도 되고 안보내도 됩니다 - 서버에서 무시합니다
-        returnUrl: `${API_BASE}/api/pay/callback` // 콜백 URL
-      })
-    });
+// ✅ 통합 결제 요청
+function requestPay(type) {
+  const oid = getParam("oid");
+  const product = decodeURIComponent(getParam("product") || "");
+  const price = Number(getParam("price")) || 0;
 
-    const data = await res.json();
-    if (!data.ok) {
-      console.error("결제 시작 실패:", data);
-      alert("결제 요청 중 오류가 발생했습니다.");
-      return;
+  let method = "";
+  if (type === "kakaopay") method = "kakaopay";
+  else if (type === "naverpay") method = "naverpay";
+  else if (type === "tosspay") method = "tosspay";
+  else if (type === "card") method = "card";
+  else return alert("지원되지 않는 결제 방식입니다.");
+
+  AUTHNICE.requestPay({
+    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+    method,
+    orderId: oid,
+    amount: price,
+    goodsName: product,
+    returnUrl: `${API_BASE}/api/pay/callback`,
+
+    fnError: function (err) {
+      console.error("❌ 인증 오류:", err);
+      alert("결제가 취소되었거나 오류가 발생했습니다.");
+    },
+
+    fnSuccess: function (res) {
+      console.log(`✅ ${method} 인증 성공:`, res);
     }
-
-    // 서버가 준 redirectUrl로 이동 -> PG 결제창
-    if (data.redirectUrl) {
-      window.location.href = data.redirectUrl;
-    } else {
-      alert("결제창을 열지 못했습니다.");
-    }
-  } catch (err) {
-    console.error("네트워크 오류:", err);
-    alert("결제 서버 연결 실패: " + (err.message || err));
-  }
+  });
 }
 </script>
 
-
-
 </body>
 </html>
+
