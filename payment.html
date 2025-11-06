@@ -98,18 +98,6 @@ const API_BASE = "https://my-payment-server.vercel.app";
 
 function getParam(k){ return new URLSearchParams(location.search).get(k); }
 
-const oid     = getParam("oid");
-const product = decodeURIComponent(getParam("product") || "");
-const price   = Number(getParam("price") || 0);
-
-// ✅ UI 세팅
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".title").textContent = `이지사주 - ${product}`;
-  document.getElementById("pay-product-name").textContent  = product;
-  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
-  document.getElementById("pay-final-price").textContent   = `${price.toLocaleString()}원`;
-});
-
 async function requestPay(type) {
   if (type !== "card") {
     alert("현재는 카드결제만 가능합니다 (심사용)");
@@ -118,40 +106,41 @@ async function requestPay(type) {
 
   const orderId = getParam("oid");
   const goodsName = decodeURIComponent(getParam("product") || "");
+  // 클라이언트 amount는 보낼 수 있지만 서버는 무조건 시트 가격을 사용합니다.
   const amount = Number(getParam("price")) || 0;
 
   try {
-    // ✅ 서버에 결제 요청 (이제 프론트가 직접 PG로 안 보냄)
     const res = await fetch(`${API_BASE}/api/pay/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         orderId,
         goodsName,
-        amount,
-        returnUrl: `${API_BASE}/api/pay/callback`
+        // amount: amount, // 보내도 되고 안보내도 됩니다 - 서버에서 무시합니다
+        returnUrl: `${API_BASE}/api/pay/callback` // 콜백 URL
       })
     });
 
     const data = await res.json();
     if (!data.ok) {
-      console.error("❌ 결제 시작 실패:", data.error);
-      alert("결제 요청 중 오류 발생: " + data.error);
+      console.error("결제 시작 실패:", data);
+      alert("결제 요청 중 오류가 발생했습니다.");
       return;
     }
 
-    // ✅ 서버에서 NICEPAY로 받은 redirectUrl로 이동
+    // 서버가 준 redirectUrl로 이동 -> PG 결제창
     if (data.redirectUrl) {
       window.location.href = data.redirectUrl;
     } else {
-      alert("결제창을 불러오지 못했습니다.");
+      alert("결제창을 열지 못했습니다.");
     }
   } catch (err) {
-    console.error("❌ 네트워크 오류:", err);
-    alert("결제 서버 연결 실패: " + err.message);
+    console.error("네트워크 오류:", err);
+    alert("결제 서버 연결 실패: " + (err.message || err));
   }
 }
 </script>
+
 
 
 </body>
