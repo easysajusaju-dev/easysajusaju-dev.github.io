@@ -173,74 +173,90 @@
     </footer>
   </div>
 
-  <script>
-    const API_BASE = "https://my-payment-server.vercel.app";
+<script>
+const API_BASE = "https://my-payment-server.vercel.app";
 
-    function getParam(k){ return new URLSearchParams(location.search).get(k); }
-    function num(v){ return Number(v||0) || 0; }
+function getParam(k){ return new URLSearchParams(location.search).get(k); }
+function num(v){ return Number(v||0) || 0; }
 
-    // URL 파라미터
-    const OID     = getParam("oid");
-    const PRODUCT = decodeURIComponent(getParam("product") || "");
-    const PRICE   = num(getParam("price"));
+// URL 파라미터
+const OID     = getParam("oid");
+const PRODUCT = decodeURIComponent(getParam("product") || "");
+const PRICE   = num(getParam("price")); // 실제 결제 금액 (시트의 할인된 금액)
+const DISCOUNT_RATE = 30; // ✅ 고정 할인율 30%
 
-    // UI 세팅
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("hero-title").textContent = `이지사주 - ${PRODUCT || '상품'}`;
-      document.getElementById("pay-product-name").textContent  = PRODUCT || '상품명';
-      document.getElementById("pay-product-price").textContent = PRICE.toLocaleString() + "원";
-      document.getElementById("pay-final-price").textContent   = PRICE.toLocaleString() + "원";
-      // 할인 배지는 필요 시 표시 (지금은 숨김 유지)
-      document.getElementById("pay-discount").textContent = "-0원";
-    });
+// ✅ 화면 세팅 (원가 계산 + 표시)
+document.addEventListener("DOMContentLoaded", () => {
+  const originalPrice = Math.round(PRICE / (1 - DISCOUNT_RATE / 100)); // 원가 역산
+  const discountAmount = originalPrice - PRICE;
 
-    // 통합 결제 요청
-    function requestPay(type){
-      const oid = OID, product = PRODUCT, amount = PRICE;
+  // 상품 정보 표시
+  document.getElementById("hero-title").textContent = `이지사주 - ${PRODUCT || '상품'}`;
+  document.getElementById("pay-product-name").textContent  = PRODUCT || '상품명';
+  document.getElementById("pay-product-price").textContent = `${originalPrice.toLocaleString()}원`;
+  document.getElementById("pay-discount").textContent      = `-${discountAmount.toLocaleString()}원`;
+  document.getElementById("pay-final-price").textContent   = `${PRICE.toLocaleString()}원`;
 
-      // 약관 체크 간단 확인 (선택)
-      if(!document.getElementById("agree1").checked || !document.getElementById("agree2").checked){
-        alert("약관에 동의해 주세요.");
-        return;
-      }
+  // 할인율 배지 (있으면 표시)
+  const badge = document.getElementById("discount-badge");
+  if (badge) {
+    badge.style.display = "inline-block";
+    badge.textContent = `-${DISCOUNT_RATE}%`;
+  }
+});
 
-      // 현재 “실결제 활성”은 카드만 — 나머지는 준비중
-      if(type !== "card"){
-        alert("🛠 해당 결제수단은 준비 중입니다. (현재: 카드만 가능)");
-        return;
-      }
+// ✅ 통합 결제 함수
+function requestPay(type){
+  const oid = OID;
+  const product = PRODUCT;
+  const amount = PRICE; // 할인된 결제금액
 
-      AUTHNICE.requestPay({
-        clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
-        method: "card",           // 현재 활성: 카드
-        orderId: oid,
-        amount: amount,
-        goodsName: product,
-        returnUrl: `${API_BASE}/api/pay/callback`,
+  // 약관 확인
+  if(!document.getElementById("agree1").checked || !document.getElementById("agree2").checked){
+    alert("약관에 동의해 주세요.");
+    return;
+  }
 
-        fnError: function(err){
-          console.error("❌ 인증 오류:", err);
-          alert("결제가 취소되었거나 오류가 발생했습니다.");
-        },
-        fnSuccess: function(res){
-          console.log("✅ 카드 인증 성공:", res);
-          // 결제승인/리디렉트는 콜백 서버에서 처리됨
-        }
-      });
+  // 현재 카드만 가능
+  if(type !== "card"){
+    alert("🛠 해당 결제수단은 준비 중입니다. (현재: 카드만 가능)");
+    return;
+  }
+
+  // ✅ NICEPAY 결제 요청
+  AUTHNICE.requestPay({
+    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+    method: "card",
+    orderId: oid,
+    amount: amount,
+    goodsName: product,
+    returnUrl: `${API_BASE}/api/pay/callback`,
+
+    fnError: function(err){
+      console.error("❌ 인증 오류:", err);
+      alert("결제가 취소되었거나 오류가 발생했습니다.");
+    },
+    fnSuccess: function(res){
+      console.log("✅ 카드 인증 성공:", res);
+      alert("결제가 완료되었습니다!");
     }
+  });
+}
 
-    // 푸터 토글
-    document.addEventListener('DOMContentLoaded', function() {
-      const toggleButton = document.getElementById('info-toggle-button');
-      const details = document.getElementById('business-info-details');
-      const arrow = document.getElementById('info-arrow');
-      if (toggleButton) {
-        toggleButton.addEventListener('click', function() {
-          details.classList.toggle('show');
-          arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
-        });
-      }
+// ✅ 푸터 토글 (사업자정보 열기/닫기)
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleButton = document.getElementById('info-toggle-button');
+  const details = document.getElementById('business-info-details');
+  const arrow = document.getElementById('info-arrow');
+  if (toggleButton) {
+    toggleButton.addEventListener('click', function() {
+      details.classList.toggle('show');
+      arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
+      details.style.textAlign = 'center'; // ✅ 가운데 정렬 추가
     });
-  </script>
+  }
+});
+</script>
+
 </body>
 </html>
