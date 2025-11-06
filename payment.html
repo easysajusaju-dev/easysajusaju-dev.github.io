@@ -1,147 +1,246 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>결제하기 - 이지사주</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-:root {
-  --primary-color: #4a5a73;
-  --kakao-yellow: #FEE500;
-  --naver-green: #03C75A;
-  --toss-blue: #0064FF;
-  --text-dark: #212529;
-  --text-light: #6C757D;
-  --bg-light: #f8f9fa;
-  --border-color: #dee2e6;
-}
-body { margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg-light);color:var(--text-dark);}
-.wrapper { max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-.header {display:flex;align-items:center;justify-content:center;padding:1rem;border-bottom:1px solid var(--border-color);}
-.back-btn {position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
-.banner {position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center;}
-.banner .bg-img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.banner::after {content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);}
-.banner .text-content {position:relative;}
-.title {font-size:1.7rem;font-weight:700;margin:.2rem 0;}
-main {padding:1.5rem;}
-.card {background:#fff;padding:1.3rem;border-radius:12px;margin-bottom:1rem;}
-.price-info {display:flex;justify-content:space-between;margin:8px 0}
-.price-info.total {font-size:1.2rem;font-weight:700;border-top:1px solid var(--border-color);padding-top:10px;margin-top:10px}
-.payment-buttons {display:flex;flex-direction:column;gap:.7rem;margin-top:1.2rem;}
-.sns-payment-group {display:flex;gap:.7rem;flex-wrap:wrap;}
-.btn {display:flex;align-items:center;justify-content:center;padding:.85rem;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;flex:1;}
-.btn-kakao {background:var(--kakao-yellow);}
-.btn-naver {background:var(--naver-green);color:#fff;}
-.btn-toss {background:var(--toss-blue);color:#fff;}
-.btn-primary {background:var(--primary-color);color:#fff;}
-.btn img {height:16px;margin-right:6px;}
-</style>
-
-<script src="https://pay.nicepay.co.kr/v1/js/"></script>
-</head>
-
-<body>
-<div class="wrapper">
-<header class="header">
-  <button class="back-btn" onclick="history.back()">&lt;</button>
-  <h1>결제하기</h1>
-</header>
-
-<div class="banner">
-  <img src="/images/card-individual.png" class="bg-img">
-  <div class="text-content">
-    <p class="subtitle">당신의 운명을 풀어내는 곳</p>
-    <h2 class="title">이지사주</h2>
-    <p class="desc">복채 결제하기</p>
-  </div>
-</div>
-
-<main>
-<div class="card">
-  <h3 class="card-title">결제 금액</h3>
-  <div class="price-info">
-      <span class="label" id="pay-product-name">상품명</span>
-      <span class="amount" id="pay-product-price">0원</span>
-  </div>
-  <div class="price-info">
-      <span class="label">할인 적용</span>
-      <span class="amount" id="pay-discount">-0원</span>
-  </div>
-  <div class="price-info total">
-      <span class="label">최종 결제금액</span>
-      <span class="amount" id="pay-final-price">0원</span>
-  </div>
-</div>
-
-<div class="payment-buttons">
-  <div class="sns-payment-group">
-    <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
-      <img src="images/카카오페이_CI_combination_with_BG.png">카카오페이
-    </button>
-    <button class="btn btn-naver" onclick="requestPay('naverpay')">
-      <img src="images/badge_npay.png">네이버페이
-    </button>
-    <button class="btn btn-toss" onclick="requestPay('tosspay')">
-      <img src="images/toss_logo.png">토스페이
-    </button>
-  </div>
-  <button class="btn btn-primary" onclick="requestPay('card')">일반결제</button>
-</div>
-</main>
-</div>
-
-<script>
-const API_BASE = "https://my-payment-server.vercel.app";
-
-function getParam(k){ return new URLSearchParams(location.search).get(k); }
-
-const oid     = getParam("oid");
-const product = decodeURIComponent(getParam("product") || "");
-const price   = Number(getParam("price") || 0);
-
-// ✅ UI 세팅
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".title").textContent = `이지사주 - ${product}`;
-  document.getElementById("pay-product-name").textContent  = product;
-  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
-  document.getElementById("pay-final-price").textContent   = `${price.toLocaleString()}원`;
-});
-
-// ✅ 통합 결제 요청
-function requestPay(type) {
-  const oid = getParam("oid");
-  const product = decodeURIComponent(getParam("product") || "");
-  const price = Number(getParam("price")) || 0;
-
-  let method = "";
-  if (type === "kakaopay") method = "kakaopay";
-  else if (type === "naverpay") method = "naverpay";
-  else if (type === "tosspay") method = "tosspay";
-  else if (type === "card") method = "card";
-  else return alert("지원되지 않는 결제 방식입니다.");
-
-  AUTHNICE.requestPay({
-    clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
-    method,
-    orderId: oid,
-    amount: price,
-    goodsName: product,
-    returnUrl: `${API_BASE}/api/pay/callback`,
-
-    fnError: function (err) {
-      console.error("❌ 인증 오류:", err);
-      alert("결제가 취소되었거나 오류가 발생했습니다.");
-    },
-
-    fnSuccess: function (res) {
-      console.log(`✅ ${method} 인증 성공:`, res);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>결제하기 - 이지사주</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+    :root{
+      --primary-color:#4a5a73;--kakao-yellow:#FEE500;--naver-green:#03C75A;--toss-blue:#0064FF;
+      --text-dark:#212529;--text-light:#6C757D;--bg-light:#f8f9fa;--border-color:#dee2e6;
     }
-  });
-}
-</script>
+    body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg-light);color:var(--text-dark);}
+    .wrapper{max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+    .header{display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:10;width:100%;
+      background:#fff;padding:1rem;border-bottom:1px solid var(--border-color);box-sizing:border-box;}
+    .header .back-btn{position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
+    .header h1{margin:0;font-size:1.1rem;font-weight:500;}
+    .banner{position:relative;width:100%;height:140px;color:#fff;display:flex;align-items:flex-start;justify-content:center;
+      flex-direction:column;padding:1rem;box-sizing:border-box;}
+    .banner .bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;}
+    .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(29,43,80,.7),rgba(44,62,80,.4));z-index:2;}
+    .banner .text-content{position:relative;z-index:3;}
+    .banner .subtitle{font-size:.9rem;opacity:.9;margin:0;}
+    .banner .title{font-size:2.1rem;font-weight:700;margin:.25rem 0;}
+    .banner .desc{font-size:1.2rem;opacity:.95;margin:0;}
+    main{padding:1.5rem;background:var(--bg-light);}
+    .card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+    .card:last-child{margin-bottom:0;}
+    .card-title{font-size:1.1rem;font-weight:700;margin:.0 0 .5rem;}
+    .card-desc{font-size:.85rem;color:var(--text-light);margin:.0 0 1.5rem;}
+    .phone-inputs{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.5rem;align-items:center;}
+    .phone-inputs select,.phone-inputs input{width:100%;padding:.75rem;border:1px solid var(--border-color);border-radius:8px;font-size:1rem;text-align:center;box-sizing:border-box;}
+    .phone-inputs span{text-align:center;color:var(--text-light);}
+    .price-info{display:flex;justify-content:space-between;align-items:center;font-size:1rem;margin-bottom:1rem;}
+    .price-info.total{font-size:1.2rem;font-weight:700;padding-top:1rem;margin-top:1rem;border-top:1px solid var(--border-color);}
+    .price-info .label .discount{display:inline-block;font-size:.75rem;font-weight:700;color:#fff;background:#007bff;padding:2px 6px;border-radius:4px;margin-left:.5rem;}
+    .price-info .amount{font-weight:500;}
+    .agreements{margin-top:1.5rem;}
+    .agreement-item{display:flex;align-items:center;margin-bottom:.5rem;font-size:.9rem;}
+    .agreement-item input{margin-right:.5rem;}
+    .agreement-item a{color:var(--text-light);text-decoration:underline;}
+    .payment-buttons{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem;}
+    .sns-payment-group{display:flex;gap:.75rem;flex-wrap:wrap;}
+    .btn{display:flex;align-items:center;justify-content:center;width:100%;padding:.85rem 1rem;font-size:1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;gap:.5rem;}
+    .btn-kakao{background:var(--kakao-yellow);}
+    .btn-naver{background:var(--naver-green);color:#fff;}
+    .btn-toss{background:var(--toss-blue);color:#fff;}
+    .btn-primary{background:var(--primary-color);color:#fff;}
+    .btn img{height:16px;}
+    .footer{padding:2rem 1rem;background:var(--bg-light);text-align:center;}
+    .social-icons{display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem;}
+    .social-icons a img{height:28px;opacity:.7;transition:opacity .2s;}
+    .social-icons a:hover img{opacity:1;}
+    .footer-links{margin-bottom:1rem;font-size:.9rem;}
+    .footer-links a{color:var(--text-dark);text-decoration:none;}
+    .footer-links .link-divider{margin:0 .5rem;color:var(--border-color);}
+    .info-toggle{cursor:pointer;color:var(--text-light);font-size:.9rem;padding:.5rem;margin-bottom:1rem;}
+    .info-details{display:none;text-align:left;font-size:.8rem;color:var(--text-light);line-height:1.6;background:#f1f3f5;padding:1rem;border-radius:8px;margin-bottom:1.5rem;}
+    .info-details p{margin:.25rem 0;}
+    .info-details.show{display:block;}
+    .copyright{font-size:.75rem;color:#adb5bd;margin-top:1rem;}
+  </style>
+  <script src="https://pay.nicepay.co.kr/v1/js/"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <button class="back-btn" onclick="history.back()">&lt;</button>
+      <h1>결제하기</h1>
+    </header>
 
+    <div class="banner">
+      <img src="/images/card-individual.png" alt="" class="bg-img" />
+      <div class="text-content">
+        <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+        <h2 class="title" id="hero-title">이지사주</h2>
+        <p class="desc">복채 결제하기</p>
+      </div>
+    </div>
+
+    <main>
+      <!-- 휴대폰 (디자인 유지용 - 기능 의존 X) -->
+      <div class="card">
+        <h3 class="card-title">휴대폰 번호</h3>
+        <p class="card-desc">사주 & 운세 결과 확인 및 안내 메시지 발송에 이용됩니다.</p>
+        <div class="phone-inputs">
+          <select><option>010</option></select>
+          <span>-</span>
+          <input type="tel" maxlength="4" placeholder="" />
+          <span>-</span>
+          <input type="tel" maxlength="4" placeholder="" />
+        </div>
+      </div>
+
+      <!-- 결제 금액 -->
+      <div class="card">
+        <h3 class="card-title">결제 금액</h3>
+        <div class="price-info">
+          <span class="label" id="pay-product-name">상품명</span>
+          <span class="amount" id="pay-product-price">0원</span>
+        </div>
+        <div class="price-info">
+          <span class="label">할인 적용 <span class="discount" id="discount-badge" style="display:none;">-30%</span></span>
+          <span class="amount" id="pay-discount">-0원</span>
+        </div>
+        <div class="price-info total">
+          <span class="label">최종 결제금액</span>
+          <span class="amount" id="pay-final-price">0원</span>
+        </div>
+
+        <!-- 약관 체크 (디자인 유지) -->
+        <div class="agreements">
+          <div class="agreement-item">
+            <input type="checkbox" id="agree1" checked />
+            <label for="agree1">개인정보 이용 등의 <a href="#">자세히 보기</a></label>
+          </div>
+          <div class="agreement-item">
+            <input type="checkbox" id="agree2" checked />
+            <label for="agree2">결제 진행 등의 <a href="#">자세히 보기</a></label>
+          </div>
+        </div>
+
+        <!-- 결제 버튼들 -->
+        <div class="payment-buttons">
+          <div class="sns-payment-group">
+            <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
+              <img src="images/카카오페이_CI_combination_with_BG.png" alt="카카오페이" />
+              <span>카카오페이 결제</span>
+            </button>
+            <button class="btn btn-naver" onclick="requestPay('naverpay')">
+              <img src="images/badge_npay.png" alt="네이버페이" />
+              <span>네이버페이 결제</span>
+            </button>
+            <button class="btn btn-toss" onclick="requestPay('tosspay')">
+              <img src="images/toss_logo.png" alt="토스페이" />
+              <span>토스페이</span>
+            </button>
+          </div>
+          <button class="btn btn-primary" onclick="requestPay('card')">일반 결제</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <div class="social-icons">
+        <a href="http://pf.kakao.com/_xkAevn" target="_blank" title="카카오채널"><img src="images/kakaotalk.png" alt="카카오채널" /></a>
+        <a href="https://www.threads.com/@easy.saju?hl=ko" target="_blank" title="스레드"><img src="images/threads.png" alt="스레드" /></a>
+        <a href="https://www.instagram.com/easy.saju" target="_blank" title="인스타그램"><img src="images/instagram.png" alt="인스타그램" /></a>
+        <a href="https://www.youtube.com/channel/UCLQGqG5Vy2WcTaKbvYOwHLA?sub_confirmation=1" target="_blank" title="유튜브"><img src="images/youtube.png" alt="유튜브" /></a>
+        <a href="https://www.tiktok.com/@easysaju" target="_blank" title="틱톡"><img src="images/tiktok.png" alt="틱톡" /></a>
+      </div>
+
+      <div class="footer-links">
+        <a href="terms.html">이용약관</a>
+        <span class="link-divider">·</span>
+        <a href="privacy.html">개인정보처리방침</a>
+      </div>
+
+      <div class="info-toggle" id="info-toggle-button">
+        이지사주 사업자정보 <span id="info-arrow">▼</span>
+      </div>
+      <div class="info-details" id="business-info-details">
+        <p>상호명: 이지사주 | 대표: 안미정</p>
+        <p>사업자등록번호: 550-64-00884</p>
+        <p>통신판매번호: 제2025-고양일산동-1332호</p>
+        <p>이메일: easysaju.saju@gmail.com</p>
+        <p>전화: 010-2151-3949</p>
+      </div>
+
+      <p class="copyright">© 2025 이지사주. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE = "https://my-payment-server.vercel.app";
+
+    function getParam(k){ return new URLSearchParams(location.search).get(k); }
+    function num(v){ return Number(v||0) || 0; }
+
+    // URL 파라미터
+    const OID     = getParam("oid");
+    const PRODUCT = decodeURIComponent(getParam("product") || "");
+    const PRICE   = num(getParam("price"));
+
+    // UI 세팅
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("hero-title").textContent = `이지사주 - ${PRODUCT || '상품'}`;
+      document.getElementById("pay-product-name").textContent  = PRODUCT || '상품명';
+      document.getElementById("pay-product-price").textContent = PRICE.toLocaleString() + "원";
+      document.getElementById("pay-final-price").textContent   = PRICE.toLocaleString() + "원";
+      // 할인 배지는 필요 시 표시 (지금은 숨김 유지)
+      document.getElementById("pay-discount").textContent = "-0원";
+    });
+
+    // 통합 결제 요청
+    function requestPay(type){
+      const oid = OID, product = PRODUCT, amount = PRICE;
+
+      // 약관 체크 간단 확인 (선택)
+      if(!document.getElementById("agree1").checked || !document.getElementById("agree2").checked){
+        alert("약관에 동의해 주세요.");
+        return;
+      }
+
+      // 현재 “실결제 활성”은 카드만 — 나머지는 준비중
+      if(type !== "card"){
+        alert("🛠 해당 결제수단은 준비 중입니다. (현재: 카드만 가능)");
+        return;
+      }
+
+      AUTHNICE.requestPay({
+        clientId: "R2_29330d4bbbe14f5c85925e52e48e0721",
+        method: "card",           // 현재 활성: 카드
+        orderId: oid,
+        amount: amount,
+        goodsName: product,
+        returnUrl: `${API_BASE}/api/pay/callback`,
+
+        fnError: function(err){
+          console.error("❌ 인증 오류:", err);
+          alert("결제가 취소되었거나 오류가 발생했습니다.");
+        },
+        fnSuccess: function(res){
+          console.log("✅ 카드 인증 성공:", res);
+          // 결제승인/리디렉트는 콜백 서버에서 처리됨
+        }
+      });
+    }
+
+    // 푸터 토글
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleButton = document.getElementById('info-toggle-button');
+      const details = document.getElementById('business-info-details');
+      const arrow = document.getElementById('info-arrow');
+      if (toggleButton) {
+        toggleButton.addEventListener('click', function() {
+          details.classList.toggle('show');
+          arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
+        });
+      }
+    });
+  </script>
 </body>
 </html>
