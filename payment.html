@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>결제하기 - 이지사주</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+:root {
+  --primary-color: #4a5a73;
+  --kakao-yellow: #FEE500;
+  --naver-green: #03C75A;
+  --toss-blue: #0064FF;
+  --text-dark: #212529;
+  --text-light: #6C757D;
+  --bg-light: #f8f9fa;
+  --border-color: #dee2e6;
+}
+body { margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg-light);color:var(--text-dark);}
+.wrapper { max-width:480px;margin:0 auto;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.header {display:flex;align-items:center;justify-content:center;padding:1rem;border-bottom:1px solid var(--border-color);}
+.back-btn {position:absolute;left:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;}
+.banner {position:relative;height:140px;color:#fff;padding:1rem;display:flex;flex-direction:column;justify-content:center;}
+.banner .bg-img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.banner::after {content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);}
+.banner .text-content {position:relative;}
+.title {font-size:1.7rem;font-weight:700;margin:.2rem 0;}
+main {padding:1.5rem;}
+.card {background:#fff;padding:1.3rem;border-radius:12px;margin-bottom:1rem;}
+.price-info {display:flex;justify-content:space-between;margin:8px 0}
+.price-info.total {font-size:1.2rem;font-weight:700;border-top:1px solid var(--border-color);padding-top:10px;margin-top:10px}
+.payment-buttons {display:flex;flex-direction:column;gap:.7rem;margin-top:1.2rem;}
+.sns-payment-group {display:flex;gap:.7rem;flex-wrap:wrap;}
+.btn {display:flex;align-items:center;justify-content:center;padding:.85rem;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;flex:1;}
+.btn-kakao {background:var(--kakao-yellow);}
+.btn-naver {background:var(--naver-green);color:#fff;}
+.btn-toss {background:var(--toss-blue);color:#fff;}
+.btn-primary {background:var(--primary-color);color:#fff;}
+.btn img {height:16px;margin-right:6px;}
+</style>
+
+<script src="https://pay.nicepay.co.kr/v1/js/"></script>
+</head>
+
+<body>
+<div class="wrapper">
+<header class="header">
+  <button class="back-btn" onclick="history.back()">&lt;</button>
+  <h1>결제하기</h1>
+</header>
+
+<div class="banner">
+  <img src="/images/card-individual.png" class="bg-img">
+  <div class="text-content">
+    <p class="subtitle">당신의 운명을 풀어내는 곳</p>
+    <h2 class="title">이지사주</h2>
+    <p class="desc">복채 결제하기</p>
+  </div>
+</div>
+
+<main>
+<div class="card">
+  <h3 class="card-title">결제 금액</h3>
+  <div class="price-info">
+      <span class="label" id="pay-product-name">상품명</span>
+      <span class="amount" id="pay-product-price">0원</span>
+  </div>
+  <div class="price-info">
+      <span class="label">할인 적용</span>
+      <span class="amount" id="pay-discount">-0원</span>
+  </div>
+  <div class="price-info total">
+      <span class="label">최종 결제금액</span>
+      <span class="amount" id="pay-final-price">0원</span>
+  </div>
+</div>
+
+<div class="payment-buttons">
+  <div class="sns-payment-group">
+    <button class="btn btn-kakao" onclick="requestPay('kakao')">
+      <img src="images/카카오페이_CI_combination_with_BG.png">카카오페이
+    </button>
+    <button class="btn btn-naver" onclick="requestPay('naver')">
+      <img src="images/badge_npay.png">네이버페이
+    </button>
+    <button class="btn btn-toss" onclick="requestPay('toss')">
+      <img src="images/toss_logo.png">토스페이
+    </button>
+  </div>
+  <button class="btn btn-primary" onclick="requestPay('card')">일반결제</button>
+</div>
+</main>
+</div>
+
+<script>
+const API_BASE = "https://my-payment-server.vercel.app";
+
+function getParam(k){ return new URLSearchParams(location.search).get(k); }
+
+const oid     = getParam("oid");
+const product = decodeURIComponent(getParam("product") || "");
+const price   = Number(getParam("price") || 0);
+
+// ✅ UI 세팅
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".title").textContent = `이지사주 - ${product}`;
+  document.getElementById("pay-product-name").textContent  = product;
+  document.getElementById("pay-product-price").textContent = `${price.toLocaleString()}원`;
+  document.getElementById("pay-final-price").textContent   = `${price.toLocaleString()}원`;
+});
+
+async function requestPay(type) {
+  if (type !== "card") {
+    alert("현재는 카드결제만 가능합니다 (심사용)");
+    return;
+  }
+
+  const orderId = getParam("oid");
+  const goodsName = decodeURIComponent(getParam("product") || "");
+  const amount = Number(getParam("price")) || 0;
+
+  try {
+    // ✅ 서버에 결제 요청 (이제 프론트가 직접 PG로 안 보냄)
+    const res = await fetch(`${API_BASE}/api/pay/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId,
+        goodsName,
+        amount,
+        returnUrl: `${API_BASE}/api/pay/callback`
+      })
+    });
+
+    const data = await res.json();
+    if (!data.ok) {
+      console.error("❌ 결제 시작 실패:", data.error);
+      alert("결제 요청 중 오류 발생: " + data.error);
+      return;
+    }
+
+    // ✅ 서버에서 NICEPAY로 받은 redirectUrl로 이동
+    if (data.redirectUrl) {
+      window.location.href = data.redirectUrl;
+    } else {
+      alert("결제창을 불러오지 못했습니다.");
+    }
+  } catch (err) {
+    console.error("❌ 네트워크 오류:", err);
+    alert("결제 서버 연결 실패: " + err.message);
+  }
+}
+</script>
+
+
+</body>
+</html>
