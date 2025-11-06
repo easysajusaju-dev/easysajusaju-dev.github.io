@@ -263,7 +263,7 @@ if (!saved) {
 
       // 2) 결제/리다이렉트 (PG 붙이기 전까지 임시)
       const priceForRedirect = Number(productPrice || 0);
-      const thankYouUrl = `thankyou.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
+      const thankYouUrl = `thankyou1.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
         productName
       )}&price=${priceForRedirect}`;
       // ✅ 고객용 페이지로 이동
