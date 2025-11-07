@@ -96,18 +96,6 @@
           <span class="amount" id="pay-final-price">0원</span>
         </div>
 
-        <!-- 약관 체크 (디자인 유지) -->
-        <div class="agreements">
-          <div class="agreement-item">
-            <input type="checkbox" id="agree1" checked />
-            <label for="agree1">개인정보 이용 등의 <a href="#">자세히 보기</a></label>
-          </div>
-          <div class="agreement-item">
-            <input type="checkbox" id="agree2" checked />
-            <label for="agree2">결제 진행 등의 <a href="#">자세히 보기</a></label>
-          </div>
-        </div>
-
         <!-- 결제 버튼들 -->
         <div class="payment-buttons">
           <div class="sns-payment-group">
@@ -119,11 +107,7 @@
               <img src="images/badge_npay.png" alt="네이버페이" />
               <span>네이버페이 결제</span>
             </button>
-            <button class="btn btn-toss" onclick="requestPay('tosspay')">
-              <img src="images/toss_logo.png" alt="토스페이" />
-              <span>토스페이</span>
-            </button>
-          </div>
+            </div>
           <button class="btn btn-primary" onclick="requestPay('card')">신용카드 결제</button>
         </div>
       </div>
@@ -198,13 +182,7 @@ function requestPay(type){
   const product = PRODUCT;
   const amount = PRICE; // 할인된 결제금액
 
-  // 약관 확인
-  if(!document.getElementById("agree1").checked || !document.getElementById("agree2").checked){
-    alert("약관에 동의해 주세요.");
-    return;
-  }
-
-  // 현재 카드만 가능
+   // 현재 카드만 가능
   if(type !== "card"){
     alert("🛠 해당 결제수단은 준비 중입니다. (현재: 카드만 가능)");
     return;
