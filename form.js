@@ -263,18 +263,11 @@ if (!saved) {
 
       // 2) 결제/리다이렉트 (PG 붙이기 전까지 임시)
       const priceForRedirect = Number(productPrice || 0);
-      const thankYouUrl = `thankyou1.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
+      const thankYouUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
         productName
       )}&price=${priceForRedirect}`;
       // ✅ 고객용 페이지로 이동
-window.location.href = thankYouUrl;
-
-// ✅ 개발자 테스트용 페이지 호출 (백그라운드)
-fetch(
-  `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(productName)}&price=${priceForRedirect}`,
-  { mode: "no-cors" }
-);
-
+window.location.href =paymentUrl;
 
     } catch (err) {
       console.error(err);
