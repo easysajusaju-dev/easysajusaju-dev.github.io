@@ -97,20 +97,96 @@
         </div>
 
         <!-- 결제 버튼들 -->
-        <div class="payment-buttons">
-          <div class="sns-payment-group">
-            <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
-              <img src="images/카카오페이_CI_combination_with_BG.png" alt="카카오페이" />
-              <span>카카오페이 결제</span>
-            </button>
-            <button class="btn btn-naver" onclick="requestPay('naverpay')">
-              <img src="images/badge_npay.png" alt="네이버페이" />
-              <span>네이버페이 결제</span>
-            </button>
-            </div>
-          <button class="btn btn-primary" onclick="requestPay('card')">신용카드 결제</button>
-        </div>
-      </div>
+<style>
+.payment-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.sns-payment-group {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+/* 공통 버튼 */
+.btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 0.9rem 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn svg {
+  margin-right: 8px;
+  height: 20px;
+  width: 20px;
+}
+
+/* 카카오페이 */
+.btn-kakao {
+  background: linear-gradient(145deg, #FFE870, #FDD835);
+  color: #222;
+}
+
+/* 네이버페이 */
+.btn-naver {
+  background: linear-gradient(145deg, #4ADE80, #16A34A);
+  color: #fff;
+}
+
+/* 일반결제 (이지사주 시그니처 민트) */
+.btn-card {
+  background: linear-gradient(145deg, #A3E9F0, #7DE1E8);
+  color: #003f45;
+}
+</style>
+
+<div class="payment-buttons">
+  <div class="sns-payment-group">
+    <!-- 카카오페이 -->
+    <button class="btn btn-kakao" onclick="requestPay('kakaopay')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2C6.48 2 2 5.58 2 10c0 2.63 1.71 4.96 4.38 6.36L5 22l5.23-3.6c.58.09 1.17.14 1.77.14 5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="#000"/>
+      </svg>
+      카카오페이 결제
+    </button>
+
+    <!-- 네이버페이 -->
+    <button class="btn btn-naver" onclick="requestPay('naverpay')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+        <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-7.5v-6l3.5 4h2l-3.8-4.8L17 8h-2l-2.5 3v-3H4V3z"/>
+      </svg>
+      네이버페이 결제
+    </button>
+  </div>
+
+  <!-- 신용카드결제 -->
+  <button class="btn btn-card" onclick="requestPay('card')">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#003f45" stroke-width="2">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+    신용카드결제
+  </button>
+</div>
+
     </main>
 
     <!-- 푸터 -->
