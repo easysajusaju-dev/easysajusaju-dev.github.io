@@ -1,14 +1,16 @@
 // ==============================
-// form.js  (전체 교체본)
+// form.js (실서비스용 완성본)
 // ==============================
 
+// 페이지 로드 시점 기록
 const pageLoadTime = new Date();
-// Apps Script WebApp /exec 주소
+
+// ✅ Google Apps Script WebApp 주소 (시트 기록용)
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
 
 /* ------------------------------
- * 공통 UI 유틸
+ * 공통 UI 헬퍼
  * ------------------------------ */
 function populateDateSelects(prefix) {
   const y = document.querySelector(`select[name="${prefix}_birth_year"]`);
@@ -32,10 +34,7 @@ function setupHourMinuteSync(person) {
     for (let i = 0; i <= 59; i++) mm.add(new Option(i + "분", i));
   }
   h.addEventListener("change", () => {
-    if (h.value === "") {
-      mm.value = "";
-      mm.disabled = true;
-    } else mm.disabled = false;
+    mm.disabled = h.value === "";
   });
   if (h.value === "") mm.disabled = true;
 }
@@ -45,6 +44,7 @@ function setupAgreement() {
   const agree1 = document.getElementById("agree1");
   const agree2 = document.getElementById("agree2");
   if (!agreeAll) return;
+
   const items = [agree1, agree2].filter(Boolean);
   function update() {
     const c = items.filter((cb) => cb && cb.checked).length;
@@ -62,8 +62,7 @@ function setupAgreement() {
     if (t.tagName === "BUTTON" && !t.getAttribute("type")) t.setAttribute("type", "button");
     t.addEventListener("click", () => {
       const box = t.closest(".agree-box");
-      if (!box) return;
-      const tb = box.querySelector(".terms-box");
+      const tb = box?.querySelector(".terms-box");
       if (tb) tb.style.display = tb.style.display === "block" ? "none" : "block";
     });
   });
@@ -89,42 +88,32 @@ function setupImageJump() {
     });
   });
   const headerBtn = document.querySelector(".header-button");
-  if (headerBtn)
-    headerBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      go();
-    });
+  if (headerBtn) headerBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    go();
+  });
 }
 
 /* ------------------------------
- * 상품 선택값 헬퍼
- * - select#product의 value는 상품ID (p001 …)
- * - 표시 텍스트는 "상품명 (34,900원)" 형태일 수 있음
- * - 시트에는 '상품명'만 저장 (괄호 앞)
- * - 결제/리다이렉트용 가격은 괄호 안 숫자에서 추출
+ * 상품 선택값 추출 헬퍼
  * ------------------------------ */
 function getSelectedProductInfo() {
   const sel = document.querySelector("#product");
-  if (!sel) return { id: "", name: "", price: 0, label: "" };
+  if (!sel) return { id: "", name: "", price: 0 };
 
   const id = sel.value || "";
   const label = sel.options[sel.selectedIndex]?.text || "";
-
-  // "상품명 (xx,xxx원)" → name = 괄호 앞
   const name = label.split("(")[0].trim();
 
-  // 괄호 안 금액 추출 → 숫자만
   let price = 0;
   const m = label.match(/\(([\d,\.]+)\s*원?\)/);
-  if (m && m[1]) {
-    price = Number(String(m[1]).replace(/[^\d]/g, "")) || 0;
-  }
+  if (m && m[1]) price = Number(m[1].replace(/[^\d]/g, "")) || 0;
 
-  return { id, name, price, label };
+  return { id, name, price };
 }
 
 /* ------------------------------
- * 폼 제출
+ * 폼 제출 및 결제 리다이렉트
  * ------------------------------ */
 document.addEventListener("DOMContentLoaded", () => {
   try {
@@ -151,12 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const btn = formEl.querySelector("button");
-    const resDiv = document.getElementById("result");
     if (btn) {
       btn.disabled = true;
-      btn.innerText = "신청하는 중...";
+      btn.innerText = "신청 중...";
     }
-    if (resDiv) resDiv.innerText = "";
 
     try {
       const fd = new FormData(formEl);
@@ -169,21 +156,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const y = fd.get(`${prefix}_birth_year`);
         const m = fd.get(`${prefix}_birth_month`);
         const d = fd.get(`${prefix}_birth_day`);
-        return y && m && d ? `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}` : "";
+        return y && m && d ? `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}` : "";
       }
 
       // 연락처
-      let contact = "";
-      if (fd.get("contact")) contact = fd.get("contact") || "";
-      else contact = (fd.get("contact1") || "") + (fd.get("contact2") || "") + (fd.get("contact3") || "");
+      const contact =
+        fd.get("contact") ||
+        (fd.get("contact1") || "") + (fd.get("contact2") || "") + (fd.get("contact3") || "");
       data["연락처"] = "'" + contact.replace(/\D/g, "");
 
-      // ✅ 상품 처리 (ID + 이름 + 가격)
+      // 상품 정보
       const { id: productId, name: productName, price: productPrice } = getSelectedProductInfo();
-      data["상품ID"] = productId;     // 서버/결제용
-      data["상품명"] = productName;   // 본사 시트용 (이름만)
+      data["상품ID"] = productId;
+      data["상품명"] = productName;
 
-      // 나머지 기본 필드
+      // 기본 필드
       data["이메일"] = fd.get("email") || "";
       data["이름1"] = fd.get("p1_name") || "";
       data["양음력1"] = fd.get("p1_solarlunar") || "";
@@ -199,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       data["생분1"] = fd.get("p1_minute") || "";
       data["성별1"] = fd.get("p1_gender") || "";
 
-      // 2인용 폼일 때만
+      // 2인용 폼 처리
       if (formEl.querySelector('[name="p2_name"]')) {
         data["이름2"] = fd.get("p2_name") || "";
         data["양음력2"] = fd.get("p2_solarlunar") || "";
@@ -212,70 +199,46 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         data["생시2"] = fd.get("p2_hour") || "";
         data["생분2"] = fd.get("p2_minute") || "";
-        // (기존 폼 호환용 값 유지)
         data["성별1"] = "남자";
         data["성별2"] = "여자";
       }
 
-      // 유입/체류/UA
-      data["유입경로"] = document.referrer || "직접 입력/알 수 없음";
+      // UTM 및 기타 로그정보
       const stay = Math.round((new Date() - pageLoadTime) / 1000);
+      data["유입경로"] = document.referrer || "직접입력";
       data["체류시간"] = `${Math.floor(stay / 60)}분 ${stay % 60}초`;
       data["기기정보"] = navigator.userAgent;
 
-      // UTM
       const urlParams = new URLSearchParams(window.location.search);
       data["UTM소스"] = urlParams.get("utm_source") || sessionStorage.getItem("utm_source") || "직접입력";
       data["UTM매체"] = urlParams.get("utm_medium") || sessionStorage.getItem("utm_medium") || "없음";
       data["UTM캠페인"] = urlParams.get("utm_campaign") || sessionStorage.getItem("utm_campaign") || "없음";
 
-      // 동의
+      // 동의사항
       const agree2 = document.getElementById("agree2");
       data["개인정보수집동의"] = agree1 && agree1.checked ? "동의" : "미동의";
       data["광고정보수신동의"] = agree2 && agree2.checked ? "동의" : "미동의";
 
-      // 1) 구글 시트 저장
-      // 디버그용: 시트로 보내는 값 확인
-        console.log("[submit] payload to Apps Script:", data);
+      // ✅ [1] Google Sheet 기록
+      const body = new URLSearchParams(data);
+      const r = await fetch(APPS_SCRIPT_URL, { method: "POST", body });
+      const t = await r.text();
+      let j = {};
+      try { j = JSON.parse(t); } catch {}
+      const saved = (j && j.success) || j.row || /"success"\s*:\s*true/i.test(t);
+      if (!saved) throw new Error("시트 저장 실패");
 
-        const body = new URLSearchParams(data);
-        const r = await fetch(APPS_SCRIPT_URL, { method: "POST", body });
-        const t = await r.text();
-
-        let j = {};
-        try { 
-            j = JSON.parse(t); 
-            } catch (_) { /* 구형 응답 호환 */ }
-
-// ✅ Apps Script가 success:false 내려도
-// 시트에 row나 traceId가 있으면 저장 성공으로 처리
-const saved =
-  (j && j.success === true) ||
-  Boolean(j && (j.row || j.traceId)) ||
-  /"success"\s*:\s*true/i.test(t);
-
-// ✅ 저장 실패 판정 보수화
-if (!saved) {
-  const msg = (j && j.error) ? j.error : "신청 저장 실패";
-  throw new Error(msg);
-}
-
-
-      // 2) 결제/리다이렉트 (PG 붙이기 전까지 임시)
+      // ✅ [2] 결제 페이지 리다이렉트 (NICEPAY)
       const priceForRedirect = Number(productPrice || 0);
-      const thankYouUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
+      const paymentUrl = `payment.html?oid=${encodeURIComponent(orderId)}&product=${encodeURIComponent(
         productName
       )}&price=${priceForRedirect}`;
-      // ✅ 고객용 페이지로 이동
-window.location.href =paymentUrl;
+      window.location.href = paymentUrl;
 
     } catch (err) {
       console.error(err);
-      const resDiv = document.getElementById("result");
-      if (resDiv) resDiv.innerText = "⚠️ 오류가 발생했습니다. 다시 시도해주세요.";
-      alert(err && err.message ? err.message : "오류가 발생했습니다.");
+      alert(err?.message || "⚠️ 오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
-      const btn = formEl.querySelector("button");
       if (btn) {
         btn.disabled = false;
         btn.innerText = "사주분석 신청하기";
