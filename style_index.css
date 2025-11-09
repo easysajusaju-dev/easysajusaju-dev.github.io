@@ -15,7 +15,7 @@ body, html {
 /* --- 1. 히어로 섹션 (메인 화면) --- */
 .hero-section {
     position: relative;
-    height: 80vh; /* 화면 높이의 80% */
+    height: 60vh; /* 화면 높이의 80% */
     display: flex;
     justify-content: center;
     align-items: center;
