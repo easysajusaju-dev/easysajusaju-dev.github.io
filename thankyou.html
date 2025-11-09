@@ -199,33 +199,63 @@ main { padding: 2rem 1.5rem; text-align: center; }
       <p class="copyright">© 2025 이지사주. All rights reserved.</p>
     </footer>
   </div>
-<script>
-(() => {
-  const token = new URL(location.href).searchParams.get("token");
-  if (!token) return;
 
-  const gsURL = "https://script.google.com/macros/s/AKfycbwX6UPs_IaiyaHGMBdRrwUzoaAoe5EjM0JifNgw4K7DNPDX84QPfvwh16YAs0KhaRfx-g/exec";
+  <script>
+(function(){
+  // ★ Apps Script WebApp (토큰 저장/조회) URL
+  const GS_TOKEN_API = "https://script.google.com/macros/s/AKfycbwX6UPs_IaiyaHGMBdRrwUzoaAoe5EjM0JifNgw4K7DNPDX84QPfvwh16YAs0KhaRfx-g/exec";
 
-  fetch(gsURL, {
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
+
+  const $name  = document.getElementById("product-name");
+  const $price = document.getElementById("product-price");
+  const $oid   = document.getElementById("order-id");
+
+  // 기본값
+  $name.textContent  = "상품 정보 없음";
+  $price.textContent = "-";
+  $oid.textContent   = "-";
+
+  if (!token) {
+    alert("결제 토큰이 없습니다. 고객센터로 문의해주세요.");
+    return;
+  }
+
+  // 토큰으로 결제정보 조회
+  fetch(GS_TOKEN_API, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ mode: "getToken", token })
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ mode: "getToken", token })
   })
   .then(r => r.json())
   .then(d => {
-    if (!d || d.error) throw new Error(d?.error || "토큰 조회 실패");
+    if (!d || d.ok === false) {
+      alert("결제 정보 확인 중 오류가 발생했습니다. (토큰 조회 실패)");
+      return;
+    }
 
-    const name  = d.goodsName || "상품명없음";
-    const price = Number(d.amount || 0).toLocaleString() + "원";
-    const oid   = d.orderId || "-";
+    // d는 saveToken 시 저장한 payload(또는 그 일부)
+    // Apps Script가 반환하도록 구현되어 있어야 함
+    const goodsName = d.goodsName || "사주 상담";
+    const amount    = Number(d.amount || 0);
+    const orderId   = d.orderId || "-";
 
-    document.getElementById("product-name").textContent = name;
-    document.getElementById("product-price").textContent = price;
-    document.getElementById("order-id").textContent = oid;
+    $name.textContent  = goodsName;
+    $price.textContent = amount.toLocaleString() + "원";
+    $oid.textContent   = orderId;
   })
   .catch(err => {
     console.error("getToken error:", err);
     alert("결제 정보 확인 중 오류가 발생했습니다.");
+  });
+
+  // 사업자정보 토글
+  document.getElementById('info-toggle-button').addEventListener('click', () => {
+    const details = document.getElementById('business-info-details');
+    const arrow = document.getElementById('info-arrow');
+    details.classList.toggle('show');
+    arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
   });
 })();
 </script>
