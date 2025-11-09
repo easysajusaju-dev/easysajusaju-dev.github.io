@@ -26,7 +26,7 @@ body, html {
        신비로운 느낌의 고화질 이미지를 추천합니다. (예: 밤하늘, 우주, 고서 등)
        이미지 출처: https://unsplash.com/ 
     */
-    background-image: url('images/hero-back.png');
+    background-image: url('images/hero-background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* 스크롤 시 배경 고정 효과 */
