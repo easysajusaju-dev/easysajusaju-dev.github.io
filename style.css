@@ -1,0 +1,71 @@
+/* ===== 고정 헤더 스타일 (업그레이드 버전) ===== */
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* 헤더 내부 로고 + 텍스트 */
+.header-logo-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #222;
+}
+.header-logo {
+    height: 26px;
+    width: auto;
+}
+.header-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ✅ 햄버거 버튼 스타일 (GPT 느낌 업그레이드 버전) */
+#open-nav-btn {
+    background: #e7f0ff; /* 연한 하늘색 원형 배경 */
+    color: #007BFF;      /* 기본 파란색 삼선 */
+    border: none;
+    border-radius: 50%;
+    padding: 8px 10px;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+/* hover 시 진한 파랑 배경 + 흰색 아이콘 */
+#open-nav-btn:hover {
+    background: #007BFF;
+    color: #fff;
+    transform: scale(1.07);
+}
+
+/* 터치 눌렀을 때 살짝 어두워지는 효과 */
+#open-nav-btn:active {
+    background: #0056b3;
+}
+
+/* 메인 콘텐츠가 헤더에 가리지 않도록 여백 확보 */
+.main-container {
+    margin-top: 60px;
+}
+
+/* ===================================================== */
+/* 이하 기존 스타일 그대로 유지 (폼, 버튼, 사이드메뉴 등) */
+/* ===================================================== */
+
+/* 연락처, 동의박스, 사이드 메뉴 등등 기존 내용 그대로 */
