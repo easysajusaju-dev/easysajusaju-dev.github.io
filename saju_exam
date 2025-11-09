@@ -85,15 +85,13 @@
     <div class="main-container">
  <!-- ===== 1. 상단 이미지 영역 (수동 관리) ===== -->
 <div class="image-section">
-    <img src="images/free/0.png" alt="이벤트 이미지">
-    <img src="images/free/001.png" alt="안내 이미지 1">
+    <img src="images/exam/001.png" alt="안내 이미지 1">
     <img src="images/free/002.png" alt="안내 이미지 2">
     <img src="images/free/003.png" alt="안내 이미지 3">
-    <img src="images/free/005.png" alt="안내 이미지 4">
-    <img src="images/free/004.png" alt="안내 이미지 5">
-    <img src="images/free/006.png" alt="안내 이미지 6">
-    <img src="images/free/007.png" alt="안내 이미지 7">
-    <img src="images/free/008.png" alt="안내 이미지 8">
+    <img src="images/free/006.png" alt="안내 이미지 4">
+    <img src="images/free/007.png" alt="안내 이미지 5">
+    <img src="images/free/009.png" alt="안내 이미지 6">
+
 </div>
 
         <!-- 신청 폼 영역 -->
@@ -237,8 +235,8 @@
         <!-- 하단 이미지 영역 -->
         <div class="image-section">
             <img src="images/saju1/022.png" alt="후기 이미지">
-            <img src="images/saju1/023.png" alt="상 이미지">
-            
+            <img src="images/saju1/023.png" alt="상품 이미지">
+            <img src="images/exam/0.png" alt="이벤트 이미지">
         </div>
     </div>
     <script src="form.js"></script>
