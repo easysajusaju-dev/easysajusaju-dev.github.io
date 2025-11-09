@@ -199,48 +199,38 @@ main { padding: 2rem 1.5rem; text-align: center; }
       <p class="copyright">© 2025 이지사주. All rights reserved.</p>
     </footer>
   </div>
+<script>
+(() => {
+  const token = new URL(location.href).searchParams.get("token");
+  if (!token) return;
 
-  <<script>
-const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
-
-if (token) {
-  // 🧩 Apps Script 웹앱 주소 입력
-  const gsURL = "https://script.google.com/macros/s/AKfycbwX6UPs_IaiyaHGMBdRrwUzoaAoe5EjM0JifNgw4K7DNPDX84QPfvwh16YAs0KhaRfx-g/exec"; // 여기에 Saju-Products-API URL 넣기
+  const gsURL = "https://script.google.com/macros/s/AKfycbwX6UPs_IaiyaHGMBdRrwUzoaAoe5EjM0JifNgw4K7DNPDX84QPfvwh16YAs0KhaRfx-g/exec";
 
   fetch(gsURL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      mode: "getToken",
-      token
-    }),
+    body: new URLSearchParams({ mode: "getToken", token })
   })
-    .then(res => res.json())
-    .then(data => {
-      if (!data || data.error) throw new Error("토큰 불일치");
-      document.getElementById("product-name").textContent = data.goodsName || "상품 정보 없음";
-      document.getElementById("product-price").textContent =
-        Number(data.amount || 0).toLocaleString() + "원";
-      document.getElementById("order-id").textContent = data.orderId || "-";
-    })
-    .catch(err => {
-      console.error("❌ 토큰 조회 실패:", err);
-      alert("결제 정보 확인 중 오류가 발생했습니다. 고객센터로 문의 바랍니다.");
-    });
-} else {
-  console.warn("⚠️ token 파라미터가 없습니다.");
-  alert("결제 정보가 확인되지 않습니다. 고객센터로 문의 바랍니다.");
-}
+  .then(r => r.json())
+  .then(d => {
+    if (!d || d.error) throw new Error(d?.error || "토큰 조회 실패");
 
-// 사업자정보 토글 (기존 그대로 유지)
-document.getElementById('info-toggle-button').addEventListener('click', () => {
-  const details = document.getElementById('business-info-details');
-  const arrow = document.getElementById('info-arrow');
-  details.classList.toggle('show');
-  arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
-});
+    const name  = d.goodsName || "상품명없음";
+    const price = Number(d.amount || 0).toLocaleString() + "원";
+    const oid   = d.orderId || "-";
+
+    document.getElementById("product-name").textContent = name;
+    document.getElementById("product-price").textContent = price;
+    document.getElementById("order-id").textContent = oid;
+  })
+  .catch(err => {
+    console.error("getToken error:", err);
+    alert("결제 정보 확인 중 오류가 발생했습니다.");
+  });
+})();
 </script>
+
+  
 
 </body>
 </html>
