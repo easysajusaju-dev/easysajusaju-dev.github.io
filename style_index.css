@@ -711,7 +711,7 @@ box-shadow:0 2px 10px rgba(0,0,0,.2);
 /* 기본 상태 */
 .topbar-burger {
   color: #4ecdc4 !important;          /* 민트빛 톤 - 눈에 잘 띄게 */
-  background: rgba(255, 255, 255, 0.5); /* 아주 은은한 배경 */
+  background: rgba(0, 0, 0, 0.3); /* 아주 은은한 배경 */
   border-radius: 50%;                 /* 살짝 원형 배경 */
   padding: 8px 10px;
   transition: all 0.3s ease;
@@ -728,7 +728,7 @@ box-shadow:0 2px 10px rgba(0,0,0,.2);
 /* ============================= */
 
 .topbar-brand {
-  background: rgba(0, 0, 0, 0.4);  /* 반투명한 어두운 배경 (검정 40%) */
+  background: rgba(0, 0, 0, 0.3);  /* 반투명한 어두운 배경 (검정 40%) */
   border-radius: 12px;             /* 살짝 둥근 모서리 */
   padding: 6px 10px;               /* 안쪽 여백 */
   backdrop-filter: blur(2px);      /* 배경 흐림(선택사항, 부드러운 느낌) */
