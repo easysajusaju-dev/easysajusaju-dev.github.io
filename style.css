@@ -671,3 +671,39 @@ button:hover {
   color: #fff;                            /* 아이콘 흰색 반전 */
   transform: scale(1.08);                 /* 살짝 커지는 효과 */
 }
+/* ============================= */
+/* 🎯 삼선 버튼만 원형 강조 (텍스트는 영향 X) */
+/* ============================= */
+
+/* 버튼 스타일만 분리 */
+#open-nav-btn {
+  color: #007bff !important;                /* 파란색 삼선 */
+  background: rgba(0, 123, 255, 0.08);      /* 연한 파란 원 배경 */
+  border-radius: 50%;                       /* 원형 배경 */
+  padding: 8px 10px;                        /* 버튼 안쪽 여백 */
+  font-size: 22px;                          /* 아이콘 크기 */
+  line-height: 1;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;                     /* 텍스트와 분리 */
+  align-items: center;
+  justify-content: center;
+}
+
+/* hover 시 효과 */
+#open-nav-btn:hover {
+  background: #007bff;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* 페이지 제목 텍스트는 영향받지 않게 복구 */
+.header-title, 
+.header-logo-link span {
+  background: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  color: #222 !important; /* 기존 색상 복원 */
+}
