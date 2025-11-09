@@ -707,3 +707,40 @@ button:hover {
   padding: 0 !important;
   color: #222 !important; /* 기존 색상 복원 */
 }
+/* ============================= */
+/* 🎯 랜딩페이지: 삼선 버튼만 원형 강조 (텍스트 영향 X) */
+/* ============================= */
+
+/* 버튼만 스타일 적용 */
+#open-nav-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #007bff !important;                /* 파란 삼선 */
+  background: rgba(0, 123, 255, 0.15);      /* 연한 파란 원 */
+  border-radius: 50%;                       /* 동그랗게 */
+  padding: 8px 10px;                        /* 버튼 크기 */
+  font-size: 22px;
+  line-height: 1;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* hover 시 살짝 반전 */
+#open-nav-btn:hover {
+  background: #007bff;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* 제목 텍스트(.header-title)는 배경 제거 */
+.header-title,
+.header-logo-link span {
+  background: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  color: #222 !important;  /* 기존 폰트색 복원 */
+  display: inline-block !important;
+}
