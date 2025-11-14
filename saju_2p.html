@@ -4,29 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.easysaju.kr/images/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.easysaju.kr/images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="https://www.easysaju.kr/images/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.easysaju.kr/images/favicon-16x16.png">
-<link rel="shortcut icon" href="https://www.easysaju.kr/images/favicon.ico">
+ <!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://easysaju-test.vercel.app/images/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://easysaju-test.vercel.app/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://easysaju-test.vercel.app/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://easysaju-test.vercel.app/images/favicon-16x16.png">
+<link rel="shortcut icon" href="https://easysaju-test.vercel.app/images/favicon.ico">
 
 <!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
 <meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="https://www.easysaju.kr/images/ms-icon-144x144.png">
-
-<!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
-<meta property="og:title" content="종합사주 - 이지사주">
-<meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
-<meta property="og:image" content="https://www.easysaju.kr/images/share.png">
-<meta property="og:url" content="https://www.easysaju.kr/">
-<meta property="og:type" content="website">
-
+<meta name="msapplication-TileImage" content="https://easysaju-test.vercel.app/images/ms-icon-144x144.png">
+<!-- ======================================================================= -->
+ 
+ <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
+  <meta property="og:title" content="이지사주">
+  <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
+  <meta property="og:image" content="https://easysaju-test.vercel.app/images/share.png">
+  <meta property="og:url" content="https://easysaju-test.vercel.app/">
+  <meta property="og:type" content="website">
+<!-- ======================================================================= -->
     
     <title>이지사주 재회운(궁합) - 2인용</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Meta Pixel Code -->
-    <!-- End Meta Pixel Code -->
+ <!-- ✅ 서버 콜드 깨우기 Code -->   
+ <script>
+// 페이지 로드 직후 서버 예열 (완전 안전 버전)
+(function prewarm() {
+  try {
+    const url = "https://my-payment-server-test.vercel.app/api/ping";
+
+    // AbortController로 3초 후 자동 취소 → 리소스 낭비 없음
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 3000);
+
+    fetch(url, {
+      method: "GET",
+      signal: controller.signal,
+      cache: "no-store",
+    })
+    .catch(() => {
+      // ping 실패는 완전 무시 - 에러 0%
+    });
+
+  } catch (e) {
+    // 자바스크립트 자체 오류도 완전 무시
+  }
+})();
+</script>
+ <!-- ✅ 서버 콜드 깨우기 Code  끝--> 
+<!-- ✅ Meta Pixel Code (이지사주 공용) -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)n._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  
+   fbq('init', '1159392269346574'); // ← 여기에 당신의 Meta 픽셀 ID 넣기
+  fbq('track', 'PageView'); // 방문(랜딩 진입) 추적
+</script>
+
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"/>
+</noscript>
+<!-- ✅ End Meta Pixel Code -->
+
 </head>
 <body>
     <div class="sticky-header">
@@ -116,8 +162,8 @@
                     <div class="form-group">
                         <label>성별</label>
                         <div class="button-group">
-                            <input type="radio" id="p1_male" name="p1_gender" value="남자" checked><label for="p1_male">남자</label>
-                            <input type="radio" id="p1_female" name="p1_gender" value="여자"><label for="p1_female">여자</label>
+                            <input type="radio" id="p1_male" name="p1_gender" value="남성" checked><label for="p1_male">남성</label>
+                            <input type="radio" id="p1_female" name="p1_gender" value="여성"><label for="p1_female">여성</label>
                         </div>
                     </div>
                     
@@ -147,8 +193,8 @@
                     <div class="form-group">
                         <label>성별</label>
                         <div class="button-group">
-                            <input type="radio" id="p2_male" name="p2_gender" value="남자" checked><label for="p2_male">남자</label>
-                            <input type="radio" id="p2_female" name="p2_gender" value="여자"><label for="p2_female">여자</label>
+                            <input type="radio" id="p2_male" name="p2_gender" value="남성" checked><label for="p2_male">남성</label>
+                            <input type="radio" id="p2_female" name="p2_gender" value="여성"><label for="p2_female">여성</label>
                         </div>
                     </div>
 
@@ -255,7 +301,7 @@
     </div>
     <script src="form.js"></script>
       <script>
-    fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec", {
       method: "GET",
       mode: "no-cors"
     });
@@ -317,7 +363,7 @@ openNavBtn.addEventListener('click', function () {
     });
 </script>
 <script>
-const API_BASE = "https://my-payment-server.vercel.app";
+
 const PAGE_CATEGORY = "p_2"; // ✅ 2인 사주 카테고리
 
 async function loadProducts() {

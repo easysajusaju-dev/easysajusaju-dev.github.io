@@ -3,26 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://easysaju-test.vercel.app/images/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://easysaju-test.vercel.app/images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="https://easysaju-test.vercel.app/images/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://easysaju-test.vercel.app/images/favicon-16x16.png">
-<link rel="shortcut icon" href="https://easysaju-test.vercel.app/images/favicon.ico">
-
-<!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="https://easysaju-test.vercel.app/images/ms-icon-144x144.png">
-<!-- ======================================================================= -->
- 
- <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
-  <meta property="og:title" content="이지사주">
-  <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
-  <meta property="og:image" content="https://easysaju-test.vercel.app/images/share.png">
-  <meta property="og:url" content="https://easysaju-test.vercel.app/">
-  <meta property="og:type" content="website">
-<!-- ======================================================================= -->
-
   <title>결제 완료 - 이지사주</title>
 
   <style>
@@ -224,26 +204,6 @@
     margin-top: 1.5rem;
   }
   </style>
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)n._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window,document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-
-  fbq('init', '1159392269346574');
-  fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"/>
-</noscript>
-
-  
 </head>
 
 <body>
@@ -366,68 +326,6 @@
     });
   }
   </script>
-<script>
-  const API_BASE = "https://my-payment-server-test.vercel.app";
-  const token = new URLSearchParams(location.search).get("token");
-
-  let goodsName = "";
-  let amount = 0;
-  let orderId = "";
-
-  document.addEventListener("DOMContentLoaded", async () => {
-    try {
-      if (!token) throw new Error("토큰이 없습니다.");
-
-      const r = await fetch(`${API_BASE}/api/pay/order-info?token=${encodeURIComponent(token)}`);
-      const data = await r.json();
-      if (!data.ok) throw new Error(data.error || "결제 정보를 불러올 수 없습니다.");
-
-      // 결제 정보 세팅
-      orderId   = data.orderId   || data.oid        || "-";
-      goodsName = data.goodsName || "상품명 없음";
-      amount    = Number(data.amount || 0);
-
-      document.getElementById("product-name").textContent  = goodsName;
-      document.getElementById("product-price").textContent = `${amount.toLocaleString()}원`;
-
-    } catch (err) {
-      console.error("❌ 결제 결과 표시 실패:", err);
-    }
-  });
-
-  // 사업자 정보 토글
-  const toggleButton = document.getElementById('info-toggle-button');
-  const details      = document.getElementById('business-info-details');
-  const arrow        = document.getElementById('info-arrow');
-
-  if (toggleButton && details && arrow) {
-    toggleButton.addEventListener('click', () => {
-      details.classList.toggle('show');
-      arrow.textContent = details.classList.contains('show') ? '▲' : '▼';
-    });
-  }
-
-  /* ============================================
-     ⭐ 결제 완료 Purchase 이벤트 — Meta Pixel ⭐
-     데이터 불러온 뒤 실행되도록 setTimeout 사용
-  ============================================ */
-  setTimeout(() => {
-    try {
-      fbq('track', 'Purchase', {
-        value: amount,
-        currency: 'KRW',
-        contents: [{
-          id: orderId,
-          name: goodsName
-        }],
-        content_type: 'product'
-      });
-      console.log("📡 Meta Purchase Event Sent:", goodsName, amount);
-    } catch (e) {
-      console.error("❌ Meta Pixel Purchase Error", e);
-    }
-  }, 800);  // 데이터 로딩 안정성 확보 (0.8초)
-</script>
 
 </body>
 </html>
