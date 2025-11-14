@@ -10,7 +10,8 @@ const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec";
 
 // ✅ Vercel 서버 (결제용)
-const API_BASE = "https://my-payment-server.vercel.app";
+const API_BASE = "https://pay.easysaju.kr/api/pay";
+
 
 /* ------------------------------
  * 공통 UI 헬퍼
