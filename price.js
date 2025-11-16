@@ -110,6 +110,7 @@ if (miniItem) {
 
     // HTML 생성
     let html = "";
+    html += specialBannerHTML; 
     html += `<div class="price-board">`;
     html += `<div class="price-board-title">사주 상품 구성</div>`;
 
