@@ -96,17 +96,6 @@
     html += `<div class="price-board">`;
     html += `<div class="price-board-title">사주 상품 구성</div>`;
 
-    // 초록색 MINI 띠
-    html += `
-      <div class="price-board-mini">
-        <div class="price-board-mini-left">
-          <div class="price-board-mini-name">${mini.name}</div>
-          <div class="price-board-mini-desc">${mini.desc || ""}</div>
-        </div>
-        <div class="price-board-mini-price">${formatPrice(mini.price)}</div>
-      </div>
-    `;
-
     html += renderSection("단품 풀이", singles);
     html += renderSection("패키지 풀이", packages);
     html += renderSection("기타 상품", others);
