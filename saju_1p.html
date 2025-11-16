@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.easysaju.kr/images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="https://www.easysaju.kr/images/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.easysaju.kr/images/favicon-16x16.png">
-<link rel="shortcut icon" href="https://www.easysaju.kr/images/favicon.ico">
+<link rel="shortcut icon" href=https://www.easysaju.kr/images/favicon.ico">
 
 <!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
 <meta name="msapplication-TileColor" content="#ffffff">
@@ -18,19 +18,22 @@
  <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
   <meta property="og:title" content="이지사주">
   <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
-  <meta property="og:image" content="https://www.easysaju.kr/images/share.png">
+  <meta property="og:image" content=https://www.easysaju.kr/images/share.png">
   <meta property="og:url" content="https://www.easysaju.kr/">
   <meta property="og:type" content="website">
 <!-- ======================================================================= -->
+    
     <title>이지사주 종합사주 - 프리미엄 정통사주 (1인용)</title>
     <link rel="stylesheet" href="style.css">
+    <!-- 🔥 price.css를 head 안으로 이동 -->
+    <link rel="stylesheet" href="price.css">
     
  <!-- ✅ 서버 콜드 깨우기 Code -->   
  <script>
 // 페이지 로드 직후 서버 예열 (완전 안전 버전)
 (function prewarm() {
   try {
-    const url = "https://my-payment-server.vercel.app/api/ping";
+    const url = "https://my-payment-server-test.vercel.app/api/ping";
 
     // AbortController로 3초 후 자동 취소 → 리소스 낭비 없음
     const controller = new AbortController();
@@ -143,6 +146,11 @@
     <img src="images/saju1/021.gif" alt="안내 이미지 10">
 </div>
 
+<section class="price-board-wrapper">
+    <div id="dynamic-price-board"></div>
+</section>
+        <script src="price.js"></script>
+
         <!-- 신청 폼 영역 -->
         <div class="form-container">
              
@@ -232,7 +240,7 @@
         <input type="checkbox" id="agree2" name="agree2" class="agree-item">
         <label for="agree2">[선택] 광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
         <textarea class="terms-box" readonly>
-[선택] 광고성 정보 수신 동의
+[선택] 개인정보 수집·이용 동의
 
 1. 수신 항목 및 수단
 - 카카오 알림톡, 문자(SMS), 이메일 등
@@ -273,7 +281,7 @@
     </div>
     <script src="form.js"></script>
       <script>
-    fetch("https://script.google.com/macros/s/AKfycbz_SRAMhhOT396196sgEzHeDMNk_oF7IL-M5BpAReKum04hVtkVYw0AwY71P4SyEdm-/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec", {
       method: "GET",
       mode: "no-cors"
     });
@@ -360,8 +368,9 @@ async function loadProducts() {
 }
 document.addEventListener("DOMContentLoaded", loadProducts);
 </script>
-
-
+  
+<script src="price.js"></script>
+<script>buildPriceBoard();</script>
     
 <!-- 카카오톡 채널 플로팅 버튼 시작 -->
 <style>

@@ -651,3 +651,220 @@ button:hover {
 <path fill="%23191919" d="M12 3c-5.52 0-10 3.58-10 8 0 2.4 1.5 4.53 3.9 5.93L4 21l4.5-2.6c1.1.27 2.28.4 3.5.4 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>\
 </svg>') no-repeat center/contain;
 }
+/* ================================
+   🔥 공통 가격표 스타일 (price.css)
+   ================================ */
+
+#dynamic-price-board {
+  max-width: 630px;
+  margin: 20px auto;
+  padding: 0 12px;
+}
+
+.price-board {
+  background: #ffffff;
+  border: 4px solid #000;
+  padding: 14px 12px;
+  border-radius: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  position: relative;
+}
+
+/* 찢어진 종이 느낌 */
+.price-board::before,
+.price-board::after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  height: 12px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.04) 0,
+    rgba(0, 0, 0, 0.04) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+}
+.price-board::before { top: -6px; }
+.price-board::after { bottom: -6px; }
+
+/* 섹션 타이틀 */
+.price-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+/* 한 줄 상품 */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #d4d4d4;
+  gap: 8px;
+}
+.price-row:last-child {
+  border-bottom: none;
+}
+
+.price-name {
+  font-size: 14px;
+  font-weight: 800;
+}
+.price-desc {
+  font-size: 12px;
+  color: #444;
+  margin-top: 3px;
+}
+
+.price-value {
+  font-size: 14px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+/* 신청 버튼 */
+.price-apply {
+  margin-top: 4px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 20px;
+  background: #4ecdc4;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* 추천 배지 */
+.price-badge {
+  display: inline-block;
+  background: #ff2b2b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.price-board {
+    border: 4px solid #000000 !important;
+}
+.price-board {
+    border: 4px solid #000000 !important;
+}
+
+/* ========================= */
+/* 가격표 전체 레이아웃 보정 */
+/* ========================= */
+
+.price-board-wrapper {
+    max-width: 630px;
+    margin: 0 auto;
+    padding: 0 12px;
+    background: #000000; /* 양옆 검정색 배경 */
+}
+
+/* 가격표 테두리 */
+.price-board {
+    border: 4px solid #000000 !important;
+    padding: 12px;
+}
+
+/* 각 줄 간격 보정 */
+.price-row {
+    padding: 8px 0;
+}
+.price-big-cta {
+    display: block;
+    text-align: center;
+    background: #ff2b2b !important;
+    color: #fff !important;
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    padding: 16px 0 !important;
+    margin-top: 10px !important;
+    border-radius: 6px;
+}
+
+/* 🔹 가격표 내부 작은 버튼 보정 */
+.price-apply-btn {
+    font-size: 11px !important;   /* 기존 13~14px → 11px로 축소 */
+    padding: 3px 8px !important;  /* 높이 확 줄임 */
+    border-radius: 12px !important;
+    background: #7D4BFF !important; /* 지금 쓰는 보라색 유지 */
+    color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    line-height: 1;
+}
+
+/* 클릭 시 눌린 효과 */
+.price-apply-btn:active {
+    transform: scale(0.97);
+}
+/* 가격표 전용 작은 신청하기 버튼 */
+.price-btn-mini {
+    font-size: 14px;
+    padding: 5px 14px;
+    border-radius: 12px;
+    background: #4ecdc4;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.price-btn-mini:hover {
+    opacity: 0.9;
+}
+
+.price-btn-mini:active {
+    transform: scale(0.96);
+}
+
+/* 가격표 외곽 검정 테두리 & 찢어진 종이 효과 */
+.price-board-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.price-board {
+    background: #ffffff;
+    border: 6px solid #000;     /* 🔥 외곽 검정 테두리 */
+    border-radius: 0;
+    padding: 15px 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 위/아래 찢어진 효과 */
+.price-board::before,
+.price-board::after {
+    content:"";
+    position:absolute;
+    left:-20px;
+    right:-20px;
+    height:12px;
+    background-image:repeating-linear-gradient(
+        -45deg,
+        rgba(0,0,0,0.04) 0,
+        rgba(0,0,0,0.04) 6px,
+        transparent 6px,
+        transparent 10px
+    );
+}
+
+.price-board::before { top:-6px; }
+.price-board::after  { bottom:-6px; }
+
+/* 상단 이미지 마지막과 가격표 사이 여백 제거 */
+.image-section img:last-child {
+    margin-bottom: 0 !important;
+}
+
