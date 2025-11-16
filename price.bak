@@ -79,15 +79,6 @@
     }
 
     if (!items.length) return;
-// 🔥 특가상품 MINI 배너 추가
-const miniItem = items.find(p => p.id === "mini");
-if (miniItem) {
-    html += `
-        <div class="special-banner">
-            🔥 ${miniItem.name} — 지금만 ${miniItem.price.toLocaleString()}원!
-        </div>
-    `;
-}
 
     // mini 상품 = id p001 또는 첫 번째
     const mini =
@@ -110,7 +101,6 @@ if (miniItem) {
 
     // HTML 생성
     let html = "";
-    html += specialBannerHTML; 
     html += `<div class="price-board">`;
     html += `<div class="price-board-title">사주 상품 구성</div>`;
 
