@@ -24,7 +24,12 @@
 <!-- ======================================================================= -->
     
     <title>이지사주 신년운세 - 프리미엄 정통사주</title>
-    <link rel="stylesheet" href="style.css">
+<!-- 🔥 공통 style.css -->
+<link rel="stylesheet" href="style.css">
+
+<!-- 🔥 가격표 price.css 추가 -->
+<link rel="stylesheet" href="price.css">
+    
  <!-- ✅ 서버 콜드 깨우기 Code -->   
  <script>
 // 페이지 로드 직후 서버 예열 (완전 안전 버전)
@@ -139,7 +144,11 @@
     <img src="images/free/007.png" alt="안내 이미지 7">
     <img src="images/free/008.png" alt="안내 이미지 8">
 </div>
-
+<!-- 🔥🔥🔥 가격표 추가된 부분 (saju_1p.html과 동일 구조)-->
+<section class="price-board-wrapper">
+    <div id="dynamic-price-board"></div>
+</section>
+        
         <!-- 신청 폼 영역 -->
         <div class="form-container">
              
@@ -374,6 +383,10 @@ async function loadProducts() {
 }
 document.addEventListener("DOMContentLoaded", loadProducts);
 </script>
+    
+<!-- 🔥 PRICE.JS 실행 -->
+<script src="price.js"></script>
+<script>buildPriceBoard();</script>
 
 
     
