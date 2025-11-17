@@ -293,3 +293,15 @@
     max-width: none;             /* 100% 꽉 채우지 않게 */
   }
 }
+/* 📌 가격표 반응형 강제 고정 */
+.price-board-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+}
+
+.price-board {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
