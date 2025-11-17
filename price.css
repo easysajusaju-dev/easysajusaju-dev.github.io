@@ -164,3 +164,26 @@
         width: auto;
     }
 }
+/* 🔥 가격표 간격 최소화 — 덮어쓰기용 */
+.price-row {
+    padding: 5px 0 !important;
+    align-items: center !important;
+}
+
+.price-side {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 1px !important;
+}
+
+.price-value {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.price-apply-btn {
+    margin-top: 0 !important;
+}
