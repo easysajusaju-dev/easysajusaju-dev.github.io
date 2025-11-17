@@ -12,12 +12,6 @@
     width: 100%;
 }
 
-/* 외부 래퍼 */
-.price-board-wrapper {
-    max-width: 700px;
-    margin: 0 auto 30px;
-    padding: 0 10px;
-}
 
 /* 가격표 본체 */
 .price-board {
@@ -162,12 +156,6 @@
     border-radius: 5px;
 }
 /* 📌 가격표 전체 상·하단 여백 제거 */
-.price-board-wrapper {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
 
 #dynamic-price-board {
     margin-top: 0 !important;
@@ -251,10 +239,7 @@
 .price-apply-btn {
     margin-top: 0 !important;
 }
-.price-board-wrapper {
-    background: var(--price-bg, #000000); /* 기본 검정 */
-    padding: 0 10px; /* 다시 넣어줌: 모든 해상도에서 좌우 여백 유지 */
-}
+
 /* 🔥 1) 가격표가 화면에서 절대 넘치지 않도록 */
 .price-board {
     max-width: 100%;
@@ -272,4 +257,12 @@
 .price-row {
     width: 100%;
     box-sizing: border-box;
+}
+/* 외부 래퍼 (딱 1번만!) */
+.price-board-wrapper {
+    max-width: 700px;
+    margin: 0 auto;                     /* 가운데 정렬 */
+    padding: 0 12px;                    /* 좌우 여백 */
+    background: var(--price-bg, #000000); /* 바탕색(검정 기본) */
+    box-sizing: border-box;             /* 패딩 포함해서 너비 계산 */
 }
