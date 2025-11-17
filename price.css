@@ -250,3 +250,15 @@
     padding: 5px 0 !important;
     border-radius: 14px !important;
 }
+/* 오른쪽 가격+버튼을 가로로 정렬 */
+.price-side {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 가격과 버튼 사이 간격 */
+}
+
+/* 가격도 세로 여백 제거 */
+.price-value {
+    margin-bottom: 0 !important;
+    padding: 0;
+}
