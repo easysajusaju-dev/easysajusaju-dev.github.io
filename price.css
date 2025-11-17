@@ -190,75 +190,46 @@
     50% { background:#d8f3d8; }
     100% { background:#e8f8e8; }
 }
-/* ============================================
-   🔥 컴팩트 2줄 가격표 레이아웃 (추가 코드)
-   ============================================ */
+/* -----------------------------------------------------
+   📌 가격표 간격 압축 — 전 랜딩 공통 적용
+   ----------------------------------------------------- */
 
-/* 전체 row 높이 줄이기 */
+/* 상품 전체 row 간격 줄이기 */
 .price-row {
-    padding: 6px 0 !important;
-    gap: 4px !important;
+    padding: 5px 0 !important;       /* 기존 10px → 5px */
+    align-items: center !important;
 }
 
-/* 왼쪽 컬럼을 딱 2줄에 맞게 */
+/* 상품명과 설명 묶음 (왼쪽) */
 .price-main {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    gap: 2px !important;
-}
-
-/* 상품명 */
-.price-name {
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0 !important;
-}
-
-/* 설명 — 2줄까지만 표시 */
-.price-desc {
-    font-size: 12px !important;
-    color: #666 !important;
-    line-height: 1.2 !important;
-    margin-top: 0 !important;
-
-    max-height: 2.4em !important; /* 2줄 제한 */
-    overflow: hidden !important;
-}
-
-/* 오른쪽 영역(가격 + 버튼) */
-.price-side {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: flex-end !important;
-    gap: 4px !important;
-}
-
-/* 금액 */
-.price-value {
-    font-size: 15px !important;
-    line-height: 1.2 !important;
-    margin-bottom: 2px !important;
-}
-
-/* 신청하기 버튼 - 더 컴팩트하게 */
-.price-apply-btn {
-    width: 85px !important;
-    font-size: 12px !important;
-    padding: 5px 0 !important;
-    border-radius: 14px !important;
-}
-/* 오른쪽 가격+버튼을 가로로 정렬 */
-.price-side {
     display: flex;
-    align-items: center;
-    gap: 10px; /* 가격과 버튼 사이 간격 */
+    flex-direction: column;
+    justify-content: center;
 }
 
-/* 가격도 세로 여백 제거 */
+/* 설명글 위쪽 여백 최소화 */
+.price-desc {
+    margin-top: 0px !important;
+    line-height: 1.2 !important;
+}
+
+/* 오른쪽 가격 + 버튼 묶음 */
+.price-side {
+    display: flex !important;
+    flex-direction: column;   /* 가격 + 버튼 위아래 기준 */
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 1px !important;
+}
+
+/* 가격 */
 .price-value {
-    margin-bottom: 0 !important;
-    padding: 0;
+    margin-bottom: 0px !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* 버튼 크기 유지 + 버튼 위여백 제거 */
+.price-apply-btn {
+    margin-top: 0 !important;
 }
