@@ -697,13 +697,6 @@ button:hover {
 /* 가격표 전체 레이아웃 보정 */
 /* ========================= */
 
-
-
-
-
-
-
-
 /* 상단 이미지 마지막과 가격표 사이 여백 제거 */
 .image-section img:last-child {
     margin-bottom: 0 !important;
@@ -712,4 +705,24 @@ button:hover {
 .main-container {
     max-width: 100% !important;
     width: 100% !important;
+}
+/* 🔥 main-container 원래처럼 폭 제한 복구 */
+.main-container {
+    max-width: 700px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+/* 🔥 가격표는 main-container 폭 제한을 무시하고 독립적으로 100% 사용 */
+#dynamic-price-board,
+.price-board-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+@media (max-width: 480px) {
+    .price-board {
+        margin: 0 12px !important;
+    }
 }
