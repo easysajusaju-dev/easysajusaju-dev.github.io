@@ -21,6 +21,8 @@
     padding: 20px 14px;
     position: relative;
     overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* 찢어진 종이 효과 */
