@@ -867,4 +867,9 @@ button:hover {
 .image-section img:last-child {
     margin-bottom: 0 !important;
 }
+/* 📌 가격표는 부모(main-container)의 고정 폭을 무시해야 함 */
+.main-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
 
