@@ -726,3 +726,31 @@ button:hover {
         margin: 0 12px !important;
     }
 }
+/* 🔥 main-container 원래대로 복구 (PC 폭 제한 정상) */
+.main-container {
+    max-width: 700px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #fff;
+}
+
+/* 🔥 가격표 wrapper는 main-container 제한을 무시하고 독립 확장 */
+.price-board-wrapper,
+#dynamic-price-board {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 12px !important;   /* 검정 테두리 여백 복구 */
+    box-sizing: border-box !important;
+}
+
+/* 🔥 이미지 아래 여백 제거 → 하얀 띠 제거 */
+.image-section img {
+    display: block;
+    margin-bottom: 0 !important;
+}
+
+/* 🔥 가격표 위쪽 여백 제거 */
+.price-board {
+    margin-top: 0 !important;
+}
