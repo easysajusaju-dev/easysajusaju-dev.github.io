@@ -268,3 +268,18 @@
     background: var(--price-bg, #000000); /* 바탕색(검정 기본) */
     box-sizing: border-box;             /* 패딩 포함해서 너비 계산 */
 }
+/* 🔥 모바일에서 가격표가 화면에 딱 붙지 않게 여백 강제 */
+@media (max-width: 480px) {
+  /* 래퍼는 패딩/마진 다 빼고 */
+  .price-board-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 실제 하얀 박스에 양쪽 여백을 줌 */
+  .price-board {
+    margin: 0 12px !important;   /* 좌우 12px 여백 */
+    box-sizing: border-box;
+    max-width: none;             /* 100% 꽉 채우지 않게 */
+  }
+}
