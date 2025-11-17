@@ -253,6 +253,7 @@
 }
 .price-board-wrapper {
     background: var(--price-bg, #000000); /* 기본 검정 */
+    padding: 0 10px; /* 다시 넣어줌: 모든 해상도에서 좌우 여백 유지 */
 }
 /* 🔥 1) 가격표가 화면에서 절대 넘치지 않도록 */
 .price-board {
