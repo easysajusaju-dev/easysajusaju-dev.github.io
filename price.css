@@ -283,3 +283,13 @@
     max-width: none;             /* 100% 꽉 채우지 않게 */
   }
 }
+.price-board {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+@media (max-width: 480px) {
+    .price-board {
+        margin: 0 12px !important;
+    }
+}
