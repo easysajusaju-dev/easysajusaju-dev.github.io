@@ -254,3 +254,21 @@
 .price-board-wrapper {
     background: var(--price-bg, #000000); /* 기본 검정 */
 }
+/* 🔥 1) 가격표가 화면에서 절대 넘치지 않도록 */
+.price-board {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* 🔥 2) 모바일에서 좌우 여백 강제 */
+@media (max-width: 480px) {
+    .price-board-wrapper {
+        padding: 0 14px !important;
+    }
+}
+
+/* 🔥 3) price-row가 너무 넓게 밀리는 문제 방지 */
+.price-row {
+    width: 100%;
+    box-sizing: border-box;
+}
