@@ -872,4 +872,16 @@ button:hover {
     max-width: 100% !important;
     width: 100% !important;
 }
+/* ==== DEBUG MODE: 가격표 비틀림 잡기 ==== */
+.price-board-wrapper,
+.price-board,
+#dynamic-price-board,
+.main-container {
+    border: 2px solid red !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
 
