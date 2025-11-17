@@ -129,8 +129,8 @@
     padding: 7px 0;
     border-radius: 16px;
 
-    background: var(--price-btn-bg) !important;   /* 버튼 배경색 */
-    color: var(--price-btn-text) !important;      /* 버튼 글자색 */
+    background: var(--price-btn-bg, #4ecdc4) !important;   /* 버튼 배경색 */
+    color: var(--price-btn-text, #ffffff) !important;       /* 버튼 글자색 */
 
     border: none;
     font-weight: 700;
@@ -147,6 +147,7 @@
 .price-apply-btn:active {
     transform: scale(0.96);
 }
+
 
 
 /* 큰 빨간 CTA */
