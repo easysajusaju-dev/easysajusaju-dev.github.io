@@ -251,3 +251,6 @@
 .price-apply-btn {
     margin-top: 0 !important;
 }
+.price-board-wrapper {
+    background: var(--price-bg, #000000); /* 기본 검정 */
+}
