@@ -34,7 +34,7 @@
        font-size:clamp(22px,8.5vw,42px);font-weight:900;color:#111;border:2px solid #111}
   .small{aspect-ratio:1/1;border:2px solid #444;font-size:clamp(18px,7.5vw,34px)}
 
-  /* 오행 색깔 */
+  /* 오행 색 */
   .wood{background:var(--wood)}
   .fire{background:var(--fire);color:#fff}
   .earth{background:var(--earth)}
@@ -44,7 +44,7 @@
   .tags{display:flex;gap:6px;flex-wrap:wrap}
   .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line)}
 
-  /* 캐러셀 공통 */
+  /* 캐러셀 */
   .carousel{position:relative}
   .viewport{width:100%;overflow-x:auto;display:flex;gap:8px;
             scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px}
@@ -58,10 +58,11 @@
   .mini.small{height:30px;border:2px solid #444;font-size:18px}
   .subnote{margin-top:4px;font-size:12px;color:#374151}
   .on{outline:3px solid #2563eb}
-  .nav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:#0009;color:#fff;display:flex;align-items:center;justify-content:center}
+
+  .nav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;
+       border:0;background:#0009;color:#fff;display:flex;align-items:center;justify-content:center}
   .nav.prev{left:-6px}
   .nav.next{right:-6px}
-  .nav:disabled{opacity:.3}
 
   pre{background:#0b1220;color:#e6edf3;padding:12px;border-radius:8px;overflow:auto;font-size:12px}
 </style>
@@ -80,28 +81,40 @@
       <label>월 <input id="mm" type="number" min="1" max="12" value="3"></label>
       <label>일 <input id="dd" type="number" min="1" max="31" value="24"></label>
     </div>
+
     <div class="row">
-      <label>시(0~23) <input id="hh" type="number" min="0" max="23" value="12"></label>
-      <label>분(0~59) <input id="mi" type="number" min="0" max="59" value="30"></label>
+      <label>시 <input id="hh" type="number" min="0" max="23" value="12"></label>
+      <label>분 <input id="mi" type="number" min="0" max="59" value="30"></label>
     </div>
+
     <div class="row">
       <label><input type="radio" name="cal" value="solar" checked> 양력</label>
       <label><input type="radio" name="cal" value="lunar"> 음력</label>
       <label><input id="leap" type="checkbox" disabled> 윤달</label>
-      <span style="flex:1"></span>
+    </div>
+
+    <div class="row">
       <label><input type="radio" name="sex" value="male" checked> 남</label>
       <label><input type="radio" name="sex" value="female"> 여</label>
     </div>
+
     <div class="row">
-      <label><input type="radio" name="pivot" value="0"> 정시(0분)</label>
-      <label><input type="radio" name="pivot" value="30" checked> 반시(30분)</label>
+      <label><input type="radio" name="pivot" value="0"> 정시(0)</label>
+      <label><input type="radio" name="pivot" value="30" checked> 반시(30)</label>
     </div>
+
+    <!-- ★ 동경시/서머타임 추가 -->
+    <div class="row">
+      <label><input id="chkTokyo" type="checkbox"> 동경시 사용</label>
+      <label><input id="chkDST" type="checkbox"> 서머타임 적용</label>
+    </div>
+
     <div class="row">
       <label style="flex:1 1 100%;">프록시 주소
-        <!-- base: https://saju-proxy.onrender.com -> /proxy/saju 붙여서 사용 -->
         <input id="proxy" type="text" value="https://saju-proxy.onrender.com">
       </label>
     </div>
+
     <div class="row">
       <button id="go">만세력 조회</button>
       <span id="msg" class="note">첫 호출은 15~30초 걸릴 수 있어요.</span>
@@ -155,20 +168,20 @@
     <legend>대운</legend>
     <div id="daeHeader" class="note" style="margin:6px 0 8px 2px;font-weight:700">대운수 : -(-)</div>
     <div id="car-dae" class="carousel" data-visible="8">
-      <button class="nav prev" aria-label="이전">‹</button>
+      <button class="nav prev">‹</button>
       <div id="daeRow" class="viewport"></div>
-      <button class="nav next" aria-label="다음">›</button>
+      <button class="nav next">›</button>
     </div>
   </fieldset>
 
-  <!-- 연운 (세운) -->
+  <!-- 연운 -->
   <fieldset>
     <legend>연운</legend>
     <div id="runHeader" class="note" style="margin:6px 0 8px 2px;font-weight:700">연운 : -</div>
     <div id="car-run" class="carousel" data-visible="8">
-      <button class="nav prev" aria-label="이전">‹</button>
+      <button class="nav prev">‹</button>
       <div id="runRow" class="viewport"></div>
-      <button class="nav next" aria-label="다음">›</button>
+      <button class="nav next">›</button>
     </div>
   </fieldset>
 
@@ -176,9 +189,9 @@
   <fieldset>
     <legend>월운</legend>
     <div id="car-month" class="carousel" data-visible="8">
-      <button class="nav prev" aria-label="이전">‹</button>
+      <button class="nav prev">‹</button>
       <div id="monthRow" class="viewport"></div>
-      <button class="nav next" aria-label="다음">›</button>
+      <button class="nav next">›</button>
     </div>
   </fieldset>
 
@@ -189,7 +202,21 @@
 </main>
 
 <script>
-  /* ===== 기본 설정 ===== */
+/* ===== tzAdjust 계산 ===== */
+function getTZadjust() {
+  let tz = -30; // 기본 한국(-30)
+
+  if (document.getElementById('chkTokyo').checked)
+    tz = 0; // 동경시
+
+  if (document.getElementById('chkDST').checked)
+    tz += 60; // 서머타임
+
+  return tz;
+}
+
+/* ========== 기존 JS 그대로 유지 (수정된 fetch만 아래 적용) ========== */
+
   const STEM_ELEM={'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
   const BRANCH_ELEM={'子':'water','丑':'earth','寅':'wood','卯':'wood','辰':'earth','巳':'fire','午':'fire','未':'earth','申':'metal','酉':'metal','戌':'earth','亥':'water'};
   const CYCLE=['wood','fire','earth','metal','water'];
@@ -199,7 +226,7 @@
 
   function PROXY_BASE(){return document.getElementById('proxy').value.trim() || 'https://saju-proxy.onrender.com';}
   function PROXY_SAJU_URL(q){
-    const base=PROXY_BASE().replace(/\/+$/,''); // 뒤 슬래시 제거
+    const base=PROXY_BASE().replace(/\/+$/,'');
     return base + '/proxy/saju?' + new URLSearchParams(q).toString();
   }
 
@@ -218,7 +245,6 @@
     if(ch && ch !== '-') el.classList.add(elemOf(ch));
   }
 
-  /** 십성 */
   function tenGod(dayStem, otherStem){
     if(!dayStem||!otherStem) return '-';
     const ed=elemOf(dayStem), eo=elemOf(otherStem);
@@ -233,17 +259,13 @@
     return '-';
   }
 
-  /** API 호출 */
   async function fetchSaju(q){
     const url = PROXY_SAJU_URL(q);
     const r = await fetch(url,{cache:'no-store'});
-    if(!r.ok){
-      throw new Error('API 오류: ' + r.status);
-    }
+    if(!r.ok) throw new Error('API 오류: ' + r.status);
     return r.json();
   }
 
-  /* ===== 캐러셀 좌우 버튼 ===== */
   function attachCarousel(id){
     const car=document.getElementById(id);
     if(!car) return;
@@ -254,12 +276,11 @@
     if(next) next.onclick=()=>vp.scrollBy({left: vp.clientWidth,behavior:'smooth'});
   }
 
-  /* ===== 대운 ===== */
   function renderDaeRow(data, dayStem){
     const vp=document.getElementById('daeRow'); vp.innerHTML='';
     const list = data.daeWoonGanji || [];
     const years = data.daeWoonYear || [];
-    const startAge = data.daeNum || 0;        // 서버에서 주는 대운수
+    const startAge = data.daeNum || 0;
 
     document.getElementById('daeHeader').textContent =
       `대운수 : ${data.daeNum} (${data.daeDir})`;
@@ -288,15 +309,10 @@
     }
   }
 
-  /* ===== 연운 (세운: seunYear, seunGanji 그대로 사용) ===== */
   function renderSeunRow(data){
     const vp=document.getElementById('runRow'); vp.innerHTML='';
     const years=data.seunYear || [];
     const gjs=data.seunGanji || [];
-    if(!years.length){
-      document.getElementById('runHeader').textContent='연운 : 데이터 없음';
-      return;
-    }
 
     document.getElementById('runHeader').textContent =
       `연운 : ${years[0]} ~ ${years[years.length-1]}`;
@@ -318,11 +334,11 @@
     }
   }
 
-  /* ===== 월운 (선택 연도 1~12월, 15일 12:00 기준 조회) ===== */
   async function loadMonths(year){
     const vp=document.getElementById('monthRow'); vp.innerHTML='';
     const male=document.querySelector('input[name=sex]:checked').value==='male';
     const pivot=+document.querySelector('input[name=pivot]:checked').value;
+    const tzAdjust = getTZadjust();
 
     try{
       const calls=[...Array(12)].map((_,i)=>{
@@ -331,10 +347,12 @@
           year:year, month:m, day:15, hour:12, min:0,
           isMale:String(male),
           isLunar:'false', leap:'false',
-          pivotMin:String(pivot)
+          pivotMin:String(pivot),
+          tzAdjust:String(tzAdjust)
         };
         return fetchSaju(q).then(d=>({m,gj:d.monthGanji}));
       });
+
       const list=await Promise.all(calls);
 
       list.forEach(({m,gj})=>{
@@ -351,12 +369,10 @@
       });
 
     }catch(e){
-      console.error(e);
       vp.innerHTML='<span class="note">월운 로딩 오류: '+(e.message||e)+'</span>';
     }
   }
 
-  /* ===== 캘린더 라디오: 음력 선택 시 윤달 체크 가능 ===== */
   document.querySelectorAll('input[name=cal]').forEach(r=>{
     r.addEventListener('change',()=>{
       const isLunar=document.querySelector('input[name=cal]:checked').value==='lunar';
@@ -366,7 +382,6 @@
     });
   });
 
-  /* ===== 조회 버튼 ===== */
   document.getElementById('go').addEventListener('click', async ()=>{
     const msg=document.getElementById('msg');
     msg.textContent='조회 중...';
@@ -376,6 +391,7 @@
     const leap=isLunar && document.getElementById('leap').checked;
     const isMale=document.querySelector('input[name=sex]:checked').value==='male';
     const pivotMin=+document.querySelector('input[name=pivot]:checked').value;
+    const tzAdjust = getTZadjust();
 
     try{
       const data = await fetchSaju({
@@ -383,19 +399,17 @@
         isMale:String(isMale),
         isLunar:String(isLunar),
         leap:String(leap),
-        pivotMin:String(pivotMin)
+        pivotMin:String(pivotMin),
+        tzAdjust:String(tzAdjust)
       });
 
-      // 원본 JSON 표시
       document.getElementById('raw').textContent=JSON.stringify(data,null,2);
 
-      /* 요약 */
       setText('solarText', data.solarText || '-');
       setText('lunarText', data.lunarText || '-');
       setText('termText', data.termName ? `${data.termName} ${data.termDate}`:'-');
-      setText('stdText', `pivot ${pivotMin}분`);
+      setText('stdText', `pivot ${pivotMin}분 / tz ${tzAdjust}분`);
 
-      /* 4주 */
       const [ys,yb]=split(data.yearGanji),
             [ms,mb]=split(data.monthGanji),
             [ds,db]=split(data.dayGanji),
@@ -411,19 +425,17 @@
       document.getElementById('dRole').textContent = data.dayGod   || '일간';
       document.getElementById('hRole').textContent = data.hourGod  || tenGod(ds,hs);
 
-      /* 대운 / 연운 / 월운 */
       renderDaeRow(data, ds);
       renderSeunRow(data);
       loadMonths(nowYear);
 
       msg.textContent='완료';
+
     }catch(e){
-      console.error(e);
       msg.textContent = '오류: ' + (e?.message || e);
     }
   });
 
-  // 캐러셀 버튼 연결
   attachCarousel('car-dae');
   attachCarousel('car-run');
   attachCarousel('car-month');
