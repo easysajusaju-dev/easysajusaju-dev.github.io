@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+
+<title>만세력 결과</title>
+
+<style>
+  :root{
+    --frame: 420px;
+    --gap: 8px;
+    --line:#e5e7eb; --muted:#6b7280; --bg:#f4f5f7; --card:#ffffff;
+    --wood:#22c55e; --fire:#ef4444; --earth:#f59e0b; --metal:#9ca3af; --water:#60a5fa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#eceff3;color:#111;font-family:system-ui,Segoe UI,Malgun Gothic,Apple SD Gothic Neo,Arial;overflow-x:hidden}
+  header{background:#1f2937;color:#fff}
+  header .bar{width:var(--frame);max-width:100vw;margin:0 auto;padding:12px 14px;font-weight:700}
+  main.phone{width:var(--frame);max-width:100vw;margin:12px auto;padding:0 10px}
+  fieldset{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px;margin:10px 0}
+  legend{font-weight:700;color:#111;padding:0 6px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}
+  .row>label{flex:1 1 140px}
+  input[type=number],input[type=text]{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  button{padding:10px 16px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+  .note{color:var(--muted);font-size:.9rem}
+  .ganzigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+  .cap{font-size:.9rem;color:#374151;margin:0 0 6px;text-align:center}
+  .role{font-size:.9rem;color:#374151;margin:6px 0 4px;text-align:center;font-weight:700}
+  .box{width:100%;aspect-ratio:1/1;border-radius:14px;display:flex;align-items:center;justify-content:center;
+       font-size:clamp(22px,8.5vw,42px);font-weight:900;color:#111;border:2px solid #111}
+  .small{aspect-ratio:1/1;border:2px solid #444;font-size:clamp(18px,7.5vw,34px)}
+  .wood{background:var(--wood)}
+  .fire{background:var(--fire);color:#fff}
+  .earth{background:var(--earth)}
+  .metal{background:var(--metal)}
+  .water{background:var(--water);color:#fff}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+  .carousel{position:relative}
+  .viewport{width:100%; overflow-x:auto; display:flex; gap:8px;
+            scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; padding-bottom:6px}
+  .viewport::-webkit-scrollbar{height:8px}
+  .viewport::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+  .tile{flex:0 0 auto; width:36px; border:1px solid var(--line);border-radius:10px;background:#fff;
+        padding:6px;text-align:center;scroll-snap-align:center}
+  .yr{font-size:13px;font-weight:700;margin-bottom:4px}
+  .gbox{display:flex;flex-direction:column;gap:4px}
+  .mini{display:flex;align-items:center;justify-content:center;height:34px;border-radius:8px;border:2px solid #111;font-weight:800;font-size:20px}
+  .mini.small{height:30px;border:2px solid #444;font-size:18px}
+  .subnote{margin-top:4px;font-size:12px;color:#374151}
+  .on{outline:3px solid #2563eb}
+  .nav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:#0009;color:#fff;display:flex;align-items:center;justify-content:center}
+  .nav.prev{left:-6px} .nav.next{right:-6px}
+  .nav:disabled{opacity:.3}
+</style>
+</head>
+
+<body>
+
+<header><div class="bar">만세력 결과</div></header>
+
+<main class="phone">
+
+  <!-- 입력 -->
+  <fieldset>
+    <legend>입력</legend>
+    <div class="row">
+      <label>년 <input id="yy" type="number" value="1978"></label>
+      <label>월 <input id="mm" type="number" min="1" max="12" value="3"></label>
+      <label>일 <input id="dd" type="number" min="1" max="31" value="24"></label>
+    </div>
+    <div class="row">
+      <label>시 <input id="hh" type="number" min="0" max="23" value="12"></label>
+      <label>분 <input id="mi" type="number" min="0" max="59" value="30"></label>
+    </div>
+    <div class="row">
+      <label><input type="radio" name="cal" value="solar" checked> 양력</label>
+      <label><input type="radio" name="cal" value="lunar"> 음력</label>
+      <label><input id="leap" type="checkbox" disabled> 윤달</label>
+      <span style="flex:1"></span>
+      <label><input type="radio" name="sex" value="male" checked> 남</label>
+      <label><input type="radio" name="sex" value="female"> 여</label>
+    </div>
+    <div class="row">
+      <label><input type="radio" name="pivot" value="0"> 정시</label>
+      <label><input type="radio" name="pivot" value="30" checked> 반시</label>
+    </div>
+    <div class="row">
+      <label style="flex:1 1 100%;">프록시 주소
+        <input id="proxy" type="text" value="https://saju-proxy.onrender.com/proxy">
+      </label>
+    </div>
+    <div class="row">
+      <button id="go">만세력 조회</button>
+      <span id="msg" class="note">첫 호출은 15~30초 걸릴 수 있어요.</span>
+    </div>
+  </fieldset>
+
+  <!-- 요약 -->
+  <fieldset>
+    <legend>요약</legend>
+    <div class="tags">
+      <span class="tag">양력</span><span id="solarText" class="tag">-</span>
+      <span class="tag">음력</span><span id="lunarText" class="tag">-</span>
+      <span class="tag">절기</span><span id="termText" class="tag">-</span>
+      <span class="tag">기준</span><span id="stdText" class="tag">-</span>
+    </div>
+  </fieldset>
+
+  <!-- 4주 -->
+  <fieldset>
+    <legend>사주(4주)</legend>
+    <div class="ganzigrid">
+      <div><div class="cap">년</div><div id="yRole" class="role">-</div><div id="yStem" class="box">-</div><div id="yBranch" class="box small">-</div></div>
+      <div><div class="cap">월</div><div id="mRole" class="role">-</div><div id="mStem" class="box">-</div><div id="mBranch" class="box small">-</div></div>
+      <div><div class="cap">일</div><div id="dRole" class="role">일간</div><div id="dStem" class="box">-</div><div id="dBranch" class="box small">-</div></div>
+      <div><div class="cap">시</div><div id="hRole" class="role">-</div><div id="hStem" class="box">-</div><div id="hBranch" class="box small">-</div></div>
+    </div>
+  </fieldset>
+
+  <!-- 대운 -->
+  <fieldset>
+    <legend>대운</legend>
+    <div id="daeHeader" class="note" style="margin:6px 0 8px 2px;font-weight:700">대운수 : -(-)</div>
+    <div id="car-dae" class="carousel" data-visible="8">
+      <button class="nav prev">‹</button>
+      <div id="daeRow" class="viewport"></div>
+      <button class="nav next">›</button>
+    </div>
+  </fieldset>
+
+  <!-- 연운 -->
+  <fieldset>
+    <legend>연운</legend>
+    <div id="runHeader" class="note" style="margin:6px 0 8px 2px;font-weight:700">연운 : 8개 창</div>
+    <div id="car-run" class="carousel" data-visible="8">
+      <button class="nav prev">‹</button>
+      <div id="runRow" class="viewport"></div>
+      <button class="nav next">›</button>
+    </div>
+  </fieldset>
+
+  <!-- 월운 -->
+  <fieldset>
+    <legend>월운</legend>
+    <div id="car-month" class="carousel" data-visible="8">
+      <button class="nav prev">‹</button>
+      <div id="monthRow" class="viewport"></div>
+      <button class="nav next">›</button>
+    </div>
+  </fieldset>
+
+  <details>
+    <summary>원본 JSON</summary>
+    <pre id="raw">-</pre>
+  </details>
+</main>
+
+<script>
+  const STEM_ELEM={'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
+  const BRANCH_ELEM={'子':'water','丑':'earth','寅':'wood','卯':'wood','辰':'earth','巳':'fire','午':'fire','未':'earth','申':'metal','酉':'metal','戌':'earth','亥':'water'};
+  const CYCLE=['wood','fire','earth','metal','water'];
+  const CONTROL={wood:'earth',fire:'metal',earth:'water',metal:'wood',water:'fire'};
+  const YANG='甲丙戊庚壬'; const nowYear=(new Date()).getFullYear();
+
+  function PROXY(){return document.getElementById('proxy').value.trim();}
+
+  function elemOf(c){return STEM_ELEM[c]||BRANCH_ELEM[c]||'earth';}
+  function split(g){return[g?.[0]||'-',g?.[1]||'-'];}
+  function setText(id,t){document.getElementById(id).textContent=t;}
+  function iv(id){const n=+document.getElementById(id).value;return Number.isFinite(n)?n:0;}
+
+  /** 십성 */
+  function tenGod(dayStem, otherStem){
+    if(!dayStem||!otherStem) return '-';
+    const ed=elemOf(dayStem), eo=elemOf(otherStem);
+    const same = (YANG.includes(dayStem) === YANG.includes(otherStem));
+    const idx=k=>CYCLE.indexOf(k);
+
+    if(eo===ed) return same?'비견':'겁재';
+    if(eo===CYCLE[(idx(ed)+1)%5]) return same?'식신':'상관';
+    if(eo===CONTROL[ed])          return same?'정재':'편재';
+    if(CONTROL[eo]===ed)          return same?'정관':'편관';
+    if(eo===CYCLE[(idx(ed)+4)%5]) return same?'정인':'편인';
+    return '-';
+  }
+
+  /** API 호출 */
+  async function fetchSaju(q){
+    const url = PROXY() + '/saju?' + new URLSearchParams(q);
+    let r = await fetch(url,{cache:'no-store'});
+
+    if(!r.ok){
+      throw new Error('API 오류: ' + r.status);
+    }
+    return r.json();
+  }
+
+  /* ===== 대운 UI ===== */
+  function renderDaeRow(data, dayStem, birthYear){
+    const vp=document.getElementById('daeRow'); vp.innerHTML='';
+    const ages=[];
+
+    const dYear = data.daeWoonYear || [];
+    if (dYear.length === 0) return;
+
+    const firstYear=dYear[0];
+    const startAge=Math.max(1, firstYear - birthYear + 1);
+    for(let a=startAge; a<=100; a+=10) ages.push(a);
+
+    document.getElementById('daeHeader').textContent =
+      `대운수 : ${data.daeNum} (${data.daeDir})`;
+
+    const list = data.daeWoonGanji || [];
+
+    for(let i=0;i<ages.length;i++){
+      const age=ages[i];
+      const gj=list[i]||'';
+      const [s,b]=split(gj);
+
+      const tg=tenGod(dayStem,s);
+
+      const tile=document.createElement('div');
+      tile.className='tile';
+      tile.innerHTML = `
+        <div class="yr">${age}</div>
+        <div class="gbox">
+           <div class="mini ${elemOf(s)}">${s}</div>
+           <div class="mini small ${elemOf(b)}">${b}</div>
+        </div>
+        <div class="subnote">${tg}</div>
+      `;
+      vp.appendChild(tile);
+    }
+  }
+
+  /* ===== 연운 ===== */
+  function yearGanjiOf(y){
+    const GAN=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+    const JI=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+    return GAN[(y+6)%10]+JI[(y+8)%12];
+  }
+
+  let runCenterYear = nowYear;
+  function renderRunRow(centerYear){
+    const vp=document.getElementById('runRow'); vp.innerHTML='';
+    const half=4;
+
+    for(let y=centerYear-half;y<=centerYear+half;y++){
+      const g=yearGanjiOf(y);
+      const [s,b]=[g[0],g[1]];
+
+      const tile=document.createElement('div');
+      tile.className='tile'+(y===centerYear?' on':'');
+      tile.innerHTML=`
+        <div class="yr">${y}</div>
+        <div class="gbox">
+           <div class="mini ${elemOf(s)}">${s}</div>
+           <div class="mini small ${elemOf(b)}">${b}</div>
+        </div>
+      `;
+      tile.onclick=()=>{ runCenterYear=y; renderRunRow(y); loadMonths(y); };
+      vp.appendChild(tile);
+    }
+  }
+
+  /* ===== 월운 ===== */
+  async function loadMonths(year){
+    const vp=document.getElementById('monthRow'); vp.innerHTML='';
+    const male=document.querySelector('input[name=sex]:checked').value==='male';
+    const pivot=+document.querySelector('input[name=pivot]:checked').value;
+
+    try{
+      const calls=[...Array(12)].map((_,i)=>{
+        const m=i+1;
+        const q={year:year,month:m,day:15,hour:12,min:0,isMale:String(male),isLunar:'false',leap:'false',pivotMin:String(pivot)};
+        return fetchSaju(q).then(d=>({m,gj:d.monthGanji}));
+      });
+      const list=await Promise.all(calls);
+
+      list.forEach(({m,gj})=>{
+        const [s,b]=split(gj);
+        const tile=document.createElement('div'); tile.className='tile';
+        tile.innerHTML=`
+          <div class="yr">${m}월</div>
+          <div class="gbox">
+            <div class="mini ${elemOf(s)}">${s}</div>
+            <div class="mini small ${elemOf(b)}">${b}</div>
+          </div>
+        `;
+        vp.appendChild(tile);
+      });
+
+    }catch(e){
+      vp.innerHTML='<span class="note">월운 로딩 오류</span>';
+    }
+  }
+
+  /* ===== 조회 ===== */
+  document.getElementById('go').addEventListener('click', async ()=>{
+    const msg=document.getElementById('msg');
+    msg.textContent='조회 중...';
+
+    const y=iv('yy'), m=iv('mm'), d=iv('dd'), h=iv('hh'), mi=iv('mi');
+    const isLunar=document.querySelector('input[name=cal]:checked').value==='lunar';
+    const leap=isLunar && document.getElementById('leap').checked;
+    const isMale=document.querySelector('input[name=sex]:checked').value==='male';
+    const pivotMin=+document.querySelector('input[name=pivot]:checked').value;
+
+    try{
+      const data = await fetchSaju({
+        year:y, month:m, day:d, hour:h, min:mi,
+        isMale:String(isMale), isLunar:String(isLunar), leap:String(leap),
+        pivotMin:String(pivotMin)
+      });
+
+      document.getElementById('raw').textContent=JSON.stringify(data,null,2);
+
+      /* 요약 */
+      setText('solarText', data.solarText || '-');
+      setText('lunarText', data.lunarText || '-');
+      setText('termText', data.termName ? `${data.termName} ${data.termDate}`:'-');
+      setText('stdText', `pivot ${pivotMin}분`);
+
+      const [ys,yb]=split(data.yearGanji),
+            [ms,mb]=split(data.monthGanji),
+            [ds,db]=split(data.dayGanji),
+            [hs,hb]=split(data.hourGanji);
+
+      document.getElementById('yStem').textContent = ys;
+      document.getElementById('yBranch').textContent = yb;
+      document.getElementById('mStem').textContent = ms;
+      document.getElementById('mBranch').textContent = mb;
+      document.getElementById('dStem').textContent = ds;
+      document.getElementById('dBranch').textContent = db;
+      document.getElementById('hStem').textContent = hs;
+      document.getElementById('hBranch').textContent = hb;
+
+      document.getElementById('yRole').textContent = data.yearGod || tenGod(ds,ys);
+      document.getElementById('mRole').textContent = data.monthGod|| tenGod(ds,ms);
+      document.getElementById('dRole').textContent = '일간';
+      document.getElementById('hRole').textContent = data.hourGod || tenGod(ds,hs);
+
+      renderDaeRow(data, ds, y);
+      renderRunRow(nowYear);
+      loadMonths(nowYear);
+
+      msg.textContent='완료';
+
+    }catch(e){
+      console.error(e);
+      msg.textContent = '오류: ' + (e?.message || e);
+    }
+  });
+</script>
+
+</body>
+</html>
