@@ -839,7 +839,7 @@
             function scheduleCalc() {
                 if (calcTimer) clearTimeout(calcTimer);
                 // 약간 딜레이 후 한 번만 호출 (입력 바뀌는 중간 중복 방지)
-                calcTimer = setTimeout(calcGanjiFromManse, 400);
+                calcTimer = setTimeout(calcGanjiFromManse, 3000);
             }
 
             [birthYear, birthMonth, birthDay, birthHour, birthMinute].forEach(
