@@ -855,6 +855,15 @@
                 .forEach((el) => el.addEventListener("change", scheduleCalc));
         });
     </script>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    // 만세력 서버 깨우기
+    fetch("https://my-manseryeok.onrender.com/ping", {
+        method: "GET",
+        cache: "no-store"
+    }).catch(()=>{});
+});
+</script>
 
     <!-- 카카오톡 채널 플로팅 버튼 시작 -->
     <style>
