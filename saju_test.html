@@ -187,197 +187,109 @@
                     </div>
                 </div>
 
-                <!-- 사주 정보 (⭐ 새 디자인 + 만세력 연동) -->
-                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
-                    <h3 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
-                        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
-                    </h3>
+<!-- 사주 정보 (숫자 입력형 + 자동 계산) -->
+<div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+    <h3 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
+        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
+    </h3>
 
-                    <!-- 위 안내 문구: id 유지 (channelGuide) -->
-                    <p id="channelGuide" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl mb-4">
-                        생년월일과 시간을 입력하면<br class="hidden sm:block" />
-                        만세력 서버에서 자동으로 사주팔자를 계산합니다.
-                    </p>
+    <p id="channelGuide" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl mb-4">
+        생년월일과 시간을 숫자로 입력하면<br class="hidden sm:block">
+        만세력 서버에서 자동으로 사주팔자를 계산합니다.
+    </p>
 
-                    <!-- 생년월일 -->
-                    <div class="mb-4">
-                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">생년월일</label>
-                        <div class="grid grid-cols-3 gap-2 sm:gap-3">
-                            <select
-                                id="birth_year"
-                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
-                            >
-                                <option value="">-년-</option>
-                                <script>
-                                    (function () {
-                                        const sel = document.currentScript.previousElementSibling;
-                                        const now = new Date().getFullYear();
-                                        for (let y = now; y >= 1900; y--) {
-                                            const opt = document.createElement("option");
-                                            opt.value = y;
-                                            opt.textContent = y + "년";
-                                            sel.appendChild(opt);
-                                        }
-                                    })();
-                                </script>
-                            </select>
-                            <select
-                                id="birth_month"
-                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
-                            >
-                                <option value="">-월-</option>
-                                <script>
-                                    (function () {
-                                        const sel = document.currentScript.previousElementSibling;
-                                        for (let m = 1; m <= 12; m++) {
-                                            const opt = document.createElement("option");
-                                            opt.value = m;
-                                            opt.textContent = m + "월";
-                                            sel.appendChild(opt);
-                                        }
-                                    })();
-                                </script>
-                            </select>
-                            <select
-                                id="birth_day"
-                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
-                            >
-                                <option value="">-일-</option>
-                                <script>
-                                    (function () {
-                                        const sel = document.currentScript.previousElementSibling;
-                                        for (let d = 1; d <= 31; d++) {
-                                            const opt = document.createElement("option");
-                                            opt.value = d;
-                                            opt.textContent = d + "일";
-                                            sel.appendChild(opt);
-                                        }
-                                    })();
-                                </script>
-                            </select>
-                        </div>
-                    </div>
+    <!-- ⭐ 생년월일 숫자입력 -->
+    <div class="grid grid-cols-3 gap-3 mb-4">
+        <div>
+            <label class="block mb-1 text-gray-700 text-sm sm:text-base">출생 연도</label>
+            <input id="birth_year" type="number" placeholder="예: 1991"
+                class="w-full px-4 py-3 border rounded-xl text-gray-800 text-base sm:text-lg">
+        </div>
+        <div>
+            <label class="block mb-1 text-gray-700 text-sm sm:text-base">월</label>
+            <input id="birth_month" type="number" placeholder="1~12"
+                class="w-full px-4 py-3 border rounded-xl text-gray-800 text-base sm:text-lg">
+        </div>
+        <div>
+            <label class="block mb-1 text-gray-700 text-sm sm:text-base">일</label>
+            <input id="birth_day" type="number" placeholder="1~31"
+                class="w-full px-4 py-3 border rounded-xl text-gray-800 text-base sm:text-lg">
+        </div>
+    </div>
 
-                    <!-- 양/음력 -->
-                    <div class="mb-4">
-                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">양/음력</label>
-                        <div class="flex flex-wrap gap-2 button-group">
-                            <div>
-                                <input type="radio" id="sol_solar" name="solarlunar" value="양력" checked />
-                                <label for="sol_solar">양력</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="sol_lunar" name="solarlunar" value="음력" />
-                                <label for="sol_lunar">음력</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="sol_lunar_leap" name="solarlunar" value="음력(윤달)" />
-                                <label for="sol_lunar_leap">음력(윤달)</label>
-                            </div>
-                        </div>
-                    </div>
+    <!-- ⭐ 양/음력 선택 -->
+    <div class="mb-4">
+        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">양/음력</label>
+        <div class="flex gap-4">
+            <label class="inline-flex items-center">
+                <input type="radio" name="solarlunar" value="양력" checked class="mr-2">
+                양력
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="solarlunar" value="음력" class="mr-2">
+                음력
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="solarlunar" value="음력(윤달)" class="mr-2">
+                음력(윤달)
+            </label>
+        </div>
+    </div>
 
-                    <!-- 태어난 시간 -->
-                    <div class="mb-4">
-                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">태어난 시간</label>
-                        <div class="grid grid-cols-2 gap-2 sm:gap-3">
-                            <select
-                                id="birth_hour"
-                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
-                            >
-                                <option value="">모름</option>
-                                <script>
-                                    (function () {
-                                        const sel = document.currentScript.previousElementSibling;
-                                        for (let h = 0; h < 24; h++) {
-                                            const opt = document.createElement("option");
-                                            opt.value = h;
-                                            opt.textContent = h + "시";
-                                            sel.appendChild(opt);
-                                        }
-                                    })();
-                                </script>
-                            </select>
-                            <select
-                                id="birth_minute"
-                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
-                            >
-                                <option value="">모름</option>
-                                <script>
-                                    (function () {
-                                        const sel = document.currentScript.previousElementSibling;
-                                        for (let m = 0; m < 60; m++) {
-                                            const opt = document.createElement("option");
-                                            opt.value = m;
-                                            opt.textContent = m + "분";
-                                            sel.appendChild(opt);
-                                        }
-                                    })();
-                                </script>
-                            </select>
-                        </div>
-                        <p class="mt-1 text-xs text-gray-500">
-                            시간/분이 모르면 그대로 두셔도 됩니다. (알면 정확히 입력해 주세요)
-                        </p>
-                    </div>
+    <!-- ⭐ 태어난 시간 숫자입력 -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+        <div>
+            <label class="block mb-1 text-gray-700 text-sm sm:text-base">태어난 시간</label>
+            <input id="birth_hour" type="number" placeholder="0~23"
+                class="w-full px-4 py-3 border rounded-xl text-gray-800 text-base sm:text-lg">
+        </div>
+        <div>
+            <label class="block mb-1 text-gray-700 text-sm sm:text-base">태어난 분</label>
+            <input id="birth_minute" type="number" placeholder="0~59"
+                class="w-full px-4 py-3 border rounded-xl text-gray-800 text-base sm:text-lg">
+        </div>
+    </div>
 
-                    <!-- 자동 계산된 사주팔자 표시 (기존 yearJoo / monthJoo / dayJoo / timeJoo 유지) -->
-                    <div class="mt-4 border-t pt-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-semibold text-gray-700 text-sm sm:text-base">자동 계산된 사주팔자</span>
-                            <span id="autoCalcStatus" class="text-xs text-gray-400">아직 계산 전</span>
-                        </div>
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                            <div>
-                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">년주</label>
-                                <input
-                                    id="yearJoo"
-                                    name="yearJoo"
-                                    required
-                                    readonly
-                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
-                                    placeholder="자동 계산"
-                                />
-                            </div>
-                            <div>
-                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">월주</label>
-                                <input
-                                    id="monthJoo"
-                                    name="monthJoo"
-                                    required
-                                    readonly
-                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
-                                    placeholder="자동 계산"
-                                />
-                            </div>
-                            <div>
-                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">일주</label>
-                                <input
-                                    id="dayJoo"
-                                    name="dayJoo"
-                                    required
-                                    readonly
-                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
-                                    placeholder="자동 계산"
-                                />
-                            </div>
-                            <div>
-                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">시주</label>
-                                <input
-                                    id="timeJoo"
-                                    name="timeJoo"
-                                    required
-                                    readonly
-                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
-                                    placeholder="자동 계산"
-                                />
-                            </div>
-                        </div>
-                        <p class="mt-2 text-xs text-gray-500">
-                            위 네 칸은 입력한 생년월일·시간을 기준으로 만세력에서 자동 계산됩니다.
-                        </p>
-                    </div>
-                </div>
+    <p class="mt-1 text-xs text-gray-500">
+        시간/분을 모르면 빈 칸으로 두세요.
+    </p>
+
+    <!-- ⭐ 자동 계산된 사주팔자 -->
+    <div class="mt-6 border-t pt-4">
+        <div class="flex justify-between mb-2">
+            <span class="font-semibold text-gray-700 text-sm sm:text-base">자동 계산된 사주팔자</span>
+            <span id="autoCalcStatus" class="text-xs text-gray-400">아직 계산 전</span>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div>
+                <label class="block text-sm text-gray-700">년주</label>
+                <input id="yearJoo" name="yearJoo" readonly required
+                    class="w-full px-4 py-3 border rounded-xl bg-gray-100">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-700">월주</label>
+                <input id="monthJoo" name="monthJoo" readonly required
+                    class="w-full px-4 py-3 border rounded-xl bg-gray-100">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-700">일주</label>
+                <input id="dayJoo" name="dayJoo" readonly required
+                    class="w-full px-4 py-3 border rounded-xl bg-gray-100">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-700">시주</label>
+                <input id="timeJoo" name="timeJoo" readonly required
+                    class="w-full px-4 py-3 border rounded-xl bg-gray-100">
+            </div>
+        </div>
+
+        <p class="mt-2 text-xs text-gray-500">
+            입력한 생년월일·시간을 기준으로 자동 계산됩니다.
+        </p>
+    </div>
+</div>
+
 
                 <!-- 추가 정보 (원래 코드 그대로 유지) -->
                 <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
