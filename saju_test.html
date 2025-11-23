@@ -1,413 +1,988 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.easysaju.kr/images/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.easysaju.kr/images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="https://www.easysaju.kr/images/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.easysaju.kr/images/favicon-16x16.png">
-<link rel="shortcut icon" href=https://www.easysaju.kr/images/favicon.ico">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이지사주 무료운세 - 당신의 운명의 문을 두드리세요!</title>
 
-<!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="https://www.easysaju.kr/images/ms-icon-144x144.png">
-<!-- ======================================================================= -->
- 
- <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
-  <meta property="og:title" content="이지사주">
-  <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
-  <meta property="og:image" content=https://www.easysaju.kr/images/share.png">
-  <meta property="og:url" content="https://www.easysaju.kr/">
-  <meta property="og:type" content="website">
-<!-- ======================================================================= -->
-    
-    <title>이지사주 종합사주 - 프리미엄 정통사주 (1인용)</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- 🔥 price.css를 head 안으로 이동 -->
-    <link rel="stylesheet" href="price.css">
-    
- <!-- ✅ 서버 콜드 깨우기 Code -->   
- <script>
-// 페이지 로드 직후 서버 예열 (완전 안전 버전)
-(function prewarm() {
-  try {
-    const url = "https://my-payment-server-test.vercel.app/api/ping";
+    <!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://easysaju-test.vercel.app/images/apple-icon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://easysaju-test.vercel.app/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="https://easysaju-test.vercel.app/images/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="https://easysaju-test.vercel.app/images/favicon-16x16.png" />
+    <link rel="shortcut icon" href="https://easysaju-test.vercel.app/images/favicon.ico" />
 
-    // AbortController로 3초 후 자동 취소 → 리소스 낭비 없음
-    const controller = new AbortController();
-    setTimeout(() => controller.abort(), 3000);
+    <!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="https://easysaju-test.vercel.app/images/ms-icon-144x144.png" />
+    <!-- ======================================================================= -->
 
-    fetch(url, {
-      method: "GET",
-      signal: controller.signal,
-      cache: "no-store",
-    })
-    .catch(() => {
-      // ping 실패는 완전 무시 - 에러 0%
-    });
+    <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
+    <meta property="og:title" content="이지사주" />
+    <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세" />
+    <meta property="og:image" content="https://easysaju-test.vercel.app/images/share.png" />
+    <meta property="og:url" content="https://easysaju-test.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <!-- ======================================================================= -->
 
-  } catch (e) {
-    // 자바스크립트 자체 오류도 완전 무시
-  }
-})();
-</script>
- <!-- ✅ 서버 콜드 깨우기 Code  끝--> 
-    
-<!-- ✅ Meta Pixel Code (이지사주 공용) -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)n._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window,document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  
-  fbq('init', '1159392269346574'); // ← 여기에 당신의 Meta 픽셀 ID 넣기
-  fbq('track', 'PageView'); // 방문(랜딩 진입) 추적
-</script>
+    <!-- Tailwind CDN (index.html) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"/>
-</noscript>
-<!-- ✅ End Meta Pixel Code -->
+    <!-- saju_1p.html의 style.css + index.html의 style_index.css -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style_index.css" />
 
+    <style>
+        /* saju_1p.html의 inline CSS (#copy) */
+        #copy {
+            max-width: 800px;
+            margin: auto;
+            padding: 0px 10px;
+            text-align: left;
+            font-size: 12px;
+            color: rgb(102, 102, 102);
+            line-height: 1.5;
+            z-index: 1001;
+        }
+        /* index.html의 inline CSS */
+        .no-scroll {
+            overflow: hidden;
+        }
+        /* 사이드 메뉴 왼쪽 슬라이드 */
+        #side-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        #side-nav.active {
+            transform: translateX(0);
+        }
+        #nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+        #nav-overlay.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <div class="sticky-header">
-  <a href="javascript:void(0);" id="open-nav-btn" class="header-logo-link">
-  <span class="burger" aria-hidden="true">&#9776;</span>
-  <span class="header-title">종합사주</span>
-</a>
-    <a href="#saju-form" class="header-button">사주분석 신청하기</a>
-</div>
-    <!-- ================== 사이드 메뉴 코드 시작 ================== -->
-<!-- 화면을 덮는 반투명 오버레이 -->
-<div id="nav-overlay"></div>
+    <!-- 고정 헤더 (saju_1p.html 구조, index.html 텍스트) -->
+    <div class="sticky-header">
+        <a href="javascript:void(0);" id="open-nav-btn" class="header-logo-link">
+            <span class="burger" aria-hidden="true">&#9776;</span>
+            <span class="header-title">무료사주</span>
+        </a>
+        <a href="#fortuneForm" class="header-button">사주분석 신청하기</a>
+    </div>
 
-<!-- 사이드 메뉴 (숨겨져 있음) -->
-<nav id="side-nav">
+    <!-- 사이드 메뉴 (saju_1p.html) -->
+    <div id="nav-overlay"></div>
+    <nav id="side-nav">
         <div class="nav-header">
-        <!-- 로고 이미지와 텍스트를 함께 표시하는 부분 -->
-        <div class="logo-in-nav">
-            <img src="logo.png" alt="이지사주 로고">
-            <span>이지사주</span>
+            <div class="logo-in-nav">
+                <img src="logo.png" alt="이지사주 로고" />
+                <span>이지사주</span>
+            </div>
+            <a href="javascript:void(0);" id="close-nav-btn">&times;</a>
         </div>
-        <a href="javascript:void(0);" id="close-nav-btn">&times;</a>
-    </div>
-    <ul class="nav-menu">
-        <li><a href="index.html">홈으로 가기</a></li>
-        
-        <!-- 아코디언 메뉴 1 -->
-        <li class="accordion">
-            <div class="accordion-header">사주 분석 신청<span class="arrow">&#9662;</span></div>
-            <div class="accordion-content">
-                <a href="saju_1p.html">프리미엄 종합사주</a>
-                <a href="saju_2p.html">이지사주 재회운(궁합)</a>
-                <a href="saju_free.html">이지사주 신년운세</a>
-            </div>
-        </li>
+        <ul class="nav-menu">
+            <li><a href="index.html">홈으로 가기</a></li>
+            <li class="accordion">
+                <div class="accordion-header">
+                    사주 분석 신청<span class="arrow">&#9662;</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="saju_1p.html">프리미엄 종합사주</a>
+                    <a href="saju_2p.html">이지사주 재회운(궁합)</a>
+                    <a href="saju_free.html">이지사주 신년운세</a>
+                </div>
+            </li>
+            <li class="accordion">
+                <div class="accordion-header">
+                    무료 운세 <span class="arrow">&#9662;</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer">오늘의 운세</a>
+                    <a href="saju_new.html">무료 운세 보기</a>
+                </div>
+            </li>
+            <li><a href="easysaju.html"> 만세력 조회</a></li>
+        </ul>
+        <div class="nav-footer">
+            <a href="http://pf.kakao.com/_xkAevn/chat" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
+            <p>운영시간 평일 09:00~18:00</p>
+        </div>
+    </nav>
 
-        <!-- 아코디언 메뉴 2 -->
-        <li class="accordion">
-            <div class="accordion-header">무료 운세 <span class="arrow">&#9662;</span></div>
-            <div class="accordion-content">
-                <a href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer">오늘의 운세</a>
-                <a href="saju_new.html">무료 운세 보기</a>
-            </div>
-        </li>
-
-            <!--   <li><a href="#">내 분석 결과 다시 보기</a></li>   -->
-    </ul>
-    <div class="nav-footer">
-        <a href="http://pf.kakao.com/_xkAevn/chat" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
-        <p>운영시간 평일 09:00~18:00</p>
-    </div>
-</nav>
-<!-- ================== 사이드 메뉴 코드 끝 ================== -->
-    
     <div class="main-container">
- <!-- ===== 1. 상단 이미지 영역 (수동 관리) ===== -->
-<div class="image-section">
-    <img src="images/saju1/0.png" alt="이벤트 이미지">
-    <img src="images/saju1/002.png" alt="안내 이미지 1">
-    <img src="images/saju1/003.png" alt="안내 이미지 2">
-    <img src="images/saju1/004.png" alt="안내 이미지 3">
-    <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4">
-    <img src="images/saju1/007.png" alt="안내 이미지 5">
-    <img src="images/saju1/008.png" alt="안내 이미지 6">
-    <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7">
-    <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8">
-    <img src="images/saju1/020.png" alt="안내 이미지 9">
-    <img src="images/saju1/021.gif" alt="안내 이미지 10">
-</div>
-
-<section class="price-board-wrapper">
-    <div id="dynamic-price-board"></div>
-</section>
-        <script src="price.js"></script>
-
-        <!-- 신청 폼 영역 -->
-        <div class="form-container">
-             
-            <form id="saju-form">
-                <div class="form-group">
-                    <label>이름</label>
-                    <input type="text" name="p1_name" placeholder="이름">
-                </div>
-                <div class="form-group">
-                     <label for="contact">연락처</label>
-                     <input type="tel" id="contact" name="contact" placeholder="'-' 없이 숫자만 입력" required>
-                </div>
-                <div class="form-group">
-                    <label>생년월일</label>
-                    <div class="birth-select">
-                        <select name="p1_birth_year"><option value="">-년-</option></select>
-                        <select name="p1_birth_month"><option value="">-월-</option></select>
-                        <select name="p1_birth_day"><option value="">-일-</option></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>양/음력</label>
-                    <div class="button-group">
-                        <input type="radio" id="p1_solar" name="p1_solarlunar" value="양력" checked><label for="p1_solar">양력</label>
-                        <input type="radio" id="p1_lunar" name="p1_solarlunar" value="음력"><label for="p1_lunar">음력</label>
-                        <input type="radio" id="p1_lunar_leap" name="p1_solarlunar" value="음력(윤달)"><label for="p1_lunar_leap">음력(윤달)</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>성별</label>
-                    <div class="button-group">
-                        <input type="radio" id="p1_male" name="p1_gender" value="남성" checked><label for="p1_male">남성</label>
-                        <input type="radio" id="p1_female" name="p1_gender" value="여성"><label for="p1_female">여성</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>태어난 시간</label>
-                    <div class="birth-select">
-                        <select name="p1_hour"><option value="">모름</option><script>for(let i=0; i<24; i++) document.write(`<option value="${i}">${i}시</option>`);</script></select>
-                        <select name="p1_minute"><option value="">모름</option><script>for(let i=0; i<60; i++) document.write(`<option value="${i}">${i}분</option>`);</script></select>
-                    </div>
-                </div>
-                <div class="form-group">
-    <label for="email">이메일 (선택)</label>
-    <input type="email" id="email" name="email" placeholder="분석 결과 수신용 이메일 주소">
-</div>
-             <!-- 상품선 -->     
-         <label for="product">상품 선택</label>
-         <select id="product" name="product"></select>
-
-
-    <div class="agree-section">
-
-    <div class="agree-box">
-        <input type="checkbox" id="agree_all">
-        <label for="agree_all">전체동의 (필수항목, 광고성 정보 수신 포함)</label>
-    </div>
-
-    <!-- 개인정보 수집·이용 동의 (필수) -->
-    <div class="agree-box">
-        <input type="checkbox" id="agree1" name="agree1" class="agree-item" required>
-        <label for="agree1">[필수] 개인정보 수집·이용 동의 <span class="toggle-text">[보기]</span></label>
-        <textarea class="terms-box" readonly>
-[필수] 개인정보 수집·이용 동의
-
-1. 수집 항목
-- 이름, 생년월일시, 성별, 전화번호, (선택) 이메일
-
-2. 이용 목적
-- 사주 분석 및 결과서(PDF) 제작·전송
-- 이용자 문의 응대 및 분석결과 재전송
-- 서비스 품질 개선을 위한 통계 활용(개인 식별 불가 형태)
-
-3. 보유 및 이용 기간
-- 서비스 제공 완료일로부터 1년간 보관 후 즉시 파기
-(단, 관련 법령에 특별한 규정이 있는 경우 해당 기간까지 보관)
-
-4. 동의 거부권 및 불이익
-- 개인정보 수집·이용에 대한 동의는 필수이며, 거부 시 서비스 제공이 불가합니다.
-
-이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 동의합니다.
-        </textarea>
-    </div>
-
-    <!-- 광고성 정보 수신 동의 (선택) -->
-    <div class="agree-box">
-        <input type="checkbox" id="agree2" name="agree2" class="agree-item">
-        <label for="agree2">[선택] 광고성 정보 수신 동의 <span class="toggle-text">[보기]</span></label>
-        <textarea class="terms-box" readonly>
-[선택] 개인정보 수집·이용 동의
-
-1. 수신 항목 및 수단
-- 카카오 알림톡, 문자(SMS), 이메일 등
-
-2. 이용 목적
-- 신규 서비스, 이벤트, 할인·프로모션 등 마케팅 정보 제공
-- 시즌별 사주분석 리마인드, 맞춤 안내 등 고객 알림 발송
-
-3. 보유 및 이용 기간
-- 동의일로부터 1년간 또는 수신 거부 요청 시 즉시 파기
-
-4. 동의 철회 방법
-- 발송 메시지 내 ‘수신거부’ 또는 이메일(easysaju.saju@gmail.com)로 연락 시 언제든 철회 가능
-- 광고성 정보 수신에 동의하지 않아도 서비스 이용에는 제한이 없습니다.
-
-이지사주는 상기 내용을 충분히 안내하였으며, 이용자는 이에 선택적으로 동의할 수 있습니다.
-        </textarea>
-    </div>
-
-</div>
-<!-- UTM 정보를 저장할 숨겨진 필드 (여기에 추가) -->
-<input type="hidden" id="utm_source" name="utm_source">
-<input type="hidden" id="utm_medium" name="utm_medium">
-<input type="hidden" id="utm_campaign" name="utm_campaign">
-                
-    <!-- 기존 신청 버튼 -->            
-                <button type="submit">사주분석 신청하기</button>
-                <div id="result"></div>
-            </form>
-        </div>
-
-        <!-- 하단 이미지 영역 -->
+        <!-- 상단 이미지 영역 (saju_1p.html) -->
         <div class="image-section">
-            <img src="images/saju1/022.png" alt="후기 이미지">
-            <img src="images/saju1/023.png" alt="상 이미지">
-            
+            <img src="images/saju1/0.png" alt="이벤트 이미지" class="scroll-to-form" />
+            <img src="images/saju1/002.png" alt="안내 이미지 1" class="scroll-to-form" />
+            <img src="images/saju1/003.png" alt="안내 이미지 2" class="scroll-to-form" />
+            <img src="images/saju1/004.png" alt="안내 이미지 3" class="scroll-to-form" />
+            <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4" class="scroll-to-form" />
+            <img src="images/saju1/007.png" alt="안내 이미지 5" class="scroll-to-form" />
+            <img src="images/saju1/008.png" alt="안내 이미지 6" class="scroll-to-form" />
+            <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7" class="scroll-to-form" />
+            <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8" class="scroll-to-form" />
+            <img src="images/saju1/020.png" alt="안내 이미지 9" class="scroll-to-form" />
+            <img src="images/saju1/021.gif" alt="안내 이미지 10" class="scroll-to-form" />
+        </div>
+
+        <!-- 폼 영역 (무료사주) -->
+        <div class="form-container">
+            <form
+                id="fortuneForm"
+                class="space-y-8"
+                action="https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec"
+                method="POST"
+                accept-charset="UTF-8"
+            >
+                <!-- 기본 정보 -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h3 class="font-bold text-gray-800 mb-6 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-blue-100 text-blue-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">📋</span>기본 정보
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성명</label>
+                            <input
+                                id="name"
+                                name="name"
+                                required
+                                class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500"
+                                placeholder="성명"
+                            />
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">전화번호</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="01012345678"
+                                required
+                                maxlength="11"
+                                pattern="^01[0-9]{8,9}$"
+                                inputmode="numeric"
+                                autocomplete="tel"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 사주 정보 (⭐ 새 디자인 + 만세력 연동) -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-red-100 text-red-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💮</span>사주 정보
+                    </h3>
+
+                    <!-- 위 안내 문구: id 유지 (channelGuide) -->
+                    <p id="channelGuide" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl mb-4">
+                        생년월일과 시간을 입력하면<br class="hidden sm:block" />
+                        만세력 서버에서 자동으로 사주팔자를 계산합니다.
+                    </p>
+
+                    <!-- 생년월일 -->
+                    <div class="mb-4">
+                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">생년월일</label>
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                            <select
+                                id="birth_year"
+                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
+                            >
+                                <option value="">-년-</option>
+                                <script>
+                                    (function () {
+                                        const sel = document.currentScript.previousElementSibling;
+                                        const now = new Date().getFullYear();
+                                        for (let y = now; y >= 1900; y--) {
+                                            const opt = document.createElement("option");
+                                            opt.value = y;
+                                            opt.textContent = y + "년";
+                                            sel.appendChild(opt);
+                                        }
+                                    })();
+                                </script>
+                            </select>
+                            <select
+                                id="birth_month"
+                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
+                            >
+                                <option value="">-월-</option>
+                                <script>
+                                    (function () {
+                                        const sel = document.currentScript.previousElementSibling;
+                                        for (let m = 1; m <= 12; m++) {
+                                            const opt = document.createElement("option");
+                                            opt.value = m;
+                                            opt.textContent = m + "월";
+                                            sel.appendChild(opt);
+                                        }
+                                    })();
+                                </script>
+                            </select>
+                            <select
+                                id="birth_day"
+                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
+                            >
+                                <option value="">-일-</option>
+                                <script>
+                                    (function () {
+                                        const sel = document.currentScript.previousElementSibling;
+                                        for (let d = 1; d <= 31; d++) {
+                                            const opt = document.createElement("option");
+                                            opt.value = d;
+                                            opt.textContent = d + "일";
+                                            sel.appendChild(opt);
+                                        }
+                                    })();
+                                </script>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 양/음력 -->
+                    <div class="mb-4">
+                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">양/음력</label>
+                        <div class="flex flex-wrap gap-2 button-group">
+                            <div>
+                                <input type="radio" id="sol_solar" name="solarlunar" value="양력" checked />
+                                <label for="sol_solar">양력</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="sol_lunar" name="solarlunar" value="음력" />
+                                <label for="sol_lunar">음력</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="sol_lunar_leap" name="solarlunar" value="음력(윤달)" />
+                                <label for="sol_lunar_leap">음력(윤달)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 태어난 시간 -->
+                    <div class="mb-4">
+                        <label class="block font-medium text-gray-700 mb-2 text-sm sm:text-base">태어난 시간</label>
+                        <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                            <select
+                                id="birth_hour"
+                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
+                            >
+                                <option value="">모름</option>
+                                <script>
+                                    (function () {
+                                        const sel = document.currentScript.previousElementSibling;
+                                        for (let h = 0; h < 24; h++) {
+                                            const opt = document.createElement("option");
+                                            opt.value = h;
+                                            opt.textContent = h + "시";
+                                            sel.appendChild(opt);
+                                        }
+                                    })();
+                                </script>
+                            </select>
+                            <select
+                                id="birth_minute"
+                                class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800"
+                            >
+                                <option value="">모름</option>
+                                <script>
+                                    (function () {
+                                        const sel = document.currentScript.previousElementSibling;
+                                        for (let m = 0; m < 60; m++) {
+                                            const opt = document.createElement("option");
+                                            opt.value = m;
+                                            opt.textContent = m + "분";
+                                            sel.appendChild(opt);
+                                        }
+                                    })();
+                                </script>
+                            </select>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">
+                            시간/분이 모르면 그대로 두셔도 됩니다. (알면 정확히 입력해 주세요)
+                        </p>
+                    </div>
+
+                    <!-- 자동 계산된 사주팔자 표시 (기존 yearJoo / monthJoo / dayJoo / timeJoo 유지) -->
+                    <div class="mt-4 border-t pt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-gray-700 text-sm sm:text-base">자동 계산된 사주팔자</span>
+                            <span id="autoCalcStatus" class="text-xs text-gray-400">아직 계산 전</span>
+                        </div>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">년주</label>
+                                <input
+                                    id="yearJoo"
+                                    name="yearJoo"
+                                    required
+                                    readonly
+                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
+                                    placeholder="자동 계산"
+                                />
+                            </div>
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">월주</label>
+                                <input
+                                    id="monthJoo"
+                                    name="monthJoo"
+                                    required
+                                    readonly
+                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
+                                    placeholder="자동 계산"
+                                />
+                            </div>
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">일주</label>
+                                <input
+                                    id="dayJoo"
+                                    name="dayJoo"
+                                    required
+                                    readonly
+                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
+                                    placeholder="자동 계산"
+                                />
+                            </div>
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1 text-xs sm:text-sm">시주</label>
+                                <input
+                                    id="timeJoo"
+                                    name="timeJoo"
+                                    required
+                                    readonly
+                                    class="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-xl text-gray-800 bg-gray-50"
+                                    placeholder="자동 계산"
+                                />
+                            </div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-500">
+                            위 네 칸은 입력한 생년월일·시간을 기준으로 만세력에서 자동 계산됩니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 추가 정보 (원래 코드 그대로 유지) -->
+                <div class="p-5 rounded-2xl shadow-sm border border-gray-200 bg-white">
+                    <h3 class="font-bold text-gray-800 mb-5 flex items-center text-2xl sm:text-3xl">
+                        <span class="bg-green-100 text-green-500 rounded-full p-1.5 mr-3 text-xl sm:text-2xl">💬</span>추가 정보
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">성별</label>
+                            <label class="inline-flex items-center mr-6">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="남성"
+                                    checked
+                                    class="h-5 w-5 sm:h-6 sm:w-6 text-blue-600"
+                                />
+                                <span class="ml-2 text-base sm:text-lg text-gray-700">남성</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="여성"
+                                    class="h-5 w-5 sm:h-6 sm:w-6 text-pink-600"
+                                />
+                                <span class="ml-2 text-base sm:text-lg text-gray-700">여성</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-2 text-base sm:text-lg">궁금한 점</label>
+                            <input
+                                id="question"
+                                name="question"
+                                required
+                                class="w-full px-4 py-3 text-base sm:text-lg border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500"
+                                placeholder="올해의 재물운 등...."
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 통합 동의 -->
+                <div class="bg-gray-100 p-4 sm:p-6 rounded-2xl border border-gray-200">
+                    <label class="flex items-start">
+                        <input
+                            id="agree_all"
+                            name="agree_all"
+                            type="checkbox"
+                            class="h-6 w-6 sm:h-8 sm:w-8 mt-1.5 text-blue-600 border-gray-400 rounded"
+                            required
+                        />
+                        <span class="ml-3 font-bold text-gray-900 leading-snug text-lg sm:text-2xl">
+                            [필수] 개인정보 수집·이용 및 광고성 정보 수신에 동의합니다.
+                            <span class="text-blue-700 underline cursor-pointer" onclick="showPolicyModal()"
+                                >개인정보 처리방침 보기</span
+                            >
+                        </span>
+                    </label>
+                </div>
+
+                <!-- 안내 + 버튼 -->
+                <div id="actionArea" class="w-full mt-8 flex flex-col space-y-4 text-center">
+                    <p id="channelGuide2" class="font-bold text-yellow-600 leading-relaxed text-lg sm:text-2xl">
+                        💛 이지사주채널 추가 후 <br class="hidden sm:block" />
+                        뒤로가기 누르면 결과보기 버튼이 나옵니다.
+                    </p>
+                    <button
+                        id="actionBtn"
+                        type="button"
+                        class="w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-lg"
+                    >
+                        👉 친구 추가 하고 무료 사주 보기
+                    </button>
+
+                    <!-- 안내 박스 -->
+                    <div class="text-center mt-2 p-4 bg-yellow-50 border border-yellow-300 rounded-lg shadow-sm">
+                        <p class="text-base sm:text-lg text-gray-800 font-bold">🎁 이지사주 채널 친구 추가 안내!</p>
+                        <p class="text-sm sm:text-lg text-gray-700 mt-1">
+                            사주 조회는 친구 추가후 이용 가능합니다.<br class="hidden sm:block" />
+                            가입하면 친구 전용 쿠폰도 드립니다.
+                        </p>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 결과 영역 (index.html, 숨김) -->
+            <div id="resultContainer" class="hidden mt-10 text-center">
+                <div class="rounded-2xl shadow-sm border border-gray-200 overflow-hidden bg-white">
+                    <h2 class="font-bold text-gray-800 pt-6 text-2xl sm:text-4xl">🔮 분석 결과 🔮</h2>
+                    <div
+                        id="fortuneResult"
+                        class="p-6 text-base sm:text-xl leading-relaxed text-gray-800 whitespace-pre-wrap text-left mb-6"
+                    ></div>
+                </div>
+                <div class="text-center mt-8 mb-12 p-5 rounded-xl border border-yellow-400 bg-yellow-50 shadow-sm">
+                    <p class="text-xl font-bold text-gray-800 mb-2">🎁 이지사주 채널에 가입하셨나요?</p>
+                    <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">
+                        카카오톡 <b class="text-blue-600">이지사주 채널</b>로 가면 친구 전용 쿠폰 메시지가 도착해 있어요!<br
+                            class="hidden sm:block"
+                        />
+                        [쿠폰받기] 버튼을 눌러 혜택을 받아보세요 🎊
+                    </p>
+                    <button
+                        onclick="window.open('https://pf.kakao.com/_xkAevn')"
+                        class="inline-block px-6 py-3 text-base sm:text-xl font-bold text-white rounded-full bg-yellow-500 hover:bg-yellow-600 transition transform hover:scale-105 shadow-md"
+                    >
+                        👉 이지사주 채널로 바로 가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 이미지 영역 (saju_1p.html, 스크롤 추가) -->
+        <div class="image-section">
+            <img src="images/saju1/022.png" alt="후기 이미지" class="scroll-to-form" />
+            <img src="images/saju1/023.png" alt="상 이미지" class="scroll-to-form" />
         </div>
     </div>
-    <script src="form.js"></script>
-      <script>
-    fetch("https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec", {
-      method: "GET",
-      mode: "no-cors"
-    });
-  </script>
-<!-- 카피라이팅 텍스트 - 하단 이미지와 바로 붙도록 수정 -->
-<div id="copy" style="max-width: 800px; margin: auto; padding: 0px 10px; text-align: left; font-size: 12px; color: rgb(102, 102, 102); line-height: 1.5; z-index: 1001;"><b>서비스명 : 이지사주</b><br>
-대표자 : 안미정<br>
-Contact : easysaju.saju@gmail.com<br>
-통신판매신고 번호 : 2025-고양일산동-1332</div>
-    
-    <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
+
+    <!-- 개인정보 처리방침 모달 (index.html) -->
+    <div
+        id="policyModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+    >
+        <div
+            class="bg-white rounded-2xl shadow-xl max-w-3xl w-full p-6 sm:p-8 overflow-y-auto max-h-[90%] relative"
+        >
+            <button
+                onclick="closePolicyModal()"
+                class="absolute top-3 right-4 text-gray-500 text-2xl sm:text-3xl font-bold"
+            >
+                &times;
+            </button>
+            <h2 class="font-bold mb-4 sm:mb-6 text-2xl sm:text-4xl">개인정보 처리방침</h2>
+            <div class="leading-relaxed text-gray-800 space-y-2 text-sm sm:text-xl">
+                <p>이지사주는 고객님의 개인정보를 보호하며, 아래와 같이 처리합니다.</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>수집정보: 이름, 전화번호, 사주정보, 성별, 문의내용, 접속정보</li>
+                    <li>수집목적: 사주분석 결과제공, 상담응대, 이벤트 및 프로모션 안내</li>
+                    <li>보유기간: 수집 후 1년 보관 후 파기 (법규 근거시 예외 보관)</li>
+                    <li>권리: 광고 정보 거부 및 개인정보 삭제 요청 가능</li>
+                    <li>문의: easysaju.saju@gmail.com / 010-2151-3949</li>
+                </ul>
+            </div>
+            <div class="mt-5 sm:mt-6 text-right">
+                <button
+                    onclick="closePolicyModal()"
+                    class="px-5 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg"
+                >
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 오버레이 (index.html) -->
+    <div
+        id="loadingOverlay"
+        class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"
+    >
+        <div class="text-white text-center animate-pulse">
+            <svg
+                class="animate-spin inline-block w-12 h-12 sm:w-16 sm:h-16"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+            >
+                <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                ></circle>
+                <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+            </svg>
+            <p class="mt-3 text-lg sm:text-2xl">사주를 분석 중입니다...</p>
+        </div>
+    </div>
+
+    <!-- 푸터 (saju_1p.html) -->
+    <div id="copy">
+        <b>서비스명: 이지사주</b><br />
+        대표자: 안미정<br />
+        Contact: easysaju.saju@gmail.com<br />
+        통신판매신고 번호: 2025-고양일산동-1332
+    </div>
+
+    <!-- 기존 script_index.js -->
+    <script src="script_index.js"></script>
+
+    <!-- 사이드메뉴 및 이미지 스크롤 스크립트 (기존) -->
     <script>
-    // 페이지 로드 후 실행
-    document.addEventListener('DOMContentLoaded', function() {
-        const openNavBtn = document.getElementById('open-nav-btn');
-        const closeNavBtn = document.getElementById('close-nav-btn');
-        const sideNav = document.getElementById('side-nav');
-        const navOverlay = document.getElementById('nav-overlay');
-        const accordions = document.querySelectorAll('.accordion-header');
+        document.addEventListener("DOMContentLoaded", function () {
+            const openNavBtn = document.getElementById("open-nav-btn");
+            const closeNavBtn = document.getElementById("close-nav-btn");
+            const sideNav = document.getElementById("side-nav");
+            const navOverlay = document.getElementById("nav-overlay");
+            const accordions = document.querySelectorAll(".accordion-header");
+            const scrollImages = document.querySelectorAll(".scroll-to-form");
 
-// 메뉴 열기
-openNavBtn.addEventListener('click', function () {
-    sideNav.classList.add('active');
-    navOverlay.classList.add('active');
+            // 이미지 클릭 시 폼으로 스크롤
+            scrollImages.forEach((img) => {
+                img.addEventListener("click", () => {
+                    document
+                        .getElementById("fortuneForm")
+                        .scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
 
-    // 메뉴가 화면에 렌더된 뒤 첫 번째 아코디언 자동 펼치기
-    setTimeout(function () {
-        // 1) 모두 접기
-        const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
-        items.forEach(function (li) {
-            li.classList.remove('active');
-            const content = li.querySelector('.accordion-content');
-            if (content) content.style.maxHeight = null;
-        });
+            // 메뉴 열기
+            openNavBtn.addEventListener("click", function () {
+                sideNav.classList.add("active");
+                navOverlay.classList.add("active");
+                setTimeout(function () {
+                    const items = sideNav.querySelectorAll(".nav-menu > li.accordion");
+                    items.forEach(function (li) {
+                        li.classList.remove("active");
+                        const content = li.querySelector(".accordion-content");
+                        if (content) content.style.maxHeight = null;
+                    });
+                    const first = sideNav.querySelector(".nav-menu > li.accordion");
+                    if (first) {
+                        first.classList.add("active");
+                        const content = first.querySelector(".accordion-content");
+                        if (content) content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                }, 50);
+            });
 
-        // 2) 첫 번째 아코디언만 펼치기 (사주 분석 신청)
-        const first = sideNav.querySelector('.nav-menu > li.accordion');
-        if (first) {
-            first.classList.add('active');
-            const content = first.querySelector('.accordion-content');
-            if (content) content.style.maxHeight = content.scrollHeight + 'px';
-        }
-    }, 50); // 30~80ms 사이로 조절 가능
-});
-        
-        // 메뉴 닫기 (X 버튼, 배경 클릭)
-        function closeMenu() {
-            sideNav.classList.remove('active');
-            navOverlay.classList.remove('active');
-        }
-        closeNavBtn.addEventListener('click', closeMenu);
-        navOverlay.addEventListener('click', closeMenu);
+            // 메뉴 닫기
+            function closeMenu() {
+                sideNav.classList.remove("active");
+                navOverlay.classList.remove("active");
+            }
+            closeNavBtn.addEventListener("click", closeMenu);
+            navOverlay.addEventListener("click", closeMenu);
 
-        // 아코디언 메뉴 기능
-        accordions.forEach(function(accordion) {
-            accordion.addEventListener('click', function() {
-                this.parentElement.classList.toggle('active');
+            // 아코디언 메뉴
+            accordions.forEach(function (accordion) {
+                accordion.addEventListener("click", function () {
+                    this.parentElement.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
             });
         });
-    });
-</script>
-<script>
+    </script>
 
-const PAGE_CATEGORY = "p_1"; // 🔥 이 랜딩이 1인 사주용
+    <!-- index.html의 폼 스크립트 (기존 로직 그대로) -->
+    <script>
+        const KAKAO_CHANNEL_URL = "https://pf.kakao.com/_xkAevn/friend";
+        const actionBtn = document.getElementById("actionBtn");
+        const channelGuide2 = document.getElementById("channelGuide2");
+        const fortuneForm = document.getElementById("fortuneForm");
+        const resultContainer = document.getElementById("resultContainer");
+        const fortuneResult = document.getElementById("fortuneResult");
+        const loadingOverlay = document.getElementById("loadingOverlay");
 
-async function loadProducts() {
-  try {
-    const res = await fetch(`${API_BASE}/api/products?category=${PAGE_CATEGORY}`);
-    const data = await res.json();
+        function showPolicyModal() {
+            document.getElementById("policyModal").classList.remove("hidden");
+            document.body.classList.add("no-scroll");
+        }
+        function closePolicyModal() {
+            document.getElementById("policyModal").classList.add("hidden");
+            document.body.classList.remove("no-scroll");
+        }
 
-    const select = document.getElementById("product");
-    select.innerHTML = "";
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem("joinedChannelDate");
+        if (savedDate !== today) {
+            localStorage.removeItem("joinedChannel");
+        }
+        if (localStorage.getItem("joinedChannel")) switchToResultMode();
 
-    data.items.forEach(item => {
-      const opt = document.createElement("option");
-      opt.value = item.id;
-      opt.textContent = `${item.name} (${item.price.toLocaleString()}원)`;
-      select.appendChild(opt);
-    });
-  } catch (e) {
-    console.error(e);
-    alert("상품 목록 불러오기 실패!");
-  }
-}
-document.addEventListener("DOMContentLoaded", loadProducts);
-</script>
-  
-<script src="price.js"></script>
-<script>buildPriceBoard();</script>
-    
-<!-- 카카오톡 채널 플로팅 버튼 시작 -->
-<style>
-    .kakao-chat-button {
-        position: fixed; /* 화면에 고정 */
-        bottom: 25px; /* 화면 하단에서 25px 위 */
-        right: 25px; /* 화면 오른쪽에서 25px 왼쪽 */
-        z-index: 999; /* 다른 요소들 위에 보이도록 설정 */
-        
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        function switchToResultMode() {
+            channelGuide2.textContent = "이제 무료 사주 분석을 시작할 수 있습니다.";
+            channelGuide2.classList.replace("text-yellow-600", "text-green-600");
+            actionBtn.textContent = "🔮 무료 사주 분석 결과보기";
+            actionBtn.className =
+                "w-full py-4 sm:py-6 text-xl sm:text-2xl font-extrabold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105 shadow-lg";
+            actionBtn.onclick = runAnalysis;
+        }
 
-        width: 60px; /* 버튼 너비 */
-        height: 60px; /* 버튼 높이 */
-        background-color: #FEE500; /* 카카오톡 노란색 */
-        border-radius: 50%; /* 원 모양으로 만들기 */
-        
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
-        transition: all 0.2s ease-in-out; /* 부드러운 효과 */
-    }
+        actionBtn.addEventListener("click", () => {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("📋 개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
 
-    .kakao-chat-button:hover {
-        transform: scale(1.05); /* 마우스를 올리면 살짝 커짐 */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-    
-    .kakao-chat-button img {
-        width: 32px; /* 아이콘 크기 */
-        height: 32px;
-    }
-</style>
+            if (!localStorage.getItem("joinedChannel")) {
+                const popup = window.open(
+                    KAKAO_CHANNEL_URL,
+                    "kakaoPopup",
+                    "width=480,height=720"
+                );
+                setTimeout(() => {
+                    if (
+                        !popup ||
+                        popup.closed ||
+                        typeof popup.closed === "undefined"
+                    ) {
+                        alert(
+                            "📱 카카오채널이 같은 탭에서 열렸어요.\n추가 후 '뒤로가기'로 이 화면으로 돌아오세요!"
+                        );
+                    }
+                }, 700);
 
-<a href="http://pf.kakao.com/_xkAevn/chat" target="_blank" class="kakao-chat-button">
-    <img src="images/icons8-카카오-톡-48.png" alt="카카오톡 채널 채팅하기 버튼">
-</a>
-<!-- 카카오톡 채널 플로팅 버튼 끝 -->
+                const timer = setInterval(() => {
+                    if (popup && popup.closed) {
+                        clearInterval(timer);
+                        localStorage.setItem("joinedChannel", "true");
+                        localStorage.setItem("joinedChannelDate", today);
+                        switchToResultMode();
+                    }
+                }, 800);
+            } else {
+                runAnalysis();
+            }
+        });
 
+        function runAnalysis() {
+            const agree = document.getElementById("agree_all").checked;
+            if (!agree) {
+                alert("개인정보 수집·이용에 동의하셔야 합니다.");
+                return;
+            }
+
+            const heavenly = [
+                "갑",
+                "을",
+                "병",
+                "정",
+                "무",
+                "기",
+                "경",
+                "신",
+                "임",
+                "계",
+            ];
+            const earthly = [
+                "자",
+                "축",
+                "인",
+                "묘",
+                "진",
+                "사",
+                "오",
+                "미",
+                "신",
+                "유",
+                "술",
+                "해",
+            ];
+            const fields = [
+                document.getElementById("yearJoo"),
+                document.getElementById("monthJoo"),
+                document.getElementById("dayJoo"),
+                document.getElementById("timeJoo"),
+            ];
+
+            for (let fld of fields) {
+                const val = (fld.value || "").trim();
+                const gan = val.substring(0, 1);
+                const ji = val.substring(1, 2);
+                if (
+                    val.length !== 2 ||
+                    !heavenly.includes(gan) ||
+                    !earthly.includes(ji)
+                ) {
+                    alert(
+                        "사주 정보는 '갑자', '병인'처럼 두 글자의 천간·지지 조합으로 입력해야 합니다."
+                    );
+                    fld.focus();
+                    return;
+                }
+            }
+
+            if (actionBtn.disabled) return;
+            actionBtn.disabled = true;
+            loadingOverlay.style.display = "flex";
+
+            setTimeout(() => fortuneForm.submit(), 50);
+        }
+    </script>
+
+    <!-- ⭐ 새 스크립트: 만세력 서버(/saju/debug) 연동 → 자동 yearJoo/monthJoo/dayJoo/timeJoo 계산 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const birthYear = document.getElementById("birth_year");
+            const birthMonth = document.getElementById("birth_month");
+            const birthDay = document.getElementById("birth_day");
+            const birthHour = document.getElementById("birth_hour");
+            const birthMinute = document.getElementById("birth_minute");
+            const autoStatus = document.getElementById("autoCalcStatus");
+
+            const yearJoo = document.getElementById("yearJoo");
+            const monthJoo = document.getElementById("monthJoo");
+            const dayJoo = document.getElementById("dayJoo");
+            const timeJoo = document.getElementById("timeJoo");
+
+            // 한자 → 한글 매핑
+            const STEM_MAP = {
+                甲: "갑",
+                乙: "을",
+                丙: "병",
+                丁: "정",
+                戊: "무",
+                己: "기",
+                庚: "경",
+                辛: "신",
+                壬: "임",
+                癸: "계",
+            };
+            const BRANCH_MAP = {
+                子: "자",
+                丑: "축",
+                寅: "인",
+                卯: "묘",
+                辰: "진",
+                巳: "사",
+                午: "오",
+                未: "미",
+                申: "신",
+                酉: "유",
+                戌: "술",
+                亥: "해",
+            };
+
+            function getSelectedGenderIsMale() {
+                const g = document.querySelector('input[name="gender"]:checked');
+                if (!g) return true; // 기본값 남성
+                return g.value === "남성";
+            }
+
+            function getSolarLunarFlags() {
+                const r = document.querySelector(
+                    'input[name="solarlunar"]:checked'
+                );
+                const v = r ? r.value : "양력";
+                if (v === "양력") return { isLunar: false, leap: false };
+                if (v === "음력") return { isLunar: true, leap: false };
+                return { isLunar: true, leap: true }; // 음력(윤달)
+            }
+
+            function readyForCalc() {
+                if (!birthYear.value || !birthMonth.value || !birthDay.value) {
+                    return false;
+                }
+                return true;
+            }
+
+            let calcTimer = null;
+
+            async function calcGanjiFromManse() {
+                if (!readyForCalc()) {
+                    autoStatus.textContent = "생년월일을 먼저 선택해 주세요.";
+                    return;
+                }
+
+                const year = parseInt(birthYear.value, 10);
+                const month = parseInt(birthMonth.value, 10);
+                const day = parseInt(birthDay.value, 10);
+                let hour =
+                    birthHour.value === "" ? 0 : parseInt(birthHour.value, 10);
+                let min =
+                    birthMinute.value === ""
+                        ? 0
+                        : parseInt(birthMinute.value, 10);
+
+                const { isLunar, leap } = getSolarLunarFlags();
+                const isMale = getSelectedGenderIsMale();
+
+                autoStatus.textContent = "만세력 조회 중...";
+
+                const qs = new URLSearchParams({
+                    year: String(year),
+                    month: String(month),
+                    day: String(day),
+                    hour: String(hour),
+                    min: String(min),
+                    isLunar: String(isLunar),
+                    leap: String(leap),
+                    isMale: String(isMale),
+                    pivotMin: "30",
+                    tzAdjust: "-30",
+                    seasonAdjust: "0",
+                });
+
+                try {
+                    const res = await fetch(
+                        "https://my-manseryeok.onrender.com/saju/debug?" + qs.toString()
+                    );
+                    if (!res.ok) throw new Error("만세력 서버 오류");
+
+                    const data = await res.json();
+                    const f = data.finalResult;
+                    if (!f) throw new Error("finalResult 없음");
+
+                    function hanjaToHangul(h) {
+                        if (!h || h.length < 2) return "";
+                        const s = STEM_MAP[h[0]] || h[0];
+                        const b = BRANCH_MAP[h[1]] || h[1];
+                        return s + b;
+                    }
+
+                    yearJoo.value = hanjaToHangul(f.yearGanji);
+                    monthJoo.value = hanjaToHangul(f.monthGanji);
+                    dayJoo.value = hanjaToHangul(f.dayGanji);
+                    timeJoo.value = hanjaToHangul(f.hourGanji);
+
+                    if (
+                        yearJoo.value &&
+                        monthJoo.value &&
+                        dayJoo.value &&
+                        timeJoo.value
+                    ) {
+                        autoStatus.textContent = "자동 계산 완료 ✅";
+                        autoStatus.classList.remove("text-gray-400");
+                        autoStatus.classList.add("text-green-600");
+                    } else {
+                        autoStatus.textContent =
+                            "계산 결과가 비어 있습니다. 입력을 다시 확인해 주세요.";
+                        autoStatus.classList.remove("text-green-600");
+                        autoStatus.classList.add("text-red-500");
+                    }
+                } catch (e) {
+                    console.error(e);
+                    autoStatus.textContent =
+                        "만세력 조회 실패... 잠시 후 다시 시도해 주세요.";
+                    autoStatus.classList.remove("text-green-600");
+                    autoStatus.classList.add("text-red-500");
+                }
+            }
+
+            function scheduleCalc() {
+                if (calcTimer) clearTimeout(calcTimer);
+                // 약간 딜레이 후 한 번만 호출 (입력 바뀌는 중간 중복 방지)
+                calcTimer = setTimeout(calcGanjiFromManse, 400);
+            }
+
+            [birthYear, birthMonth, birthDay, birthHour, birthMinute].forEach(
+                (el) => {
+                    el.addEventListener("change", scheduleCalc);
+                }
+            );
+            document
+                .querySelectorAll('input[name="solarlunar"]')
+                .forEach((el) => el.addEventListener("change", scheduleCalc));
+            document
+                .querySelectorAll('input[name="gender"]')
+                .forEach((el) => el.addEventListener("change", scheduleCalc));
+        });
+    </script>
+
+    <!-- 카카오톡 채널 플로팅 버튼 시작 -->
+    <style>
+        .kakao-chat-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 60px;
+            height: 60px;
+            background-color: #fee500;
+            border-radius: 50%;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .kakao-chat-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .kakao-chat-button img {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+
+    <a
+        href="http://pf.kakao.com/_xkAevn/chat"
+        target="_blank"
+        class="kakao-chat-button"
+    >
+        <img src="images/icons8-카카오-톡-48.png" alt="카카오톡 채널 채팅하기 버튼" />
+    </a>
+    <!-- 카카오톡 채널 플로팅 버튼 끝 -->
 </body>
 </html>
