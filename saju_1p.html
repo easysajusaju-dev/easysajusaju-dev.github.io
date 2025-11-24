@@ -28,32 +28,36 @@
     <!-- 🔥 price.css를 head 안으로 이동 -->
     <link rel="stylesheet" href="price.css">
     
- <!-- ✅ 서버 콜드 깨우기 Code -->   
- <script>
-// 페이지 로드 직후 서버 예열 (완전 안전 버전)
+ <!-- ✅ 서버 콜드 깨우기 Code -->
+<script>
 (function prewarm() {
   try {
-    const url = "https://my-payment-server-test.vercel.app/api/ping";
+    const urls = [
+      // 결제 서버 (Vercel)
+      "https://my-payment-server-test.vercel.app/api/ping",
 
-    // AbortController로 3초 후 자동 취소 → 리소스 낭비 없음
-    const controller = new AbortController();
-    setTimeout(() => controller.abort(), 3000);
+      // 🔥 만세력 서버 (Render)
+      "https://my-manseryeok.onrender.com/ping"
+    ];
 
-    fetch(url, {
-      method: "GET",
-      signal: controller.signal,
-      cache: "no-store",
-    })
-    .catch(() => {
-      // ping 실패는 완전 무시 - 에러 0%
+    urls.forEach(url => {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 4000); // Render는 더 오래 걸리므로 4초 추천
+
+      fetch(url, {
+        method: "GET",
+        signal: controller.signal,
+        cache: "no-store",
+      }).catch(() => {});
     });
 
   } catch (e) {
-    // 자바스크립트 자체 오류도 완전 무시
+    // JS 오류 무시
   }
 })();
 </script>
- <!-- ✅ 서버 콜드 깨우기 Code  끝--> 
+<!-- ✅ 서버 콜드 깨우기 Code 끝 -->
+
     
 <!-- ✅ Meta Pixel Code (이지사주 공용) -->
 <script>
