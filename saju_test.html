@@ -383,6 +383,7 @@ textarea::placeholder {
 
 <script>
 /* 사이드 메뉴 및 이미지 스크롤 */
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const openNavBtn = document.getElementById("open-nav-btn");
     const closeNavBtn = document.getElementById("close-nav-btn");
@@ -397,19 +398,57 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // 사이드 메뉴 열기
     openNavBtn.addEventListener("click", () => {
         sideNav.classList.add("active");
         navOverlay.classList.add("active");
+
+        // 열릴 때 첫 번째 아코디언 자동 펼침
+        setTimeout(() => {
+            const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
+            items.forEach(li => {
+                li.classList.remove('active');
+                const content = li.querySelector('.accordion-content');
+                if (content) content.style.maxHeight = null;
+            });
+
+            const first = sideNav.querySelector('.nav-menu > li.accordion');
+            if (first) {
+                first.classList.add('active');
+                const content = first.querySelector('.accordion-content');
+                if (content) content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        }, 50);
     });
 
+    // 사이드 메뉴 닫기
     function closeMenu() {
         sideNav.classList.remove("active");
         navOverlay.classList.remove("active");
     }
     closeNavBtn.addEventListener("click", closeMenu);
     navOverlay.addEventListener("click", closeMenu);
+
+    /* ==========================
+       ⭐ 아코디언 메뉴 펼침/닫힘
+    =========================== */
+    const accordions = document.querySelectorAll('.accordion-header');
+
+    accordions.forEach(accordion => {
+        accordion.addEventListener('click', function () {
+            this.parentElement.classList.toggle('active');
+            const content = this.nextElementSibling;
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
 });
 </script>
+
 
 
 <!-- ==================== 성별/양력 버튼 선택 로직 ==================== -->
