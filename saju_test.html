@@ -66,6 +66,49 @@
             });
         })();
     </script>
+    <style>
+/* 1) 입력 폼 글씨 흰색 문제 해결 */
+input, textarea, select {
+    color: #1f2937 !important; /* text-gray-800 */
+}
+
+/* placeholder도 회색으로 지정 */
+input::placeholder,
+textarea::placeholder {
+    color: #9ca3af !important; /* text-gray-400 */
+}
+
+/* 2) 토글 버튼 비활성/활성 글씨 색상 정상화 */
+.btn-toggle {
+    color: #374151 !important; /* text-gray-700 */
+}
+.btn-toggle.active {
+    color: white !important;
+}
+
+/* 3) 이미지와 폼 사이 갭 제거 */
+.image-section img {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    padding: 0 !important;
+}
+
+.form-container {
+    margin-top: 0 !important;
+}
+
+/* 혹시 남아 있는 여백까지 모두 제거 */
+.image-section {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -141,8 +184,9 @@
                 <label class="font-bold text-xl text-gray-800 mb-3 block">성별</label>
 
                 <div class="flex gap-3">
-                    <div class="select-btn" id="genderM" data-value="남성">남성</div>
-                    <div class="select-btn" id="genderF" data-value="여성">여성</div>
+                    <div class="select-btn btn-toggle" id="genderM" data-value="남성">남성</div>
+                    <div class="select-btn btn-toggle" id="genderF" data-value="여성">여성</div>
+
                 </div>
 
                 <input type="hidden" name="gender" id="gender" value="남성" />
@@ -186,22 +230,23 @@
                 </label>
             </div>
 
-            <!-- 양력 / 음력 / 윤달 -->
-            <div class="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm space-y-4">
-                <label class="font-bold text-xl text-gray-800 mb-2 block">달력 종류</label>
+<!-- 양력 / 음력 / 윤달 -->
+<div class="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm space-y-4">
+    <label class="font-bold text-xl text-gray-800 mb-2 block">달력 종류</label>
 
-                <div class="flex gap-3">
-                    <div class="select-btn active" id="solarBtn" data-value="양력">양력</div>
-                    <div class="select-btn" id="lunarBtn" data-value="음력">음력</div>
-                </div>
+    <div class="flex gap-3">
+        <div class="select-btn btn-toggle active" id="solarBtn" data-value="양력">양력</div>
+        <div class="select-btn btn-toggle" id="lunarBtn" data-value="음력">음력</div>
+    </div>
 
-                <input type="hidden" id="solarlunar" name="solarlunar" value="양력">
+    <input type="hidden" id="solarlunar" name="solarlunar" value="양력">
 
-                <label class="inline-flex items-center mt-3">
-                    <input type="checkbox" id="leapMonth" class="mr-2 h-5 w-5" />
-                    <span class="text-gray-700 text-lg">윤달</span>
-                </label>
-            </div>
+    <label class="inline-flex items-center mt-3">
+        <input type="checkbox" id="leapMonth" class="mr-2 h-5 w-5" />
+        <span class="text-gray-700 text-lg">윤달</span>
+    </label>
+</div>
+
 
             <!-- 궁금한 점 -->
             <div class="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm">
