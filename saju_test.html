@@ -532,31 +532,56 @@ function switchToResultMode() {
     actionBtn.textContent = "🔮 무료 사주 분석 결과보기";
     actionBtn.className =
         "w-full py-4 text-2xl font-extrabold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg";
-
-    actionBtn.onclick = runAnalysis;
 }
 
+/* ---------------------------
+   ⭐ 통합된 actionBtn 클릭 로직
+----------------------------*/
 actionBtn.addEventListener("click", () => {
-    if (!document.getElementById("agree_all").checked) {
+
+    // 1) 개인정보 동의 체크 먼저
+    const agree = document.getElementById("agree_all").checked;
+    if (!agree) {
         alert("📋 개인정보 수집·이용 동의가 필요합니다.");
         return;
     }
 
-    if (!localStorage.getItem("joinedChannel")) {
-        const popup = window.open(KAKAO_URL, "kakaoPopup", "width=480,height=720");
-
-        const timer = setInterval(() => {
-            if (popup && popup.closed) {
-                clearInterval(timer);
-                localStorage.setItem("joinedChannel", "true");
-                switchToResultMode();
-            }
-        }, 500);
-    } else {
+    // 2) 이미 친구추가 상태 → 바로 결과 분석 실행
+    if (localStorage.getItem("joinedChannel")) {
         runAnalysis();
+        return;
     }
+
+    // 3) 팝업을 클릭 즉시 "첫 번째 줄"에서 바로 실행 ← ★ 매우 중요
+    const popup = window.open(
+        KAKAO_URL,
+        "kakaoPopup",
+        "width=480,height=720"
+    );
+
+    // 팝업 차단 감지
+    if (!popup) {
+        alert("❗ 팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.");
+        return;
+    }
+
+    // 4) 팝업 창 닫힘 감지 → 친구추가 완료로 판단
+    const timer = setInterval(() => {
+        if (popup.closed) {
+            clearInterval(timer);
+
+            // 친구추가 플래그 저장
+            localStorage.setItem("joinedChannel", "true");
+
+            // UI를 결과보기 모드로 변경
+            switchToResultMode();
+        }
+    }, 500);
 });
 
+/* ---------------------------
+   ⭐ 결과 분석 실행 함수
+----------------------------*/
 function runAnalysis() {
     loadingOverlay.classList.remove("hidden");
 
@@ -564,6 +589,7 @@ function runAnalysis() {
         fortuneForm.submit();
     }, 50);
 }
+
 </script>
 
 
