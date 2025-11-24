@@ -32,24 +32,36 @@
     <!-- 📌 추가됨: 가격표 스타일 -->
     <link rel="stylesheet" href="price.css">
 
- <!-- ✅ 서버 콜드 깨우기 Code -->   
- <script>
+<!-- ✅ 서버 콜드 깨우기 Code -->
+<script>
 (function prewarm() {
   try {
-    const url = "https://my-payment-server.vercel.app/api/ping";
-    const controller = new AbortController();
-    setTimeout(() => controller.abort(), 3000);
+    const urls = [
+      // 결제 서버 (Vercel)
+      "https://my-payment-server-test.vercel.app/api/ping",
 
-    fetch(url, {
-      method: "GET",
-      signal: controller.signal,
-      cache: "no-store",
-    })
-    .catch(() => {});
-  } catch (e) {}
+      // 🔥 만세력 서버 (Render)
+      "https://my-manseryeok.onrender.com/ping"
+    ];
+
+    urls.forEach(url => {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 4000); // Render는 더 오래 걸리므로 4초 추천
+
+      fetch(url, {
+        method: "GET",
+        signal: controller.signal,
+        cache: "no-store",
+      }).catch(() => {});
+    });
+
+  } catch (e) {
+    // JS 오류 무시
+  }
 })();
 </script>
- <!-- ✅ 서버 콜드 깨우기 Code  끝--> 
+<!-- ✅ 서버 콜드 깨우기 Code 끝 -->
+
 
 <!-- ✅ Meta Pixel Code (이지사주 공용) -->
 <script>
