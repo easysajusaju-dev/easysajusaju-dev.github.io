@@ -534,6 +534,13 @@ function switchToResultMode() {
         "w-full py-4 text-2xl font-extrabold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg";
 }
 
+    /* ⭐ 페이지 로드 시, 이전 방문 기록 체크 */
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("joinedChannel")) {
+        switchToResultMode();
+    }
+});
+    
 /* ---------------------------
    ⭐ 통합된 actionBtn 클릭 로직
 ----------------------------*/
