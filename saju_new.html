@@ -148,6 +148,11 @@
         <img src="images/saju1/020.png" class="scroll-to-form">
         <img src="images/saju1/021.gif" class="scroll-to-form">
     </div>
+    <!-- 🔥🔥🔥 가격표 추가된 부분 (saju_1p.html과 동일 구조)-->
+    <section class="price-board-wrapper">
+    <div id="dynamic-price-board"></div>
+    </section>
+    
     <!-- ★★★★★ 초간결 입력폼 영역 시작 ★★★★★ -->
     <div class="form-container mt-6">
 
@@ -556,6 +561,10 @@ function runAnalysis() {
     setTimeout(() => fortuneForm.submit(), 150);
 }
 </script>
+    
+<!-- 🔥 PRICE.JS 실행 -->
+<script src="price.js"></script>
+<script>buildPriceBoard();</script>
 
 <!-- 플로팅 카카오버튼 -->
 <style>
