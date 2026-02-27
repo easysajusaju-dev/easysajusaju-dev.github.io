@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- ==================== ⭐ 파비콘 설정 코드 (전체 주소) ==================== -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.easysaju.kr/images/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.easysaju.kr/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://www.easysaju.kr/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.easysaju.kr/images/favicon-16x16.png">
+<link rel="shortcut icon" href=https://www.easysaju.kr/images/favicon.ico">
+
+<!-- MS(윈도우) 타일용 아이콘 및 색상 설정 -->
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="https://www.easysaju.kr/images/ms-icon-144x144.png">
+<!-- ======================================================================= -->
+ 
+ <!-- ================== ⭐ 소셜 공유(오픈 그래프) 설정 코드 ================== -->
+  <meta property="og:title" content="이지사주">
+  <meta property="og:description" content="13년 명리전문가가 분석해 드리는 당신의 운세">
+  <meta property="og:image" content=https://www.easysaju.kr/images/share.png">
+  <meta property="og:url" content="https://www.easysaju.kr/">
+  <meta property="og:type" content="website">
+<!-- ======================================================================= -->
+    
+    <title>이지사주 종합사주 - 프리미엄 정통사주 (1인용)</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 🔥 price.css를 head 안으로 이동 -->
+    <link rel="stylesheet" href="price.css">
+    
+ <!-- ✅ 서버 콜드 깨우기 Code -->
+<script>
+(function prewarm() {
+  try {
+    const urls = [
+      // 결제 서버 (Vercel)
+      "https://my-payment-server-test.vercel.app/api/ping",
+
+      // 🔥 만세력 서버 (Render)
+      "https://my-manseryeok.onrender.com/ping"
+    ];
+
+    urls.forEach(url => {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 4000); // Render는 더 오래 걸리므로 4초 추천
+
+      fetch(url, {
+        method: "GET",
+        signal: controller.signal,
+        cache: "no-store",
+      }).catch(() => {});
+    });
+
+  } catch (e) {
+    // JS 오류 무시
+  }
+})();
+</script>
+<!-- ✅ 서버 콜드 깨우기 Code 끝 -->
+
+    
+<!-- ✅ Meta Pixel Code (이지사주 공용) -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)n._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  
+  fbq('init', '1159392269346574'); // ← 여기에 당신의 Meta 픽셀 ID 넣기
+  fbq('track', 'PageView'); // 방문(랜딩 진입) 추적
+</script>
+
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1159392269346574&ev=PageView&noscript=1"/>
+</noscript>
+<!-- ✅ End Meta Pixel Code -->
+
+</head>
+<body style="--price-bg:#000000;">
+
+  <div class="sticky-header">
+  <a href="javascript:void(0);" id="open-nav-btn" class="header-logo-link">
+  <span class="burger" aria-hidden="true">&#9776;</span>
+  <span class="header-title">종합사주</span>
+</a>
+    <a href="#saju-form" class="header-button">사주분석 신청하기</a>
+</div>
+    <!-- ================== 사이드 메뉴 코드 시작 ================== -->
+<!-- 화면을 덮는 반투명 오버레이 -->
+<div id="nav-overlay"></div>
+
+<!-- 사이드 메뉴 (숨겨져 있음) -->
+<nav id="side-nav">
+        <div class="nav-header">
+        <!-- 로고 이미지와 텍스트를 함께 표시하는 부분 -->
+        <div class="logo-in-nav">
+            <img src="logo.png" alt="이지사주 로고">
+            <span>이지사주</span>
+        </div>
+        <a href="javascript:void(0);" id="close-nav-btn">&times;</a>
+    </div>
+    <ul class="nav-menu">
+        <li><a href="index.html">홈으로 가기</a></li>
+        
+        <!-- 아코디언 메뉴 1 -->
+        <li class="accordion">
+            <div class="accordion-header">사주 분석 신청<span class="arrow">&#9662;</span></div>
+            <div class="accordion-content">
+                <a href="saju_1p.html">프리미엄 종합사주</a>
+                <a href="saju_2p.html">이지사주 재회운(궁합)</a>
+                <a href="saju_free.html">이지사주 신년운세</a>
+            </div>
+        </li>
+
+        <!-- 아코디언 메뉴 2 -->
+        <li class="accordion">
+            <div class="accordion-header">무료 운세 <span class="arrow">&#9662;</span></div>
+            <div class="accordion-content">
+                <a href="https://todayluck.coredev.co.kr/fortune-lab/yeyiqu" target="_blank" rel="noopener noreferrer">오늘의 운세</a>
+                <a href="saju_new.html">무료 운세 보기</a>
+            </div>
+        </li>
+
+            <!--   <li><a href="#">내 분석 결과 다시 보기</a></li>   -->
+    </ul>
+    <div class="nav-footer">
+        <a href="http://pf.kakao.com/_xkAevn/chat" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
+        <p>운영시간 평일 09:00~18:00</p>
+    </div>
+</nav>
+<!-- ================== 사이드 메뉴 코드 끝 ================== -->
+    
+    <div class="main-container">
+ <!-- ===== 1. 상단 이미지 영역 (수동 관리) ===== -->
+<div class="image-section">
+    <img src="images/saju1/0.png" alt="이벤트 이미지">
+    <img src="images/saju1/002.png" alt="안내 이미지 1">
+    <img src="images/saju1/003.png" alt="안내 이미지 2">
+    <img src="images/saju1/004.png" alt="안내 이미지 3">
+    <img src="images/saju1/액막이 사과(5-6).gif" alt="안내 이미지 4">
+    <img src="images/saju1/007.png" alt="안내 이미지 5">
+    <img src="images/saju1/008.png" alt="안내 이미지 6">
+    <img src="images/saju1/후기상세페이지gif.gif" alt="안내 이미지 7">
+    <img src="images/saju1/내용상세페이지(13-19).gif" alt="안내 이미지 8">
+    <img src="images/saju1/020.png" alt="안내 이미지 9">
+    <!-- <img src="images/saju1/021.gif" alt="안내 이미지 10">= -->
+</div>
+
+<section class="price-board-wrapper">
+    <div id="dynamic-price-board"></div>
+</section>
+        <script src="price.js"></script>
+
+        <!-- 신청 폼 영역 -->
+<div class="form-container" style="text-align: center;">
+    <saju-embed landing="purchase/g87dbo" width="600"></saju-embed>
+    <script src="https://saju.coredev.co.kr/saju-embed.js"></script>
+</div>
+
+        <!-- 하단 이미지 영역 -->
+        <div class="image-section">
+            <img src="images/saju1/022.png" alt="후기 이미지">
+            <img src="images/saju1/023.png" alt="상 이미지">
+            
+        </div>
+    </div>
+    <script src="form.js"></script>
+      <script>
+    fetch("https://script.google.com/macros/s/AKfycbzhi4556hgBKctN3KVBlPdkl1vFD3oG7Wv7Hdm6pk16VGG8OF6q6EaPT8t_5WTX87Jb/exec", {
+      method: "GET",
+      mode: "no-cors"
+    });
+  </script>
+<!-- 카피라이팅 텍스트 - 하단 이미지와 바로 붙도록 수정 -->
+<div id="copy" style="max-width: 800px; margin: auto; padding: 0px 10px; text-align: left; font-size: 12px; color: rgb(102, 102, 102); line-height: 1.5; z-index: 1001;"><b>서비스명 : 이지사주</b><br>
+대표자 : 안미정<br>
+Contact : easysaju.saju@gmail.com<br>
+통신판매신고 번호 : 2025-고양일산동-1332</div>
+    
+    <script src="script_index.js"></script> <!-- index.html 전용 스크립트 -->
+    <script>
+    // 페이지 로드 후 실행
+    document.addEventListener('DOMContentLoaded', function() {
+        const openNavBtn = document.getElementById('open-nav-btn');
+        const closeNavBtn = document.getElementById('close-nav-btn');
+        const sideNav = document.getElementById('side-nav');
+        const navOverlay = document.getElementById('nav-overlay');
+        const accordions = document.querySelectorAll('.accordion-header');
+
+// 메뉴 열기
+openNavBtn.addEventListener('click', function () {
+    sideNav.classList.add('active');
+    navOverlay.classList.add('active');
+
+    // 메뉴가 화면에 렌더된 뒤 첫 번째 아코디언 자동 펼치기
+    setTimeout(function () {
+        // 1) 모두 접기
+        const items = sideNav.querySelectorAll('.nav-menu > li.accordion');
+        items.forEach(function (li) {
+            li.classList.remove('active');
+            const content = li.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = null;
+        });
+
+        // 2) 첫 번째 아코디언만 펼치기 (사주 분석 신청)
+        const first = sideNav.querySelector('.nav-menu > li.accordion');
+        if (first) {
+            first.classList.add('active');
+            const content = first.querySelector('.accordion-content');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    }, 50); // 30~80ms 사이로 조절 가능
+});
+        
+        // 메뉴 닫기 (X 버튼, 배경 클릭)
+        function closeMenu() {
+            sideNav.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
+        closeNavBtn.addEventListener('click', closeMenu);
+        navOverlay.addEventListener('click', closeMenu);
+
+        // 아코디언 메뉴 기능
+        accordions.forEach(function(accordion) {
+            accordion.addEventListener('click', function() {
+                this.parentElement.classList.toggle('active');
+            });
+        });
+    });
+</script>
+<script>
+
+const PAGE_CATEGORY = "p_1"; // 🔥 이 랜딩이 1인 사주용
+
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API_BASE}/api/products?category=${PAGE_CATEGORY}`);
+    const data = await res.json();
+
+    const select = document.getElementById("product");
+    select.innerHTML = "";
+
+    data.items.forEach(item => {
+      const opt = document.createElement("option");
+      opt.value = item.id;
+      opt.textContent = `${item.name} (${item.price.toLocaleString()}원)`;
+      select.appendChild(opt);
+    });
+  } catch (e) {
+    console.error(e);
+    alert("상품 목록 불러오기 실패!");
+  }
+}
+document.addEventListener("DOMContentLoaded", loadProducts);
+</script>
+  
+<script src="price.js"></script>
+    
+<!-- 카카오톡 채널 플로팅 버튼 시작 -->
+<style>
+    .kakao-chat-button {
+        position: fixed; /* 화면에 고정 */
+        bottom: 25px; /* 화면 하단에서 25px 위 */
+        right: 25px; /* 화면 오른쪽에서 25px 왼쪽 */
+        z-index: 999; /* 다른 요소들 위에 보이도록 설정 */
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 60px; /* 버튼 너비 */
+        height: 60px; /* 버튼 높이 */
+        background-color: #FEE500; /* 카카오톡 노란색 */
+        border-radius: 50%; /* 원 모양으로 만들기 */
+        
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
+        transition: all 0.2s ease-in-out; /* 부드러운 효과 */
+    }
+
+    .kakao-chat-button:hover {
+        transform: scale(1.05); /* 마우스를 올리면 살짝 커짐 */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .kakao-chat-button img {
+        width: 32px; /* 아이콘 크기 */
+        height: 32px;
+    }
+</style>
+
+<a href="http://pf.kakao.com/_xkAevn/chat" target="_blank" class="kakao-chat-button">
+    <img src="images/icons8-카카오-톡-48.png" alt="카카오톡 채널 채팅하기 버튼">
+</a>
+<!-- 카카오톡 채널 플로팅 버튼 끝 -->
+
+</body>
+</html>
