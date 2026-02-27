@@ -203,7 +203,28 @@
 <input type="hidden" id="utm_campaign" name="utm_campaign">
                 
     <!-- 기존 신청 버튼 -->            
-                <button type="submit">신용카드(페이) 결제</button>
+<button type="submit" style="
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 100%; 
+    padding: 15px; 
+    background-color: #8e44ad; /* 기존 보라색 유지 */
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    cursor: pointer;
+">
+    <img src="images/saju1/image_0a4db6.png" alt="카드결제" style="
+        width: 30px; 
+        height: auto; 
+        margin-right: 10px; 
+    ">
+    신용카드(페이) 결제
+</button>
+                
                 <div id="result"></div>
             </form>
         </div>
